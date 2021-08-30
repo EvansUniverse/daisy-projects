@@ -1,0 +1,2170 @@
+ARM GAS  /tmp/cc95biFz.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"Distortion.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN5daisy10DaisyPetalD2Ev,"axG",%progbits,_ZN5daisy10DaisyPetalD5Ev,comdat
+  17              		.align	1
+  18              		.p2align 2,,3
+  19              		.weak	_ZN5daisy10DaisyPetalD2Ev
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-d16
+  26              	_ZN5daisy10DaisyPetalD2Ev:
+  27              	.LVL0:
+  28              	.LFB4219:
+  29              		.file 1 "../../libdaisy/src/daisy_petal.h"
+   1:../../libdaisy/src/daisy_petal.h **** #pragma once
+   2:../../libdaisy/src/daisy_petal.h **** #ifndef DSY_PETAL_H
+   3:../../libdaisy/src/daisy_petal.h **** #define DSY_PETAL_H /**< & */
+   4:../../libdaisy/src/daisy_petal.h **** 
+   5:../../libdaisy/src/daisy_petal.h **** #include "daisy_seed.h"
+   6:../../libdaisy/src/daisy_petal.h **** 
+   7:../../libdaisy/src/daisy_petal.h **** namespace daisy
+   8:../../libdaisy/src/daisy_petal.h **** {
+   9:../../libdaisy/src/daisy_petal.h **** /**
+  10:../../libdaisy/src/daisy_petal.h ****    @brief Helpers and hardware definitions for daisy petal.
+  11:../../libdaisy/src/daisy_petal.h ****    @ingroup boards
+  12:../../libdaisy/src/daisy_petal.h **** */
+  13:../../libdaisy/src/daisy_petal.h **** class DaisyPetal
+  14:../../libdaisy/src/daisy_petal.h **** {
+  15:../../libdaisy/src/daisy_petal.h ****   public:
+  16:../../libdaisy/src/daisy_petal.h ****     /** Switches */
+  17:../../libdaisy/src/daisy_petal.h ****     enum Sw
+  18:../../libdaisy/src/daisy_petal.h ****     {
+  19:../../libdaisy/src/daisy_petal.h ****         SW_1,    /**< Footswitch */
+  20:../../libdaisy/src/daisy_petal.h ****         SW_2,    /**< Footswitch */
+  21:../../libdaisy/src/daisy_petal.h ****         SW_3,    /**< Footswitch */
+  22:../../libdaisy/src/daisy_petal.h ****         SW_4,    /**< Footswitch */
+  23:../../libdaisy/src/daisy_petal.h ****         SW_5,    /**< Toggle */
+  24:../../libdaisy/src/daisy_petal.h ****         SW_6,    /**< Toggle */
+  25:../../libdaisy/src/daisy_petal.h ****         SW_7,    /**< Toggle */
+  26:../../libdaisy/src/daisy_petal.h ****         SW_LAST, /**< Last enum item */
+  27:../../libdaisy/src/daisy_petal.h ****     };
+  28:../../libdaisy/src/daisy_petal.h **** 
+  29:../../libdaisy/src/daisy_petal.h ****     /** Knobs */
+ARM GAS  /tmp/cc95biFz.s 			page 2
+
+
+  30:../../libdaisy/src/daisy_petal.h ****     enum Knob
+  31:../../libdaisy/src/daisy_petal.h ****     {
+  32:../../libdaisy/src/daisy_petal.h ****         KNOB_1,    /**< & */
+  33:../../libdaisy/src/daisy_petal.h ****         KNOB_2,    /**< & */
+  34:../../libdaisy/src/daisy_petal.h ****         KNOB_3,    /**< & */
+  35:../../libdaisy/src/daisy_petal.h ****         KNOB_4,    /**< & */
+  36:../../libdaisy/src/daisy_petal.h ****         KNOB_5,    /**< & */
+  37:../../libdaisy/src/daisy_petal.h ****         KNOB_6,    /**< & */
+  38:../../libdaisy/src/daisy_petal.h ****         KNOB_LAST, /**< & */
+  39:../../libdaisy/src/daisy_petal.h ****     };
+  40:../../libdaisy/src/daisy_petal.h **** 
+  41:../../libdaisy/src/daisy_petal.h ****     /** Leds in ringled */
+  42:../../libdaisy/src/daisy_petal.h ****     enum RingLed
+  43:../../libdaisy/src/daisy_petal.h ****     {
+  44:../../libdaisy/src/daisy_petal.h ****         RING_LED_1,   /**< & */
+  45:../../libdaisy/src/daisy_petal.h ****         RING_LED_2,   /**< & */
+  46:../../libdaisy/src/daisy_petal.h ****         RING_LED_3,   /**< & */
+  47:../../libdaisy/src/daisy_petal.h ****         RING_LED_4,   /**< & */
+  48:../../libdaisy/src/daisy_petal.h ****         RING_LED_5,   /**< & */
+  49:../../libdaisy/src/daisy_petal.h ****         RING_LED_6,   /**< & */
+  50:../../libdaisy/src/daisy_petal.h ****         RING_LED_7,   /**< & */
+  51:../../libdaisy/src/daisy_petal.h ****         RING_LED_8,   /**< & */
+  52:../../libdaisy/src/daisy_petal.h ****         RING_LED_LAST /**< & */
+  53:../../libdaisy/src/daisy_petal.h ****     };
+  54:../../libdaisy/src/daisy_petal.h **** 
+  55:../../libdaisy/src/daisy_petal.h ****     /** footswitch leds */
+  56:../../libdaisy/src/daisy_petal.h ****     enum FootswitchLed
+  57:../../libdaisy/src/daisy_petal.h ****     {
+  58:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_1,    /**< & */
+  59:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_2,    /**< & */
+  60:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_3,    /**< & */
+  61:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_4,    /**< & */
+  62:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_LAST, /**< & */
+  63:../../libdaisy/src/daisy_petal.h ****     };
+  64:../../libdaisy/src/daisy_petal.h **** 
+  65:../../libdaisy/src/daisy_petal.h ****     /** Constructor */
+  66:../../libdaisy/src/daisy_petal.h ****     DaisyPetal() {}
+  67:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+  68:../../libdaisy/src/daisy_petal.h ****     ~DaisyPetal() {}
+  30              		.loc 1 68 5 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              	.LBB200:
+  36              	.LBI200:
+  37              		.file 2 "../../libdaisy/src/hid/ctrl.h"
+   1:../../libdaisy/src/hid/ctrl.h **** #pragma once
+   2:../../libdaisy/src/hid/ctrl.h **** #ifndef DSY_KNOB_H
+   3:../../libdaisy/src/hid/ctrl.h **** #define DSY_KNOB_H /**< & */
+   4:../../libdaisy/src/hid/ctrl.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/ctrl.h **** 
+   6:../../libdaisy/src/hid/ctrl.h **** #ifdef __cplusplus
+   7:../../libdaisy/src/hid/ctrl.h **** namespace daisy
+   8:../../libdaisy/src/hid/ctrl.h **** {
+   9:../../libdaisy/src/hid/ctrl.h **** /**
+  10:../../libdaisy/src/hid/ctrl.h ****     @brief Hardware Interface for control inputs \n 
+ARM GAS  /tmp/cc95biFz.s 			page 3
+
+
+  11:../../libdaisy/src/hid/ctrl.h ****     Primarily designed for ADC input controls such as \n 
+  12:../../libdaisy/src/hid/ctrl.h ****     potentiometers, and control voltage. \n 
+  13:../../libdaisy/src/hid/ctrl.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/ctrl.h ****     @date November 2019
+  15:../../libdaisy/src/hid/ctrl.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/ctrl.h **** */
+  17:../../libdaisy/src/hid/ctrl.h **** class AnalogControl
+  18:../../libdaisy/src/hid/ctrl.h **** {
+  19:../../libdaisy/src/hid/ctrl.h ****   public:
+  20:../../libdaisy/src/hid/ctrl.h ****     /** Constructor */
+  21:../../libdaisy/src/hid/ctrl.h ****     AnalogControl() {}
+  22:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+  23:../../libdaisy/src/hid/ctrl.h ****     ~AnalogControl() {}
+  38              		.loc 2 23 5 view .LVU1
+  39              		.loc 2 23 5 is_stmt 0 view .LVU2
+  40              	.LBE200:
+  41              	.LBB201:
+  42              	.LBI201:
+  43              		.file 3 "../../libdaisy/src/hid/encoder.h"
+   1:../../libdaisy/src/hid/encoder.h **** #pragma once
+   2:../../libdaisy/src/hid/encoder.h **** #ifndef DSY_ENCODER_H
+   3:../../libdaisy/src/hid/encoder.h **** #define DSY_ENCODER_H
+   4:../../libdaisy/src/hid/encoder.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/encoder.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/encoder.h **** #include "hid/switch.h"
+   7:../../libdaisy/src/hid/encoder.h **** 
+   8:../../libdaisy/src/hid/encoder.h **** namespace daisy
+   9:../../libdaisy/src/hid/encoder.h **** {
+  10:../../libdaisy/src/hid/encoder.h **** /** 
+  11:../../libdaisy/src/hid/encoder.h ****     @brief Generic Class for handling Quadrature Encoders \n 
+  12:../../libdaisy/src/hid/encoder.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Encoder classes
+  13:../../libdaisy/src/hid/encoder.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/encoder.h ****     @date December 2019
+  15:../../libdaisy/src/hid/encoder.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/encoder.h **** */
+  17:../../libdaisy/src/hid/encoder.h **** class Encoder
+  18:../../libdaisy/src/hid/encoder.h **** {
+  19:../../libdaisy/src/hid/encoder.h ****   public:
+  20:../../libdaisy/src/hid/encoder.h ****     Encoder() {}
+  21:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+  44              		.loc 3 21 5 is_stmt 1 view .LVU3
+  45              	.LBB202:
+  46              	.LBI202:
+  47              		.file 4 "../../libdaisy/src/hid/switch.h"
+   1:../../libdaisy/src/hid/switch.h **** #pragma once
+   2:../../libdaisy/src/hid/switch.h **** #ifndef DSY_SWITCH_H
+   3:../../libdaisy/src/hid/switch.h **** #define DSY_SWITCH_H
+   4:../../libdaisy/src/hid/switch.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/switch.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/switch.h **** 
+   7:../../libdaisy/src/hid/switch.h **** namespace daisy
+   8:../../libdaisy/src/hid/switch.h **** {
+   9:../../libdaisy/src/hid/switch.h **** /** 
+  10:../../libdaisy/src/hid/switch.h ****     Generic Class for handling momentary/latching switches \n 
+  11:../../libdaisy/src/hid/switch.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Switch classes
+  12:../../libdaisy/src/hid/switch.h ****     @author Stephen Hensley
+  13:../../libdaisy/src/hid/switch.h ****     @date December 2019
+ARM GAS  /tmp/cc95biFz.s 			page 4
+
+
+  14:../../libdaisy/src/hid/switch.h ****     @ingroup controls
+  15:../../libdaisy/src/hid/switch.h **** */
+  16:../../libdaisy/src/hid/switch.h **** class Switch
+  17:../../libdaisy/src/hid/switch.h **** {
+  18:../../libdaisy/src/hid/switch.h ****   public:
+  19:../../libdaisy/src/hid/switch.h ****     /** Specifies the expected behavior of the switch */
+  20:../../libdaisy/src/hid/switch.h ****     enum Type
+  21:../../libdaisy/src/hid/switch.h ****     {
+  22:../../libdaisy/src/hid/switch.h ****         TYPE_TOGGLE,    /**< & */
+  23:../../libdaisy/src/hid/switch.h ****         TYPE_MOMENTARY, /**< & */
+  24:../../libdaisy/src/hid/switch.h ****     };
+  25:../../libdaisy/src/hid/switch.h ****     /** Specifies whether the pressed is HIGH or LOW. */
+  26:../../libdaisy/src/hid/switch.h ****     enum Polarity
+  27:../../libdaisy/src/hid/switch.h ****     {
+  28:../../libdaisy/src/hid/switch.h ****         POLARITY_NORMAL,   /**< & */
+  29:../../libdaisy/src/hid/switch.h ****         POLARITY_INVERTED, /**< & */
+  30:../../libdaisy/src/hid/switch.h ****     };
+  31:../../libdaisy/src/hid/switch.h **** 
+  32:../../libdaisy/src/hid/switch.h ****     /** Specifies whether to use built-in Pull Up/Down resistors to hold button at a given state wh
+  33:../../libdaisy/src/hid/switch.h ****     enum Pull
+  34:../../libdaisy/src/hid/switch.h ****     {
+  35:../../libdaisy/src/hid/switch.h ****         PULL_UP,   /**< & */
+  36:../../libdaisy/src/hid/switch.h ****         PULL_DOWN, /**< & */
+  37:../../libdaisy/src/hid/switch.h ****         PULL_NONE, /**< & */
+  38:../../libdaisy/src/hid/switch.h ****     };
+  39:../../libdaisy/src/hid/switch.h **** 
+  40:../../libdaisy/src/hid/switch.h ****     Switch() {}
+  41:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+  48              		.loc 4 41 5 view .LVU4
+  49              		.loc 4 41 5 is_stmt 0 view .LVU5
+  50              	.LBE202:
+  51              	.LBE201:
+  52              	.LBB203:
+  53              	.LBI203:
+  54              		.file 5 "../../libdaisy/src/daisy_seed.h"
+   1:../../libdaisy/src/daisy_seed.h **** #pragma once
+   2:../../libdaisy/src/daisy_seed.h **** #ifndef DSY_SEED_H
+   3:../../libdaisy/src/daisy_seed.h **** #define DSY_SEED_H
+   4:../../libdaisy/src/daisy_seed.h **** 
+   5:../../libdaisy/src/daisy_seed.h **** #include "daisy.h"
+   6:../../libdaisy/src/daisy_seed.h **** 
+   7:../../libdaisy/src/daisy_seed.h **** //Uncomment this out if you're still using the rev2 hardware
+   8:../../libdaisy/src/daisy_seed.h **** //#define SEED_REV2
+   9:../../libdaisy/src/daisy_seed.h **** 
+  10:../../libdaisy/src/daisy_seed.h **** namespace daisy
+  11:../../libdaisy/src/daisy_seed.h **** {
+  12:../../libdaisy/src/daisy_seed.h **** /**
+  13:../../libdaisy/src/daisy_seed.h ****    @brief This is the higher-level interface for the Daisy board. \n 
+  14:../../libdaisy/src/daisy_seed.h ****     All basic peripheral configuration/initialization is setup here. \n
+  15:../../libdaisy/src/daisy_seed.h **** 
+  16:../../libdaisy/src/daisy_seed.h ****    @ingroup boards
+  17:../../libdaisy/src/daisy_seed.h **** */
+  18:../../libdaisy/src/daisy_seed.h **** class DaisySeed
+  19:../../libdaisy/src/daisy_seed.h **** {
+  20:../../libdaisy/src/daisy_seed.h ****   public:
+  21:../../libdaisy/src/daisy_seed.h ****     DaisySeed() {}
+  22:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ARM GAS  /tmp/cc95biFz.s 			page 5
+
+
+  55              		.loc 5 22 5 is_stmt 1 view .LVU6
+  56              	.LBB204:
+  57              	.LBI204:
+  58              		.file 6 "../../libdaisy/src/sys/system.h"
+   1:../../libdaisy/src/sys/system.h **** #ifndef DSY_SYSTEM_H
+   2:../../libdaisy/src/sys/system.h **** #define DSY_SYSTEM_H
+   3:../../libdaisy/src/sys/system.h **** 
+   4:../../libdaisy/src/sys/system.h **** #ifndef UNIT_TEST // for unit tests, a dummy implementation is provided below
+   5:../../libdaisy/src/sys/system.h **** 
+   6:../../libdaisy/src/sys/system.h **** #include <cstdint>
+   7:../../libdaisy/src/sys/system.h **** #include "per/tim.h"
+   8:../../libdaisy/src/sys/system.h **** 
+   9:../../libdaisy/src/sys/system.h **** namespace daisy
+  10:../../libdaisy/src/sys/system.h **** {
+  11:../../libdaisy/src/sys/system.h **** /** A handle for interacting with the Core System. 
+  12:../../libdaisy/src/sys/system.h ****  ** This includes the Clock tree, MPU, global DMA initialization,
+  13:../../libdaisy/src/sys/system.h ****  ** cache handling, and any other necessary global initiailzation
+  14:../../libdaisy/src/sys/system.h ****  **
+  15:../../libdaisy/src/sys/system.h ****  ** @author shensley
+  16:../../libdaisy/src/sys/system.h ****  ** @addtogroup system
+  17:../../libdaisy/src/sys/system.h ****  */
+  18:../../libdaisy/src/sys/system.h **** class System
+  19:../../libdaisy/src/sys/system.h **** {
+  20:../../libdaisy/src/sys/system.h ****   public:
+  21:../../libdaisy/src/sys/system.h ****     /** Contains settings for initializing the System */
+  22:../../libdaisy/src/sys/system.h ****     struct Config
+  23:../../libdaisy/src/sys/system.h ****     {
+  24:../../libdaisy/src/sys/system.h ****         /** Specifies the system clock frequency that feeds APB/AHB clocks, etc. */
+  25:../../libdaisy/src/sys/system.h ****         enum class SysClkFreq
+  26:../../libdaisy/src/sys/system.h ****         {
+  27:../../libdaisy/src/sys/system.h ****             FREQ_400MHZ,
+  28:../../libdaisy/src/sys/system.h ****             FREQ_480MHZ,
+  29:../../libdaisy/src/sys/system.h ****         };
+  30:../../libdaisy/src/sys/system.h **** 
+  31:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to defaults
+  32:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 400MHz
+  33:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  34:../../libdaisy/src/sys/system.h ****          ** */
+  35:../../libdaisy/src/sys/system.h ****         void Defaults()
+  36:../../libdaisy/src/sys/system.h ****         {
+  37:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_400MHZ;
+  38:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  39:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  40:../../libdaisy/src/sys/system.h ****         }
+  41:../../libdaisy/src/sys/system.h **** 
+  42:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to boost mode:
+  43:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 480MHz
+  44:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  45:../../libdaisy/src/sys/system.h ****          ** */
+  46:../../libdaisy/src/sys/system.h ****         void Boost()
+  47:../../libdaisy/src/sys/system.h ****         {
+  48:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_480MHZ;
+  49:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  50:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  51:../../libdaisy/src/sys/system.h ****         }
+  52:../../libdaisy/src/sys/system.h **** 
+  53:../../libdaisy/src/sys/system.h ****         SysClkFreq cpu_freq;
+ARM GAS  /tmp/cc95biFz.s 			page 6
+
+
+  54:../../libdaisy/src/sys/system.h ****         bool       use_dcache;
+  55:../../libdaisy/src/sys/system.h ****         bool       use_icache;
+  56:../../libdaisy/src/sys/system.h ****     };
+  57:../../libdaisy/src/sys/system.h **** 
+  58:../../libdaisy/src/sys/system.h ****     System() {}
+  59:../../libdaisy/src/sys/system.h ****     ~System() {}
+  59              		.loc 6 59 5 view .LVU7
+  60              		.loc 6 59 5 is_stmt 0 view .LVU8
+  61              	.LBE204:
+  62              	.LBB205:
+  63              	.LBI205:
+  64              		.file 7 "../../libdaisy/src/hid/usb.h"
+   1:../../libdaisy/src/hid/usb.h **** #pragma once
+   2:../../libdaisy/src/hid/usb.h **** #ifndef DSY_HID_USB_H
+   3:../../libdaisy/src/hid/usb.h **** #define DSY_HID_USB_H
+   4:../../libdaisy/src/hid/usb.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/usb.h **** #include <stdlib.h>
+   6:../../libdaisy/src/hid/usb.h **** 
+   7:../../libdaisy/src/hid/usb.h **** namespace daisy
+   8:../../libdaisy/src/hid/usb.h **** /** @addtogroup externals
+   9:../../libdaisy/src/hid/usb.h ****     @{
+  10:../../libdaisy/src/hid/usb.h **** */
+  11:../../libdaisy/src/hid/usb.h **** 
+  12:../../libdaisy/src/hid/usb.h **** {
+  13:../../libdaisy/src/hid/usb.h **** /** 
+  14:../../libdaisy/src/hid/usb.h ****     @brief Interface for initializing and using the USB Peripherals on the daisy
+  15:../../libdaisy/src/hid/usb.h ****     @author Stephen Hensley
+  16:../../libdaisy/src/hid/usb.h ****     @date December 2019
+  17:../../libdaisy/src/hid/usb.h **** */
+  18:../../libdaisy/src/hid/usb.h **** class UsbHandle
+  19:../../libdaisy/src/hid/usb.h **** {
+  20:../../libdaisy/src/hid/usb.h ****   public:
+  21:../../libdaisy/src/hid/usb.h ****     /** Return values for USBHandle Functions */
+  22:../../libdaisy/src/hid/usb.h ****     enum class Result
+  23:../../libdaisy/src/hid/usb.h ****     {
+  24:../../libdaisy/src/hid/usb.h ****         OK,
+  25:../../libdaisy/src/hid/usb.h ****         ERR,
+  26:../../libdaisy/src/hid/usb.h ****     };
+  27:../../libdaisy/src/hid/usb.h **** 
+  28:../../libdaisy/src/hid/usb.h ****     /** Specified which of the two USB Peripherals to initialize. */
+  29:../../libdaisy/src/hid/usb.h ****     enum UsbPeriph
+  30:../../libdaisy/src/hid/usb.h ****     {
+  31:../../libdaisy/src/hid/usb.h ****         FS_INTERNAL, /**< Internal pin */
+  32:../../libdaisy/src/hid/usb.h ****         FS_EXTERNAL, /**< FS External D+ pin is Pin 38 (GPIO32). FS External D- pin is Pin 37 (GPIO
+  33:../../libdaisy/src/hid/usb.h ****         FS_BOTH,     /**< Both */
+  34:../../libdaisy/src/hid/usb.h ****     };
+  35:../../libdaisy/src/hid/usb.h **** 
+  36:../../libdaisy/src/hid/usb.h **** 
+  37:../../libdaisy/src/hid/usb.h ****     /** Function called upon reception of a buffer */
+  38:../../libdaisy/src/hid/usb.h ****     typedef void (*ReceiveCallback)(uint8_t* buff, uint32_t* len);
+  39:../../libdaisy/src/hid/usb.h **** 
+  40:../../libdaisy/src/hid/usb.h ****     UsbHandle() {}
+  41:../../libdaisy/src/hid/usb.h **** 
+  42:../../libdaisy/src/hid/usb.h ****     ~UsbHandle() {}
+  65              		.loc 7 42 5 is_stmt 1 view .LVU9
+  66              		.loc 7 42 5 is_stmt 0 view .LVU10
+  67              	.LBE205:
+ARM GAS  /tmp/cc95biFz.s 			page 7
+
+
+  68              	.LBB206:
+  69              	.LBI206:
+  70              		.file 8 "../../libdaisy/src/per/adc.h"
+   1:../../libdaisy/src/per/adc.h **** #pragma once
+   2:../../libdaisy/src/per/adc.h **** #ifndef DSY_ADC_H
+   3:../../libdaisy/src/per/adc.h **** #define DSY_ADC_H /**< Macro */
+   4:../../libdaisy/src/per/adc.h **** #include <stdint.h>
+   5:../../libdaisy/src/per/adc.h **** #include <stdlib.h>
+   6:../../libdaisy/src/per/adc.h **** #include "daisy_core.h"
+   7:../../libdaisy/src/per/adc.h **** #include "per/gpio.h"
+   8:../../libdaisy/src/per/adc.h **** 
+   9:../../libdaisy/src/per/adc.h **** #define DSY_ADC_MAX_CHANNELS 14 /**< Maximum number of ADC channels */
+  10:../../libdaisy/src/per/adc.h **** 
+  11:../../libdaisy/src/per/adc.h **** namespace daisy
+  12:../../libdaisy/src/per/adc.h **** {
+  13:../../libdaisy/src/per/adc.h **** /** @addtogroup analog_digital_conversion
+  14:../../libdaisy/src/per/adc.h ****     @{
+  15:../../libdaisy/src/per/adc.h **** */
+  16:../../libdaisy/src/per/adc.h **** 
+  17:../../libdaisy/src/per/adc.h **** /* While there may not be many configuration options here,
+  18:../../libdaisy/src/per/adc.h **** using a struct like this allows us to add more configuration
+  19:../../libdaisy/src/per/adc.h **** later without breaking existing functionality.
+  20:../../libdaisy/src/per/adc.h **** */
+  21:../../libdaisy/src/per/adc.h **** 
+  22:../../libdaisy/src/per/adc.h **** /** Configuration Structure for a given channel */
+  23:../../libdaisy/src/per/adc.h **** struct AdcChannelConfig
+  24:../../libdaisy/src/per/adc.h **** {
+  25:../../libdaisy/src/per/adc.h ****     /** Which pin to use for multiplexing */
+  26:../../libdaisy/src/per/adc.h ****     enum MuxPin
+  27:../../libdaisy/src/per/adc.h ****     {
+  28:../../libdaisy/src/per/adc.h ****         MUX_SEL_0,    /**< & */
+  29:../../libdaisy/src/per/adc.h ****         MUX_SEL_1,    /**< & */
+  30:../../libdaisy/src/per/adc.h ****         MUX_SEL_2,    /**< & */
+  31:../../libdaisy/src/per/adc.h ****         MUX_SEL_LAST, /**< & */
+  32:../../libdaisy/src/per/adc.h ****     };
+  33:../../libdaisy/src/per/adc.h **** 
+  34:../../libdaisy/src/per/adc.h ****     /** Initializes a single ADC pin as an ADC. 
+  35:../../libdaisy/src/per/adc.h ****     \param pin Pin to init.
+  36:../../libdaisy/src/per/adc.h ****      */
+  37:../../libdaisy/src/per/adc.h ****     void InitSingle(dsy_gpio_pin pin);
+  38:../../libdaisy/src/per/adc.h **** 
+  39:../../libdaisy/src/per/adc.h ****     /** 
+  40:../../libdaisy/src/per/adc.h ****     Initializes a single ADC pin as a Multiplexed ADC.
+  41:../../libdaisy/src/per/adc.h ****     Requires a CD405X Multiplexer connected to the pin.
+  42:../../libdaisy/src/per/adc.h ****     You only need to supply the mux pins that are required,
+  43:../../libdaisy/src/per/adc.h ****     e.g. a 4052 mux would only require mux_0 and mux_1.
+  44:../../libdaisy/src/per/adc.h ****     Internal Callbacks handle the pin addressing.
+  45:../../libdaisy/src/per/adc.h ****     \param mux_channels must be 1-8
+  46:../../libdaisy/src/per/adc.h ****     \param mux_0 First mux pin
+  47:../../libdaisy/src/per/adc.h ****     \param mux_1 Second mux pin
+  48:../../libdaisy/src/per/adc.h ****     \param mux_2 Third mux pin
+  49:../../libdaisy/src/per/adc.h ****     \param adc_pin &
+  50:../../libdaisy/src/per/adc.h ****     */
+  51:../../libdaisy/src/per/adc.h ****     void InitMux(dsy_gpio_pin adc_pin,
+  52:../../libdaisy/src/per/adc.h ****                  size_t       mux_channels,
+  53:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_0,
+  54:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_1 = {DSY_GPIOX, 0},
+ARM GAS  /tmp/cc95biFz.s 			page 8
+
+
+  55:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_2 = {DSY_GPIOX, 0});
+  56:../../libdaisy/src/per/adc.h **** 
+  57:../../libdaisy/src/per/adc.h ****     dsy_gpio pin_;                   /**< & */
+  58:../../libdaisy/src/per/adc.h ****     dsy_gpio mux_pin_[MUX_SEL_LAST]; /**< & */
+  59:../../libdaisy/src/per/adc.h ****     uint8_t  mux_channels_;          /**< & */
+  60:../../libdaisy/src/per/adc.h **** };
+  61:../../libdaisy/src/per/adc.h **** 
+  62:../../libdaisy/src/per/adc.h **** /**
+  63:../../libdaisy/src/per/adc.h ****    Handler for analog to digital conversion
+  64:../../libdaisy/src/per/adc.h **** */
+  65:../../libdaisy/src/per/adc.h **** class AdcHandle
+  66:../../libdaisy/src/per/adc.h **** {
+  67:../../libdaisy/src/per/adc.h ****   public:
+  68:../../libdaisy/src/per/adc.h ****     /** Supported oversampling amounts */
+  69:../../libdaisy/src/per/adc.h ****     enum OverSampling
+  70:../../libdaisy/src/per/adc.h ****     {
+  71:../../libdaisy/src/per/adc.h ****         OVS_NONE, /**< & */
+  72:../../libdaisy/src/per/adc.h ****         OVS_4,    /**< & */
+  73:../../libdaisy/src/per/adc.h ****         OVS_8,    /**< & */
+  74:../../libdaisy/src/per/adc.h ****         OVS_16,   /**< & */
+  75:../../libdaisy/src/per/adc.h ****         OVS_32,   /**< & */
+  76:../../libdaisy/src/per/adc.h ****         OVS_64,   /**< & */
+  77:../../libdaisy/src/per/adc.h ****         OVS_128,  /**< & */
+  78:../../libdaisy/src/per/adc.h ****         OVS_256,  /**< & */
+  79:../../libdaisy/src/per/adc.h ****         OVS_512,  /**< & */
+  80:../../libdaisy/src/per/adc.h ****         OVS_1024, /**< & */
+  81:../../libdaisy/src/per/adc.h ****         OVS_LAST, /**< & */
+  82:../../libdaisy/src/per/adc.h ****     };
+  83:../../libdaisy/src/per/adc.h **** 
+  84:../../libdaisy/src/per/adc.h ****     AdcHandle() {}
+  85:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+  71              		.loc 8 85 5 is_stmt 1 view .LVU11
+  72              		.loc 8 85 5 is_stmt 0 view .LVU12
+  73              	.LBE206:
+  74              	.LBB207:
+  75              	.LBI207:
+  76              		.file 9 "../../libdaisy/src/hid/audio.h"
+   1:../../libdaisy/src/hid/audio.h **** #ifndef DSY_AUDIO_H
+   2:../../libdaisy/src/hid/audio.h **** #define DSY_AUDIO_H /**< & */
+   3:../../libdaisy/src/hid/audio.h **** 
+   4:../../libdaisy/src/hid/audio.h **** #include "per/sai.h"
+   5:../../libdaisy/src/hid/audio.h **** 
+   6:../../libdaisy/src/hid/audio.h **** namespace daisy
+   7:../../libdaisy/src/hid/audio.h **** {
+   8:../../libdaisy/src/hid/audio.h **** class AudioHandle
+   9:../../libdaisy/src/hid/audio.h **** {
+  10:../../libdaisy/src/hid/audio.h ****   public:
+  11:../../libdaisy/src/hid/audio.h ****     /** Manually configurable details about the Audio Engine */
+  12:../../libdaisy/src/hid/audio.h ****     /** TODO: Figure out how to get samplerate in here. */
+  13:../../libdaisy/src/hid/audio.h ****     struct Config
+  14:../../libdaisy/src/hid/audio.h ****     {
+  15:../../libdaisy/src/hid/audio.h ****         size_t                        blocksize;
+  16:../../libdaisy/src/hid/audio.h ****         SaiHandle::Config::SampleRate samplerate;
+  17:../../libdaisy/src/hid/audio.h ****         float                         postgain;
+  18:../../libdaisy/src/hid/audio.h ****     };
+  19:../../libdaisy/src/hid/audio.h **** 
+  20:../../libdaisy/src/hid/audio.h ****     enum class Result
+ARM GAS  /tmp/cc95biFz.s 			page 9
+
+
+  21:../../libdaisy/src/hid/audio.h ****     {
+  22:../../libdaisy/src/hid/audio.h ****         OK,
+  23:../../libdaisy/src/hid/audio.h ****         ERR,
+  24:../../libdaisy/src/hid/audio.h ****     };
+  25:../../libdaisy/src/hid/audio.h **** 
+  26:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving input buffer
+  27:../../libdaisy/src/hid/audio.h ****      * Buffer arranged by float[chn][sample] 
+  28:../../libdaisy/src/hid/audio.h ****      * const so that the user can't modify the input
+  29:../../libdaisy/src/hid/audio.h ****     */
+  30:../../libdaisy/src/hid/audio.h ****     typedef const float* const* InputBuffer;
+  31:../../libdaisy/src/hid/audio.h **** 
+  32:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving output buffer
+  33:../../libdaisy/src/hid/audio.h ****      * Arranged by float[chn][sample] 
+  34:../../libdaisy/src/hid/audio.h ****     */
+  35:../../libdaisy/src/hid/audio.h ****     typedef float** OutputBuffer;
+  36:../../libdaisy/src/hid/audio.h **** 
+  37:../../libdaisy/src/hid/audio.h ****     /** Type for a Non-Interleaving audio callback 
+  38:../../libdaisy/src/hid/audio.h ****    * Non-Interleaving audio callbacks in daisy will be of this type
+  39:../../libdaisy/src/hid/audio.h ****   */
+  40:../../libdaisy/src/hid/audio.h ****     typedef void (*AudioCallback)(InputBuffer  in,
+  41:../../libdaisy/src/hid/audio.h ****                                   OutputBuffer out,
+  42:../../libdaisy/src/hid/audio.h ****                                   size_t       size);
+  43:../../libdaisy/src/hid/audio.h **** 
+  44:../../libdaisy/src/hid/audio.h ****     /** Interleaving Input buffer
+  45:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }]
+  46:../../libdaisy/src/hid/audio.h ****      ** this is const, as the user shouldn't modify it
+  47:../../libdaisy/src/hid/audio.h ****     */
+  48:../../libdaisy/src/hid/audio.h ****     typedef const float* InterleavingInputBuffer;
+  49:../../libdaisy/src/hid/audio.h **** 
+  50:../../libdaisy/src/hid/audio.h ****     /** Interleaving Output buffer 
+  51:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }
+  52:../../libdaisy/src/hid/audio.h ****     */
+  53:../../libdaisy/src/hid/audio.h ****     typedef float* InterleavingOutputBuffer;
+  54:../../libdaisy/src/hid/audio.h **** 
+  55:../../libdaisy/src/hid/audio.h ****     /** Interleaving Audio Callback 
+  56:../../libdaisy/src/hid/audio.h ****    * Interleaving audio callbacks in daisy must be of this type
+  57:../../libdaisy/src/hid/audio.h ****   */
+  58:../../libdaisy/src/hid/audio.h ****     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
+  59:../../libdaisy/src/hid/audio.h ****                                               InterleavingOutputBuffer out,
+  60:../../libdaisy/src/hid/audio.h ****                                               size_t                   size);
+  61:../../libdaisy/src/hid/audio.h **** 
+  62:../../libdaisy/src/hid/audio.h ****     AudioHandle() : pimpl_(nullptr) {}
+  63:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+  77              		.loc 9 63 5 is_stmt 1 view .LVU13
+  78              		.loc 9 63 5 is_stmt 0 view .LVU14
+  79              	.LBE207:
+  80              	.LBE203:
+  81              		.loc 1 68 20 view .LVU15
+  82 0000 7047     		bx	lr
+  83              		.cfi_endproc
+  84              	.LFE4219:
+  86              		.weak	_ZN5daisy10DaisyPetalD1Ev
+  87              		.thumb_set _ZN5daisy10DaisyPetalD1Ev,_ZN5daisy10DaisyPetalD2Ev
+  88 0002 00BF     		.section	.text._Z8hardClipf,"ax",%progbits
+  89              		.align	1
+  90              		.p2align 2,,3
+  91              		.global	_Z8hardClipf
+ARM GAS  /tmp/cc95biFz.s 			page 10
+
+
+  92              		.syntax unified
+  93              		.thumb
+  94              		.thumb_func
+  95              		.fpu fpv5-d16
+  97              	_Z8hardClipf:
+  98              	.LVL1:
+  99              	.LFB4223:
+ 100              		.file 10 "Distortion.cpp"
+   1:Distortion.cpp **** #include "daisysp.h"
+   2:Distortion.cpp **** #include "daisy_petal.h"
+   3:Distortion.cpp **** 
+   4:Distortion.cpp **** using namespace daisysp;
+   5:Distortion.cpp **** using namespace daisy;
+   6:Distortion.cpp **** 
+   7:Distortion.cpp **** static DaisyPetal petal;
+   8:Distortion.cpp **** 
+   9:Distortion.cpp **** float hardClip(float in)
+  10:Distortion.cpp **** {
+ 101              		.loc 10 10 1 is_stmt 1 view -0
+ 102              		.cfi_startproc
+ 103              		@ args = 0, pretend = 0, frame = 0
+ 104              		@ frame_needed = 0, uses_anonymous_args = 0
+ 105              		@ link register save eliminated.
+  11:Distortion.cpp ****     in = in > 1.f ? 1.f : in;
+ 106              		.loc 10 11 5 view .LVU17
+ 107              		.loc 10 11 19 is_stmt 0 view .LVU18
+ 108 0000 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 109 0004 B4EEE70A 		vcmpe.f32	s0, s15
+ 110 0008 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 111 000c 02DD     		ble	.L7
+ 112 000e B0EE670A 		vmov.f32	s0, s15
+ 113              	.LVL2:
+  12:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+  13:Distortion.cpp ****     return in;
+  14:Distortion.cpp **** }
+ 114              		.loc 10 14 1 view .LVU19
+ 115 0012 7047     		bx	lr
+ 116              	.LVL3:
+ 117              	.L7:
+  12:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 118              		.loc 10 12 5 is_stmt 1 discriminator 4 view .LVU20
+  12:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 119              		.loc 10 12 20 is_stmt 0 discriminator 4 view .LVU21
+ 120 0014 BFEE007A 		vmov.f32	s14, #-1.0e+0
+  11:Distortion.cpp ****     in = in > 1.f ? 1.f : in;
+ 121              		.loc 10 11 19 discriminator 4 view .LVU22
+ 122 0018 B4EEC70A 		vcmpe.f32	s0, s14
+ 123 001c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 124 0020 48BF     		it	mi
+ 125 0022 B0EE470A 		vmovmi.f32	s0, s14
+ 126              	.LVL4:
+  11:Distortion.cpp ****     in = in > 1.f ? 1.f : in;
+ 127              		.loc 10 11 19 discriminator 4 view .LVU23
+ 128 0026 7047     		bx	lr
+ 129              		.cfi_endproc
+ 130              	.LFE4223:
+ 132              		.section	.text._Z8softClipf,"ax",%progbits
+ARM GAS  /tmp/cc95biFz.s 			page 11
+
+
+ 133              		.align	1
+ 134              		.p2align 2,,3
+ 135              		.global	_Z8softClipf
+ 136              		.syntax unified
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.fpu fpv5-d16
+ 141              	_Z8softClipf:
+ 142              	.LVL5:
+ 143              	.LFB4224:
+  15:Distortion.cpp **** 
+  16:Distortion.cpp **** float softClip(float in)
+  17:Distortion.cpp **** {
+ 144              		.loc 10 17 1 is_stmt 1 view -0
+ 145              		.cfi_startproc
+ 146              		@ args = 0, pretend = 0, frame = 0
+ 147              		@ frame_needed = 0, uses_anonymous_args = 0
+  18:Distortion.cpp ****     if(in > 0)
+ 148              		.loc 10 18 5 view .LVU25
+ 149 0000 B5EEC00A 		vcmpe.f32	s0, #0
+  17:Distortion.cpp ****     if(in > 0)
+ 150              		.loc 10 17 1 is_stmt 0 view .LVU26
+ 151 0004 08B5     		push	{r3, lr}
+ 152              		.cfi_def_cfa_offset 8
+ 153              		.cfi_offset 3, -8
+ 154              		.cfi_offset 14, -4
+ 155              		.loc 10 18 5 view .LVU27
+ 156 0006 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 157 000a 08DD     		ble	.L13
+  19:Distortion.cpp ****         return 1 - expf(-in);
+ 158              		.loc 10 19 9 is_stmt 1 view .LVU28
+ 159              		.loc 10 19 24 is_stmt 0 view .LVU29
+ 160 000c B1EE400A 		vneg.f32	s0, s0
+ 161              	.LVL6:
+ 162              		.loc 10 19 24 view .LVU30
+ 163 0010 FFF7FEFF 		bl	expf
+ 164              	.LVL7:
+ 165              		.loc 10 19 28 view .LVU31
+ 166 0014 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 167 0018 37EEC00A 		vsub.f32	s0, s15, s0
+  20:Distortion.cpp ****     return -1 + expf(in);
+  21:Distortion.cpp **** }
+ 168              		.loc 10 21 1 view .LVU32
+ 169 001c 08BD     		pop	{r3, pc}
+ 170              	.LVL8:
+ 171              	.L13:
+ 172              	.LBB210:
+ 173              	.LBI210:
+  16:Distortion.cpp **** {
+ 174              		.loc 10 16 7 is_stmt 1 view .LVU33
+ 175              	.LBB211:
+  20:Distortion.cpp ****     return -1 + expf(in);
+ 176              		.loc 10 20 5 view .LVU34
+  20:Distortion.cpp ****     return -1 + expf(in);
+ 177              		.loc 10 20 21 is_stmt 0 view .LVU35
+ 178 001e FFF7FEFF 		bl	expf
+ 179              	.LVL9:
+ARM GAS  /tmp/cc95biFz.s 			page 12
+
+
+  20:Distortion.cpp ****     return -1 + expf(in);
+ 180              		.loc 10 20 24 view .LVU36
+ 181 0022 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 182 0026 30EE670A 		vsub.f32	s0, s0, s15
+ 183              	.LBE211:
+ 184              	.LBE210:
+ 185              		.loc 10 21 1 view .LVU37
+ 186 002a 08BD     		pop	{r3, pc}
+ 187              		.cfi_endproc
+ 188              	.LFE4224:
+ 190              		.section	.text._ZL13AudioCallbackPKPKfPPfj,"ax",%progbits
+ 191              		.align	1
+ 192              		.p2align 2,,3
+ 193              		.syntax unified
+ 194              		.thumb
+ 195              		.thumb_func
+ 196              		.fpu fpv5-d16
+ 198              	_ZL13AudioCallbackPKPKfPPfj:
+ 199              	.LVL10:
+ 200              	.LFB4225:
+  22:Distortion.cpp **** 
+  23:Distortion.cpp **** bool        bypassHard, bypassSoft;
+  24:Distortion.cpp **** static void AudioCallback(AudioHandle::InputBuffer  in,
+  25:Distortion.cpp ****                           AudioHandle::OutputBuffer out,
+  26:Distortion.cpp ****                           size_t                    size)
+  27:Distortion.cpp **** {
+ 201              		.loc 10 27 1 is_stmt 1 view -0
+ 202              		.cfi_startproc
+ 203              		@ args = 0, pretend = 0, frame = 16
+ 204              		@ frame_needed = 0, uses_anonymous_args = 0
+  28:Distortion.cpp ****     petal.ProcessAnalogControls();
+ 205              		.loc 10 28 5 view .LVU39
+  27:Distortion.cpp ****     petal.ProcessAnalogControls();
+ 206              		.loc 10 27 1 is_stmt 0 view .LVU40
+ 207 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 208              		.cfi_def_cfa_offset 36
+ 209              		.cfi_offset 4, -36
+ 210              		.cfi_offset 5, -32
+ 211              		.cfi_offset 6, -28
+ 212              		.cfi_offset 7, -24
+ 213              		.cfi_offset 8, -20
+ 214              		.cfi_offset 9, -16
+ 215              		.cfi_offset 10, -12
+ 216              		.cfi_offset 11, -8
+ 217              		.cfi_offset 14, -4
+ 218              		.loc 10 28 32 view .LVU41
+ 219 0004 544C     		ldr	r4, .L40+8
+  27:Distortion.cpp ****     petal.ProcessAnalogControls();
+ 220              		.loc 10 27 1 view .LVU42
+ 221 0006 0746     		mov	r7, r0
+ 222 0008 8846     		mov	r8, r1
+  29:Distortion.cpp ****     petal.ProcessDigitalControls();
+  30:Distortion.cpp **** 
+  31:Distortion.cpp ****     float Pregain = petal.knob[2].Process() * 10 + 1.2;
+  32:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+  33:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+  34:Distortion.cpp **** 
+ARM GAS  /tmp/cc95biFz.s 			page 13
+
+
+  35:Distortion.cpp ****     bypassSoft = petal.switches[0].RisingEdge() ? !bypassSoft : bypassSoft;
+ 223              		.loc 10 35 51 view .LVU43
+ 224 000a DFF854A1 		ldr	r10, .L40+16
+  28:Distortion.cpp ****     petal.ProcessDigitalControls();
+ 225              		.loc 10 28 32 view .LVU44
+ 226 000e 2046     		mov	r0, r4
+ 227              	.LVL11:
+  27:Distortion.cpp ****     petal.ProcessAnalogControls();
+ 228              		.loc 10 27 1 view .LVU45
+ 229 0010 2DED048B 		vpush.64	{d8, d9}
+ 230              		.cfi_def_cfa_offset 52
+ 231              		.cfi_offset 80, -52
+ 232              		.cfi_offset 81, -48
+ 233              		.cfi_offset 82, -44
+ 234              		.cfi_offset 83, -40
+ 235 0014 85B0     		sub	sp, sp, #20
+ 236              		.cfi_def_cfa_offset 72
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 237              		.loc 10 31 45 view .LVU46
+ 238 0016 B2EE049A 		vmov.f32	s18, #1.0e+1
+  27:Distortion.cpp ****     petal.ProcessAnalogControls();
+ 239              		.loc 10 27 1 view .LVU47
+ 240 001a 0192     		str	r2, [sp, #4]
+  28:Distortion.cpp ****     petal.ProcessDigitalControls();
+ 241              		.loc 10 28 32 view .LVU48
+ 242 001c FFF7FEFF 		bl	_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+ 243              	.LVL12:
+  29:Distortion.cpp **** 
+ 244              		.loc 10 29 5 is_stmt 1 view .LVU49
+  29:Distortion.cpp **** 
+ 245              		.loc 10 29 33 is_stmt 0 view .LVU50
+ 246 0020 2046     		mov	r0, r4
+ 247 0022 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+ 248              	.LVL13:
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 249              		.loc 10 31 5 is_stmt 1 view .LVU51
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 250              		.loc 10 31 42 is_stmt 0 view .LVU52
+ 251 0026 04F19C00 		add	r0, r4, #156
+ 252 002a FFF7FEFF 		bl	_ZN5daisy13AnalogControl7ProcessEv
+ 253              	.LVL14:
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 254              		.loc 10 32 42 view .LVU53
+ 255 002e 04F1BC00 		add	r0, r4, #188
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 256              		.loc 10 31 45 view .LVU54
+ 257 0032 20EE099A 		vmul.f32	s18, s0, s18
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 258              		.loc 10 32 42 view .LVU55
+ 259 0036 FFF7FEFF 		bl	_ZN5daisy13AnalogControl7ProcessEv
+ 260              	.LVL15:
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 261              		.loc 10 32 45 view .LVU56
+ 262 003a 9FED487A 		vldr.32	s14, .L40+12
+  33:Distortion.cpp **** 
+ 263              		.loc 10 33 42 view .LVU57
+ 264 003e 04F1DC00 		add	r0, r4, #220
+ARM GAS  /tmp/cc95biFz.s 			page 14
+
+
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 265              		.loc 10 32 45 view .LVU58
+ 266 0042 20EE077A 		vmul.f32	s14, s0, s14
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 267              		.loc 10 31 45 view .LVU59
+ 268 0046 B7EEC99A 		vcvt.f64.f32	d9, s18
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 269              		.loc 10 31 50 view .LVU60
+ 270 004a 9FED418B 		vldr.64	d8, .L40
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 271              		.loc 10 32 45 view .LVU61
+ 272 004e B7EEC77A 		vcvt.f64.f32	d7, s14
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 273              		.loc 10 31 50 view .LVU62
+ 274 0052 39EE089B 		vadd.f64	d9, d9, d8
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 275              		.loc 10 32 51 view .LVU63
+ 276 0056 37EE087B 		vadd.f64	d7, d7, d8
+  31:Distortion.cpp ****     float Gain    = petal.knob[3].Process() * 100 + 1.2;
+ 277              		.loc 10 31 52 view .LVU64
+ 278 005a B7EEC99B 		vcvt.f32.f64	s18, d9
+ 279              	.LVL16:
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 280              		.loc 10 32 5 is_stmt 1 view .LVU65
+  32:Distortion.cpp ****     float drywet  = petal.knob[4].Process();
+ 281              		.loc 10 32 53 is_stmt 0 view .LVU66
+ 282 005e F7EEC79B 		vcvt.f32.f64	s19, d7
+ 283              	.LVL17:
+  33:Distortion.cpp **** 
+ 284              		.loc 10 33 5 is_stmt 1 view .LVU67
+  33:Distortion.cpp **** 
+ 285              		.loc 10 33 42 is_stmt 0 view .LVU68
+ 286 0062 FFF7FEFF 		bl	_ZN5daisy13AnalogControl7ProcessEv
+ 287              	.LVL18:
+ 288              		.loc 10 35 49 view .LVU69
+ 289 0066 94F84131 		ldrb	r3, [r4, #321]	@ zero_extendqisi2
+  33:Distortion.cpp **** 
+ 290              		.loc 10 33 42 view .LVU70
+ 291 006a F0EE408A 		vmov.f32	s17, s0
+ 292              	.LVL19:
+ 293              		.loc 10 35 5 is_stmt 1 view .LVU71
+  42:../../libdaisy/src/hid/switch.h **** 
+  43:../../libdaisy/src/hid/switch.h ****     /** 
+  44:../../libdaisy/src/hid/switch.h ****     Initializes the switch object with a given port/pin combo.
+  45:../../libdaisy/src/hid/switch.h ****     \param pin port/pin object to tell the switch which hardware pin to use.
+  46:../../libdaisy/src/hid/switch.h ****     \param update_rate the rate at which the Debounce() function will be called. (used for timing).
+  47:../../libdaisy/src/hid/switch.h ****     \param t switch type -- Default: TYPE_MOMENTARY
+  48:../../libdaisy/src/hid/switch.h ****     \param pol switch polarity -- Default: POLARITY_INVERTED
+  49:../../libdaisy/src/hid/switch.h ****     \param pu switch pull up/down -- Default: PULL_UP
+  50:../../libdaisy/src/hid/switch.h ****     */
+  51:../../libdaisy/src/hid/switch.h ****     void
+  52:../../libdaisy/src/hid/switch.h ****     Init(dsy_gpio_pin pin, float update_rate, Type t, Polarity pol, Pull pu);
+  53:../../libdaisy/src/hid/switch.h **** 
+  54:../../libdaisy/src/hid/switch.h ****     /**
+  55:../../libdaisy/src/hid/switch.h ****        Simplified Init.
+  56:../../libdaisy/src/hid/switch.h ****        \param pin port/pin object to tell the switch which hardware pin to use.
+  57:../../libdaisy/src/hid/switch.h ****        \param update_rate the rate at which the Debounce() function will be called. (used for timin
+ARM GAS  /tmp/cc95biFz.s 			page 15
+
+
+  58:../../libdaisy/src/hid/switch.h ****     */
+  59:../../libdaisy/src/hid/switch.h ****     void Init(dsy_gpio_pin pin, float update_rate);
+  60:../../libdaisy/src/hid/switch.h **** 
+  61:../../libdaisy/src/hid/switch.h ****     /** 
+  62:../../libdaisy/src/hid/switch.h ****     Called at update_rate to debounce and handle timing for the switch.
+  63:../../libdaisy/src/hid/switch.h ****     In order for events not to be missed, its important that the Edge/Pressed checks
+  64:../../libdaisy/src/hid/switch.h ****     be made at the same rate as the debounce function is being called.
+  65:../../libdaisy/src/hid/switch.h ****     */
+  66:../../libdaisy/src/hid/switch.h ****     void Debounce();
+  67:../../libdaisy/src/hid/switch.h **** 
+  68:../../libdaisy/src/hid/switch.h ****     /** \return true if a button was just pressed. */
+  69:../../libdaisy/src/hid/switch.h ****     inline bool RisingEdge() const { return state_ == 0x7f; }
+ 294              		.loc 4 69 38 view .LVU72
+ 295              		.loc 10 35 49 is_stmt 0 view .LVU73
+ 296 006e 7F2B     		cmp	r3, #127
+ 297 0070 69D0     		beq	.L38
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+  37:Distortion.cpp **** 
+  38:Distortion.cpp ****     for(size_t i = 0; i < size; i++)
+  39:Distortion.cpp ****     {
+  40:Distortion.cpp ****         for(int chn = 0; chn < 2; chn++)
+  41:Distortion.cpp ****         {
+  42:Distortion.cpp ****             float input = in[chn][i] * Pregain;
+  43:Distortion.cpp ****             float wet   = input;
+  44:Distortion.cpp **** 
+  45:Distortion.cpp ****             if(!bypassSoft || !bypassHard)
+  46:Distortion.cpp ****             {
+  47:Distortion.cpp ****                 wet *= Gain;
+  48:Distortion.cpp ****             }
+  49:Distortion.cpp **** 
+  50:Distortion.cpp ****             if(!bypassSoft)
+  51:Distortion.cpp ****             {
+  52:Distortion.cpp ****                 wet = softClip(wet);
+  53:Distortion.cpp ****             }
+  54:Distortion.cpp **** 
+  55:Distortion.cpp ****             if(!bypassHard)
+  56:Distortion.cpp ****             {
+  57:Distortion.cpp ****                 wet = hardClip(wet);
+  58:Distortion.cpp ****             }
+  59:Distortion.cpp **** 
+  60:Distortion.cpp ****             out[chn][i] = wet * drywet + input * (1 - drywet);
+  61:Distortion.cpp ****         }
+  62:Distortion.cpp ****     }
+  63:Distortion.cpp **** }
+ 298              		.loc 10 63 1 discriminator 2 view .LVU74
+ 299 0072 9AF80010 		ldrb	r1, [r10]	@ zero_extendqisi2
+ 300              	.L17:
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 301              		.loc 10 36 49 discriminator 4 view .LVU75
+ 302 0076 94F85131 		ldrb	r3, [r4, #337]	@ zero_extendqisi2
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 303              		.loc 10 36 51 discriminator 4 view .LVU76
+ 304 007a DFF8E890 		ldr	r9, .L40+20
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 305              		.loc 10 36 49 discriminator 4 view .LVU77
+ 306 007e 7F2B     		cmp	r3, #127
+  35:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ARM GAS  /tmp/cc95biFz.s 			page 16
+
+
+ 307              		.loc 10 35 16 discriminator 4 view .LVU78
+ 308 0080 8AF80010 		strb	r1, [r10]
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 309              		.loc 10 36 5 is_stmt 1 discriminator 4 view .LVU79
+ 310              	.LVL20:
+ 311              		.loc 4 69 38 discriminator 4 view .LVU80
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 312              		.loc 10 36 49 is_stmt 0 discriminator 4 view .LVU81
+ 313 0084 99F80030 		ldrb	r3, [r9]	@ zero_extendqisi2
+ 314 0088 08BF     		it	eq
+ 315 008a 83F00103 		eoreq	r3, r3, #1
+  36:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 316              		.loc 10 36 16 discriminator 4 view .LVU82
+ 317 008e 89F80030 		strb	r3, [r9]
+  38:Distortion.cpp ****     {
+ 318              		.loc 10 38 5 is_stmt 1 discriminator 4 view .LVU83
+ 319              	.LVL21:
+ 320              	.LBB212:
+  38:Distortion.cpp ****     {
+ 321              		.loc 10 38 25 discriminator 4 view .LVU84
+ 322 0092 019B     		ldr	r3, [sp, #4]
+ 323 0094 002B     		cmp	r3, #0
+ 324 0096 51D0     		beq	.L15
+ 325 0098 A8F10403 		sub	r3, r8, #4
+  38:Distortion.cpp ****     {
+ 326              		.loc 10 38 16 is_stmt 0 view .LVU85
+ 327 009c 4FF0000B 		mov	fp, #0
+ 328 00a0 0393     		str	r3, [sp, #12]
+ 329 00a2 3B1F     		subs	r3, r7, #4
+ 330 00a4 0293     		str	r3, [sp, #8]
+ 331              	.LVL22:
+ 332              	.L28:
+  38:Distortion.cpp ****     {
+ 333              		.loc 10 38 16 view .LVU86
+ 334 00a6 4FEA8B06 		lsl	r6, fp, #2
+ 335 00aa DDE90245 		ldrd	r4, r5, [sp, #8]
+ 336              	.L27:
+ 337              	.LBB213:
+ 338              	.LBB214:
+  42:Distortion.cpp ****             float wet   = input;
+ 339              		.loc 10 42 13 is_stmt 1 view .LVU87
+  42:Distortion.cpp ****             float wet   = input;
+ 340              		.loc 10 42 36 is_stmt 0 view .LVU88
+ 341 00ae 6368     		ldr	r3, [r4, #4]
+ 342 00b0 04F10408 		add	r8, r4, #4
+ 343 00b4 3344     		add	r3, r3, r6
+  42:Distortion.cpp ****             float wet   = input;
+ 344              		.loc 10 42 19 view .LVU89
+ 345 00b6 93ED008A 		vldr.32	s16, [r3]
+ 346 00ba 29EE088A 		vmul.f32	s16, s18, s16
+ 347              	.LVL23:
+  43:Distortion.cpp **** 
+ 348              		.loc 10 43 13 is_stmt 1 view .LVU90
+  45:Distortion.cpp ****             {
+ 349              		.loc 10 45 13 view .LVU91
+ 350 00be A9B1     		cbz	r1, .L21
+  45:Distortion.cpp ****             {
+ARM GAS  /tmp/cc95biFz.s 			page 17
+
+
+ 351              		.loc 10 45 28 is_stmt 0 discriminator 1 view .LVU92
+ 352 00c0 99F80030 		ldrb	r3, [r9]	@ zero_extendqisi2
+ 353 00c4 E3B1     		cbz	r3, .L22
+ 354 00c6 68EE887A 		vmul.f32	s15, s17, s16
+ 355              	.LVL24:
+ 356              	.L23:
+  60:Distortion.cpp ****         }
+ 357              		.loc 10 60 13 is_stmt 1 discriminator 2 view .LVU93
+  60:Distortion.cpp ****         }
+ 358              		.loc 10 60 53 is_stmt 0 discriminator 2 view .LVU94
+ 359 00ca B7EE007A 		vmov.f32	s14, #1.0e+0
+  60:Distortion.cpp ****         }
+ 360              		.loc 10 60 23 discriminator 2 view .LVU95
+ 361 00ce 55F8043F 		ldr	r3, [r5, #4]!
+ 362              	.LBE214:
+  40:Distortion.cpp ****         {
+ 363              		.loc 10 40 30 discriminator 2 view .LVU96
+ 364 00d2 A742     		cmp	r7, r4
+ 365              	.LBB219:
+  60:Distortion.cpp ****         }
+ 366              		.loc 10 60 23 discriminator 2 view .LVU97
+ 367 00d4 3344     		add	r3, r3, r6
+  60:Distortion.cpp ****         }
+ 368              		.loc 10 60 53 discriminator 2 view .LVU98
+ 369 00d6 37EE687A 		vsub.f32	s14, s14, s17
+  60:Distortion.cpp ****         }
+ 370              		.loc 10 60 40 discriminator 2 view .LVU99
+ 371 00da E7EE087A 		vfma.f32	s15, s14, s16
+  60:Distortion.cpp ****         }
+ 372              		.loc 10 60 25 discriminator 2 view .LVU100
+ 373 00de C3ED007A 		vstr.32	s15, [r3]
+ 374              	.LBE219:
+  40:Distortion.cpp ****         {
+ 375              		.loc 10 40 9 is_stmt 1 discriminator 2 view .LVU101
+  40:Distortion.cpp ****         {
+ 376              		.loc 10 40 30 discriminator 2 view .LVU102
+ 377 00e2 19D0     		beq	.L26
+  40:Distortion.cpp ****         {
+ 378              		.loc 10 40 30 is_stmt 0 view .LVU103
+ 379 00e4 4446     		mov	r4, r8
+ 380 00e6 9AF80010 		ldrb	r1, [r10]	@ zero_extendqisi2
+ 381 00ea E0E7     		b	.L27
+ 382              	.LVL25:
+ 383              	.L21:
+ 384              	.LBB220:
+  47:Distortion.cpp ****             }
+ 385              		.loc 10 47 17 is_stmt 1 view .LVU104
+  50:Distortion.cpp ****             {
+ 386              		.loc 10 50 13 view .LVU105
+  52:Distortion.cpp ****             }
+ 387              		.loc 10 52 17 view .LVU106
+  52:Distortion.cpp ****             }
+ 388              		.loc 10 52 31 is_stmt 0 view .LVU107
+ 389 00ec 29EE880A 		vmul.f32	s0, s19, s16
+ 390              	.LVL26:
+  52:Distortion.cpp ****             }
+ 391              		.loc 10 52 31 view .LVU108
+ARM GAS  /tmp/cc95biFz.s 			page 18
+
+
+ 392 00f0 FFF7FEFF 		bl	_Z8softClipf
+ 393              	.LVL27:
+  55:Distortion.cpp ****             {
+ 394              		.loc 10 55 13 view .LVU109
+ 395 00f4 99F80030 		ldrb	r3, [r9]	@ zero_extendqisi2
+ 396              	.LVL28:
+  55:Distortion.cpp ****             {
+ 397              		.loc 10 55 13 is_stmt 1 view .LVU110
+ 398 00f8 23B1     		cbz	r3, .L29
+ 399              	.L36:
+  55:Distortion.cpp ****             {
+ 400              		.loc 10 55 13 is_stmt 0 view .LVU111
+ 401 00fa 60EE287A 		vmul.f32	s15, s0, s17
+ 402 00fe E4E7     		b	.L23
+ 403              	.LVL29:
+ 404              	.L22:
+  47:Distortion.cpp ****             }
+ 405              		.loc 10 47 17 is_stmt 1 view .LVU112
+  47:Distortion.cpp ****             }
+ 406              		.loc 10 47 21 is_stmt 0 view .LVU113
+ 407 0100 29EE880A 		vmul.f32	s0, s19, s16
+ 408              	.LVL30:
+  50:Distortion.cpp ****             {
+ 409              		.loc 10 50 13 is_stmt 1 view .LVU114
+  55:Distortion.cpp ****             {
+ 410              		.loc 10 55 13 view .LVU115
+ 411              	.L29:
+  57:Distortion.cpp ****             }
+ 412              		.loc 10 57 17 view .LVU116
+ 413              	.LBB215:
+ 414              	.LBI215:
+   9:Distortion.cpp **** {
+ 415              		.loc 10 9 7 view .LVU117
+ 416              	.LBB216:
+  11:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 417              		.loc 10 11 5 view .LVU118
+  11:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 418              		.loc 10 11 19 is_stmt 0 view .LVU119
+ 419 0104 F7EE007A 		vmov.f32	s15, #1.0e+0
+ 420 0108 B4EEE70A 		vcmpe.f32	s0, s15
+ 421 010c F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 422 0110 0ADD     		ble	.L39
+  11:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 423              		.loc 10 11 19 view .LVU120
+ 424 0112 F0EE687A 		vmov.f32	s15, s17
+ 425 0116 D8E7     		b	.L23
+ 426              	.LVL31:
+ 427              	.L26:
+  11:Distortion.cpp ****     in = in < -1.f ? -1.f : in;
+ 428              		.loc 10 11 19 view .LVU121
+ 429              	.LBE216:
+ 430              	.LBE215:
+ 431              	.LBE220:
+ 432              	.LBE213:
+  38:Distortion.cpp ****     {
+ 433              		.loc 10 38 5 is_stmt 1 discriminator 2 view .LVU122
+ 434 0118 0BF1010B 		add	fp, fp, #1
+ARM GAS  /tmp/cc95biFz.s 			page 19
+
+
+ 435              	.LVL32:
+  38:Distortion.cpp ****     {
+ 436              		.loc 10 38 25 discriminator 2 view .LVU123
+ 437 011c 019B     		ldr	r3, [sp, #4]
+ 438 011e 5B45     		cmp	r3, fp
+ 439 0120 0CD0     		beq	.L15
+ 440 0122 9AF80010 		ldrb	r1, [r10]	@ zero_extendqisi2
+ 441 0126 BEE7     		b	.L28
+ 442              	.LVL33:
+ 443              	.L39:
+ 444              	.LBB222:
+ 445              	.LBB221:
+ 446              	.LBB218:
+ 447              	.LBB217:
+  12:Distortion.cpp ****     return in;
+ 448              		.loc 10 12 5 view .LVU124
+  12:Distortion.cpp ****     return in;
+ 449              		.loc 10 12 20 is_stmt 0 view .LVU125
+ 450 0128 FFEE007A 		vmov.f32	s15, #-1.0e+0
+ 451 012c B4EEE70A 		vcmpe.f32	s0, s15
+ 452 0130 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 453 0134 E1D5     		bpl	.L36
+ 454 0136 F1EE687A 		vneg.f32	s15, s17
+ 455 013a C6E7     		b	.L23
+ 456              	.LVL34:
+ 457              	.L15:
+  12:Distortion.cpp ****     return in;
+ 458              		.loc 10 12 20 view .LVU126
+ 459              	.LBE217:
+ 460              	.LBE218:
+ 461              	.LBE221:
+ 462              	.LBE222:
+ 463              	.LBE212:
+ 464              		.loc 10 63 1 view .LVU127
+ 465 013c 05B0     		add	sp, sp, #20
+ 466              		.cfi_remember_state
+ 467              		.cfi_def_cfa_offset 52
+ 468              		@ sp needed
+ 469 013e BDEC048B 		vldm	sp!, {d8-d9}
+ 470              		.cfi_restore 82
+ 471              		.cfi_restore 83
+ 472              		.cfi_restore 80
+ 473              		.cfi_restore 81
+ 474              		.cfi_def_cfa_offset 36
+ 475              	.LVL35:
+ 476              		.loc 10 63 1 view .LVU128
+ 477 0142 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 478              	.LVL36:
+ 479              	.L38:
+ 480              		.cfi_restore_state
+  35:Distortion.cpp ****     bypassHard = petal.switches[1].RisingEdge() ? !bypassHard : bypassHard;
+ 481              		.loc 10 35 49 discriminator 1 view .LVU129
+ 482 0146 9AF800C0 		ldrb	ip, [r10]	@ zero_extendqisi2
+ 483 014a 8CF00101 		eor	r1, ip, #1
+ 484 014e 92E7     		b	.L17
+ 485              	.L41:
+ 486              		.align	3
+ARM GAS  /tmp/cc95biFz.s 			page 20
+
+
+ 487              	.L40:
+ 488 0150 33333333 		.word	858993459
+ 489 0154 3333F33F 		.word	1072902963
+ 490 0158 00000000 		.word	.LANCHOR0
+ 491 015c 0000C842 		.word	1120403456
+ 492 0160 00000000 		.word	.LANCHOR1
+ 493 0164 00000000 		.word	.LANCHOR2
+ 494              		.cfi_endproc
+ 495              	.LFE4225:
+ 497              		.section	.text.startup.main,"ax",%progbits
+ 498              		.align	1
+ 499              		.p2align 2,,3
+ 500              		.global	main
+ 501              		.syntax unified
+ 502              		.thumb
+ 503              		.thumb_func
+ 504              		.fpu fpv5-d16
+ 506              	main:
+ 507              	.LFB4226:
+  64:Distortion.cpp **** 
+  65:Distortion.cpp **** int main(void)
+  66:Distortion.cpp **** {
+ 508              		.loc 10 66 1 is_stmt 1 view -0
+ 509              		.cfi_startproc
+ 510              		@ args = 0, pretend = 0, frame = 0
+ 511              		@ frame_needed = 0, uses_anonymous_args = 0
+  67:Distortion.cpp ****     petal.Init();
+ 512              		.loc 10 67 5 view .LVU131
+  66:Distortion.cpp ****     petal.Init();
+ 513              		.loc 10 66 1 is_stmt 0 view .LVU132
+ 514 0000 70B5     		push	{r4, r5, r6, lr}
+ 515              		.cfi_def_cfa_offset 16
+ 516              		.cfi_offset 4, -16
+ 517              		.cfi_offset 5, -12
+ 518              		.cfi_offset 6, -8
+ 519              		.cfi_offset 14, -4
+ 520              		.loc 10 67 15 view .LVU133
+ 521 0002 0021     		movs	r1, #0
+ 522 0004 1C48     		ldr	r0, .L47
+ 523 0006 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal4InitEb
+ 524              	.LVL37:
+  68:Distortion.cpp **** 
+  69:Distortion.cpp ****     bypassHard = bypassSoft = false;
+ 525              		.loc 10 69 5 is_stmt 1 view .LVU134
+ 526              		.loc 10 69 29 is_stmt 0 view .LVU135
+ 527 000a 1C4E     		ldr	r6, .L47+4
+ 528 000c 0023     		movs	r3, #0
+ 529              		.loc 10 69 16 view .LVU136
+ 530 000e 1C4D     		ldr	r5, .L47+8
+  70:Distortion.cpp **** 
+  71:Distortion.cpp ****     // start callback
+  72:Distortion.cpp ****     petal.StartAdc();
+ 531              		.loc 10 72 19 view .LVU137
+ 532 0010 1948     		ldr	r0, .L47
+  69:Distortion.cpp **** 
+ 533              		.loc 10 69 29 view .LVU138
+ 534 0012 3370     		strb	r3, [r6]
+ARM GAS  /tmp/cc95biFz.s 			page 21
+
+
+  69:Distortion.cpp **** 
+ 535              		.loc 10 69 16 view .LVU139
+ 536 0014 2B70     		strb	r3, [r5]
+ 537              		.loc 10 72 5 is_stmt 1 view .LVU140
+ 538              		.loc 10 72 19 is_stmt 0 view .LVU141
+ 539 0016 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal8StartAdcEv
+ 540              	.LVL38:
+  73:Distortion.cpp ****     petal.StartAudio(AudioCallback);
+ 541              		.loc 10 73 5 is_stmt 1 view .LVU142
+ 542              		.loc 10 73 21 is_stmt 0 view .LVU143
+ 543 001a 1A49     		ldr	r1, .L47+12
+ 544 001c 1648     		ldr	r0, .L47
+ 545 001e FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10StartAudioEPFvPKPKfPPfjE
+ 546              	.LVL39:
+ 547              	.L44:
+  74:Distortion.cpp ****     while(1)
+ 548              		.loc 10 74 5 is_stmt 1 view .LVU144
+ 549              	.LBB223:
+  75:Distortion.cpp ****     {
+  76:Distortion.cpp ****         //LED stuff
+  77:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)0, !bypassSoft);
+ 550              		.loc 10 77 9 view .LVU145
+ 551              		.loc 10 77 62 is_stmt 0 view .LVU146
+ 552 0022 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 553              		.loc 10 77 31 view .LVU147
+ 554 0024 0021     		movs	r1, #0
+ 555 0026 1448     		ldr	r0, .L47
+ 556 0028 83F00103 		eor	r3, r3, #1
+ 557              	.LBB224:
+  78:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, !bypassHard);
+  79:Distortion.cpp **** 
+  80:Distortion.cpp ****         for(int i = 0; i < 8; i++)
+ 558              		.loc 10 80 17 view .LVU148
+ 559 002c 0C46     		mov	r4, r1
+ 560              	.LBE224:
+  77:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, !bypassHard);
+ 561              		.loc 10 77 31 view .LVU149
+ 562 002e 00EE103A 		vmov	s0, r3	@ int
+ 563 0032 B8EE400A 		vcvt.f32.u32	s0, s0
+ 564 0036 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+ 565              	.LVL40:
+  78:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, !bypassHard);
+ 566              		.loc 10 78 9 is_stmt 1 view .LVU150
+  78:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, !bypassHard);
+ 567              		.loc 10 78 62 is_stmt 0 view .LVU151
+ 568 003a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+  78:Distortion.cpp ****         petal.SetFootswitchLed((DaisyPetal::FootswitchLed)1, !bypassHard);
+ 569              		.loc 10 78 31 view .LVU152
+ 570 003c 0121     		movs	r1, #1
+ 571 003e 0E48     		ldr	r0, .L47
+ 572 0040 4B40     		eors	r3, r3, r1
+ 573 0042 00EE103A 		vmov	s0, r3	@ int
+ 574 0046 B8EE400A 		vcvt.f32.u32	s0, s0
+ 575 004a FFF7FEFF 		bl	_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+ 576              	.LVL41:
+ 577              		.loc 10 80 9 is_stmt 1 view .LVU153
+ 578              	.LBB225:
+ARM GAS  /tmp/cc95biFz.s 			page 22
+
+
+ 579              		.loc 10 80 26 view .LVU154
+ 580              	.L43:
+  81:Distortion.cpp ****         {
+  82:Distortion.cpp ****             petal.SetRingLed((DaisyPetal::RingLed)i, 1.f, 0.f, 0.f);
+ 581              		.loc 10 82 13 discriminator 2 view .LVU155
+ 582              		.loc 10 82 29 is_stmt 0 discriminator 2 view .LVU156
+ 583 004e 9FED0E1A 		vldr.32	s2, .L47+16
+ 584 0052 E1B2     		uxtb	r1, r4
+  80:Distortion.cpp ****         {
+ 585              		.loc 10 80 9 discriminator 2 view .LVU157
+ 586 0054 0134     		adds	r4, r4, #1
+ 587              	.LVL42:
+ 588              		.loc 10 82 29 discriminator 2 view .LVU158
+ 589 0056 B7EE000A 		vmov.f32	s0, #1.0e+0
+ 590 005a F0EE410A 		vmov.f32	s1, s2
+ 591 005e 0648     		ldr	r0, .L47
+ 592 0060 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+ 593              	.LVL43:
+  80:Distortion.cpp ****         {
+ 594              		.loc 10 80 9 is_stmt 1 discriminator 2 view .LVU159
+  80:Distortion.cpp ****         {
+ 595              		.loc 10 80 26 discriminator 2 view .LVU160
+ 596 0064 082C     		cmp	r4, #8
+ 597 0066 F2D1     		bne	.L43
+ 598              	.LBE225:
+  83:Distortion.cpp ****         }
+  84:Distortion.cpp **** 
+  85:Distortion.cpp ****         petal.UpdateLeds();
+ 599              		.loc 10 85 9 view .LVU161
+ 600              		.loc 10 85 25 is_stmt 0 view .LVU162
+ 601 0068 0348     		ldr	r0, .L47
+ 602 006a FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10UpdateLedsEv
+ 603              	.LVL44:
+  86:Distortion.cpp ****         System::Delay(6);
+ 604              		.loc 10 86 9 is_stmt 1 view .LVU163
+ 605              		.loc 10 86 22 is_stmt 0 view .LVU164
+ 606 006e 0620     		movs	r0, #6
+ 607 0070 FFF7FEFF 		bl	_ZN5daisy6System5DelayEm
+ 608              	.LVL45:
+ 609              	.LBE223:
+  74:Distortion.cpp ****     {
+ 610              		.loc 10 74 5 is_stmt 1 view .LVU165
+  87:Distortion.cpp ****     }
+ 611              		.loc 10 87 5 is_stmt 0 view .LVU166
+ 612 0074 D5E7     		b	.L44
+ 613              	.L48:
+ 614 0076 00BF     		.align	2
+ 615              	.L47:
+ 616 0078 00000000 		.word	.LANCHOR0
+ 617 007c 00000000 		.word	.LANCHOR1
+ 618 0080 00000000 		.word	.LANCHOR2
+ 619 0084 00000000 		.word	_ZL13AudioCallbackPKPKfPPfj
+ 620 0088 00000000 		.word	0
+ 621              		.cfi_endproc
+ 622              	.LFE4226:
+ 624              		.section	.text.startup._GLOBAL__sub_I__Z8hardClipf,"ax",%progbits
+ 625              		.align	1
+ARM GAS  /tmp/cc95biFz.s 			page 23
+
+
+ 626              		.p2align 2,,3
+ 627              		.syntax unified
+ 628              		.thumb
+ 629              		.thumb_func
+ 630              		.fpu fpv5-d16
+ 632              	_GLOBAL__sub_I__Z8hardClipf:
+ 633              	.LFB4772:
+  88:Distortion.cpp **** }
+ 634              		.loc 10 88 1 is_stmt 1 view -0
+ 635              		.cfi_startproc
+ 636              		@ args = 0, pretend = 0, frame = 0
+ 637              		@ frame_needed = 0, uses_anonymous_args = 0
+ 638              	.LBB261:
+ 639              	.LBI261:
+ 640              		.loc 10 88 1 view .LVU168
+ 641              	.LVL46:
+ 642              	.LBB262:
+ 643              	.LBB263:
+ 644              	.LBI263:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 645              		.loc 1 66 5 view .LVU169
+ 646              	.LBB264:
+ 647              	.LBB265:
+ 648              	.LBI265:
+  21:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ 649              		.loc 5 21 5 view .LVU170
+ 650              	.LBB266:
+ 651              	.LBB267:
+ 652              	.LBI267:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 653              		.loc 9 62 5 view .LVU171
+ 654              	.LBE267:
+ 655              	.LBE266:
+ 656              	.LBE265:
+ 657              	.LBE264:
+ 658              	.LBE263:
+ 659              	.LBE262:
+ 660              	.LBE261:
+ 661              		.loc 10 88 1 is_stmt 0 view .LVU172
+ 662 0000 10B5     		push	{r4, lr}
+ 663              		.cfi_def_cfa_offset 8
+ 664              		.cfi_offset 4, -8
+ 665              		.cfi_offset 14, -4
+ 666              	.LBB305:
+ 667              	.LBB301:
+ 668              	.LBB298:
+ 669              	.LBB295:
+ 670              	.LBB282:
+ 671              	.LBB280:
+ 672              	.LBB272:
+ 673              	.LBB268:
+ 674              	.LBB269:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 675              		.loc 9 62 35 view .LVU173
+ 676 0002 0A4C     		ldr	r4, .L51
+ 677 0004 0023     		movs	r3, #0
+ 678              	.LBE269:
+ARM GAS  /tmp/cc95biFz.s 			page 24
+
+
+ 679              	.LBE268:
+ 680              	.LBE272:
+ 681              	.LBE280:
+ 682              	.LBE282:
+ 683              	.LBB283:
+ 684              	.LBB284:
+ 685              		.file 11 "../../libdaisy/src/dev/leddriver.h"
+   1:../../libdaisy/src/dev/leddriver.h **** #pragma once
+   2:../../libdaisy/src/dev/leddriver.h **** #ifndef SA_LED_DRIVER_H
+   3:../../libdaisy/src/dev/leddriver.h **** #define SA_LED_DRIVER_H /**< & */
+   4:../../libdaisy/src/dev/leddriver.h **** 
+   5:../../libdaisy/src/dev/leddriver.h **** #ifdef __cplusplus
+   6:../../libdaisy/src/dev/leddriver.h **** 
+   7:../../libdaisy/src/dev/leddriver.h **** #include <stdint.h>
+   8:../../libdaisy/src/dev/leddriver.h **** #include "per/i2c.h"
+   9:../../libdaisy/src/dev/leddriver.h **** #include "per/gpio.h"
+  10:../../libdaisy/src/dev/leddriver.h **** 
+  11:../../libdaisy/src/dev/leddriver.h **** namespace daisy
+  12:../../libdaisy/src/dev/leddriver.h **** {
+  13:../../libdaisy/src/dev/leddriver.h **** /** LED driver for one or multiple PCA9685 12bit PWM chips connected to
+  14:../../libdaisy/src/dev/leddriver.h ****  * a single I2C peripheral.
+  15:../../libdaisy/src/dev/leddriver.h ****  * It includes gamma correction from 8bit brightness values but it 
+  16:../../libdaisy/src/dev/leddriver.h ****  * can also be supplied with raw 12bit values.
+  17:../../libdaisy/src/dev/leddriver.h ****  * This driver uses two buffers - one for drawing, one for transmitting.
+  18:../../libdaisy/src/dev/leddriver.h ****  * Multiple LedDriverPca9685 instances can be used at the same time.
+  19:../../libdaisy/src/dev/leddriver.h ****  * \param numDrivers    The number of PCA9685 driver attached to the I2C
+  20:../../libdaisy/src/dev/leddriver.h ****  *                      peripheral.
+  21:../../libdaisy/src/dev/leddriver.h ****  * \param persistentBufferContents If set to true, the current draw buffer 
+  22:../../libdaisy/src/dev/leddriver.h ****  *                      contents will be copied to the next draw buffer 
+  23:../../libdaisy/src/dev/leddriver.h ****  *                      during SwapBuffersAndTransmit(). Use this, if you plan
+  24:../../libdaisy/src/dev/leddriver.h ****  *                      to write single leds at a time. 
+  25:../../libdaisy/src/dev/leddriver.h ****  *                      If you will alway update all leds before calling 
+  26:../../libdaisy/src/dev/leddriver.h ****  *                      SwapBuffersAndTransmit(), you can set this to false
+  27:../../libdaisy/src/dev/leddriver.h ****  *                      and safe some cycles.
+  28:../../libdaisy/src/dev/leddriver.h ****  */
+  29:../../libdaisy/src/dev/leddriver.h **** template <int numDrivers, bool persistentBufferContents = true>
+  30:../../libdaisy/src/dev/leddriver.h **** class LedDriverPca9685
+ 686              		.loc 11 30 7 view .LVU174
+ 687 0006 4FF40072 		mov	r2, #512
+ 688 000a 0949     		ldr	r1, .L51+4
+ 689 000c 04F2D240 		addw	r0, r4, #1234
+ 690              	.LBE284:
+ 691              	.LBE283:
+ 692              	.LBB289:
+ 693              	.LBB281:
+ 694              	.LBB273:
+ 695              	.LBB271:
+ 696              	.LBB270:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 697              		.loc 9 62 35 view .LVU175
+ 698 0010 6361     		str	r3, [r4, #20]
+ 699              	.LVL47:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 700              		.loc 9 62 35 view .LVU176
+ 701              	.LBE270:
+ 702              	.LBE271:
+ 703              	.LBE273:
+ARM GAS  /tmp/cc95biFz.s 			page 25
+
+
+ 704              	.LBB274:
+ 705              	.LBI274:
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 706              		.loc 8 84 5 is_stmt 1 view .LVU177
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 707              		.loc 8 84 5 is_stmt 0 view .LVU178
+ 708              	.LBE274:
+ 709              	.LBB275:
+ 710              	.LBI275:
+ 711              		.file 12 "../../libdaisy/src/per/dac.h"
+   1:../../libdaisy/src/per/dac.h **** #pragma once
+   2:../../libdaisy/src/per/dac.h **** #ifndef DSY_DAC_H
+   3:../../libdaisy/src/per/dac.h **** #define DSY_DAC_H
+   4:../../libdaisy/src/per/dac.h **** 
+   5:../../libdaisy/src/per/dac.h **** #include "daisy_core.h"
+   6:../../libdaisy/src/per/dac.h **** 
+   7:../../libdaisy/src/per/dac.h **** namespace daisy
+   8:../../libdaisy/src/per/dac.h **** {
+   9:../../libdaisy/src/per/dac.h **** /** DAC handle for Built-in DAC Peripheral 
+  10:../../libdaisy/src/per/dac.h ****  ** 
+  11:../../libdaisy/src/per/dac.h ****  ** For now only Normal Mode is supported,
+  12:../../libdaisy/src/per/dac.h ****  ** Sample and hold mode provides reduced power consumption, but requires a bit more setup.
+  13:../../libdaisy/src/per/dac.h ****  **
+  14:../../libdaisy/src/per/dac.h ****  ** For now connecting the DAC through other internal periphearls is also not supported.
+  15:../../libdaisy/src/per/dac.h ****  **
+  16:../../libdaisy/src/per/dac.h ****  ** Since the DAC channels have dedicated pins we don't need to pass in a pin config like with
+  17:../../libdaisy/src/per/dac.h ****  ** other modules. However, it is still important to not try to use the DAC pins for anything else.
+  18:../../libdaisy/src/per/dac.h ****  ** DAC Channel 1 is on PA4, and DAC Channel 2 is on PA5
+  19:../../libdaisy/src/per/dac.h ****  ***/
+  20:../../libdaisy/src/per/dac.h **** class DacHandle
+  21:../../libdaisy/src/per/dac.h **** {
+  22:../../libdaisy/src/per/dac.h ****   public:
+  23:../../libdaisy/src/per/dac.h ****     /** Return Values for the DacHandle class */
+  24:../../libdaisy/src/per/dac.h ****     enum class Result
+  25:../../libdaisy/src/per/dac.h ****     {
+  26:../../libdaisy/src/per/dac.h ****         OK,
+  27:../../libdaisy/src/per/dac.h ****         ERR,
+  28:../../libdaisy/src/per/dac.h ****     };
+  29:../../libdaisy/src/per/dac.h **** 
+  30:../../libdaisy/src/per/dac.h ****     /** Selects which channel(s) will be configured for use. */
+  31:../../libdaisy/src/per/dac.h ****     enum class Channel
+  32:../../libdaisy/src/per/dac.h ****     {
+  33:../../libdaisy/src/per/dac.h ****         ONE,
+  34:../../libdaisy/src/per/dac.h ****         TWO,
+  35:../../libdaisy/src/per/dac.h ****         BOTH,
+  36:../../libdaisy/src/per/dac.h ****     };
+  37:../../libdaisy/src/per/dac.h **** 
+  38:../../libdaisy/src/per/dac.h ****     /** Sets the Mode for the DAC channels.
+  39:../../libdaisy/src/per/dac.h ****      **
+  40:../../libdaisy/src/per/dac.h ****      ** Polling mode uses the blocking mode to transmit a single value at a time.
+  41:../../libdaisy/src/per/dac.h ****      **
+  42:../../libdaisy/src/per/dac.h ****      ** DMA mode uses a buffer, and periodically transmits it triggering a 
+  43:../../libdaisy/src/per/dac.h ****      ** callback to fill the buffer when it is ready for more samples.
+  44:../../libdaisy/src/per/dac.h ****      ***/
+  45:../../libdaisy/src/per/dac.h ****     enum class Mode
+  46:../../libdaisy/src/per/dac.h ****     {
+  47:../../libdaisy/src/per/dac.h ****         POLLING,
+ARM GAS  /tmp/cc95biFz.s 			page 26
+
+
+  48:../../libdaisy/src/per/dac.h ****         DMA,
+  49:../../libdaisy/src/per/dac.h ****     };
+  50:../../libdaisy/src/per/dac.h **** 
+  51:../../libdaisy/src/per/dac.h ****     /** Sets the number of bits per sample transmitted out of the DAC.
+  52:../../libdaisy/src/per/dac.h ****      ** The output range will be: 0V - VDDA
+  53:../../libdaisy/src/per/dac.h ****      ** The resolution will be roughly: bitdepth / (VDDA - 0V) 
+  54:../../libdaisy/src/per/dac.h ****      ***/
+  55:../../libdaisy/src/per/dac.h ****     enum class BitDepth
+  56:../../libdaisy/src/per/dac.h ****     {
+  57:../../libdaisy/src/per/dac.h ****         BITS_8,
+  58:../../libdaisy/src/per/dac.h ****         BITS_12
+  59:../../libdaisy/src/per/dac.h ****     };
+  60:../../libdaisy/src/per/dac.h **** 
+  61:../../libdaisy/src/per/dac.h ****     /** Sets whether the DAC output is buffered for higher drive ability. */
+  62:../../libdaisy/src/per/dac.h ****     enum class BufferState
+  63:../../libdaisy/src/per/dac.h ****     {
+  64:../../libdaisy/src/per/dac.h ****         ENABLED,
+  65:../../libdaisy/src/per/dac.h ****         DISABLED,
+  66:../../libdaisy/src/per/dac.h ****     };
+  67:../../libdaisy/src/per/dac.h **** 
+  68:../../libdaisy/src/per/dac.h ****     /** Configuration structure for initializing the DAC structure. */
+  69:../../libdaisy/src/per/dac.h ****     struct Config
+  70:../../libdaisy/src/per/dac.h ****     {
+  71:../../libdaisy/src/per/dac.h ****         /** Target Samplerate in Hz used to configure the internal 
+  72:../../libdaisy/src/per/dac.h ****          ** timebase for DMA mode. Does nothing in POLLING mode.
+  73:../../libdaisy/src/per/dac.h ****          ** If the value is 0 at Init time this will default to 48000Hz 
+  74:../../libdaisy/src/per/dac.h ****          ** otherwise the driver will attempt meet the target.*/
+  75:../../libdaisy/src/per/dac.h ****         uint32_t target_samplerate;
+  76:../../libdaisy/src/per/dac.h **** 
+  77:../../libdaisy/src/per/dac.h ****         Channel     chn;
+  78:../../libdaisy/src/per/dac.h ****         Mode        mode;
+  79:../../libdaisy/src/per/dac.h ****         BitDepth    bitdepth;
+  80:../../libdaisy/src/per/dac.h ****         BufferState buff_state;
+  81:../../libdaisy/src/per/dac.h ****     };
+  82:../../libdaisy/src/per/dac.h **** 
+  83:../../libdaisy/src/per/dac.h ****     DacHandle() : pimpl_(nullptr) {}
+ 712              		.loc 12 83 5 is_stmt 1 view .LVU179
+ 713              	.LBB276:
+ 714              	.LBB277:
+ 715              		.loc 12 83 33 is_stmt 0 view .LVU180
+ 716 0012 2362     		str	r3, [r4, #32]
+ 717              	.LVL48:
+ 718              		.loc 12 83 33 view .LVU181
+ 719              	.LBE277:
+ 720              	.LBE276:
+ 721              	.LBE275:
+ 722              	.LBB278:
+ 723              	.LBI278:
+  40:../../libdaisy/src/hid/usb.h **** 
+ 724              		.loc 7 40 5 is_stmt 1 view .LVU182
+  40:../../libdaisy/src/hid/usb.h **** 
+ 725              		.loc 7 40 5 is_stmt 0 view .LVU183
+ 726              	.LBE278:
+ 727              	.LBB279:
+ 728              	.LBI279:
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 729              		.loc 6 58 5 is_stmt 1 view .LVU184
+ARM GAS  /tmp/cc95biFz.s 			page 27
+
+
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 730              		.loc 6 58 5 is_stmt 0 view .LVU185
+ 731              	.LBE279:
+ 732              	.LBE281:
+ 733              	.LBE289:
+ 734              	.LBB290:
+ 735              	.LBI290:
+  20:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+ 736              		.loc 3 20 5 is_stmt 1 view .LVU186
+ 737              	.LBB291:
+ 738              	.LBB292:
+ 739              	.LBI292:
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 740              		.loc 4 40 5 view .LVU187
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 741              		.loc 4 40 5 is_stmt 0 view .LVU188
+ 742              	.LBE292:
+ 743              	.LBE291:
+ 744              	.LBE290:
+ 745              	.LBE295:
+ 746              	.LBE298:
+ 747              	.LBE301:
+ 748              	.LBE305:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 749              		.loc 1 66 18 is_stmt 1 view .LVU189
+ 750              	.LBB306:
+ 751              	.LBB302:
+ 752              	.LBB299:
+ 753              	.LBB296:
+ 754              	.LBB293:
+ 755              	.LBI293:
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 756              		.loc 2 21 5 view .LVU190
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 757              		.loc 2 21 5 is_stmt 0 view .LVU191
+ 758              	.LBE293:
+ 759              	.LBE296:
+ 760              	.LBE299:
+ 761              	.LBE302:
+ 762              	.LBE306:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 763              		.loc 1 66 18 is_stmt 1 view .LVU192
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 764              		.loc 1 66 18 view .LVU193
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 765              		.loc 1 66 18 view .LVU194
+ 766              	.LBB307:
+ 767              	.LBB303:
+ 768              	.LBB300:
+ 769              	.LBB297:
+ 770              	.LBB294:
+ 771              	.LBI283:
+ 772              		.loc 11 30 7 view .LVU195
+ 773              	.LBB288:
+ 774              	.LBB285:
+ 775              	.LBI285:
+ 776              		.file 13 "../../libdaisy/src/per/i2c.h"
+ARM GAS  /tmp/cc95biFz.s 			page 28
+
+
+   1:../../libdaisy/src/per/i2c.h **** #pragma once
+   2:../../libdaisy/src/per/i2c.h **** #include "daisy_core.h"
+   3:../../libdaisy/src/per/i2c.h **** 
+   4:../../libdaisy/src/per/i2c.h **** namespace daisy
+   5:../../libdaisy/src/per/i2c.h **** {
+   6:../../libdaisy/src/per/i2c.h **** /** A handle for interacting with an I2C peripheral. This is a dumb
+   7:../../libdaisy/src/per/i2c.h ****  *  gateway that internally points to one of the four I2C peripherals
+   8:../../libdaisy/src/per/i2c.h ****  *  after it was initialised. It can then be copied and passed around.
+   9:../../libdaisy/src/per/i2c.h ****  *  Use an I2CHandle like this:
+  10:../../libdaisy/src/per/i2c.h ****  *  
+  11:../../libdaisy/src/per/i2c.h ****  *      // setup the configuration
+  12:../../libdaisy/src/per/i2c.h ****  *      I2CHandle::Config i2c_conf;
+  13:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.periph = I2CHandle::Config::Peripheral::I2C_1;
+  14:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.speed  = I2CHandle::Config::Speed::I2C_400KHZ;
+  15:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.mode   = I2CHandle::Config::Mode::Master;
+  16:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.scl  = {DSY_GPIOB, 8};
+  17:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.sda  = {DSY_GPIOB, 9};
+  18:../../libdaisy/src/per/i2c.h ****  *      // initialise the peripheral
+  19:../../libdaisy/src/per/i2c.h ****  *      I2CHandle i2c;
+  20:../../libdaisy/src/per/i2c.h ****  *      i2c.Init(i2c_conf);
+  21:../../libdaisy/src/per/i2c.h ****  *      // now i2c points to the corresponding peripheral and can be used.
+  22:../../libdaisy/src/per/i2c.h ****  *      i2c.TransmitBlocking( ... );
+  23:../../libdaisy/src/per/i2c.h ****  */
+  24:../../libdaisy/src/per/i2c.h **** class I2CHandle
+  25:../../libdaisy/src/per/i2c.h **** {
+  26:../../libdaisy/src/per/i2c.h ****   public:
+  27:../../libdaisy/src/per/i2c.h ****     /** Contains settings for initialising an I2C interface. */
+  28:../../libdaisy/src/per/i2c.h ****     struct Config
+  29:../../libdaisy/src/per/i2c.h ****     {
+  30:../../libdaisy/src/per/i2c.h ****         /** Specifies whether the interface will operate in master or slave mode. */
+  31:../../libdaisy/src/per/i2c.h ****         enum class Mode
+  32:../../libdaisy/src/per/i2c.h ****         {
+  33:../../libdaisy/src/per/i2c.h ****             I2C_MASTER,
+  34:../../libdaisy/src/per/i2c.h ****             I2C_SLAVE,
+  35:../../libdaisy/src/per/i2c.h ****         };
+  36:../../libdaisy/src/per/i2c.h **** 
+  37:../../libdaisy/src/per/i2c.h ****         /** Specifices the internal peripheral to use (these are mapped to different pins on the ha
+  38:../../libdaisy/src/per/i2c.h ****         enum class Peripheral
+  39:../../libdaisy/src/per/i2c.h ****         {
+  40:../../libdaisy/src/per/i2c.h ****             I2C_1 = 0, /**< & */
+  41:../../libdaisy/src/per/i2c.h ****             I2C_2,     /**< & */
+  42:../../libdaisy/src/per/i2c.h ****             I2C_3,     /**< & */
+  43:../../libdaisy/src/per/i2c.h ****             I2C_4,     /**< & */
+  44:../../libdaisy/src/per/i2c.h ****         };
+  45:../../libdaisy/src/per/i2c.h **** 
+  46:../../libdaisy/src/per/i2c.h ****         /** Rate at which the clock/data will be sent/received. The device being used will have max
+  47:../../libdaisy/src/per/i2c.h ****          *  1MHZ Mode is currently 886kHz
+  48:../../libdaisy/src/per/i2c.h ****          */
+  49:../../libdaisy/src/per/i2c.h ****         enum class Speed
+  50:../../libdaisy/src/per/i2c.h ****         {
+  51:../../libdaisy/src/per/i2c.h ****             I2C_100KHZ, /**< & */
+  52:../../libdaisy/src/per/i2c.h ****             I2C_400KHZ, /**< & */
+  53:../../libdaisy/src/per/i2c.h ****             I2C_1MHZ,   /**< & */
+  54:../../libdaisy/src/per/i2c.h ****         };
+  55:../../libdaisy/src/per/i2c.h **** 
+  56:../../libdaisy/src/per/i2c.h ****         Peripheral periph; /**< & */
+  57:../../libdaisy/src/per/i2c.h ****         struct
+ARM GAS  /tmp/cc95biFz.s 			page 29
+
+
+  58:../../libdaisy/src/per/i2c.h ****         {
+  59:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin scl; /**< & */
+  60:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin sda; /**< & */
+  61:../../libdaisy/src/per/i2c.h ****         } pin_config;         /**< & */
+  62:../../libdaisy/src/per/i2c.h **** 
+  63:../../libdaisy/src/per/i2c.h ****         Speed speed; /**< & */
+  64:../../libdaisy/src/per/i2c.h ****         Mode  mode;  /**< & */
+  65:../../libdaisy/src/per/i2c.h ****         // 0x10 is chosen as a default to avoid conflicts with reserved addresses
+  66:../../libdaisy/src/per/i2c.h ****         uint8_t address = 0x10; /**< & */
+  67:../../libdaisy/src/per/i2c.h ****     };
+  68:../../libdaisy/src/per/i2c.h **** 
+  69:../../libdaisy/src/per/i2c.h ****     /** Return values for I2C functions. */
+  70:../../libdaisy/src/per/i2c.h ****     enum class Result
+  71:../../libdaisy/src/per/i2c.h ****     {
+  72:../../libdaisy/src/per/i2c.h ****         OK, /**< & */
+  73:../../libdaisy/src/per/i2c.h ****         ERR /**< & */
+  74:../../libdaisy/src/per/i2c.h ****     };
+  75:../../libdaisy/src/per/i2c.h **** 
+  76:../../libdaisy/src/per/i2c.h ****     enum class Direction
+  77:../../libdaisy/src/per/i2c.h ****     {
+  78:../../libdaisy/src/per/i2c.h ****         TRANSMIT, /**< & */
+  79:../../libdaisy/src/per/i2c.h ****         RECEIVE,  /**< & */
+  80:../../libdaisy/src/per/i2c.h ****     };
+  81:../../libdaisy/src/per/i2c.h **** 
+  82:../../libdaisy/src/per/i2c.h ****     I2CHandle() : pimpl_(nullptr) {}
+ 777              		.loc 13 82 5 view .LVU196
+ 778              	.LBB286:
+ 779              	.LBB287:
+ 780              		.loc 13 82 33 is_stmt 0 view .LVU197
+ 781 0014 C4F8BC34 		str	r3, [r4, #1212]
+ 782              	.LVL49:
+ 783              		.loc 13 82 33 view .LVU198
+ 784              	.LBE287:
+ 785              	.LBE286:
+ 786              	.LBE285:
+ 787              		.loc 11 30 7 view .LVU199
+ 788 0018 FFF7FEFF 		bl	memcpy
+ 789              	.LVL50:
+ 790              		.loc 11 30 7 view .LVU200
+ 791              	.LBE288:
+ 792              	.LBE294:
+ 793              	.LBE297:
+ 794              	.LBE300:
+   7:Distortion.cpp **** 
+ 795              		.loc 10 7 19 view .LVU201
+ 796 001c 2046     		mov	r0, r4
+ 797 001e 054A     		ldr	r2, .L51+8
+ 798 0020 0549     		ldr	r1, .L51+12
+ 799              	.LBE303:
+ 800              	.LBE307:
+ 801              		.loc 10 88 1 view .LVU202
+ 802 0022 BDE81040 		pop	{r4, lr}
+ 803              		.cfi_restore 14
+ 804              		.cfi_restore 4
+ 805              		.cfi_def_cfa_offset 0
+ 806              	.LBB308:
+ 807              	.LBB304:
+ARM GAS  /tmp/cc95biFz.s 			page 30
+
+
+   7:Distortion.cpp **** 
+ 808              		.loc 10 7 19 view .LVU203
+ 809 0026 FFF7FEBF 		b	__aeabi_atexit
+ 810              	.LVL51:
+ 811              	.L52:
+ 812 002a 00BF     		.align	2
+ 813              	.L51:
+ 814 002c 00000000 		.word	.LANCHOR0
+ 815 0030 00000000 		.word	.LANCHOR3
+ 816 0034 00000000 		.word	__dso_handle
+ 817 0038 00000000 		.word	_ZN5daisy10DaisyPetalD1Ev
+ 818              	.LBE304:
+ 819              	.LBE308:
+ 820              		.cfi_endproc
+ 821              	.LFE4772:
+ 823              		.section	.init_array,"aw",%init_array
+ 824              		.align	2
+ 825 0000 00000000 		.word	_GLOBAL__sub_I__Z8hardClipf(target1)
+ 826              		.global	bypassSoft
+ 827              		.global	bypassHard
+ 828              		.section	.rodata
+ 829              		.align	2
+ 830              		.set	.LANCHOR3,. + 0
+ 831              	.LC0:
+ 832 0000 0000     		.short	0
+ 833 0002 0100     		.short	1
+ 834 0004 0100     		.short	1
+ 835 0006 0100     		.short	1
+ 836 0008 0100     		.short	1
+ 837 000a 0100     		.short	1
+ 838 000c 0100     		.short	1
+ 839 000e 0100     		.short	1
+ 840 0010 0100     		.short	1
+ 841 0012 0100     		.short	1
+ 842 0014 0100     		.short	1
+ 843 0016 0100     		.short	1
+ 844 0018 0200     		.short	2
+ 845 001a 0200     		.short	2
+ 846 001c 0200     		.short	2
+ 847 001e 0200     		.short	2
+ 848 0020 0200     		.short	2
+ 849 0022 0200     		.short	2
+ 850 0024 0200     		.short	2
+ 851 0026 0300     		.short	3
+ 852 0028 0300     		.short	3
+ 853 002a 0400     		.short	4
+ 854 002c 0400     		.short	4
+ 855 002e 0500     		.short	5
+ 856 0030 0500     		.short	5
+ 857 0032 0600     		.short	6
+ 858 0034 0700     		.short	7
+ 859 0036 0800     		.short	8
+ 860 0038 0800     		.short	8
+ 861 003a 0900     		.short	9
+ 862 003c 0A00     		.short	10
+ 863 003e 0B00     		.short	11
+ 864 0040 0C00     		.short	12
+ARM GAS  /tmp/cc95biFz.s 			page 31
+
+
+ 865 0042 0D00     		.short	13
+ 866 0044 0F00     		.short	15
+ 867 0046 1000     		.short	16
+ 868 0048 1100     		.short	17
+ 869 004a 1200     		.short	18
+ 870 004c 1400     		.short	20
+ 871 004e 1500     		.short	21
+ 872 0050 1700     		.short	23
+ 873 0052 1900     		.short	25
+ 874 0054 1A00     		.short	26
+ 875 0056 1C00     		.short	28
+ 876 0058 1E00     		.short	30
+ 877 005a 2000     		.short	32
+ 878 005c 2200     		.short	34
+ 879 005e 2400     		.short	36
+ 880 0060 2600     		.short	38
+ 881 0062 2800     		.short	40
+ 882 0064 2B00     		.short	43
+ 883 0066 2D00     		.short	45
+ 884 0068 3000     		.short	48
+ 885 006a 3200     		.short	50
+ 886 006c 3500     		.short	53
+ 887 006e 3800     		.short	56
+ 888 0070 3B00     		.short	59
+ 889 0072 3E00     		.short	62
+ 890 0074 4100     		.short	65
+ 891 0076 4400     		.short	68
+ 892 0078 4700     		.short	71
+ 893 007a 4B00     		.short	75
+ 894 007c 4E00     		.short	78
+ 895 007e 5200     		.short	82
+ 896 0080 5500     		.short	85
+ 897 0082 5900     		.short	89
+ 898 0084 5D00     		.short	93
+ 899 0086 6100     		.short	97
+ 900 0088 6500     		.short	101
+ 901 008a 6900     		.short	105
+ 902 008c 6E00     		.short	110
+ 903 008e 7200     		.short	114
+ 904 0090 7700     		.short	119
+ 905 0092 7B00     		.short	123
+ 906 0094 8000     		.short	128
+ 907 0096 8500     		.short	133
+ 908 0098 8A00     		.short	138
+ 909 009a 8F00     		.short	143
+ 910 009c 9500     		.short	149
+ 911 009e 9A00     		.short	154
+ 912 00a0 9F00     		.short	159
+ 913 00a2 A500     		.short	165
+ 914 00a4 AB00     		.short	171
+ 915 00a6 B100     		.short	177
+ 916 00a8 B700     		.short	183
+ 917 00aa BD00     		.short	189
+ 918 00ac C300     		.short	195
+ 919 00ae CA00     		.short	202
+ 920 00b0 D000     		.short	208
+ 921 00b2 D700     		.short	215
+ARM GAS  /tmp/cc95biFz.s 			page 32
+
+
+ 922 00b4 DE00     		.short	222
+ 923 00b6 E500     		.short	229
+ 924 00b8 EC00     		.short	236
+ 925 00ba F300     		.short	243
+ 926 00bc FA00     		.short	250
+ 927 00be 0201     		.short	258
+ 928 00c0 0A01     		.short	266
+ 929 00c2 1101     		.short	273
+ 930 00c4 1901     		.short	281
+ 931 00c6 2201     		.short	290
+ 932 00c8 2A01     		.short	298
+ 933 00ca 3201     		.short	306
+ 934 00cc 3B01     		.short	315
+ 935 00ce 4401     		.short	324
+ 936 00d0 4C01     		.short	332
+ 937 00d2 5501     		.short	341
+ 938 00d4 5F01     		.short	351
+ 939 00d6 6801     		.short	360
+ 940 00d8 7101     		.short	369
+ 941 00da 7B01     		.short	379
+ 942 00dc 8501     		.short	389
+ 943 00de 8F01     		.short	399
+ 944 00e0 9901     		.short	409
+ 945 00e2 A301     		.short	419
+ 946 00e4 AE01     		.short	430
+ 947 00e6 B801     		.short	440
+ 948 00e8 C301     		.short	451
+ 949 00ea CE01     		.short	462
+ 950 00ec D901     		.short	473
+ 951 00ee E501     		.short	485
+ 952 00f0 F001     		.short	496
+ 953 00f2 FC01     		.short	508
+ 954 00f4 0802     		.short	520
+ 955 00f6 1402     		.short	532
+ 956 00f8 2002     		.short	544
+ 957 00fa 2C02     		.short	556
+ 958 00fc 3902     		.short	569
+ 959 00fe 4602     		.short	582
+ 960 0100 5202     		.short	594
+ 961 0102 6002     		.short	608
+ 962 0104 6D02     		.short	621
+ 963 0106 7A02     		.short	634
+ 964 0108 8802     		.short	648
+ 965 010a 9602     		.short	662
+ 966 010c A402     		.short	676
+ 967 010e B202     		.short	690
+ 968 0110 C002     		.short	704
+ 969 0112 CF02     		.short	719
+ 970 0114 DE02     		.short	734
+ 971 0116 ED02     		.short	749
+ 972 0118 FC02     		.short	764
+ 973 011a 0B03     		.short	779
+ 974 011c 1B03     		.short	795
+ 975 011e 2B03     		.short	811
+ 976 0120 3B03     		.short	827
+ 977 0122 4B03     		.short	843
+ 978 0124 5B03     		.short	859
+ARM GAS  /tmp/cc95biFz.s 			page 33
+
+
+ 979 0126 6C03     		.short	876
+ 980 0128 7D03     		.short	893
+ 981 012a 8E03     		.short	910
+ 982 012c 9F03     		.short	927
+ 983 012e B003     		.short	944
+ 984 0130 C203     		.short	962
+ 985 0132 D403     		.short	980
+ 986 0134 E603     		.short	998
+ 987 0136 F803     		.short	1016
+ 988 0138 0A04     		.short	1034
+ 989 013a 1D04     		.short	1053
+ 990 013c 3004     		.short	1072
+ 991 013e 4304     		.short	1091
+ 992 0140 5604     		.short	1110
+ 993 0142 6A04     		.short	1130
+ 994 0144 7E04     		.short	1150
+ 995 0146 9204     		.short	1170
+ 996 0148 A604     		.short	1190
+ 997 014a BA04     		.short	1210
+ 998 014c CF04     		.short	1231
+ 999 014e E404     		.short	1252
+ 1000 0150 F904     		.short	1273
+ 1001 0152 0E05     		.short	1294
+ 1002 0154 2405     		.short	1316
+ 1003 0156 3A05     		.short	1338
+ 1004 0158 5005     		.short	1360
+ 1005 015a 6605     		.short	1382
+ 1006 015c 7C05     		.short	1404
+ 1007 015e 9305     		.short	1427
+ 1008 0160 AA05     		.short	1450
+ 1009 0162 C105     		.short	1473
+ 1010 0164 D905     		.short	1497
+ 1011 0166 F005     		.short	1520
+ 1012 0168 0806     		.short	1544
+ 1013 016a 2006     		.short	1568
+ 1014 016c 3906     		.short	1593
+ 1015 016e 5106     		.short	1617
+ 1016 0170 6A06     		.short	1642
+ 1017 0172 8306     		.short	1667
+ 1018 0174 9D06     		.short	1693
+ 1019 0176 B606     		.short	1718
+ 1020 0178 D006     		.short	1744
+ 1021 017a EA06     		.short	1770
+ 1022 017c 0507     		.short	1797
+ 1023 017e 1F07     		.short	1823
+ 1024 0180 3A07     		.short	1850
+ 1025 0182 5507     		.short	1877
+ 1026 0184 7107     		.short	1905
+ 1027 0186 8C07     		.short	1932
+ 1028 0188 A807     		.short	1960
+ 1029 018a C407     		.short	1988
+ 1030 018c E107     		.short	2017
+ 1031 018e FD07     		.short	2045
+ 1032 0190 1A08     		.short	2074
+ 1033 0192 3708     		.short	2103
+ 1034 0194 5508     		.short	2133
+ 1035 0196 7208     		.short	2162
+ARM GAS  /tmp/cc95biFz.s 			page 34
+
+
+ 1036 0198 9008     		.short	2192
+ 1037 019a AF08     		.short	2223
+ 1038 019c CD08     		.short	2253
+ 1039 019e EC08     		.short	2284
+ 1040 01a0 0B09     		.short	2315
+ 1041 01a2 2A09     		.short	2346
+ 1042 01a4 4A09     		.short	2378
+ 1043 01a6 6A09     		.short	2410
+ 1044 01a8 8A09     		.short	2442
+ 1045 01aa AA09     		.short	2474
+ 1046 01ac CB09     		.short	2507
+ 1047 01ae EC09     		.short	2540
+ 1048 01b0 0D0A     		.short	2573
+ 1049 01b2 2E0A     		.short	2606
+ 1050 01b4 500A     		.short	2640
+ 1051 01b6 720A     		.short	2674
+ 1052 01b8 940A     		.short	2708
+ 1053 01ba B70A     		.short	2743
+ 1054 01bc DA0A     		.short	2778
+ 1055 01be FD0A     		.short	2813
+ 1056 01c0 210B     		.short	2849
+ 1057 01c2 440B     		.short	2884
+ 1058 01c4 680B     		.short	2920
+ 1059 01c6 8D0B     		.short	2957
+ 1060 01c8 B10B     		.short	2993
+ 1061 01ca D60B     		.short	3030
+ 1062 01cc FB0B     		.short	3067
+ 1063 01ce 210C     		.short	3105
+ 1064 01d0 470C     		.short	3143
+ 1065 01d2 6D0C     		.short	3181
+ 1066 01d4 930C     		.short	3219
+ 1067 01d6 BA0C     		.short	3258
+ 1068 01d8 E10C     		.short	3297
+ 1069 01da 080D     		.short	3336
+ 1070 01dc 300D     		.short	3376
+ 1071 01de 580D     		.short	3416
+ 1072 01e0 800D     		.short	3456
+ 1073 01e2 A80D     		.short	3496
+ 1074 01e4 D10D     		.short	3537
+ 1075 01e6 FA0D     		.short	3578
+ 1076 01e8 230E     		.short	3619
+ 1077 01ea 4D0E     		.short	3661
+ 1078 01ec 770E     		.short	3703
+ 1079 01ee A10E     		.short	3745
+ 1080 01f0 CC0E     		.short	3788
+ 1081 01f2 F70E     		.short	3831
+ 1082 01f4 220F     		.short	3874
+ 1083 01f6 4E0F     		.short	3918
+ 1084 01f8 7A0F     		.short	3962
+ 1085 01fa A60F     		.short	4006
+ 1086 01fc D20F     		.short	4050
+ 1087 01fe FF0F     		.short	4095
+ 1088              		.section	.bss._ZL5petal,"aw",%nobits
+ 1089              		.align	2
+ 1090              		.set	.LANCHOR0,. + 0
+ 1093              	_ZL5petal:
+ 1094 0000 00000000 		.space	1748
+ARM GAS  /tmp/cc95biFz.s 			page 35
+
+
+ 1094      00000000 
+ 1094      00000000 
+ 1094      00000000 
+ 1094      00000000 
+ 1095              		.section	.bss.bypassHard,"aw",%nobits
+ 1096              		.set	.LANCHOR2,. + 0
+ 1099              	bypassHard:
+ 1100 0000 00       		.space	1
+ 1101              		.section	.bss.bypassSoft,"aw",%nobits
+ 1102              		.set	.LANCHOR1,. + 0
+ 1105              	bypassSoft:
+ 1106 0000 00       		.space	1
+ 1107              		.text
+ 1108              	.Letext0:
+ 1109              		.file 14 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 1110              		.file 15 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 1111              		.file 16 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 1112              		.file 17 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1113              		.file 18 "/usr/include/newlib/c++/9.2.1/cmath"
+ 1114              		.file 19 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+ 1115              		.file 20 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 1116              		.file 21 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ 1117              		.file 22 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 1118              		.file 23 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 1119              		.file 24 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 1120              		.file 25 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ 1121              		.file 26 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 1122              		.file 27 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 1123              		.file 28 "/usr/include/newlib/c++/9.2.1/new"
+ 1124              		.file 29 "/usr/include/newlib/c++/9.2.1/clocale"
+ 1125              		.file 30 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 1126              		.file 31 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 1127              		.file 32 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 1128              		.file 33 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 1129              		.file 34 "/usr/include/newlib/c++/9.2.1/cstring"
+ 1130              		.file 35 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 1131              		.file 36 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 1132              		.file 37 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ 1133              		.file 38 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 1134              		.file 39 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 1135              		.file 40 "/usr/include/newlib/sys/_types.h"
+ 1136              		.file 41 "<built-in>"
+ 1137              		.file 42 "/usr/include/newlib/sys/reent.h"
+ 1138              		.file 43 "/usr/include/newlib/sys/lock.h"
+ 1139              		.file 44 "/usr/include/newlib/math.h"
+ 1140              		.file 45 "/usr/include/newlib/stdlib.h"
+ 1141              		.file 46 "/usr/include/newlib/c++/9.2.1/math.h"
+ 1142              		.file 47 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1143              		.file 48 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 1144              		.file 49 "../../DaisySP/Source/Control/adenv.h"
+ 1145              		.file 50 "../../DaisySP/Source/Utility/dsp.h"
+ 1146              		.file 51 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 1147              		.file 52 "/usr/include/newlib/wchar.h"
+ 1148              		.file 53 "/usr/include/newlib/locale.h"
+ 1149              		.file 54 "/usr/include/newlib/ctype.h"
+ 1150              		.file 55 "/usr/include/newlib/stdio.h"
+ 1151              		.file 56 "/usr/include/newlib/sys/errno.h"
+ARM GAS  /tmp/cc95biFz.s 			page 36
+
+
+ 1152              		.file 57 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 1153              		.file 58 "/usr/include/newlib/string.h"
+ 1154              		.file 59 "../../libdaisy/src/daisy_core.h"
+ 1155              		.file 60 "../../libdaisy/src/per/tim.h"
+ 1156              		.file 61 "../../libdaisy/src/per/sai.h"
+ 1157              		.file 62 "../../libdaisy/src/util/wav_format.h"
+ 1158              		.file 63 "../../libdaisy/src/hid/led.h"
+ 1159              		.file 64 "../../libdaisy/src/util/color.h"
+ 1160              		.file 65 "../../libdaisy/src/hid/rgb_led.h"
+ 1161              		.file 66 "../../libdaisy/src/per/qspi.h"
+ 1162              		.file 67 "../../libdaisy/src/per/gpio.h"
+ 1163              		.file 68 "../../libdaisy/src/dev/sdram.h"
+ 1164              		.file 69 "/usr/include/newlib/sys/unistd.h"
+ 1165              		.file 70 "../../libdaisy/src/util/oled_fonts.h"
+ 1166              		.file 71 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 1167              		.file 72 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 1168              		.file 73 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 1169              		.file 74 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 1170              		.file 75 "../../libdaisy/src/util/sd_diskio.h"
+ 1171              		.file 76 "../../libdaisy/src/sys/fatfs.h"
+ 1172              		.file 77 "../../libdaisy/src/dev/sr_595.h"
+ARM GAS  /tmp/cc95biFz.s 			page 37
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 Distortion.cpp
+     /tmp/cc95biFz.s:17     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 $t
+     /tmp/cc95biFz.s:26     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD2Ev
+     /tmp/cc95biFz.s:26     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD1Ev
+     /tmp/cc95biFz.s:89     .text._Z8hardClipf:0000000000000000 $t
+     /tmp/cc95biFz.s:97     .text._Z8hardClipf:0000000000000000 _Z8hardClipf
+     /tmp/cc95biFz.s:133    .text._Z8softClipf:0000000000000000 $t
+     /tmp/cc95biFz.s:141    .text._Z8softClipf:0000000000000000 _Z8softClipf
+     /tmp/cc95biFz.s:191    .text._ZL13AudioCallbackPKPKfPPfj:0000000000000000 $t
+     /tmp/cc95biFz.s:198    .text._ZL13AudioCallbackPKPKfPPfj:0000000000000000 _ZL13AudioCallbackPKPKfPPfj
+     /tmp/cc95biFz.s:488    .text._ZL13AudioCallbackPKPKfPPfj:0000000000000150 $d
+     /tmp/cc95biFz.s:498    .text.startup.main:0000000000000000 $t
+     /tmp/cc95biFz.s:506    .text.startup.main:0000000000000000 main
+     /tmp/cc95biFz.s:616    .text.startup.main:0000000000000078 $d
+     /tmp/cc95biFz.s:625    .text.startup._GLOBAL__sub_I__Z8hardClipf:0000000000000000 $t
+     /tmp/cc95biFz.s:632    .text.startup._GLOBAL__sub_I__Z8hardClipf:0000000000000000 _GLOBAL__sub_I__Z8hardClipf
+     /tmp/cc95biFz.s:814    .text.startup._GLOBAL__sub_I__Z8hardClipf:000000000000002c $d
+     /tmp/cc95biFz.s:824    .init_array:0000000000000000 $d
+     /tmp/cc95biFz.s:1105   .bss.bypassSoft:0000000000000000 bypassSoft
+     /tmp/cc95biFz.s:1099   .bss.bypassHard:0000000000000000 bypassHard
+     /tmp/cc95biFz.s:829    .rodata:0000000000000000 $d
+     /tmp/cc95biFz.s:1089   .bss._ZL5petal:0000000000000000 $d
+     /tmp/cc95biFz.s:1093   .bss._ZL5petal:0000000000000000 _ZL5petal
+     /tmp/cc95biFz.s:1100   .bss.bypassHard:0000000000000000 $d
+     /tmp/cc95biFz.s:1106   .bss.bypassSoft:0000000000000000 $d
+                           .group:0000000000000000 _ZN5daisy10DaisyPetalD5Ev
+
+UNDEFINED SYMBOLS
+expf
+_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+_ZN5daisy13AnalogControl7ProcessEv
+_ZN5daisy10DaisyPetal4InitEb
+_ZN5daisy10DaisyPetal8StartAdcEv
+_ZN5daisy10DaisyPetal10StartAudioEPFvPKPKfPPfjE
+_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+_ZN5daisy10DaisyPetal10UpdateLedsEv
+_ZN5daisy6System5DelayEm
+memcpy
+__aeabi_atexit
+__dso_handle

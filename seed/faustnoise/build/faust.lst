@@ -1,0 +1,3035 @@
+ARM GAS  /tmp/ccFZhNkn.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"faust.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN5daisy9DaisySeedD2Ev,"axG",%progbits,_ZN5daisy9DaisySeedD5Ev,comdat
+  17              		.align	1
+  18              		.p2align 2,,3
+  19              		.weak	_ZN5daisy9DaisySeedD2Ev
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-d16
+  26              	_ZN5daisy9DaisySeedD2Ev:
+  27              	.LVL0:
+  28              	.LFB4207:
+  29              		.file 1 "../../libdaisy/src/daisy_seed.h"
+   1:../../libdaisy/src/daisy_seed.h **** #pragma once
+   2:../../libdaisy/src/daisy_seed.h **** #ifndef DSY_SEED_H
+   3:../../libdaisy/src/daisy_seed.h **** #define DSY_SEED_H
+   4:../../libdaisy/src/daisy_seed.h **** 
+   5:../../libdaisy/src/daisy_seed.h **** #include "daisy.h"
+   6:../../libdaisy/src/daisy_seed.h **** 
+   7:../../libdaisy/src/daisy_seed.h **** //Uncomment this out if you're still using the rev2 hardware
+   8:../../libdaisy/src/daisy_seed.h **** //#define SEED_REV2
+   9:../../libdaisy/src/daisy_seed.h **** 
+  10:../../libdaisy/src/daisy_seed.h **** namespace daisy
+  11:../../libdaisy/src/daisy_seed.h **** {
+  12:../../libdaisy/src/daisy_seed.h **** /**
+  13:../../libdaisy/src/daisy_seed.h ****    @brief This is the higher-level interface for the Daisy board. \n 
+  14:../../libdaisy/src/daisy_seed.h ****     All basic peripheral configuration/initialization is setup here. \n
+  15:../../libdaisy/src/daisy_seed.h **** 
+  16:../../libdaisy/src/daisy_seed.h ****    @ingroup boards
+  17:../../libdaisy/src/daisy_seed.h **** */
+  18:../../libdaisy/src/daisy_seed.h **** class DaisySeed
+  19:../../libdaisy/src/daisy_seed.h **** {
+  20:../../libdaisy/src/daisy_seed.h ****   public:
+  21:../../libdaisy/src/daisy_seed.h ****     DaisySeed() {}
+  22:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+  30              		.loc 1 22 5 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              	.LBB92:
+  36              	.LBI92:
+ARM GAS  /tmp/ccFZhNkn.s 			page 2
+
+
+  37              		.file 2 "../../libdaisy/src/sys/system.h"
+   1:../../libdaisy/src/sys/system.h **** #ifndef DSY_SYSTEM_H
+   2:../../libdaisy/src/sys/system.h **** #define DSY_SYSTEM_H
+   3:../../libdaisy/src/sys/system.h **** 
+   4:../../libdaisy/src/sys/system.h **** #ifndef UNIT_TEST // for unit tests, a dummy implementation is provided below
+   5:../../libdaisy/src/sys/system.h **** 
+   6:../../libdaisy/src/sys/system.h **** #include <cstdint>
+   7:../../libdaisy/src/sys/system.h **** #include "per/tim.h"
+   8:../../libdaisy/src/sys/system.h **** 
+   9:../../libdaisy/src/sys/system.h **** namespace daisy
+  10:../../libdaisy/src/sys/system.h **** {
+  11:../../libdaisy/src/sys/system.h **** /** A handle for interacting with the Core System. 
+  12:../../libdaisy/src/sys/system.h ****  ** This includes the Clock tree, MPU, global DMA initialization,
+  13:../../libdaisy/src/sys/system.h ****  ** cache handling, and any other necessary global initiailzation
+  14:../../libdaisy/src/sys/system.h ****  **
+  15:../../libdaisy/src/sys/system.h ****  ** @author shensley
+  16:../../libdaisy/src/sys/system.h ****  ** @addtogroup system
+  17:../../libdaisy/src/sys/system.h ****  */
+  18:../../libdaisy/src/sys/system.h **** class System
+  19:../../libdaisy/src/sys/system.h **** {
+  20:../../libdaisy/src/sys/system.h ****   public:
+  21:../../libdaisy/src/sys/system.h ****     /** Contains settings for initializing the System */
+  22:../../libdaisy/src/sys/system.h ****     struct Config
+  23:../../libdaisy/src/sys/system.h ****     {
+  24:../../libdaisy/src/sys/system.h ****         /** Specifies the system clock frequency that feeds APB/AHB clocks, etc. */
+  25:../../libdaisy/src/sys/system.h ****         enum class SysClkFreq
+  26:../../libdaisy/src/sys/system.h ****         {
+  27:../../libdaisy/src/sys/system.h ****             FREQ_400MHZ,
+  28:../../libdaisy/src/sys/system.h ****             FREQ_480MHZ,
+  29:../../libdaisy/src/sys/system.h ****         };
+  30:../../libdaisy/src/sys/system.h **** 
+  31:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to defaults
+  32:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 400MHz
+  33:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  34:../../libdaisy/src/sys/system.h ****          ** */
+  35:../../libdaisy/src/sys/system.h ****         void Defaults()
+  36:../../libdaisy/src/sys/system.h ****         {
+  37:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_400MHZ;
+  38:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  39:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  40:../../libdaisy/src/sys/system.h ****         }
+  41:../../libdaisy/src/sys/system.h **** 
+  42:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to boost mode:
+  43:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 480MHz
+  44:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  45:../../libdaisy/src/sys/system.h ****          ** */
+  46:../../libdaisy/src/sys/system.h ****         void Boost()
+  47:../../libdaisy/src/sys/system.h ****         {
+  48:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_480MHZ;
+  49:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  50:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  51:../../libdaisy/src/sys/system.h ****         }
+  52:../../libdaisy/src/sys/system.h **** 
+  53:../../libdaisy/src/sys/system.h ****         SysClkFreq cpu_freq;
+  54:../../libdaisy/src/sys/system.h ****         bool       use_dcache;
+  55:../../libdaisy/src/sys/system.h ****         bool       use_icache;
+  56:../../libdaisy/src/sys/system.h ****     };
+ARM GAS  /tmp/ccFZhNkn.s 			page 3
+
+
+  57:../../libdaisy/src/sys/system.h **** 
+  58:../../libdaisy/src/sys/system.h ****     System() {}
+  59:../../libdaisy/src/sys/system.h ****     ~System() {}
+  38              		.loc 2 59 5 view .LVU1
+  39              		.loc 2 59 5 is_stmt 0 view .LVU2
+  40              	.LBE92:
+  41              	.LBB93:
+  42              	.LBI93:
+  43              		.file 3 "../../libdaisy/src/hid/usb.h"
+   1:../../libdaisy/src/hid/usb.h **** #pragma once
+   2:../../libdaisy/src/hid/usb.h **** #ifndef DSY_HID_USB_H
+   3:../../libdaisy/src/hid/usb.h **** #define DSY_HID_USB_H
+   4:../../libdaisy/src/hid/usb.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/usb.h **** #include <stdlib.h>
+   6:../../libdaisy/src/hid/usb.h **** 
+   7:../../libdaisy/src/hid/usb.h **** namespace daisy
+   8:../../libdaisy/src/hid/usb.h **** /** @addtogroup externals
+   9:../../libdaisy/src/hid/usb.h ****     @{
+  10:../../libdaisy/src/hid/usb.h **** */
+  11:../../libdaisy/src/hid/usb.h **** 
+  12:../../libdaisy/src/hid/usb.h **** {
+  13:../../libdaisy/src/hid/usb.h **** /** 
+  14:../../libdaisy/src/hid/usb.h ****     @brief Interface for initializing and using the USB Peripherals on the daisy
+  15:../../libdaisy/src/hid/usb.h ****     @author Stephen Hensley
+  16:../../libdaisy/src/hid/usb.h ****     @date December 2019
+  17:../../libdaisy/src/hid/usb.h **** */
+  18:../../libdaisy/src/hid/usb.h **** class UsbHandle
+  19:../../libdaisy/src/hid/usb.h **** {
+  20:../../libdaisy/src/hid/usb.h ****   public:
+  21:../../libdaisy/src/hid/usb.h ****     /** Return values for USBHandle Functions */
+  22:../../libdaisy/src/hid/usb.h ****     enum class Result
+  23:../../libdaisy/src/hid/usb.h ****     {
+  24:../../libdaisy/src/hid/usb.h ****         OK,
+  25:../../libdaisy/src/hid/usb.h ****         ERR,
+  26:../../libdaisy/src/hid/usb.h ****     };
+  27:../../libdaisy/src/hid/usb.h **** 
+  28:../../libdaisy/src/hid/usb.h ****     /** Specified which of the two USB Peripherals to initialize. */
+  29:../../libdaisy/src/hid/usb.h ****     enum UsbPeriph
+  30:../../libdaisy/src/hid/usb.h ****     {
+  31:../../libdaisy/src/hid/usb.h ****         FS_INTERNAL, /**< Internal pin */
+  32:../../libdaisy/src/hid/usb.h ****         FS_EXTERNAL, /**< FS External D+ pin is Pin 38 (GPIO32). FS External D- pin is Pin 37 (GPIO
+  33:../../libdaisy/src/hid/usb.h ****         FS_BOTH,     /**< Both */
+  34:../../libdaisy/src/hid/usb.h ****     };
+  35:../../libdaisy/src/hid/usb.h **** 
+  36:../../libdaisy/src/hid/usb.h **** 
+  37:../../libdaisy/src/hid/usb.h ****     /** Function called upon reception of a buffer */
+  38:../../libdaisy/src/hid/usb.h ****     typedef void (*ReceiveCallback)(uint8_t* buff, uint32_t* len);
+  39:../../libdaisy/src/hid/usb.h **** 
+  40:../../libdaisy/src/hid/usb.h ****     UsbHandle() {}
+  41:../../libdaisy/src/hid/usb.h **** 
+  42:../../libdaisy/src/hid/usb.h ****     ~UsbHandle() {}
+  44              		.loc 3 42 5 is_stmt 1 view .LVU3
+  45              		.loc 3 42 5 is_stmt 0 view .LVU4
+  46              	.LBE93:
+  47              	.LBB94:
+  48              	.LBI94:
+  49              		.file 4 "../../libdaisy/src/per/adc.h"
+ARM GAS  /tmp/ccFZhNkn.s 			page 4
+
+
+   1:../../libdaisy/src/per/adc.h **** #pragma once
+   2:../../libdaisy/src/per/adc.h **** #ifndef DSY_ADC_H
+   3:../../libdaisy/src/per/adc.h **** #define DSY_ADC_H /**< Macro */
+   4:../../libdaisy/src/per/adc.h **** #include <stdint.h>
+   5:../../libdaisy/src/per/adc.h **** #include <stdlib.h>
+   6:../../libdaisy/src/per/adc.h **** #include "daisy_core.h"
+   7:../../libdaisy/src/per/adc.h **** #include "per/gpio.h"
+   8:../../libdaisy/src/per/adc.h **** 
+   9:../../libdaisy/src/per/adc.h **** #define DSY_ADC_MAX_CHANNELS 14 /**< Maximum number of ADC channels */
+  10:../../libdaisy/src/per/adc.h **** 
+  11:../../libdaisy/src/per/adc.h **** namespace daisy
+  12:../../libdaisy/src/per/adc.h **** {
+  13:../../libdaisy/src/per/adc.h **** /** @addtogroup analog_digital_conversion
+  14:../../libdaisy/src/per/adc.h ****     @{
+  15:../../libdaisy/src/per/adc.h **** */
+  16:../../libdaisy/src/per/adc.h **** 
+  17:../../libdaisy/src/per/adc.h **** /* While there may not be many configuration options here,
+  18:../../libdaisy/src/per/adc.h **** using a struct like this allows us to add more configuration
+  19:../../libdaisy/src/per/adc.h **** later without breaking existing functionality.
+  20:../../libdaisy/src/per/adc.h **** */
+  21:../../libdaisy/src/per/adc.h **** 
+  22:../../libdaisy/src/per/adc.h **** /** Configuration Structure for a given channel */
+  23:../../libdaisy/src/per/adc.h **** struct AdcChannelConfig
+  24:../../libdaisy/src/per/adc.h **** {
+  25:../../libdaisy/src/per/adc.h ****     /** Which pin to use for multiplexing */
+  26:../../libdaisy/src/per/adc.h ****     enum MuxPin
+  27:../../libdaisy/src/per/adc.h ****     {
+  28:../../libdaisy/src/per/adc.h ****         MUX_SEL_0,    /**< & */
+  29:../../libdaisy/src/per/adc.h ****         MUX_SEL_1,    /**< & */
+  30:../../libdaisy/src/per/adc.h ****         MUX_SEL_2,    /**< & */
+  31:../../libdaisy/src/per/adc.h ****         MUX_SEL_LAST, /**< & */
+  32:../../libdaisy/src/per/adc.h ****     };
+  33:../../libdaisy/src/per/adc.h **** 
+  34:../../libdaisy/src/per/adc.h ****     /** Initializes a single ADC pin as an ADC. 
+  35:../../libdaisy/src/per/adc.h ****     \param pin Pin to init.
+  36:../../libdaisy/src/per/adc.h ****      */
+  37:../../libdaisy/src/per/adc.h ****     void InitSingle(dsy_gpio_pin pin);
+  38:../../libdaisy/src/per/adc.h **** 
+  39:../../libdaisy/src/per/adc.h ****     /** 
+  40:../../libdaisy/src/per/adc.h ****     Initializes a single ADC pin as a Multiplexed ADC.
+  41:../../libdaisy/src/per/adc.h ****     Requires a CD405X Multiplexer connected to the pin.
+  42:../../libdaisy/src/per/adc.h ****     You only need to supply the mux pins that are required,
+  43:../../libdaisy/src/per/adc.h ****     e.g. a 4052 mux would only require mux_0 and mux_1.
+  44:../../libdaisy/src/per/adc.h ****     Internal Callbacks handle the pin addressing.
+  45:../../libdaisy/src/per/adc.h ****     \param mux_channels must be 1-8
+  46:../../libdaisy/src/per/adc.h ****     \param mux_0 First mux pin
+  47:../../libdaisy/src/per/adc.h ****     \param mux_1 Second mux pin
+  48:../../libdaisy/src/per/adc.h ****     \param mux_2 Third mux pin
+  49:../../libdaisy/src/per/adc.h ****     \param adc_pin &
+  50:../../libdaisy/src/per/adc.h ****     */
+  51:../../libdaisy/src/per/adc.h ****     void InitMux(dsy_gpio_pin adc_pin,
+  52:../../libdaisy/src/per/adc.h ****                  size_t       mux_channels,
+  53:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_0,
+  54:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_1 = {DSY_GPIOX, 0},
+  55:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_2 = {DSY_GPIOX, 0});
+  56:../../libdaisy/src/per/adc.h **** 
+  57:../../libdaisy/src/per/adc.h ****     dsy_gpio pin_;                   /**< & */
+ARM GAS  /tmp/ccFZhNkn.s 			page 5
+
+
+  58:../../libdaisy/src/per/adc.h ****     dsy_gpio mux_pin_[MUX_SEL_LAST]; /**< & */
+  59:../../libdaisy/src/per/adc.h ****     uint8_t  mux_channels_;          /**< & */
+  60:../../libdaisy/src/per/adc.h **** };
+  61:../../libdaisy/src/per/adc.h **** 
+  62:../../libdaisy/src/per/adc.h **** /**
+  63:../../libdaisy/src/per/adc.h ****    Handler for analog to digital conversion
+  64:../../libdaisy/src/per/adc.h **** */
+  65:../../libdaisy/src/per/adc.h **** class AdcHandle
+  66:../../libdaisy/src/per/adc.h **** {
+  67:../../libdaisy/src/per/adc.h ****   public:
+  68:../../libdaisy/src/per/adc.h ****     /** Supported oversampling amounts */
+  69:../../libdaisy/src/per/adc.h ****     enum OverSampling
+  70:../../libdaisy/src/per/adc.h ****     {
+  71:../../libdaisy/src/per/adc.h ****         OVS_NONE, /**< & */
+  72:../../libdaisy/src/per/adc.h ****         OVS_4,    /**< & */
+  73:../../libdaisy/src/per/adc.h ****         OVS_8,    /**< & */
+  74:../../libdaisy/src/per/adc.h ****         OVS_16,   /**< & */
+  75:../../libdaisy/src/per/adc.h ****         OVS_32,   /**< & */
+  76:../../libdaisy/src/per/adc.h ****         OVS_64,   /**< & */
+  77:../../libdaisy/src/per/adc.h ****         OVS_128,  /**< & */
+  78:../../libdaisy/src/per/adc.h ****         OVS_256,  /**< & */
+  79:../../libdaisy/src/per/adc.h ****         OVS_512,  /**< & */
+  80:../../libdaisy/src/per/adc.h ****         OVS_1024, /**< & */
+  81:../../libdaisy/src/per/adc.h ****         OVS_LAST, /**< & */
+  82:../../libdaisy/src/per/adc.h ****     };
+  83:../../libdaisy/src/per/adc.h **** 
+  84:../../libdaisy/src/per/adc.h ****     AdcHandle() {}
+  85:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+  50              		.loc 4 85 5 is_stmt 1 view .LVU5
+  51              		.loc 4 85 5 is_stmt 0 view .LVU6
+  52              	.LBE94:
+  53              	.LBB95:
+  54              	.LBI95:
+  55              		.file 5 "../../libdaisy/src/hid/audio.h"
+   1:../../libdaisy/src/hid/audio.h **** #ifndef DSY_AUDIO_H
+   2:../../libdaisy/src/hid/audio.h **** #define DSY_AUDIO_H /**< & */
+   3:../../libdaisy/src/hid/audio.h **** 
+   4:../../libdaisy/src/hid/audio.h **** #include "per/sai.h"
+   5:../../libdaisy/src/hid/audio.h **** 
+   6:../../libdaisy/src/hid/audio.h **** namespace daisy
+   7:../../libdaisy/src/hid/audio.h **** {
+   8:../../libdaisy/src/hid/audio.h **** class AudioHandle
+   9:../../libdaisy/src/hid/audio.h **** {
+  10:../../libdaisy/src/hid/audio.h ****   public:
+  11:../../libdaisy/src/hid/audio.h ****     /** Manually configurable details about the Audio Engine */
+  12:../../libdaisy/src/hid/audio.h ****     /** TODO: Figure out how to get samplerate in here. */
+  13:../../libdaisy/src/hid/audio.h ****     struct Config
+  14:../../libdaisy/src/hid/audio.h ****     {
+  15:../../libdaisy/src/hid/audio.h ****         size_t                        blocksize;
+  16:../../libdaisy/src/hid/audio.h ****         SaiHandle::Config::SampleRate samplerate;
+  17:../../libdaisy/src/hid/audio.h ****         float                         postgain;
+  18:../../libdaisy/src/hid/audio.h ****     };
+  19:../../libdaisy/src/hid/audio.h **** 
+  20:../../libdaisy/src/hid/audio.h ****     enum class Result
+  21:../../libdaisy/src/hid/audio.h ****     {
+  22:../../libdaisy/src/hid/audio.h ****         OK,
+  23:../../libdaisy/src/hid/audio.h ****         ERR,
+ARM GAS  /tmp/ccFZhNkn.s 			page 6
+
+
+  24:../../libdaisy/src/hid/audio.h ****     };
+  25:../../libdaisy/src/hid/audio.h **** 
+  26:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving input buffer
+  27:../../libdaisy/src/hid/audio.h ****      * Buffer arranged by float[chn][sample] 
+  28:../../libdaisy/src/hid/audio.h ****      * const so that the user can't modify the input
+  29:../../libdaisy/src/hid/audio.h ****     */
+  30:../../libdaisy/src/hid/audio.h ****     typedef const float* const* InputBuffer;
+  31:../../libdaisy/src/hid/audio.h **** 
+  32:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving output buffer
+  33:../../libdaisy/src/hid/audio.h ****      * Arranged by float[chn][sample] 
+  34:../../libdaisy/src/hid/audio.h ****     */
+  35:../../libdaisy/src/hid/audio.h ****     typedef float** OutputBuffer;
+  36:../../libdaisy/src/hid/audio.h **** 
+  37:../../libdaisy/src/hid/audio.h ****     /** Type for a Non-Interleaving audio callback 
+  38:../../libdaisy/src/hid/audio.h ****    * Non-Interleaving audio callbacks in daisy will be of this type
+  39:../../libdaisy/src/hid/audio.h ****   */
+  40:../../libdaisy/src/hid/audio.h ****     typedef void (*AudioCallback)(InputBuffer  in,
+  41:../../libdaisy/src/hid/audio.h ****                                   OutputBuffer out,
+  42:../../libdaisy/src/hid/audio.h ****                                   size_t       size);
+  43:../../libdaisy/src/hid/audio.h **** 
+  44:../../libdaisy/src/hid/audio.h ****     /** Interleaving Input buffer
+  45:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }]
+  46:../../libdaisy/src/hid/audio.h ****      ** this is const, as the user shouldn't modify it
+  47:../../libdaisy/src/hid/audio.h ****     */
+  48:../../libdaisy/src/hid/audio.h ****     typedef const float* InterleavingInputBuffer;
+  49:../../libdaisy/src/hid/audio.h **** 
+  50:../../libdaisy/src/hid/audio.h ****     /** Interleaving Output buffer 
+  51:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }
+  52:../../libdaisy/src/hid/audio.h ****     */
+  53:../../libdaisy/src/hid/audio.h ****     typedef float* InterleavingOutputBuffer;
+  54:../../libdaisy/src/hid/audio.h **** 
+  55:../../libdaisy/src/hid/audio.h ****     /** Interleaving Audio Callback 
+  56:../../libdaisy/src/hid/audio.h ****    * Interleaving audio callbacks in daisy must be of this type
+  57:../../libdaisy/src/hid/audio.h ****   */
+  58:../../libdaisy/src/hid/audio.h ****     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
+  59:../../libdaisy/src/hid/audio.h ****                                               InterleavingOutputBuffer out,
+  60:../../libdaisy/src/hid/audio.h ****                                               size_t                   size);
+  61:../../libdaisy/src/hid/audio.h **** 
+  62:../../libdaisy/src/hid/audio.h ****     AudioHandle() : pimpl_(nullptr) {}
+  63:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+  56              		.loc 5 63 5 is_stmt 1 view .LVU7
+  57              		.loc 5 63 5 is_stmt 0 view .LVU8
+  58              	.LBE95:
+  59              		.loc 1 22 19 view .LVU9
+  60 0000 7047     		bx	lr
+  61              		.cfi_endproc
+  62              	.LFE4207:
+  64              		.weak	_ZN5daisy9DaisySeedD1Ev
+  65              		.thumb_set _ZN5daisy9DaisySeedD1Ev,_ZN5daisy9DaisySeedD2Ev
+  66 0002 00BF     		.section	.text._ZN3dsp7computeEdiPPfS1_,"axG",%progbits,_ZN3dsp7computeEdiPPfS1_,comdat
+  67              		.align	1
+  68              		.p2align 2,,3
+  69              		.weak	_ZN3dsp7computeEdiPPfS1_
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+  73              		.fpu fpv5-d16
+ARM GAS  /tmp/ccFZhNkn.s 			page 7
+
+
+  75              	_ZN3dsp7computeEdiPPfS1_:
+  76              	.LVL1:
+  77              	.LFB4233:
+  78              		.file 6 "faust/dsp/dsp.h"
+   1:faust/dsp/dsp.h **** /************************** BEGIN dsp.h **************************/
+   2:faust/dsp/dsp.h **** /************************************************************************
+   3:faust/dsp/dsp.h ****  FAUST Architecture File
+   4:faust/dsp/dsp.h ****  Copyright (C) 2003-2017 GRAME, Centre National de Creation Musicale
+   5:faust/dsp/dsp.h ****  ---------------------------------------------------------------------
+   6:faust/dsp/dsp.h ****  This Architecture section is free software; you can redistribute it
+   7:faust/dsp/dsp.h ****  and/or modify it under the terms of the GNU General Public License
+   8:faust/dsp/dsp.h ****  as published by the Free Software Foundation; either version 3 of
+   9:faust/dsp/dsp.h ****  the License, or (at your option) any later version.
+  10:faust/dsp/dsp.h ****  
+  11:faust/dsp/dsp.h ****  This program is distributed in the hope that it will be useful,
+  12:faust/dsp/dsp.h ****  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:faust/dsp/dsp.h ****  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  14:faust/dsp/dsp.h ****  GNU General Public License for more details.
+  15:faust/dsp/dsp.h ****  
+  16:faust/dsp/dsp.h ****  You should have received a copy of the GNU General Public License
+  17:faust/dsp/dsp.h ****  along with this program; If not, see <http://www.gnu.org/licenses/>.
+  18:faust/dsp/dsp.h ****  
+  19:faust/dsp/dsp.h ****  EXCEPTION : As a special exception, you may create a larger work
+  20:faust/dsp/dsp.h ****  that contains this FAUST architecture section and distribute
+  21:faust/dsp/dsp.h ****  that work under terms of your choice, so long as this FAUST
+  22:faust/dsp/dsp.h ****  architecture section is not modified.
+  23:faust/dsp/dsp.h ****  ************************************************************************/
+  24:faust/dsp/dsp.h **** 
+  25:faust/dsp/dsp.h **** #ifndef __dsp__
+  26:faust/dsp/dsp.h **** #define __dsp__
+  27:faust/dsp/dsp.h **** 
+  28:faust/dsp/dsp.h **** #include <string>
+  29:faust/dsp/dsp.h **** #include <vector>
+  30:faust/dsp/dsp.h **** 
+  31:faust/dsp/dsp.h **** #ifndef FAUSTFLOAT
+  32:faust/dsp/dsp.h **** #define FAUSTFLOAT float
+  33:faust/dsp/dsp.h **** #endif
+  34:faust/dsp/dsp.h **** 
+  35:faust/dsp/dsp.h **** struct UI;
+  36:faust/dsp/dsp.h **** struct Meta;
+  37:faust/dsp/dsp.h **** 
+  38:faust/dsp/dsp.h **** /**
+  39:faust/dsp/dsp.h ****  * DSP memory manager.
+  40:faust/dsp/dsp.h ****  */
+  41:faust/dsp/dsp.h **** 
+  42:faust/dsp/dsp.h **** struct dsp_memory_manager
+  43:faust/dsp/dsp.h **** {
+  44:faust/dsp/dsp.h ****     virtual ~dsp_memory_manager() {}
+  45:faust/dsp/dsp.h **** 
+  46:faust/dsp/dsp.h ****     virtual void* allocate(size_t size) = 0;
+  47:faust/dsp/dsp.h ****     virtual void  destroy(void* ptr)    = 0;
+  48:faust/dsp/dsp.h **** };
+  49:faust/dsp/dsp.h **** 
+  50:faust/dsp/dsp.h **** /**
+  51:faust/dsp/dsp.h **** * Signal processor definition.
+  52:faust/dsp/dsp.h **** */
+  53:faust/dsp/dsp.h **** 
+ARM GAS  /tmp/ccFZhNkn.s 			page 8
+
+
+  54:faust/dsp/dsp.h **** class dsp
+  55:faust/dsp/dsp.h **** {
+  56:faust/dsp/dsp.h ****   public:
+  57:faust/dsp/dsp.h ****     dsp() {}
+  58:faust/dsp/dsp.h ****     virtual ~dsp() {}
+  59:faust/dsp/dsp.h **** 
+  60:faust/dsp/dsp.h ****     /* Return instance number of audio inputs */
+  61:faust/dsp/dsp.h ****     virtual int getNumInputs() = 0;
+  62:faust/dsp/dsp.h **** 
+  63:faust/dsp/dsp.h ****     /* Return instance number of audio outputs */
+  64:faust/dsp/dsp.h ****     virtual int getNumOutputs() = 0;
+  65:faust/dsp/dsp.h **** 
+  66:faust/dsp/dsp.h ****     /**
+  67:faust/dsp/dsp.h ****          * Trigger the ui_interface parameter with instance specific calls
+  68:faust/dsp/dsp.h ****          * to 'addBtton', 'addVerticalSlider'... in order to build the UI.
+  69:faust/dsp/dsp.h ****          *
+  70:faust/dsp/dsp.h ****          * @param ui_interface - the user interface builder
+  71:faust/dsp/dsp.h ****          */
+  72:faust/dsp/dsp.h ****     virtual void buildUserInterface(UI* ui_interface) = 0;
+  73:faust/dsp/dsp.h **** 
+  74:faust/dsp/dsp.h ****     /* Returns the sample rate currently used by the instance */
+  75:faust/dsp/dsp.h ****     virtual int getSampleRate() = 0;
+  76:faust/dsp/dsp.h **** 
+  77:faust/dsp/dsp.h ****     /**
+  78:faust/dsp/dsp.h ****          * Global init, calls the following methods:
+  79:faust/dsp/dsp.h ****          * - static class 'classInit': static tables initialization
+  80:faust/dsp/dsp.h ****          * - 'instanceInit': constants and instance state initialization
+  81:faust/dsp/dsp.h ****          *
+  82:faust/dsp/dsp.h ****          * @param sample_rate - the sampling rate in Hertz
+  83:faust/dsp/dsp.h ****          */
+  84:faust/dsp/dsp.h ****     virtual void init(int sample_rate) = 0;
+  85:faust/dsp/dsp.h **** 
+  86:faust/dsp/dsp.h ****     /**
+  87:faust/dsp/dsp.h ****          * Init instance state
+  88:faust/dsp/dsp.h ****          *
+  89:faust/dsp/dsp.h ****          * @param sample_rate - the sampling rate in Hertz
+  90:faust/dsp/dsp.h ****          */
+  91:faust/dsp/dsp.h ****     virtual void instanceInit(int sample_rate) = 0;
+  92:faust/dsp/dsp.h **** 
+  93:faust/dsp/dsp.h ****     /**
+  94:faust/dsp/dsp.h ****          * Init instance constant state
+  95:faust/dsp/dsp.h ****          *
+  96:faust/dsp/dsp.h ****          * @param sample_rate - the sampling rate in Hertz
+  97:faust/dsp/dsp.h ****          */
+  98:faust/dsp/dsp.h ****     virtual void instanceConstants(int sample_rate) = 0;
+  99:faust/dsp/dsp.h **** 
+ 100:faust/dsp/dsp.h ****     /* Init default control parameters values */
+ 101:faust/dsp/dsp.h ****     virtual void instanceResetUserInterface() = 0;
+ 102:faust/dsp/dsp.h **** 
+ 103:faust/dsp/dsp.h ****     /* Init instance state (delay lines...) */
+ 104:faust/dsp/dsp.h ****     virtual void instanceClear() = 0;
+ 105:faust/dsp/dsp.h **** 
+ 106:faust/dsp/dsp.h ****     /**
+ 107:faust/dsp/dsp.h ****          * Return a clone of the instance.
+ 108:faust/dsp/dsp.h ****          *
+ 109:faust/dsp/dsp.h ****          * @return a copy of the instance on success, otherwise a null pointer.
+ 110:faust/dsp/dsp.h ****          */
+ARM GAS  /tmp/ccFZhNkn.s 			page 9
+
+
+ 111:faust/dsp/dsp.h ****     virtual dsp* clone() = 0;
+ 112:faust/dsp/dsp.h **** 
+ 113:faust/dsp/dsp.h ****     /**
+ 114:faust/dsp/dsp.h ****          * Trigger the Meta* parameter with instance specific calls to 'declare' (key, value) metad
+ 115:faust/dsp/dsp.h ****          *
+ 116:faust/dsp/dsp.h ****          * @param m - the Meta* meta user
+ 117:faust/dsp/dsp.h ****          */
+ 118:faust/dsp/dsp.h ****     virtual void metadata(Meta* m) = 0;
+ 119:faust/dsp/dsp.h **** 
+ 120:faust/dsp/dsp.h ****     /**
+ 121:faust/dsp/dsp.h ****          * DSP instance computation, to be called with successive in/out audio buffers.
+ 122:faust/dsp/dsp.h ****          *
+ 123:faust/dsp/dsp.h ****          * @param count - the number of frames to compute
+ 124:faust/dsp/dsp.h ****          * @param inputs - the input audio buffers as an array of non-interleaved FAUSTFLOAT sample
+ 125:faust/dsp/dsp.h ****          * @param outputs - the output audio buffers as an array of non-interleaved FAUSTFLOAT samp
+ 126:faust/dsp/dsp.h ****          *
+ 127:faust/dsp/dsp.h ****          */
+ 128:faust/dsp/dsp.h ****     virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs)
+ 129:faust/dsp/dsp.h ****         = 0;
+ 130:faust/dsp/dsp.h **** 
+ 131:faust/dsp/dsp.h ****     /**
+ 132:faust/dsp/dsp.h ****          * DSP instance computation: alternative method to be used by subclasses.
+ 133:faust/dsp/dsp.h ****          *
+ 134:faust/dsp/dsp.h ****          * @param date_usec - the timestamp in microsec given by audio driver.
+ 135:faust/dsp/dsp.h ****          * @param count - the number of frames to compute
+ 136:faust/dsp/dsp.h ****          * @param inputs - the input audio buffers as an array of non-interleaved FAUSTFLOAT sample
+ 137:faust/dsp/dsp.h ****          * @param outputs - the output audio buffers as an array of non-interleaved FAUSTFLOAT samp
+ 138:faust/dsp/dsp.h ****          *
+ 139:faust/dsp/dsp.h ****          */
+ 140:faust/dsp/dsp.h ****     virtual void compute(double /*date_usec*/,
+  79              		.loc 6 140 18 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+ 141:faust/dsp/dsp.h ****                          int          count,
+ 142:faust/dsp/dsp.h ****                          FAUSTFLOAT** inputs,
+ 143:faust/dsp/dsp.h ****                          FAUSTFLOAT** outputs)
+ 144:faust/dsp/dsp.h ****     {
+ 145:faust/dsp/dsp.h ****         compute(count, inputs, outputs);
+  84              		.loc 6 145 9 view .LVU11
+ 140:faust/dsp/dsp.h ****                          int          count,
+  85              		.loc 6 140 18 is_stmt 0 view .LVU12
+  86 0000 10B4     		push	{r4}
+  87              		.cfi_def_cfa_offset 4
+  88              		.cfi_offset 4, -4
+  89              		.loc 6 145 39 view .LVU13
+  90 0002 0468     		ldr	r4, [r0]
+  91              		.loc 6 145 16 view .LVU14
+  92 0004 646B     		ldr	r4, [r4, #52]
+  93 0006 A446     		mov	ip, r4
+ 146:faust/dsp/dsp.h ****     }
+  94              		.loc 6 146 5 view .LVU15
+  95 0008 5DF8044B 		ldr	r4, [sp], #4
+  96              		.cfi_restore 4
+  97              		.cfi_def_cfa_offset 0
+ 145:faust/dsp/dsp.h ****     }
+ARM GAS  /tmp/ccFZhNkn.s 			page 10
+
+
+  98              		.loc 6 145 16 view .LVU16
+  99 000c 6047     		bx	ip	@ indirect register sibling call
+ 100              	.LVL2:
+ 145:faust/dsp/dsp.h ****     }
+ 101              		.loc 6 145 16 view .LVU17
+ 102              		.cfi_endproc
+ 103              	.LFE4233:
+ 105 000e 00BF     		.section	.rodata._ZN5mydsp8metadataEP4Meta.str1.4,"aMS",%progbits,1
+ 106              		.align	2
+ 107              	.LC0:
+ 108 0000 4772616D 		.ascii	"Grame\000"
+ 108      6500
+ 109 0006 0000     		.align	2
+ 110              	.LC1:
+ 111 0008 61757468 		.ascii	"author\000"
+ 111      6F7200
+ 112 000f 00       		.align	2
+ 113              	.LC2:
+ 114 0010 28632947 		.ascii	"(c)GRAME 2009\000"
+ 114      52414D45 
+ 114      20323030 
+ 114      3900
+ 115 001e 0000     		.align	2
+ 116              	.LC3:
+ 117 0020 636F7079 		.ascii	"copyright\000"
+ 117      72696768 
+ 117      7400
+ 118 002a 0000     		.align	2
+ 119              	.LC4:
+ 120 002c 6E6F6973 		.ascii	"noise.dsp\000"
+ 120      652E6473 
+ 120      7000
+ 121 0036 0000     		.align	2
+ 122              	.LC5:
+ 123 0038 66696C65 		.ascii	"filename\000"
+ 123      6E616D65 
+ 123      00
+ 124 0041 000000   		.align	2
+ 125              	.LC6:
+ 126 0044 42534400 		.ascii	"BSD\000"
+ 127              		.align	2
+ 128              	.LC7:
+ 129 0048 6C696365 		.ascii	"license\000"
+ 129      6E736500 
+ 130              		.align	2
+ 131              	.LC8:
+ 132 0050 4E6F6973 		.ascii	"Noise\000"
+ 132      6500
+ 133 0056 0000     		.align	2
+ 134              	.LC9:
+ 135 0058 6E616D65 		.ascii	"name\000"
+ 135      00
+ 136 005d 000000   		.align	2
+ 137              	.LC10:
+ 138 0060 312E3100 		.ascii	"1.1\000"
+ 139              		.align	2
+ 140              	.LC11:
+ARM GAS  /tmp/ccFZhNkn.s 			page 11
+
+
+ 141 0064 76657273 		.ascii	"version\000"
+ 141      696F6E00 
+ 142              		.section	.text._ZN5mydsp8metadataEP4Meta,"axG",%progbits,_ZN5mydsp8metadataEP4Meta,comdat
+ 143              		.align	1
+ 144              		.p2align 2,,3
+ 145              		.weak	_ZN5mydsp8metadataEP4Meta
+ 146              		.syntax unified
+ 147              		.thumb
+ 148              		.thumb_func
+ 149              		.fpu fpv5-d16
+ 151              	_ZN5mydsp8metadataEP4Meta:
+ 152              	.LVL3:
+ 153              	.LFB4262:
+ 154              		.file 7 "faust.cpp"
+   1:faust.cpp     **** /* ------------------------------------------------------------
+   2:faust.cpp     **** author: "Grame"
+   3:faust.cpp     **** copyright: "(c)GRAME 2009"
+   4:faust.cpp     **** license: "BSD"
+   5:faust.cpp     **** name: "Noise"
+   6:faust.cpp     **** version: "1.1"
+   7:faust.cpp     **** Code generated with Faust 2.23.4 (https://faust.grame.fr)
+   8:faust.cpp     **** Compilation options: -lang cpp -scal -ftz 0
+   9:faust.cpp     **** ------------------------------------------------------------ */
+  10:faust.cpp     **** 
+  11:faust.cpp     **** #ifndef __mydsp_H__
+  12:faust.cpp     **** #define __mydsp_H__
+  13:faust.cpp     **** 
+  14:faust.cpp     **** /************************************************************************
+  15:faust.cpp     ****  IMPORTANT NOTE : this file contains two clearly delimited sections :
+  16:faust.cpp     ****  the ARCHITECTURE section (in two parts) and the USER section. Each section
+  17:faust.cpp     ****  is governed by its own copyright and license. Please check individually
+  18:faust.cpp     ****  each section for license and copyright information.
+  19:faust.cpp     ****  *************************************************************************/
+  20:faust.cpp     **** 
+  21:faust.cpp     **** /*******************BEGIN ARCHITECTURE SECTION (part 1/2)****************/
+  22:faust.cpp     **** 
+  23:faust.cpp     **** /************************************************************************
+  24:faust.cpp     ****  FAUST Architecture File
+  25:faust.cpp     ****  Copyright (C) 2020 GRAME, Centre National de Creation Musicale
+  26:faust.cpp     ****  ---------------------------------------------------------------------
+  27:faust.cpp     ****  This Architecture section is free software; you can redistribute it
+  28:faust.cpp     ****  and/or modify it under the terms of the GNU General Public License
+  29:faust.cpp     ****  as published by the Free Software Foundation; either version 3 of
+  30:faust.cpp     ****  the License, or (at your option) any later version.
+  31:faust.cpp     ****  
+  32:faust.cpp     ****  This program is distributed in the hope that it will be useful,
+  33:faust.cpp     ****  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  34:faust.cpp     ****  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  35:faust.cpp     ****  GNU General Public License for more details.
+  36:faust.cpp     ****  
+  37:faust.cpp     ****  You should have received a copy of the GNU General Public License
+  38:faust.cpp     ****  along with this program; If not, see <http://www.gnu.org/licenses/>.
+  39:faust.cpp     ****  
+  40:faust.cpp     ****  EXCEPTION : As a special exception, you may create a larger work
+  41:faust.cpp     ****  that contains this FAUST architecture section and distribute
+  42:faust.cpp     ****  that work under terms of your choice, so long as this FAUST
+  43:faust.cpp     ****  architecture section is not modified.
+ARM GAS  /tmp/ccFZhNkn.s 			page 12
+
+
+  44:faust.cpp     ****  
+  45:faust.cpp     ****  ************************************************************************
+  46:faust.cpp     ****  ************************************************************************/
+  47:faust.cpp     **** 
+  48:faust.cpp     **** #include "daisysp.h"
+  49:faust.cpp     **** #include "daisy_seed.h"
+  50:faust.cpp     **** 
+  51:faust.cpp     **** #include "faust/gui/UI.h"
+  52:faust.cpp     **** #include "faust/dsp/dsp.h"
+  53:faust.cpp     **** 
+  54:faust.cpp     **** #ifdef MIDICTRL
+  55:faust.cpp     **** #include "faust/midi/daisy-midi.h"
+  56:faust.cpp     **** #endif
+  57:faust.cpp     **** 
+  58:faust.cpp     **** using namespace daisysp;
+  59:faust.cpp     **** 
+  60:faust.cpp     **** struct Meta
+  61:faust.cpp     **** {
+  62:faust.cpp     ****     virtual ~Meta(){};
+  63:faust.cpp     ****     virtual void declare(const char* key, const char* value) = 0;
+  64:faust.cpp     **** };
+  65:faust.cpp     **** 
+  66:faust.cpp     **** /******************************************************************************
+  67:faust.cpp     ****  *******************************************************************************
+  68:faust.cpp     ****  
+  69:faust.cpp     ****  VECTOR INTRINSICS
+  70:faust.cpp     ****  
+  71:faust.cpp     ****  *******************************************************************************
+  72:faust.cpp     ****  *******************************************************************************/
+  73:faust.cpp     **** 
+  74:faust.cpp     **** 
+  75:faust.cpp     **** /********************END ARCHITECTURE SECTION (part 1/2)****************/
+  76:faust.cpp     **** 
+  77:faust.cpp     **** /**************************BEGIN USER SECTION **************************/
+  78:faust.cpp     **** 
+  79:faust.cpp     **** #ifndef FAUSTFLOAT
+  80:faust.cpp     **** #define FAUSTFLOAT float
+  81:faust.cpp     **** #endif
+  82:faust.cpp     **** 
+  83:faust.cpp     **** #include <algorithm>
+  84:faust.cpp     **** #include <cmath>
+  85:faust.cpp     **** 
+  86:faust.cpp     **** 
+  87:faust.cpp     **** #ifndef FAUSTCLASS
+  88:faust.cpp     **** #define FAUSTCLASS mydsp
+  89:faust.cpp     **** #endif
+  90:faust.cpp     **** 
+  91:faust.cpp     **** #ifdef __APPLE__
+  92:faust.cpp     **** #define exp10f __exp10f
+  93:faust.cpp     **** #define exp10 __exp10
+  94:faust.cpp     **** #endif
+  95:faust.cpp     **** 
+  96:faust.cpp     **** class mydsp : public dsp
+  97:faust.cpp     **** {
+  98:faust.cpp     ****   private:
+  99:faust.cpp     ****     FAUSTFLOAT fHslider0;
+ 100:faust.cpp     ****     int        iRec0[2];
+ARM GAS  /tmp/ccFZhNkn.s 			page 13
+
+
+ 101:faust.cpp     ****     FAUSTFLOAT fHslider1;
+ 102:faust.cpp     ****     int        fSampleRate;
+ 103:faust.cpp     **** 
+ 104:faust.cpp     ****   public:
+ 105:faust.cpp     ****     void metadata(Meta* m)
+ 155              		.loc 7 105 10 is_stmt 1 view -0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 0
+ 158              		@ frame_needed = 0, uses_anonymous_args = 0
+ 106:faust.cpp     ****     {
+ 107:faust.cpp     ****         m->declare("author", "Grame");
+ 159              		.loc 7 107 9 view .LVU19
+ 105:faust.cpp     ****     {
+ 160              		.loc 7 105 10 is_stmt 0 view .LVU20
+ 161 0000 10B5     		push	{r4, lr}
+ 162              		.cfi_def_cfa_offset 8
+ 163              		.cfi_offset 4, -8
+ 164              		.cfi_offset 14, -4
+ 105:faust.cpp     ****     {
+ 165              		.loc 7 105 10 view .LVU21
+ 166 0002 0C46     		mov	r4, r1
+ 167              		.loc 7 107 19 view .LVU22
+ 168 0004 124A     		ldr	r2, .L7
+ 169 0006 1349     		ldr	r1, .L7+4
+ 170              	.LVL4:
+ 171              		.loc 7 107 37 view .LVU23
+ 172 0008 2368     		ldr	r3, [r4]
+ 173              		.loc 7 107 19 view .LVU24
+ 174 000a 2046     		mov	r0, r4
+ 175              	.LVL5:
+ 176              		.loc 7 107 19 view .LVU25
+ 177 000c 9B68     		ldr	r3, [r3, #8]
+ 178 000e 9847     		blx	r3
+ 179              	.LVL6:
+ 108:faust.cpp     ****         m->declare("copyright", "(c)GRAME 2009");
+ 180              		.loc 7 108 9 is_stmt 1 view .LVU26
+ 181              		.loc 7 108 48 is_stmt 0 view .LVU27
+ 182 0010 2368     		ldr	r3, [r4]
+ 183              		.loc 7 108 19 view .LVU28
+ 184 0012 2046     		mov	r0, r4
+ 185 0014 104A     		ldr	r2, .L7+8
+ 186 0016 9B68     		ldr	r3, [r3, #8]
+ 187 0018 1049     		ldr	r1, .L7+12
+ 188 001a 9847     		blx	r3
+ 189              	.LVL7:
+ 109:faust.cpp     ****         m->declare("filename", "noise.dsp");
+ 190              		.loc 7 109 9 is_stmt 1 view .LVU29
+ 191              		.loc 7 109 43 is_stmt 0 view .LVU30
+ 192 001c 2368     		ldr	r3, [r4]
+ 193              		.loc 7 109 19 view .LVU31
+ 194 001e 2046     		mov	r0, r4
+ 195 0020 0F4A     		ldr	r2, .L7+16
+ 196 0022 9B68     		ldr	r3, [r3, #8]
+ 197 0024 0F49     		ldr	r1, .L7+20
+ 198 0026 9847     		blx	r3
+ 199              	.LVL8:
+ 110:faust.cpp     ****         m->declare("license", "BSD");
+ARM GAS  /tmp/ccFZhNkn.s 			page 14
+
+
+ 200              		.loc 7 110 9 is_stmt 1 view .LVU32
+ 201              		.loc 7 110 36 is_stmt 0 view .LVU33
+ 202 0028 2368     		ldr	r3, [r4]
+ 203              		.loc 7 110 19 view .LVU34
+ 204 002a 2046     		mov	r0, r4
+ 205 002c 0E4A     		ldr	r2, .L7+24
+ 206 002e 9B68     		ldr	r3, [r3, #8]
+ 207 0030 0E49     		ldr	r1, .L7+28
+ 208 0032 9847     		blx	r3
+ 209              	.LVL9:
+ 111:faust.cpp     ****         m->declare("name", "Noise");
+ 210              		.loc 7 111 9 is_stmt 1 view .LVU35
+ 211              		.loc 7 111 35 is_stmt 0 view .LVU36
+ 212 0034 2368     		ldr	r3, [r4]
+ 213              		.loc 7 111 19 view .LVU37
+ 214 0036 2046     		mov	r0, r4
+ 215 0038 0D4A     		ldr	r2, .L7+32
+ 216 003a 9B68     		ldr	r3, [r3, #8]
+ 217 003c 0D49     		ldr	r1, .L7+36
+ 218 003e 9847     		blx	r3
+ 219              	.LVL10:
+ 112:faust.cpp     ****         m->declare("version", "1.1");
+ 220              		.loc 7 112 9 is_stmt 1 view .LVU38
+ 221              		.loc 7 112 36 is_stmt 0 view .LVU39
+ 222 0040 2368     		ldr	r3, [r4]
+ 223              		.loc 7 112 19 view .LVU40
+ 224 0042 2046     		mov	r0, r4
+ 225 0044 0C4A     		ldr	r2, .L7+40
+ 226 0046 9B68     		ldr	r3, [r3, #8]
+ 227 0048 0C49     		ldr	r1, .L7+44
+ 113:faust.cpp     ****     }
+ 228              		.loc 7 113 5 view .LVU41
+ 229 004a BDE81040 		pop	{r4, lr}
+ 230              		.cfi_restore 14
+ 231              		.cfi_restore 4
+ 232              		.cfi_def_cfa_offset 0
+ 233              	.LVL11:
+ 112:faust.cpp     ****         m->declare("version", "1.1");
+ 234              		.loc 7 112 19 view .LVU42
+ 235 004e 1847     		bx	r3	@ indirect register sibling call
+ 236              	.LVL12:
+ 237              	.L8:
+ 112:faust.cpp     ****         m->declare("version", "1.1");
+ 238              		.loc 7 112 19 view .LVU43
+ 239              		.align	2
+ 240              	.L7:
+ 241 0050 00000000 		.word	.LC0
+ 242 0054 08000000 		.word	.LC1
+ 243 0058 10000000 		.word	.LC2
+ 244 005c 20000000 		.word	.LC3
+ 245 0060 2C000000 		.word	.LC4
+ 246 0064 38000000 		.word	.LC5
+ 247 0068 44000000 		.word	.LC6
+ 248 006c 48000000 		.word	.LC7
+ 249 0070 50000000 		.word	.LC8
+ 250 0074 58000000 		.word	.LC9
+ 251 0078 60000000 		.word	.LC10
+ARM GAS  /tmp/ccFZhNkn.s 			page 15
+
+
+ 252 007c 64000000 		.word	.LC11
+ 253              		.cfi_endproc
+ 254              	.LFE4262:
+ 256              		.section	.text._ZN5mydsp12getNumInputsEv,"axG",%progbits,_ZN5mydsp12getNumInputsEv,comdat
+ 257              		.align	1
+ 258              		.p2align 2,,3
+ 259              		.weak	_ZN5mydsp12getNumInputsEv
+ 260              		.syntax unified
+ 261              		.thumb
+ 262              		.thumb_func
+ 263              		.fpu fpv5-d16
+ 265              	_ZN5mydsp12getNumInputsEv:
+ 266              	.LVL13:
+ 267              	.LFB4263:
+ 114:faust.cpp     **** 
+ 115:faust.cpp     ****     virtual int getNumInputs() { return 0; }
+ 268              		.loc 7 115 17 is_stmt 1 view -0
+ 269              		.cfi_startproc
+ 270              		@ args = 0, pretend = 0, frame = 0
+ 271              		@ frame_needed = 0, uses_anonymous_args = 0
+ 272              		@ link register save eliminated.
+ 273              		.loc 7 115 34 view .LVU45
+ 274              		.loc 7 115 44 is_stmt 0 view .LVU46
+ 275 0000 0020     		movs	r0, #0
+ 276              	.LVL14:
+ 277              		.loc 7 115 44 view .LVU47
+ 278 0002 7047     		bx	lr
+ 279              		.cfi_endproc
+ 280              	.LFE4263:
+ 282              		.section	.text._ZN5mydsp13getNumOutputsEv,"axG",%progbits,_ZN5mydsp13getNumOutputsEv,comdat
+ 283              		.align	1
+ 284              		.p2align 2,,3
+ 285              		.weak	_ZN5mydsp13getNumOutputsEv
+ 286              		.syntax unified
+ 287              		.thumb
+ 288              		.thumb_func
+ 289              		.fpu fpv5-d16
+ 291              	_ZN5mydsp13getNumOutputsEv:
+ 292              	.LVL15:
+ 293              	.LFB4264:
+ 116:faust.cpp     ****     virtual int getNumOutputs() { return 2; }
+ 294              		.loc 7 116 17 is_stmt 1 view -0
+ 295              		.cfi_startproc
+ 296              		@ args = 0, pretend = 0, frame = 0
+ 297              		@ frame_needed = 0, uses_anonymous_args = 0
+ 298              		@ link register save eliminated.
+ 299              		.loc 7 116 35 view .LVU49
+ 300              		.loc 7 116 45 is_stmt 0 view .LVU50
+ 301 0000 0220     		movs	r0, #2
+ 302              	.LVL16:
+ 303              		.loc 7 116 45 view .LVU51
+ 304 0002 7047     		bx	lr
+ 305              		.cfi_endproc
+ 306              	.LFE4264:
+ 308              		.section	.text._ZN5mydsp12getInputRateEi,"axG",%progbits,_ZN5mydsp12getInputRateEi,comdat
+ 309              		.align	1
+ 310              		.p2align 2,,3
+ARM GAS  /tmp/ccFZhNkn.s 			page 16
+
+
+ 311              		.weak	_ZN5mydsp12getInputRateEi
+ 312              		.syntax unified
+ 313              		.thumb
+ 314              		.thumb_func
+ 315              		.fpu fpv5-d16
+ 317              	_ZN5mydsp12getInputRateEi:
+ 318              	.LVL17:
+ 319              	.LFB4265:
+ 117:faust.cpp     ****     virtual int getInputRate(int channel)
+ 320              		.loc 7 117 17 is_stmt 1 view -0
+ 321              		.cfi_startproc
+ 322              		@ args = 0, pretend = 0, frame = 0
+ 323              		@ frame_needed = 0, uses_anonymous_args = 0
+ 324              		@ link register save eliminated.
+ 118:faust.cpp     ****     {
+ 119:faust.cpp     ****         int rate;
+ 325              		.loc 7 119 9 view .LVU53
+ 120:faust.cpp     ****         switch((channel))
+ 326              		.loc 7 120 9 view .LVU54
+ 121:faust.cpp     ****         {
+ 122:faust.cpp     ****             default:
+ 327              		.loc 7 122 13 view .LVU55
+ 123:faust.cpp     ****             {
+ 328              		.loc 7 123 13 view .LVU56
+ 124:faust.cpp     ****                 rate = -1;
+ 329              		.loc 7 124 17 view .LVU57
+ 125:faust.cpp     ****                 break;
+ 330              		.loc 7 125 17 view .LVU58
+ 126:faust.cpp     ****             }
+ 127:faust.cpp     ****         }
+ 128:faust.cpp     ****         return rate;
+ 331              		.loc 7 128 9 view .LVU59
+ 129:faust.cpp     ****     }
+ 332              		.loc 7 129 5 is_stmt 0 view .LVU60
+ 333 0000 4FF0FF30 		mov	r0, #-1
+ 334              	.LVL18:
+ 335              		.loc 7 129 5 view .LVU61
+ 336 0004 7047     		bx	lr
+ 337              		.cfi_endproc
+ 338              	.LFE4265:
+ 340 0006 00BF     		.section	.text._ZN5mydsp13getOutputRateEi,"axG",%progbits,_ZN5mydsp13getOutputRateEi,comdat
+ 341              		.align	1
+ 342              		.p2align 2,,3
+ 343              		.weak	_ZN5mydsp13getOutputRateEi
+ 344              		.syntax unified
+ 345              		.thumb
+ 346              		.thumb_func
+ 347              		.fpu fpv5-d16
+ 349              	_ZN5mydsp13getOutputRateEi:
+ 350              	.LVL19:
+ 351              	.LFB4266:
+ 130:faust.cpp     ****     virtual int getOutputRate(int channel)
+ 352              		.loc 7 130 17 is_stmt 1 view -0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356              		@ link register save eliminated.
+ARM GAS  /tmp/ccFZhNkn.s 			page 17
+
+
+ 131:faust.cpp     ****     {
+ 132:faust.cpp     ****         int rate;
+ 357              		.loc 7 132 9 view .LVU63
+ 133:faust.cpp     ****         switch((channel))
+ 358              		.loc 7 133 9 view .LVU64
+ 134:faust.cpp     ****         {
+ 135:faust.cpp     ****             case 0:
+ 136:faust.cpp     ****             {
+ 137:faust.cpp     ****                 rate = 1;
+ 138:faust.cpp     ****                 break;
+ 139:faust.cpp     ****             }
+ 140:faust.cpp     ****             case 1:
+ 141:faust.cpp     ****             {
+ 142:faust.cpp     ****                 rate = 1;
+ 143:faust.cpp     ****                 break;
+ 144:faust.cpp     ****             }
+ 145:faust.cpp     ****             default:
+ 146:faust.cpp     ****             {
+ 147:faust.cpp     ****                 rate = -1;
+ 359              		.loc 7 147 22 is_stmt 0 view .LVU65
+ 360 0000 0129     		cmp	r1, #1
+ 148:faust.cpp     ****                 break;
+ 149:faust.cpp     ****             }
+ 150:faust.cpp     ****         }
+ 151:faust.cpp     ****         return rate;
+ 152:faust.cpp     ****     }
+ 361              		.loc 7 152 5 view .LVU66
+ 362 0002 94BF     		ite	ls
+ 363 0004 0120     		movls	r0, #1
+ 364              	.LVL20:
+ 365              		.loc 7 152 5 view .LVU67
+ 366 0006 4FF0FF30 		movhi	r0, #-1
+ 367 000a 7047     		bx	lr
+ 368              		.cfi_endproc
+ 369              	.LFE4266:
+ 371              		.section	.text._ZN5mydsp17instanceConstantsEi,"axG",%progbits,_ZN5mydsp17instanceConstantsEi,comda
+ 372              		.align	1
+ 373              		.p2align 2,,3
+ 374              		.weak	_ZN5mydsp17instanceConstantsEi
+ 375              		.syntax unified
+ 376              		.thumb
+ 377              		.thumb_func
+ 378              		.fpu fpv5-d16
+ 380              	_ZN5mydsp17instanceConstantsEi:
+ 381              	.LVL21:
+ 382              	.LFB4268:
+ 153:faust.cpp     **** 
+ 154:faust.cpp     ****     static void  classInit(int sample_rate) {}
+ 155:faust.cpp     ****     virtual void instanceConstants(int sample_rate)
+ 383              		.loc 7 155 18 is_stmt 1 view -0
+ 384              		.cfi_startproc
+ 385              		@ args = 0, pretend = 0, frame = 0
+ 386              		@ frame_needed = 0, uses_anonymous_args = 0
+ 387              		@ link register save eliminated.
+ 156:faust.cpp     ****     {
+ 157:faust.cpp     ****         fSampleRate = sample_rate;
+ 388              		.loc 7 157 9 view .LVU69
+ARM GAS  /tmp/ccFZhNkn.s 			page 18
+
+
+ 389              		.loc 7 157 21 is_stmt 0 view .LVU70
+ 390 0000 4161     		str	r1, [r0, #20]
+ 158:faust.cpp     ****     }
+ 391              		.loc 7 158 5 view .LVU71
+ 392 0002 7047     		bx	lr
+ 393              		.cfi_endproc
+ 394              	.LFE4268:
+ 396              		.section	.text._ZN5mydsp26instanceResetUserInterfaceEv,"axG",%progbits,_ZN5mydsp26instanceResetUse
+ 397              		.align	1
+ 398              		.p2align 2,,3
+ 399              		.weak	_ZN5mydsp26instanceResetUserInterfaceEv
+ 400              		.syntax unified
+ 401              		.thumb
+ 402              		.thumb_func
+ 403              		.fpu fpv5-d16
+ 405              	_ZN5mydsp26instanceResetUserInterfaceEv:
+ 406              	.LVL22:
+ 407              	.LFB4269:
+ 159:faust.cpp     **** 
+ 160:faust.cpp     ****     virtual void instanceResetUserInterface()
+ 408              		.loc 7 160 18 is_stmt 1 view -0
+ 409              		.cfi_startproc
+ 410              		@ args = 0, pretend = 0, frame = 0
+ 411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 412              		@ link register save eliminated.
+ 161:faust.cpp     ****     {
+ 162:faust.cpp     ****         fHslider0 = FAUSTFLOAT(0.5f);
+ 413              		.loc 7 162 9 view .LVU73
+ 414              		.loc 7 162 19 is_stmt 0 view .LVU74
+ 415 0000 4FF07C53 		mov	r3, #1056964608
+ 416 0004 4360     		str	r3, [r0, #4]	@ float
+ 163:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 417              		.loc 7 163 9 is_stmt 1 view .LVU75
+ 418              		.loc 7 163 19 is_stmt 0 view .LVU76
+ 419 0006 0361     		str	r3, [r0, #16]	@ float
+ 164:faust.cpp     ****     }
+ 420              		.loc 7 164 5 view .LVU77
+ 421 0008 7047     		bx	lr
+ 422              		.cfi_endproc
+ 423              	.LFE4269:
+ 425 000a 00BF     		.section	.text._ZN5mydsp13instanceClearEv,"axG",%progbits,_ZN5mydsp13instanceClearEv,comdat
+ 426              		.align	1
+ 427              		.p2align 2,,3
+ 428              		.weak	_ZN5mydsp13instanceClearEv
+ 429              		.syntax unified
+ 430              		.thumb
+ 431              		.thumb_func
+ 432              		.fpu fpv5-d16
+ 434              	_ZN5mydsp13instanceClearEv:
+ 435              	.LVL23:
+ 436              	.LFB4270:
+ 165:faust.cpp     **** 
+ 166:faust.cpp     ****     virtual void instanceClear()
+ 437              		.loc 7 166 18 is_stmt 1 view -0
+ 438              		.cfi_startproc
+ 439              		@ args = 0, pretend = 0, frame = 0
+ 440              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccFZhNkn.s 			page 19
+
+
+ 441              		@ link register save eliminated.
+ 167:faust.cpp     ****     {
+ 168:faust.cpp     ****         for(int l0 = 0; (l0 < 2); l0 = (l0 + 1))
+ 442              		.loc 7 168 9 view .LVU79
+ 443              	.LBB97:
+ 444              		.loc 7 168 29 view .LVU80
+ 169:faust.cpp     ****         {
+ 170:faust.cpp     ****             iRec0[l0] = 0;
+ 445              		.loc 7 170 13 view .LVU81
+ 446              		.loc 7 170 23 is_stmt 0 view .LVU82
+ 447 0000 0023     		movs	r3, #0
+ 448 0002 C0E90233 		strd	r3, r3, [r0, #8]
+ 168:faust.cpp     ****         {
+ 449              		.loc 7 168 9 is_stmt 1 view .LVU83
+ 450              	.LVL24:
+ 168:faust.cpp     ****         {
+ 451              		.loc 7 168 29 view .LVU84
+ 452              	.LBE97:
+ 171:faust.cpp     ****         }
+ 172:faust.cpp     ****     }
+ 453              		.loc 7 172 5 is_stmt 0 view .LVU85
+ 454 0006 7047     		bx	lr
+ 455              		.cfi_endproc
+ 456              	.LFE4270:
+ 458              		.section	.text._ZN5mydsp13getSampleRateEv,"axG",%progbits,_ZN5mydsp13getSampleRateEv,comdat
+ 459              		.align	1
+ 460              		.p2align 2,,3
+ 461              		.weak	_ZN5mydsp13getSampleRateEv
+ 462              		.syntax unified
+ 463              		.thumb
+ 464              		.thumb_func
+ 465              		.fpu fpv5-d16
+ 467              	_ZN5mydsp13getSampleRateEv:
+ 468              	.LVL25:
+ 469              	.LFB4277:
+ 173:faust.cpp     **** 
+ 174:faust.cpp     ****     virtual void init(int sample_rate)
+ 175:faust.cpp     ****     {
+ 176:faust.cpp     ****         classInit(sample_rate);
+ 177:faust.cpp     ****         instanceInit(sample_rate);
+ 178:faust.cpp     ****     }
+ 179:faust.cpp     ****     virtual void instanceInit(int sample_rate)
+ 180:faust.cpp     ****     {
+ 181:faust.cpp     ****         instanceConstants(sample_rate);
+ 182:faust.cpp     ****         instanceResetUserInterface();
+ 183:faust.cpp     ****         instanceClear();
+ 184:faust.cpp     ****     }
+ 185:faust.cpp     **** 
+ 186:faust.cpp     ****     virtual mydsp* clone() { return new mydsp(); }
+ 187:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 470              		.loc 7 187 20 is_stmt 1 view -0
+ 471              		.cfi_startproc
+ 472              		@ args = 0, pretend = 0, frame = 0
+ 473              		@ frame_needed = 0, uses_anonymous_args = 0
+ 474              		@ link register save eliminated.
+ 475              		.loc 7 187 38 view .LVU87
+ 476              		.loc 7 187 58 is_stmt 0 view .LVU88
+ARM GAS  /tmp/ccFZhNkn.s 			page 20
+
+
+ 477 0000 4069     		ldr	r0, [r0, #20]
+ 478              	.LVL26:
+ 479              		.loc 7 187 58 view .LVU89
+ 480 0002 7047     		bx	lr
+ 481              		.cfi_endproc
+ 482              	.LFE4277:
+ 484              		.section	.rodata._ZN5mydsp18buildUserInterfaceEP2UI.str1.4,"aMS",%progbits,1
+ 485              		.align	2
+ 486              	.LC12:
+ 487 0000 766F6C31 		.ascii	"vol1\000"
+ 487      00
+ 488 0005 000000   		.align	2
+ 489              	.LC13:
+ 490 0008 766F6C32 		.ascii	"vol2\000"
+ 490      00
+ 491              		.section	.text._ZN5mydsp18buildUserInterfaceEP2UI,"axG",%progbits,_ZN5mydsp18buildUserInterfaceEP2
+ 492              		.align	1
+ 493              		.p2align 2,,3
+ 494              		.weak	_ZN5mydsp18buildUserInterfaceEP2UI
+ 495              		.syntax unified
+ 496              		.thumb
+ 497              		.thumb_func
+ 498              		.fpu fpv5-d16
+ 500              	_ZN5mydsp18buildUserInterfaceEP2UI:
+ 501              	.LVL27:
+ 502              	.LFB4278:
+ 188:faust.cpp     ****     virtual void   buildUserInterface(UI* ui_interface)
+ 503              		.loc 7 188 20 is_stmt 1 view -0
+ 504              		.cfi_startproc
+ 505              		@ args = 0, pretend = 0, frame = 8
+ 506              		@ frame_needed = 0, uses_anonymous_args = 0
+ 189:faust.cpp     ****     {
+ 190:faust.cpp     ****         ui_interface->openVerticalBox("Noise");
+ 507              		.loc 7 190 9 view .LVU91
+ 188:faust.cpp     ****     virtual void   buildUserInterface(UI* ui_interface)
+ 508              		.loc 7 188 20 is_stmt 0 view .LVU92
+ 509 0000 30B5     		push	{r4, r5, lr}
+ 510              		.cfi_def_cfa_offset 12
+ 511              		.cfi_offset 4, -12
+ 512              		.cfi_offset 5, -8
+ 513              		.cfi_offset 14, -4
+ 514 0002 0C46     		mov	r4, r1
+ 515 0004 83B0     		sub	sp, sp, #12
+ 516              		.cfi_def_cfa_offset 24
+ 191:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 517              		.loc 7 191 42 view .LVU93
+ 518 0006 DFED191A 		vldr.32	s3, .L21
+ 188:faust.cpp     ****     virtual void   buildUserInterface(UI* ui_interface)
+ 519              		.loc 7 188 20 view .LVU94
+ 520 000a 0546     		mov	r5, r0
+ 190:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 521              		.loc 7 190 46 view .LVU95
+ 522 000c 2368     		ldr	r3, [r4]
+ 190:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 523              		.loc 7 190 38 view .LVU96
+ 524 000e 2046     		mov	r0, r4
+ 525              	.LVL28:
+ARM GAS  /tmp/ccFZhNkn.s 			page 21
+
+
+ 526              		.loc 7 191 42 view .LVU97
+ 527 0010 DFED170A 		vldr.32	s1, .L21+4
+ 528 0014 CDED011A 		vstr.32	s3, [sp, #4]	@ int
+ 529 0018 CDED000A 		vstr.32	s1, [sp]	@ int
+ 190:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 530              		.loc 7 190 38 view .LVU98
+ 531 001c 1549     		ldr	r1, .L21+8
+ 532              	.LVL29:
+ 190:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 533              		.loc 7 190 38 view .LVU99
+ 534 001e 1B69     		ldr	r3, [r3, #16]
+ 535 0020 9847     		blx	r3
+ 536              	.LVL30:
+ 537              		.loc 7 191 9 is_stmt 1 view .LVU100
+ 192:faust.cpp     ****             "vol1", &fHslider0, 0.5f, 0.0f, 1.0f, 0.00999999978f);
+ 538              		.loc 7 192 65 is_stmt 0 view .LVU101
+ 539 0022 2368     		ldr	r3, [r4]
+ 191:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 540              		.loc 7 191 42 view .LVU102
+ 541 0024 2A1D     		adds	r2, r5, #4
+ 542 0026 2046     		mov	r0, r4
+ 543 0028 DDED011A 		vldr.32	s3, [sp, #4]	@ int
+ 544 002c B7EE001A 		vmov.f32	s2, #1.0e+0
+ 545 0030 DDED000A 		vldr.32	s1, [sp]	@ int
+ 546 0034 B6EE000A 		vmov.f32	s0, #5.0e-1
+ 547 0038 5B6A     		ldr	r3, [r3, #36]
+ 548 003a 0F49     		ldr	r1, .L21+12
+ 549 003c 9847     		blx	r3
+ 550              	.LVL31:
+ 193:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 551              		.loc 7 193 9 is_stmt 1 view .LVU103
+ 194:faust.cpp     ****             "vol2", &fHslider1, 0.5f, 0.0f, 1.0f, 0.00999999978f);
+ 552              		.loc 7 194 65 is_stmt 0 view .LVU104
+ 553 003e 2368     		ldr	r3, [r4]
+ 193:faust.cpp     ****         ui_interface->addHorizontalSlider(
+ 554              		.loc 7 193 42 view .LVU105
+ 555 0040 2046     		mov	r0, r4
+ 556 0042 B7EE001A 		vmov.f32	s2, #1.0e+0
+ 557 0046 B6EE000A 		vmov.f32	s0, #5.0e-1
+ 558 004a 05F11002 		add	r2, r5, #16
+ 559 004e 5B6A     		ldr	r3, [r3, #36]
+ 560 0050 DDED011A 		vldr.32	s3, [sp, #4]	@ int
+ 561 0054 DDED000A 		vldr.32	s1, [sp]	@ int
+ 562 0058 0849     		ldr	r1, .L21+16
+ 563 005a 9847     		blx	r3
+ 564              	.LVL32:
+ 195:faust.cpp     ****         ui_interface->closeBox();
+ 565              		.loc 7 195 9 is_stmt 1 view .LVU106
+ 566              		.loc 7 195 32 is_stmt 0 view .LVU107
+ 567 005c 2368     		ldr	r3, [r4]
+ 568              		.loc 7 195 31 view .LVU108
+ 569 005e 2046     		mov	r0, r4
+ 570 0060 5B69     		ldr	r3, [r3, #20]
+ 196:faust.cpp     ****     }
+ 571              		.loc 7 196 5 view .LVU109
+ 572 0062 03B0     		add	sp, sp, #12
+ 573              		.cfi_def_cfa_offset 12
+ARM GAS  /tmp/ccFZhNkn.s 			page 22
+
+
+ 574              		@ sp needed
+ 575 0064 BDE83040 		pop	{r4, r5, lr}
+ 576              		.cfi_restore 14
+ 577              		.cfi_restore 5
+ 578              		.cfi_restore 4
+ 579              		.cfi_def_cfa_offset 0
+ 580              	.LVL33:
+ 195:faust.cpp     ****         ui_interface->closeBox();
+ 581              		.loc 7 195 31 view .LVU110
+ 582 0068 1847     		bx	r3	@ indirect register sibling call
+ 583              	.LVL34:
+ 584              	.L22:
+ 195:faust.cpp     ****         ui_interface->closeBox();
+ 585              		.loc 7 195 31 view .LVU111
+ 586 006a 00BF     		.align	2
+ 587              	.L21:
+ 588 006c 0AD7233C 		.word	1008981770
+ 589 0070 00000000 		.word	0
+ 590 0074 50000000 		.word	.LC8
+ 591 0078 00000000 		.word	.LC12
+ 592 007c 08000000 		.word	.LC13
+ 593              		.cfi_endproc
+ 594              	.LFE4278:
+ 596              		.section	.text._ZN5mydsp7computeEiPPfS1_,"axG",%progbits,_ZN5mydsp7computeEiPPfS1_,comdat
+ 597              		.align	1
+ 598              		.p2align 2,,3
+ 599              		.weak	_ZN5mydsp7computeEiPPfS1_
+ 600              		.syntax unified
+ 601              		.thumb
+ 602              		.thumb_func
+ 603              		.fpu fpv5-d16
+ 605              	_ZN5mydsp7computeEiPPfS1_:
+ 606              	.LVL35:
+ 607              	.LFB4279:
+ 197:faust.cpp     **** 
+ 198:faust.cpp     ****     virtual void compute(int count, FAUSTFLOAT** inputs, FAUSTFLOAT** outputs)
+ 608              		.loc 7 198 18 is_stmt 1 view -0
+ 609              		.cfi_startproc
+ 610              		@ args = 0, pretend = 0, frame = 0
+ 611              		@ frame_needed = 0, uses_anonymous_args = 0
+ 612              		@ link register save eliminated.
+ 199:faust.cpp     ****     {
+ 200:faust.cpp     ****         FAUSTFLOAT* output0 = outputs[0];
+ 613              		.loc 7 200 9 view .LVU113
+ 201:faust.cpp     ****         FAUSTFLOAT* output1 = outputs[1];
+ 202:faust.cpp     ****         float       fSlow0  = (4.65661287e-10f * float(fHslider0));
+ 614              		.loc 7 202 21 is_stmt 0 view .LVU114
+ 615 0000 DFED147A 		vldr.32	s15, .L28
+ 616              	.LBB98:
+ 203:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 204:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 617              		.loc 7 204 27 view .LVU115
+ 618 0004 0029     		cmp	r1, #0
+ 619              		.loc 7 204 27 view .LVU116
+ 620              	.LBE98:
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 621              		.loc 7 202 21 view .LVU117
+ARM GAS  /tmp/ccFZhNkn.s 			page 23
+
+
+ 622 0006 D0ED016A 		vldr.32	s13, [r0, #4]
+ 203:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 623              		.loc 7 203 21 view .LVU118
+ 624 000a 90ED046A 		vldr.32	s12, [r0, #16]
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 625              		.loc 7 202 21 view .LVU119
+ 626 000e 66EEA76A 		vmul.f32	s13, s13, s15
+ 200:faust.cpp     ****         FAUSTFLOAT* output1 = outputs[1];
+ 627              		.loc 7 200 21 view .LVU120
+ 628 0012 1A68     		ldr	r2, [r3]
+ 629              	.LVL36:
+ 201:faust.cpp     ****         float       fSlow0  = (4.65661287e-10f * float(fHslider0));
+ 630              		.loc 7 201 9 is_stmt 1 view .LVU121
+ 203:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 631              		.loc 7 203 21 is_stmt 0 view .LVU122
+ 632 0014 26EE276A 		vmul.f32	s12, s12, s15
+ 198:faust.cpp     ****     {
+ 633              		.loc 7 198 18 view .LVU123
+ 634 0018 70B4     		push	{r4, r5, r6}
+ 635              		.cfi_def_cfa_offset 12
+ 636              		.cfi_offset 4, -12
+ 637              		.cfi_offset 5, -8
+ 638              		.cfi_offset 6, -4
+ 201:faust.cpp     ****         float       fSlow0  = (4.65661287e-10f * float(fHslider0));
+ 639              		.loc 7 201 21 view .LVU124
+ 640 001a 5C68     		ldr	r4, [r3, #4]
+ 641              	.LVL37:
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 642              		.loc 7 202 9 is_stmt 1 view .LVU125
+ 203:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 643              		.loc 7 203 9 view .LVU126
+ 644              		.loc 7 204 9 view .LVU127
+ 645              	.LBB101:
+ 646              		.loc 7 204 27 view .LVU128
+ 647 001c 18DD     		ble	.L23
+ 648 001e 1346     		mov	r3, r2
+ 649              	.LVL38:
+ 650              		.loc 7 204 27 is_stmt 0 view .LVU129
+ 651 0020 C268     		ldr	r2, [r0, #12]
+ 652              	.LVL39:
+ 653              		.loc 7 204 27 view .LVU130
+ 654 0022 03EB8106 		add	r6, r3, r1, lsl #2
+ 655              	.LVL40:
+ 656              	.L25:
+ 657              	.LBB99:
+ 205:faust.cpp     ****         {
+ 206:faust.cpp     ****             iRec0[0]     = ((1103515245 * iRec0[1]) + 12345);
+ 658              		.loc 7 206 13 is_stmt 1 discriminator 2 view .LVU131
+ 659              		.loc 7 206 41 is_stmt 0 discriminator 2 view .LVU132
+ 660 0026 0C4D     		ldr	r5, .L28+4
+ 661              		.loc 7 206 53 discriminator 2 view .LVU133
+ 662 0028 43F23901 		movw	r1, #12345
+ 663 002c 05FB0212 		mla	r2, r5, r2, r1
+ 207:faust.cpp     ****             float fTemp0 = float(iRec0[0]);
+ 664              		.loc 7 207 13 is_stmt 1 discriminator 2 view .LVU134
+ 665              		.loc 7 207 19 is_stmt 0 discriminator 2 view .LVU135
+ 666 0030 07EE902A 		vmov	s15, r2	@ int
+ARM GAS  /tmp/ccFZhNkn.s 			page 24
+
+
+ 667 0034 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 668              	.LVL41:
+ 208:faust.cpp     ****             output0[i]   = FAUSTFLOAT((fSlow0 * fTemp0));
+ 669              		.loc 7 208 13 is_stmt 1 discriminator 2 view .LVU136
+ 670              		.loc 7 208 47 is_stmt 0 discriminator 2 view .LVU137
+ 671 0038 26EEA77A 		vmul.f32	s14, s13, s15
+ 209:faust.cpp     ****             output1[i]   = FAUSTFLOAT((fSlow1 * fTemp0));
+ 672              		.loc 7 209 47 discriminator 2 view .LVU138
+ 673 003c 66EE277A 		vmul.f32	s15, s12, s15
+ 674              	.LVL42:
+ 208:faust.cpp     ****             output0[i]   = FAUSTFLOAT((fSlow0 * fTemp0));
+ 675              		.loc 7 208 26 discriminator 2 view .LVU139
+ 676 0040 A3EC017A 		vstmia.32	r3!, {s14}
+ 677              		.loc 7 209 13 is_stmt 1 discriminator 2 view .LVU140
+ 678              	.LBE99:
+ 204:faust.cpp     ****         {
+ 679              		.loc 7 204 27 is_stmt 0 discriminator 2 view .LVU141
+ 680 0044 B342     		cmp	r3, r6
+ 681              	.LBB100:
+ 682              		.loc 7 209 26 discriminator 2 view .LVU142
+ 683 0046 E4EC017A 		vstmia.32	r4!, {s15}
+ 210:faust.cpp     ****             iRec0[1]     = iRec0[0];
+ 684              		.loc 7 210 13 is_stmt 1 discriminator 2 view .LVU143
+ 685              	.LBE100:
+ 204:faust.cpp     ****         {
+ 686              		.loc 7 204 9 discriminator 2 view .LVU144
+ 204:faust.cpp     ****         {
+ 687              		.loc 7 204 27 discriminator 2 view .LVU145
+ 688 004a ECD1     		bne	.L25
+ 689 004c C0E90222 		strd	r2, r2, [r0, #8]
+ 690              	.LVL43:
+ 691              	.L23:
+ 204:faust.cpp     ****         {
+ 692              		.loc 7 204 27 is_stmt 0 discriminator 2 view .LVU146
+ 693              	.LBE101:
+ 211:faust.cpp     ****         }
+ 212:faust.cpp     ****     }
+ 694              		.loc 7 212 5 view .LVU147
+ 695 0050 70BC     		pop	{r4, r5, r6}
+ 696              		.cfi_restore 6
+ 697              		.cfi_restore 5
+ 698              		.cfi_restore 4
+ 699              		.cfi_def_cfa_offset 0
+ 700 0052 7047     		bx	lr
+ 701              	.L29:
+ 702              		.align	2
+ 703              	.L28:
+ 704 0054 00000030 		.word	805306368
+ 705 0058 6D4EC641 		.word	1103515245
+ 706              		.cfi_endproc
+ 707              	.LFE4279:
+ 709              		.section	.text._ZL13AudioCallbackPKfPfj,"ax",%progbits
+ 710              		.align	1
+ 711              		.p2align 2,,3
+ 712              		.syntax unified
+ 713              		.thumb
+ 714              		.thumb_func
+ARM GAS  /tmp/ccFZhNkn.s 			page 25
+
+
+ 715              		.fpu fpv5-d16
+ 717              	_ZL13AudioCallbackPKfPfj:
+ 718              	.LVL44:
+ 719              	.LFB4280:
+ 213:faust.cpp     **** };
+ 214:faust.cpp     **** 
+ 215:faust.cpp     **** /***************************END USER SECTION ***************************/
+ 216:faust.cpp     **** 
+ 217:faust.cpp     **** /*******************BEGIN ARCHITECTURE SECTION (part 2/2)***************/
+ 218:faust.cpp     **** 
+ 219:faust.cpp     **** FAUSTFLOAT* finputs[2];
+ 220:faust.cpp     **** FAUSTFLOAT* foutputs[2];
+ 221:faust.cpp     **** 
+ 222:faust.cpp     **** mydsp DSP;
+ 223:faust.cpp     **** 
+ 224:faust.cpp     **** #define MY_BUFFER_SIZE 8
+ 225:faust.cpp     **** 
+ 226:faust.cpp     **** static daisy::DaisySeed seed;
+ 227:faust.cpp     **** 
+ 228:faust.cpp     **** static void AudioCallback(daisy::AudioHandle::InterleavingInputBuffer  in,
+ 229:faust.cpp     ****                           daisy::AudioHandle::InterleavingOutputBuffer out,
+ 230:faust.cpp     ****                           size_t                                       size)
+ 231:faust.cpp     **** {
+ 720              		.loc 7 231 1 is_stmt 1 view -0
+ 721              		.cfi_startproc
+ 722              		@ args = 0, pretend = 0, frame = 0
+ 723              		@ frame_needed = 0, uses_anonymous_args = 0
+ 232:faust.cpp     ****     // Deinterleave
+ 233:faust.cpp     ****     for(size_t frame = 0; frame < size; frame++)
+ 724              		.loc 7 233 5 view .LVU149
+ 725              	.LBB102:
+ 726              		.loc 7 233 33 view .LVU150
+ 727 0000 002A     		cmp	r2, #0
+ 728 0002 4DD0     		beq	.L43
+ 234:faust.cpp     ****     {
+ 235:faust.cpp     ****         finputs[0][frame] = in[frame * 2];
+ 729              		.loc 7 235 18 is_stmt 0 view .LVU151
+ 730 0004 274B     		ldr	r3, .L46
+ 731              	.LBE102:
+ 231:faust.cpp     ****     // Deinterleave
+ 732              		.loc 7 231 1 view .LVU152
+ 733 0006 2DE9F041 		push	{r4, r5, r6, r7, r8, lr}
+ 734              		.cfi_def_cfa_offset 24
+ 735              		.cfi_offset 4, -24
+ 736              		.cfi_offset 5, -20
+ 737              		.cfi_offset 6, -16
+ 738              		.cfi_offset 7, -12
+ 739              		.cfi_offset 8, -8
+ 740              		.cfi_offset 14, -4
+ 741 000a 00EBC206 		add	r6, r0, r2, lsl #3
+ 742 000e D3E90043 		ldrd	r4, r3, [r3]
+ 743              	.LVL45:
+ 744              	.L33:
+ 745              	.LBB103:
+ 746              		.loc 7 235 9 is_stmt 1 discriminator 2 view .LVU153
+ 747              		.loc 7 235 41 is_stmt 0 discriminator 2 view .LVU154
+ 748 0012 0568     		ldr	r5, [r0]	@ float
+ARM GAS  /tmp/ccFZhNkn.s 			page 26
+
+
+ 749 0014 0830     		adds	r0, r0, #8
+ 750              		.loc 7 235 27 discriminator 2 view .LVU155
+ 751 0016 44F8045B 		str	r5, [r4], #4	@ float
+ 236:faust.cpp     ****         finputs[1][frame] = in[frame * 2 + 1];
+ 752              		.loc 7 236 9 is_stmt 1 discriminator 2 view .LVU156
+ 753              		.loc 7 236 45 is_stmt 0 discriminator 2 view .LVU157
+ 754 001a 50F8045C 		ldr	r5, [r0, #-4]	@ float
+ 233:faust.cpp     ****     {
+ 755              		.loc 7 233 33 discriminator 2 view .LVU158
+ 756 001e 8642     		cmp	r6, r0
+ 757              		.loc 7 236 27 discriminator 2 view .LVU159
+ 758 0020 43F8045B 		str	r5, [r3], #4	@ float
+ 233:faust.cpp     ****     {
+ 759              		.loc 7 233 5 is_stmt 1 discriminator 2 view .LVU160
+ 233:faust.cpp     ****     {
+ 760              		.loc 7 233 33 discriminator 2 view .LVU161
+ 761 0024 F5D1     		bne	.L33
+ 762              	.LBE103:
+ 237:faust.cpp     ****     }
+ 238:faust.cpp     **** 
+ 239:faust.cpp     ****     // Faust processing
+ 240:faust.cpp     ****     DSP.compute(size, finputs, foutputs);
+ 763              		.loc 7 240 5 view .LVU162
+ 764              	.LVL46:
+ 765              	.LBB104:
+ 766              	.LBI104:
+ 198:faust.cpp     ****     {
+ 767              		.loc 7 198 18 view .LVU163
+ 768              	.LBB105:
+ 200:faust.cpp     ****         FAUSTFLOAT* output1 = outputs[1];
+ 769              		.loc 7 200 9 view .LVU164
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 770              		.loc 7 202 56 is_stmt 0 view .LVU165
+ 771 0026 DFF88C80 		ldr	r8, .L46+16
+ 772 002a 4FEA820E 		lsl	lr, r2, #2
+ 200:faust.cpp     ****         FAUSTFLOAT* output1 = outputs[1];
+ 773              		.loc 7 200 21 view .LVU166
+ 774 002e 1E48     		ldr	r0, .L46+4
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 775              		.loc 7 202 21 view .LVU167
+ 776 0030 DFED1E7A 		vldr.32	s15, .L46+8
+ 777 0034 98ED016A 		vldr.32	s12, [r8, #4]
+ 203:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 778              		.loc 7 203 21 view .LVU168
+ 779 0038 D8ED046A 		vldr.32	s13, [r8, #16]
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 780              		.loc 7 202 21 view .LVU169
+ 781 003c 26EE276A 		vmul.f32	s12, s12, s15
+ 203:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 782              		.loc 7 203 21 view .LVU170
+ 783 0040 66EEA76A 		vmul.f32	s13, s13, s15
+ 201:faust.cpp     ****         float       fSlow0  = (4.65661287e-10f * float(fHslider0));
+ 784              		.loc 7 201 21 view .LVU171
+ 785 0044 D0E90034 		ldrd	r3, r4, [r0]
+ 786              	.LVL47:
+ 202:faust.cpp     ****         float       fSlow1  = (4.65661287e-10f * float(fHslider1));
+ 787              		.loc 7 202 9 is_stmt 1 view .LVU172
+ARM GAS  /tmp/ccFZhNkn.s 			page 27
+
+
+ 203:faust.cpp     ****         for(int i = 0; (i < count); i = (i + 1))
+ 788              		.loc 7 203 9 view .LVU173
+ 204:faust.cpp     ****         {
+ 789              		.loc 7 204 9 view .LVU174
+ 790              	.LBB106:
+ 204:faust.cpp     ****         {
+ 791              		.loc 7 204 27 view .LVU175
+ 792 0048 03EB820C 		add	ip, r3, r2, lsl #2
+ 793 004c 1846     		mov	r0, r3
+ 794 004e 2546     		mov	r5, r4
+ 795 0050 D8F80C20 		ldr	r2, [r8, #12]
+ 796              	.LVL48:
+ 797              	.L34:
+ 798              	.LBB107:
+ 206:faust.cpp     ****             float fTemp0 = float(iRec0[0]);
+ 799              		.loc 7 206 13 view .LVU176
+ 206:faust.cpp     ****             float fTemp0 = float(iRec0[0]);
+ 800              		.loc 7 206 41 is_stmt 0 view .LVU177
+ 801 0054 164F     		ldr	r7, .L46+12
+ 206:faust.cpp     ****             float fTemp0 = float(iRec0[0]);
+ 802              		.loc 7 206 53 view .LVU178
+ 803 0056 43F23906 		movw	r6, #12345
+ 804 005a 07FB0262 		mla	r2, r7, r2, r6
+ 207:faust.cpp     ****             output0[i]   = FAUSTFLOAT((fSlow0 * fTemp0));
+ 805              		.loc 7 207 13 is_stmt 1 view .LVU179
+ 207:faust.cpp     ****             output0[i]   = FAUSTFLOAT((fSlow0 * fTemp0));
+ 806              		.loc 7 207 19 is_stmt 0 view .LVU180
+ 807 005e 07EE902A 		vmov	s15, r2	@ int
+ 808 0062 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 809              	.LVL49:
+ 208:faust.cpp     ****             output1[i]   = FAUSTFLOAT((fSlow1 * fTemp0));
+ 810              		.loc 7 208 13 is_stmt 1 view .LVU181
+ 208:faust.cpp     ****             output1[i]   = FAUSTFLOAT((fSlow1 * fTemp0));
+ 811              		.loc 7 208 47 is_stmt 0 view .LVU182
+ 812 0066 27EE867A 		vmul.f32	s14, s15, s12
+ 209:faust.cpp     ****             iRec0[1]     = iRec0[0];
+ 813              		.loc 7 209 47 view .LVU183
+ 814 006a 67EEA67A 		vmul.f32	s15, s15, s13
+ 815              	.LVL50:
+ 208:faust.cpp     ****             output1[i]   = FAUSTFLOAT((fSlow1 * fTemp0));
+ 816              		.loc 7 208 26 view .LVU184
+ 817 006e A0EC017A 		vstmia.32	r0!, {s14}
+ 209:faust.cpp     ****             iRec0[1]     = iRec0[0];
+ 818              		.loc 7 209 13 is_stmt 1 view .LVU185
+ 819              	.LBE107:
+ 204:faust.cpp     ****         {
+ 820              		.loc 7 204 27 is_stmt 0 view .LVU186
+ 821 0072 6045     		cmp	r0, ip
+ 822              	.LBB108:
+ 209:faust.cpp     ****             iRec0[1]     = iRec0[0];
+ 823              		.loc 7 209 26 view .LVU187
+ 824 0074 E5EC017A 		vstmia.32	r5!, {s15}
+ 210:faust.cpp     ****         }
+ 825              		.loc 7 210 13 is_stmt 1 view .LVU188
+ 826              	.LBE108:
+ 204:faust.cpp     ****         {
+ 827              		.loc 7 204 9 view .LVU189
+ARM GAS  /tmp/ccFZhNkn.s 			page 28
+
+
+ 204:faust.cpp     ****         {
+ 828              		.loc 7 204 27 view .LVU190
+ 829 0078 ECD1     		bne	.L34
+ 830 007a 2046     		mov	r0, r4
+ 831 007c 9E44     		add	lr, lr, r3
+ 832 007e C8F80C20 		str	r2, [r8, #12]
+ 833 0082 C8F80820 		str	r2, [r8, #8]
+ 834              	.LVL51:
+ 835              	.L35:
+ 204:faust.cpp     ****         {
+ 836              		.loc 7 204 27 is_stmt 0 view .LVU191
+ 837              	.LBE106:
+ 838              	.LBE105:
+ 839              	.LBE104:
+ 840              	.LBB109:
+ 241:faust.cpp     **** 
+ 242:faust.cpp     ****     // Interleave
+ 243:faust.cpp     ****     for(size_t frame = 0; frame < size; frame++)
+ 244:faust.cpp     ****     {
+ 245:faust.cpp     ****         out[frame * 2]     = foutputs[0][frame];
+ 841              		.loc 7 245 9 is_stmt 1 discriminator 2 view .LVU192
+ 842              		.loc 7 245 47 is_stmt 0 discriminator 2 view .LVU193
+ 843 0086 53F8042B 		ldr	r2, [r3], #4	@ float
+ 844 008a 0831     		adds	r1, r1, #8
+ 845              		.loc 7 245 28 discriminator 2 view .LVU194
+ 846 008c 41F8082C 		str	r2, [r1, #-8]	@ float
+ 246:faust.cpp     ****         out[frame * 2 + 1] = foutputs[1][frame];
+ 847              		.loc 7 246 9 is_stmt 1 discriminator 2 view .LVU195
+ 243:faust.cpp     ****     {
+ 848              		.loc 7 243 33 is_stmt 0 discriminator 2 view .LVU196
+ 849 0090 9E45     		cmp	lr, r3
+ 850              		.loc 7 246 47 discriminator 2 view .LVU197
+ 851 0092 50F8042B 		ldr	r2, [r0], #4	@ float
+ 852              		.loc 7 246 28 discriminator 2 view .LVU198
+ 853 0096 41F8042C 		str	r2, [r1, #-4]	@ float
+ 243:faust.cpp     ****     {
+ 854              		.loc 7 243 5 is_stmt 1 discriminator 2 view .LVU199
+ 243:faust.cpp     ****     {
+ 855              		.loc 7 243 33 discriminator 2 view .LVU200
+ 856 009a F4D1     		bne	.L35
+ 857              	.LBE109:
+ 247:faust.cpp     ****     }
+ 248:faust.cpp     **** }
+ 858              		.loc 7 248 1 is_stmt 0 view .LVU201
+ 859 009c BDE8F081 		pop	{r4, r5, r6, r7, r8, pc}
+ 860              	.LVL52:
+ 861              	.L43:
+ 862              		.cfi_def_cfa_offset 0
+ 863              		.cfi_restore 4
+ 864              		.cfi_restore 5
+ 865              		.cfi_restore 6
+ 866              		.cfi_restore 7
+ 867              		.cfi_restore 8
+ 868              		.cfi_restore 14
+ 869              		.loc 7 248 1 view .LVU202
+ 870 00a0 7047     		bx	lr
+ 871              	.L47:
+ARM GAS  /tmp/ccFZhNkn.s 			page 29
+
+
+ 872 00a2 00BF     		.align	2
+ 873              	.L46:
+ 874 00a4 00000000 		.word	.LANCHOR0
+ 875 00a8 00000000 		.word	.LANCHOR2
+ 876 00ac 00000030 		.word	805306368
+ 877 00b0 6D4EC641 		.word	1103515245
+ 878 00b4 00000000 		.word	.LANCHOR1
+ 879              		.cfi_endproc
+ 880              	.LFE4280:
+ 882              		.section	.text._ZN5mydspD2Ev,"axG",%progbits,_ZN5mydspD5Ev,comdat
+ 883              		.align	1
+ 884              		.p2align 2,,3
+ 885              		.weak	_ZN5mydspD2Ev
+ 886              		.syntax unified
+ 887              		.thumb
+ 888              		.thumb_func
+ 889              		.fpu fpv5-d16
+ 891              	_ZN5mydspD2Ev:
+ 892              	.LVL53:
+ 893              	.LFB4834:
+  96:faust.cpp     **** {
+ 894              		.loc 7 96 7 is_stmt 1 view -0
+ 895              		.cfi_startproc
+ 896              		@ args = 0, pretend = 0, frame = 0
+ 897              		@ frame_needed = 0, uses_anonymous_args = 0
+ 898              		@ link register save eliminated.
+ 899              	.LBB110:
+ 900              	.LBI110:
+  58:faust/dsp/dsp.h **** 
+ 901              		.loc 6 58 13 view .LVU204
+  58:faust/dsp/dsp.h **** 
+ 902              		.loc 6 58 13 is_stmt 0 view .LVU205
+ 903              	.LBE110:
+  96:faust.cpp     **** {
+ 904              		.loc 7 96 7 view .LVU206
+ 905 0000 7047     		bx	lr
+ 906              		.cfi_endproc
+ 907              	.LFE4834:
+ 909              		.weak	_ZN5mydspD1Ev
+ 910              		.thumb_set _ZN5mydspD1Ev,_ZN5mydspD2Ev
+ 911 0002 00BF     		.section	.text._ZN5mydsp5cloneEv,"axG",%progbits,_ZN5mydsp5cloneEv,comdat
+ 912              		.align	1
+ 913              		.p2align 2,,3
+ 914              		.weak	_ZN5mydsp5cloneEv
+ 915              		.syntax unified
+ 916              		.thumb
+ 917              		.thumb_func
+ 918              		.fpu fpv5-d16
+ 920              	_ZN5mydsp5cloneEv:
+ 921              	.LVL54:
+ 922              	.LFB4273:
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 923              		.loc 7 186 20 is_stmt 1 view -0
+ 924              		.cfi_startproc
+ 925              		@ args = 0, pretend = 0, frame = 0
+ 926              		@ frame_needed = 0, uses_anonymous_args = 0
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ARM GAS  /tmp/ccFZhNkn.s 			page 30
+
+
+ 927              		.loc 7 186 30 view .LVU208
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 928              		.loc 7 186 20 is_stmt 0 view .LVU209
+ 929 0000 08B5     		push	{r3, lr}
+ 930              		.cfi_def_cfa_offset 8
+ 931              		.cfi_offset 3, -8
+ 932              		.cfi_offset 14, -4
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 933              		.loc 7 186 47 view .LVU210
+ 934 0002 1820     		movs	r0, #24
+ 935              	.LVL55:
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 936              		.loc 7 186 47 view .LVU211
+ 937 0004 FFF7FEFF 		bl	_Znwj
+ 938              	.LVL56:
+ 939 0008 0022     		movs	r2, #0
+ 940              	.LBB111:
+ 941              	.LBB112:
+  96:faust.cpp     **** {
+ 942              		.loc 7 96 7 view .LVU212
+ 943 000a 0449     		ldr	r1, .L51
+ 944              	.LBE112:
+ 945              	.LBE111:
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 946              		.loc 7 186 47 view .LVU213
+ 947 000c C0E90222 		strd	r2, r2, [r0, #8]
+ 948 0010 C0E90012 		strd	r1, r2, [r0]
+ 949 0014 C0E90422 		strd	r2, r2, [r0, #16]
+ 950              	.LVL57:
+ 951              	.LBB115:
+ 952              	.LBI111:
+  96:faust.cpp     **** {
+ 953              		.loc 7 96 7 is_stmt 1 view .LVU214
+ 954              	.LBB114:
+ 955              	.LBB113:
+ 956              	.LBI113:
+  57:faust/dsp/dsp.h ****     virtual ~dsp() {}
+ 957              		.loc 6 57 5 view .LVU215
+  57:faust/dsp/dsp.h ****     virtual ~dsp() {}
+ 958              		.loc 6 57 5 is_stmt 0 view .LVU216
+ 959              	.LBE113:
+ 960              	.LBE114:
+ 961              	.LBE115:
+ 186:faust.cpp     ****     virtual int    getSampleRate() { return fSampleRate; }
+ 962              		.loc 7 186 50 view .LVU217
+ 963 0018 08BD     		pop	{r3, pc}
+ 964              	.L52:
+ 965 001a 00BF     		.align	2
+ 966              	.L51:
+ 967 001c 08000000 		.word	_ZTV5mydsp+8
+ 968              		.cfi_endproc
+ 969              	.LFE4273:
+ 971              		.section	.text._ZN5mydspD0Ev,"axG",%progbits,_ZN5mydspD5Ev,comdat
+ 972              		.align	1
+ 973              		.p2align 2,,3
+ 974              		.weak	_ZN5mydspD0Ev
+ 975              		.syntax unified
+ARM GAS  /tmp/ccFZhNkn.s 			page 31
+
+
+ 976              		.thumb
+ 977              		.thumb_func
+ 978              		.fpu fpv5-d16
+ 980              	_ZN5mydspD0Ev:
+ 981              	.LVL58:
+ 982              	.LFB4836:
+  96:faust.cpp     **** {
+ 983              		.loc 7 96 7 is_stmt 1 view -0
+ 984              		.cfi_startproc
+ 985              		@ args = 0, pretend = 0, frame = 0
+ 986              		@ frame_needed = 0, uses_anonymous_args = 0
+  96:faust.cpp     **** {
+ 987              		.loc 7 96 7 is_stmt 0 view .LVU219
+ 988 0000 10B5     		push	{r4, lr}
+ 989              		.cfi_def_cfa_offset 8
+ 990              		.cfi_offset 4, -8
+ 991              		.cfi_offset 14, -4
+  96:faust.cpp     **** {
+ 992              		.loc 7 96 7 view .LVU220
+ 993 0002 0446     		mov	r4, r0
+ 994              	.LVL59:
+ 995              	.LBB116:
+ 996              	.LBI116:
+  96:faust.cpp     **** {
+ 997              		.loc 7 96 7 is_stmt 1 view .LVU221
+ 998              	.LBB117:
+ 999              	.LBI117:
+  58:faust/dsp/dsp.h **** 
+ 1000              		.loc 6 58 13 view .LVU222
+  58:faust/dsp/dsp.h **** 
+ 1001              		.loc 6 58 13 is_stmt 0 view .LVU223
+ 1002              	.LBE117:
+ 1003              	.LBE116:
+  96:faust.cpp     **** {
+ 1004              		.loc 7 96 7 view .LVU224
+ 1005 0004 1821     		movs	r1, #24
+ 1006 0006 FFF7FEFF 		bl	_ZdlPvj
+ 1007              	.LVL60:
+  96:faust.cpp     **** {
+ 1008              		.loc 7 96 7 view .LVU225
+ 1009 000a 2046     		mov	r0, r4
+ 1010 000c 10BD     		pop	{r4, pc}
+  96:faust.cpp     **** {
+ 1011              		.loc 7 96 7 view .LVU226
+ 1012              		.cfi_endproc
+ 1013              	.LFE4836:
+ 1015 000e 00BF     		.section	.text._ZN5mydsp12instanceInitEi,"axG",%progbits,_ZN5mydsp12instanceInitEi,comdat
+ 1016              		.align	1
+ 1017              		.p2align 2,,3
+ 1018              		.weak	_ZN5mydsp12instanceInitEi
+ 1019              		.syntax unified
+ 1020              		.thumb
+ 1021              		.thumb_func
+ 1022              		.fpu fpv5-d16
+ 1024              	_ZN5mydsp12instanceInitEi:
+ 1025              	.LVL61:
+ 1026              	.LFB4272:
+ARM GAS  /tmp/ccFZhNkn.s 			page 32
+
+
+ 179:faust.cpp     ****     {
+ 1027              		.loc 7 179 18 is_stmt 1 view -0
+ 1028              		.cfi_startproc
+ 1029              		@ args = 0, pretend = 0, frame = 0
+ 1030              		@ frame_needed = 0, uses_anonymous_args = 0
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1031              		.loc 7 181 9 view .LVU228
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1032              		.loc 7 181 38 is_stmt 0 view .LVU229
+ 1033 0000 0368     		ldr	r3, [r0]
+ 179:faust.cpp     ****     {
+ 1034              		.loc 7 179 18 view .LVU230
+ 1035 0002 70B5     		push	{r4, r5, r6, lr}
+ 1036              		.cfi_def_cfa_offset 16
+ 1037              		.cfi_offset 4, -16
+ 1038              		.cfi_offset 5, -12
+ 1039              		.cfi_offset 6, -8
+ 1040              		.cfi_offset 14, -4
+ 1041 0004 134E     		ldr	r6, .L66
+ 179:faust.cpp     ****     {
+ 1042              		.loc 7 179 18 view .LVU231
+ 1043 0006 0446     		mov	r4, r0
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1044              		.loc 7 181 38 view .LVU232
+ 1045 0008 1D6A     		ldr	r5, [r3, #32]
+ 1046 000a B542     		cmp	r5, r6
+ 1047 000c 10D1     		bne	.L56
+ 1048              	.LVL62:
+ 1049              	.LBB125:
+ 1050              	.LBI125:
+ 155:faust.cpp     ****     {
+ 1051              		.loc 7 155 18 is_stmt 1 view .LVU233
+ 1052              	.LBB126:
+ 157:faust.cpp     ****     }
+ 1053              		.loc 7 157 9 view .LVU234
+ 1054              	.LBE126:
+ 1055              	.LBE125:
+ 182:faust.cpp     ****         instanceClear();
+ 1056              		.loc 7 182 36 is_stmt 0 view .LVU235
+ 1057 000e 5A6A     		ldr	r2, [r3, #36]
+ 1058              	.LBB128:
+ 1059              	.LBB127:
+ 157:faust.cpp     ****     }
+ 1060              		.loc 7 157 21 view .LVU236
+ 1061 0010 6161     		str	r1, [r4, #20]
+ 1062              	.LVL63:
+ 157:faust.cpp     ****     }
+ 1063              		.loc 7 157 21 view .LVU237
+ 1064              	.LBE127:
+ 1065              	.LBE128:
+ 182:faust.cpp     ****         instanceClear();
+ 1066              		.loc 7 182 9 is_stmt 1 view .LVU238
+ 1067 0012 1149     		ldr	r1, .L66+4
+ 1068              	.LVL64:
+ 182:faust.cpp     ****         instanceClear();
+ 1069              		.loc 7 182 9 is_stmt 0 view .LVU239
+ 1070 0014 8A42     		cmp	r2, r1
+ARM GAS  /tmp/ccFZhNkn.s 			page 33
+
+
+ 1071 0016 11D1     		bne	.L58
+ 1072              	.LVL65:
+ 1073              	.L64:
+ 1074              	.LBB129:
+ 1075              	.LBI129:
+ 160:faust.cpp     ****     {
+ 1076              		.loc 7 160 18 is_stmt 1 view .LVU240
+ 1077              	.LBB130:
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1078              		.loc 7 162 9 view .LVU241
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1079              		.loc 7 162 19 is_stmt 0 view .LVU242
+ 1080 0018 4FF07C52 		mov	r2, #1056964608
+ 1081              	.LBE130:
+ 1082              	.LBE129:
+ 183:faust.cpp     ****     }
+ 1083              		.loc 7 183 23 view .LVU243
+ 1084 001c 9B6A     		ldr	r3, [r3, #40]
+ 1085              	.LBB132:
+ 1086              	.LBB131:
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1087              		.loc 7 162 19 view .LVU244
+ 1088 001e 6260     		str	r2, [r4, #4]	@ float
+ 163:faust.cpp     ****     }
+ 1089              		.loc 7 163 9 is_stmt 1 view .LVU245
+ 163:faust.cpp     ****     }
+ 1090              		.loc 7 163 19 is_stmt 0 view .LVU246
+ 1091 0020 2261     		str	r2, [r4, #16]	@ float
+ 1092              	.LVL66:
+ 163:faust.cpp     ****     }
+ 1093              		.loc 7 163 19 view .LVU247
+ 1094              	.LBE131:
+ 1095              	.LBE132:
+ 183:faust.cpp     ****     }
+ 1096              		.loc 7 183 9 is_stmt 1 view .LVU248
+ 1097 0022 0E4A     		ldr	r2, .L66+8
+ 1098 0024 9342     		cmp	r3, r2
+ 1099 0026 10D1     		bne	.L60
+ 1100              	.L65:
+ 1101              	.LVL67:
+ 1102              	.LBB133:
+ 1103              	.LBB134:
+ 168:faust.cpp     ****         {
+ 1104              		.loc 7 168 29 view .LVU249
+ 170:faust.cpp     ****         }
+ 1105              		.loc 7 170 13 view .LVU250
+ 170:faust.cpp     ****         }
+ 1106              		.loc 7 170 23 is_stmt 0 view .LVU251
+ 1107 0028 0023     		movs	r3, #0
+ 1108 002a C4E90233 		strd	r3, r3, [r4, #8]
+ 168:faust.cpp     ****         {
+ 1109              		.loc 7 168 9 is_stmt 1 view .LVU252
+ 1110              	.LVL68:
+ 168:faust.cpp     ****         {
+ 1111              		.loc 7 168 29 view .LVU253
+ 1112              	.LBE134:
+ 1113              	.LBE133:
+ARM GAS  /tmp/ccFZhNkn.s 			page 34
+
+
+ 184:faust.cpp     **** 
+ 1114              		.loc 7 184 5 is_stmt 0 view .LVU254
+ 1115 002e 70BD     		pop	{r4, r5, r6, pc}
+ 1116              	.LVL69:
+ 1117              	.L56:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1118              		.loc 7 181 26 view .LVU255
+ 1119 0030 A847     		blx	r5
+ 1120              	.LVL70:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1121              		.loc 7 181 26 view .LVU256
+ 1122 0032 2368     		ldr	r3, [r4]
+ 182:faust.cpp     ****         instanceClear();
+ 1123              		.loc 7 182 9 is_stmt 1 view .LVU257
+ 1124 0034 0849     		ldr	r1, .L66+4
+ 182:faust.cpp     ****         instanceClear();
+ 1125              		.loc 7 182 36 is_stmt 0 view .LVU258
+ 1126 0036 5A6A     		ldr	r2, [r3, #36]
+ 1127 0038 8A42     		cmp	r2, r1
+ 1128 003a EDD0     		beq	.L64
+ 1129              	.L58:
+ 182:faust.cpp     ****         instanceClear();
+ 1130              		.loc 7 182 35 view .LVU259
+ 1131 003c 2046     		mov	r0, r4
+ 1132 003e 9047     		blx	r2
+ 1133              	.LVL71:
+ 1134 0040 2368     		ldr	r3, [r4]
+ 183:faust.cpp     ****     }
+ 1135              		.loc 7 183 9 is_stmt 1 view .LVU260
+ 1136 0042 064A     		ldr	r2, .L66+8
+ 183:faust.cpp     ****     }
+ 1137              		.loc 7 183 23 is_stmt 0 view .LVU261
+ 1138 0044 9B6A     		ldr	r3, [r3, #40]
+ 1139 0046 9342     		cmp	r3, r2
+ 1140 0048 EED0     		beq	.L65
+ 1141              	.L60:
+ 183:faust.cpp     ****     }
+ 1142              		.loc 7 183 22 view .LVU262
+ 1143 004a 2046     		mov	r0, r4
+ 184:faust.cpp     **** 
+ 1144              		.loc 7 184 5 view .LVU263
+ 1145 004c BDE87040 		pop	{r4, r5, r6, lr}
+ 1146              		.cfi_restore 14
+ 1147              		.cfi_restore 6
+ 1148              		.cfi_restore 5
+ 1149              		.cfi_restore 4
+ 1150              		.cfi_def_cfa_offset 0
+ 1151              	.LVL72:
+ 183:faust.cpp     ****     }
+ 1152              		.loc 7 183 22 view .LVU264
+ 1153 0050 1847     		bx	r3	@ indirect register sibling call
+ 1154              	.LVL73:
+ 1155              	.L67:
+ 183:faust.cpp     ****     }
+ 1156              		.loc 7 183 22 view .LVU265
+ 1157 0052 00BF     		.align	2
+ 1158              	.L66:
+ARM GAS  /tmp/ccFZhNkn.s 			page 35
+
+
+ 1159 0054 00000000 		.word	_ZN5mydsp17instanceConstantsEi
+ 1160 0058 00000000 		.word	_ZN5mydsp26instanceResetUserInterfaceEv
+ 1161 005c 00000000 		.word	_ZN5mydsp13instanceClearEv
+ 1162              		.cfi_endproc
+ 1163              	.LFE4272:
+ 1165              		.section	.text._ZN5mydsp4initEi,"axG",%progbits,_ZN5mydsp4initEi,comdat
+ 1166              		.align	1
+ 1167              		.p2align 2,,3
+ 1168              		.weak	_ZN5mydsp4initEi
+ 1169              		.syntax unified
+ 1170              		.thumb
+ 1171              		.thumb_func
+ 1172              		.fpu fpv5-d16
+ 1174              	_ZN5mydsp4initEi:
+ 1175              	.LVL74:
+ 1176              	.LFB4271:
+ 174:faust.cpp     ****     {
+ 1177              		.loc 7 174 18 is_stmt 1 view -0
+ 1178              		.cfi_startproc
+ 1179              		@ args = 0, pretend = 0, frame = 0
+ 1180              		@ frame_needed = 0, uses_anonymous_args = 0
+ 176:faust.cpp     ****         instanceInit(sample_rate);
+ 1181              		.loc 7 176 9 view .LVU267
+ 177:faust.cpp     ****     }
+ 1182              		.loc 7 177 33 is_stmt 0 view .LVU268
+ 1183 0000 0368     		ldr	r3, [r0]
+ 174:faust.cpp     ****     {
+ 1184              		.loc 7 174 18 view .LVU269
+ 1185 0002 70B5     		push	{r4, r5, r6, lr}
+ 1186              		.cfi_def_cfa_offset 16
+ 1187              		.cfi_offset 4, -16
+ 1188              		.cfi_offset 5, -12
+ 1189              		.cfi_offset 6, -8
+ 1190              		.cfi_offset 14, -4
+ 1191 0004 174E     		ldr	r6, .L80
+ 1192              	.LVL75:
+ 177:faust.cpp     ****     }
+ 1193              		.loc 7 177 9 is_stmt 1 view .LVU270
+ 177:faust.cpp     ****     }
+ 1194              		.loc 7 177 33 is_stmt 0 view .LVU271
+ 1195 0006 DD69     		ldr	r5, [r3, #28]
+ 1196 0008 B542     		cmp	r5, r6
+ 1197 000a 15D1     		bne	.L69
+ 1198              	.LBB144:
+ 1199              	.LBB145:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1200              		.loc 7 181 38 view .LVU272
+ 1201 000c 1D6A     		ldr	r5, [r3, #32]
+ 1202 000e 0446     		mov	r4, r0
+ 1203              	.LVL76:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1204              		.loc 7 181 38 view .LVU273
+ 1205              	.LBE145:
+ 1206              	.LBI144:
+ 179:faust.cpp     ****     {
+ 1207              		.loc 7 179 18 is_stmt 1 view .LVU274
+ 1208              	.LBB156:
+ARM GAS  /tmp/ccFZhNkn.s 			page 36
+
+
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1209              		.loc 7 181 9 view .LVU275
+ 1210 0010 154E     		ldr	r6, .L80+4
+ 1211 0012 B542     		cmp	r5, r6
+ 1212 0014 14D1     		bne	.L70
+ 1213              	.LVL77:
+ 1214              	.LBB146:
+ 1215              	.LBI146:
+ 155:faust.cpp     ****     {
+ 1216              		.loc 7 155 18 view .LVU276
+ 1217              	.LBB147:
+ 157:faust.cpp     ****     }
+ 1218              		.loc 7 157 9 view .LVU277
+ 1219              	.LBE147:
+ 1220              	.LBE146:
+ 182:faust.cpp     ****         instanceClear();
+ 1221              		.loc 7 182 36 is_stmt 0 view .LVU278
+ 1222 0016 5A6A     		ldr	r2, [r3, #36]
+ 1223              	.LBB149:
+ 1224              	.LBB148:
+ 157:faust.cpp     ****     }
+ 1225              		.loc 7 157 21 view .LVU279
+ 1226 0018 6161     		str	r1, [r4, #20]
+ 1227              	.LVL78:
+ 157:faust.cpp     ****     }
+ 1228              		.loc 7 157 21 view .LVU280
+ 1229              	.LBE148:
+ 1230              	.LBE149:
+ 182:faust.cpp     ****         instanceClear();
+ 1231              		.loc 7 182 9 is_stmt 1 view .LVU281
+ 1232 001a 1449     		ldr	r1, .L80+8
+ 1233              	.LVL79:
+ 182:faust.cpp     ****         instanceClear();
+ 1234              		.loc 7 182 9 is_stmt 0 view .LVU282
+ 1235 001c 8A42     		cmp	r2, r1
+ 1236 001e 15D1     		bne	.L72
+ 1237              	.LVL80:
+ 1238              	.L78:
+ 1239              	.LBB150:
+ 1240              	.LBI150:
+ 160:faust.cpp     ****     {
+ 1241              		.loc 7 160 18 is_stmt 1 view .LVU283
+ 1242              	.LBB151:
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1243              		.loc 7 162 9 view .LVU284
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1244              		.loc 7 162 19 is_stmt 0 view .LVU285
+ 1245 0020 4FF07C52 		mov	r2, #1056964608
+ 1246              	.LBE151:
+ 1247              	.LBE150:
+ 183:faust.cpp     ****     }
+ 1248              		.loc 7 183 23 view .LVU286
+ 1249 0024 9B6A     		ldr	r3, [r3, #40]
+ 1250              	.LBB153:
+ 1251              	.LBB152:
+ 162:faust.cpp     ****         fHslider1 = FAUSTFLOAT(0.5f);
+ 1252              		.loc 7 162 19 view .LVU287
+ARM GAS  /tmp/ccFZhNkn.s 			page 37
+
+
+ 1253 0026 6260     		str	r2, [r4, #4]	@ float
+ 163:faust.cpp     ****     }
+ 1254              		.loc 7 163 9 is_stmt 1 view .LVU288
+ 163:faust.cpp     ****     }
+ 1255              		.loc 7 163 19 is_stmt 0 view .LVU289
+ 1256 0028 2261     		str	r2, [r4, #16]	@ float
+ 1257              	.LVL81:
+ 163:faust.cpp     ****     }
+ 1258              		.loc 7 163 19 view .LVU290
+ 1259              	.LBE152:
+ 1260              	.LBE153:
+ 183:faust.cpp     ****     }
+ 1261              		.loc 7 183 9 is_stmt 1 view .LVU291
+ 1262 002a 114A     		ldr	r2, .L80+12
+ 1263 002c 9342     		cmp	r3, r2
+ 1264 002e 14D1     		bne	.L74
+ 1265              	.L79:
+ 1266              	.LVL82:
+ 1267              	.LBB154:
+ 1268              	.LBB155:
+ 168:faust.cpp     ****         {
+ 1269              		.loc 7 168 29 view .LVU292
+ 170:faust.cpp     ****         }
+ 1270              		.loc 7 170 13 view .LVU293
+ 170:faust.cpp     ****         }
+ 1271              		.loc 7 170 23 is_stmt 0 view .LVU294
+ 1272 0030 0023     		movs	r3, #0
+ 1273 0032 C4E90233 		strd	r3, r3, [r4, #8]
+ 168:faust.cpp     ****         {
+ 1274              		.loc 7 168 9 is_stmt 1 view .LVU295
+ 1275              	.LVL83:
+ 168:faust.cpp     ****         {
+ 1276              		.loc 7 168 29 view .LVU296
+ 1277              	.LBE155:
+ 1278              	.LBE154:
+ 1279              	.LBE156:
+ 1280              	.LBE144:
+ 178:faust.cpp     ****     virtual void instanceInit(int sample_rate)
+ 1281              		.loc 7 178 5 is_stmt 0 view .LVU297
+ 1282 0036 70BD     		pop	{r4, r5, r6, pc}
+ 1283              	.LVL84:
+ 1284              	.L69:
+ 177:faust.cpp     ****     }
+ 1285              		.loc 7 177 21 view .LVU298
+ 1286 0038 2B46     		mov	r3, r5
+ 178:faust.cpp     ****     virtual void instanceInit(int sample_rate)
+ 1287              		.loc 7 178 5 view .LVU299
+ 1288 003a BDE87040 		pop	{r4, r5, r6, lr}
+ 1289              		.cfi_remember_state
+ 1290              		.cfi_restore 14
+ 1291              		.cfi_restore 6
+ 1292              		.cfi_restore 5
+ 1293              		.cfi_restore 4
+ 1294              		.cfi_def_cfa_offset 0
+ 177:faust.cpp     ****     }
+ 1295              		.loc 7 177 21 view .LVU300
+ 1296 003e 1847     		bx	r3	@ indirect register sibling call
+ARM GAS  /tmp/ccFZhNkn.s 			page 38
+
+
+ 1297              	.LVL85:
+ 1298              	.L70:
+ 1299              		.cfi_restore_state
+ 1300              	.LBB159:
+ 1301              	.LBB157:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1302              		.loc 7 181 26 view .LVU301
+ 1303 0040 A847     		blx	r5
+ 1304              	.LVL86:
+ 181:faust.cpp     ****         instanceResetUserInterface();
+ 1305              		.loc 7 181 26 view .LVU302
+ 1306 0042 2368     		ldr	r3, [r4]
+ 182:faust.cpp     ****         instanceClear();
+ 1307              		.loc 7 182 9 is_stmt 1 view .LVU303
+ 1308 0044 0949     		ldr	r1, .L80+8
+ 182:faust.cpp     ****         instanceClear();
+ 1309              		.loc 7 182 36 is_stmt 0 view .LVU304
+ 1310 0046 5A6A     		ldr	r2, [r3, #36]
+ 1311 0048 8A42     		cmp	r2, r1
+ 1312 004a E9D0     		beq	.L78
+ 1313              	.L72:
+ 182:faust.cpp     ****         instanceClear();
+ 1314              		.loc 7 182 35 view .LVU305
+ 1315 004c 2046     		mov	r0, r4
+ 1316 004e 9047     		blx	r2
+ 1317              	.LVL87:
+ 1318 0050 2368     		ldr	r3, [r4]
+ 183:faust.cpp     ****     }
+ 1319              		.loc 7 183 9 is_stmt 1 view .LVU306
+ 1320 0052 074A     		ldr	r2, .L80+12
+ 183:faust.cpp     ****     }
+ 1321              		.loc 7 183 23 is_stmt 0 view .LVU307
+ 1322 0054 9B6A     		ldr	r3, [r3, #40]
+ 1323 0056 9342     		cmp	r3, r2
+ 1324 0058 EAD0     		beq	.L79
+ 1325              	.L74:
+ 183:faust.cpp     ****     }
+ 1326              		.loc 7 183 22 view .LVU308
+ 1327 005a 2046     		mov	r0, r4
+ 1328              	.LBE157:
+ 1329              	.LBE159:
+ 178:faust.cpp     ****     virtual void instanceInit(int sample_rate)
+ 1330              		.loc 7 178 5 view .LVU309
+ 1331 005c BDE87040 		pop	{r4, r5, r6, lr}
+ 1332              		.cfi_restore 14
+ 1333              		.cfi_restore 6
+ 1334              		.cfi_restore 5
+ 1335              		.cfi_restore 4
+ 1336              		.cfi_def_cfa_offset 0
+ 1337              	.LVL88:
+ 1338              	.LBB160:
+ 1339              	.LBB158:
+ 183:faust.cpp     ****     }
+ 1340              		.loc 7 183 22 view .LVU310
+ 1341 0060 1847     		bx	r3	@ indirect register sibling call
+ 1342              	.LVL89:
+ 1343              	.L81:
+ARM GAS  /tmp/ccFZhNkn.s 			page 39
+
+
+ 183:faust.cpp     ****     }
+ 1344              		.loc 7 183 22 view .LVU311
+ 1345 0062 00BF     		.align	2
+ 1346              	.L80:
+ 1347 0064 00000000 		.word	_ZN5mydsp12instanceInitEi
+ 1348 0068 00000000 		.word	_ZN5mydsp17instanceConstantsEi
+ 1349 006c 00000000 		.word	_ZN5mydsp26instanceResetUserInterfaceEv
+ 1350 0070 00000000 		.word	_ZN5mydsp13instanceClearEv
+ 1351              	.LBE158:
+ 1352              	.LBE160:
+ 1353              		.cfi_endproc
+ 1354              	.LFE4271:
+ 1356              		.section	.text.startup.main,"ax",%progbits
+ 1357              		.align	1
+ 1358              		.p2align 2,,3
+ 1359              		.global	main
+ 1360              		.syntax unified
+ 1361              		.thumb
+ 1362              		.thumb_func
+ 1363              		.fpu fpv5-d16
+ 1365              	main:
+ 1366              	.LFB4281:
+ 249:faust.cpp     **** 
+ 250:faust.cpp     **** int main(void)
+ 251:faust.cpp     **** {
+ 1367              		.loc 7 251 1 is_stmt 1 view -0
+ 1368              		.cfi_startproc
+ 1369              		@ args = 0, pretend = 0, frame = 0
+ 1370              		@ frame_needed = 0, uses_anonymous_args = 0
+ 252:faust.cpp     ****     // initialize seed hardware and daisysp modules
+ 253:faust.cpp     ****     float sample_rate;
+ 1371              		.loc 7 253 5 view .LVU313
+ 254:faust.cpp     ****     seed.Configure();
+ 1372              		.loc 7 254 5 view .LVU314
+ 251:faust.cpp     ****     // initialize seed hardware and daisysp modules
+ 1373              		.loc 7 251 1 is_stmt 0 view .LVU315
+ 1374 0000 38B5     		push	{r3, r4, r5, lr}
+ 1375              		.cfi_def_cfa_offset 16
+ 1376              		.cfi_offset 3, -16
+ 1377              		.cfi_offset 4, -12
+ 1378              		.cfi_offset 5, -8
+ 1379              		.cfi_offset 14, -4
+ 1380              		.loc 7 254 19 view .LVU316
+ 1381 0002 1A48     		ldr	r0, .L85
+ 255:faust.cpp     ****     seed.Init();
+ 256:faust.cpp     ****     sample_rate = seed.AudioSampleRate();
+ 257:faust.cpp     **** 
+ 258:faust.cpp     ****     // set buffer-size
+ 259:faust.cpp     ****     seed.SetAudioBlockSize(MY_BUFFER_SIZE);
+ 260:faust.cpp     **** 
+ 261:faust.cpp     ****     // allocate deinterleaved buffers
+ 262:faust.cpp     ****     finputs[0] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1382              		.loc 7 262 16 view .LVU317
+ 1383 0004 1A4D     		ldr	r5, .L85+4
+ 263:faust.cpp     ****     finputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 264:faust.cpp     **** 
+ 265:faust.cpp     ****     foutputs[0] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ARM GAS  /tmp/ccFZhNkn.s 			page 40
+
+
+ 1384              		.loc 7 265 17 view .LVU318
+ 1385 0006 1B4C     		ldr	r4, .L85+8
+ 251:faust.cpp     ****     // initialize seed hardware and daisysp modules
+ 1386              		.loc 7 251 1 view .LVU319
+ 1387 0008 2DED028B 		vpush.64	{d8}
+ 1388              		.cfi_def_cfa_offset 24
+ 1389              		.cfi_offset 80, -24
+ 1390              		.cfi_offset 81, -20
+ 254:faust.cpp     ****     seed.Init();
+ 1391              		.loc 7 254 19 view .LVU320
+ 1392 000c FFF7FEFF 		bl	_ZN5daisy9DaisySeed9ConfigureEv
+ 1393              	.LVL90:
+ 255:faust.cpp     ****     sample_rate = seed.AudioSampleRate();
+ 1394              		.loc 7 255 5 is_stmt 1 view .LVU321
+ 255:faust.cpp     ****     sample_rate = seed.AudioSampleRate();
+ 1395              		.loc 7 255 14 is_stmt 0 view .LVU322
+ 1396 0010 0021     		movs	r1, #0
+ 1397 0012 1648     		ldr	r0, .L85
+ 1398 0014 FFF7FEFF 		bl	_ZN5daisy9DaisySeed4InitEb
+ 1399              	.LVL91:
+ 256:faust.cpp     **** 
+ 1400              		.loc 7 256 5 is_stmt 1 view .LVU323
+ 256:faust.cpp     **** 
+ 1401              		.loc 7 256 39 is_stmt 0 view .LVU324
+ 1402 0018 1448     		ldr	r0, .L85
+ 1403 001a FFF7FEFF 		bl	_ZN5daisy9DaisySeed15AudioSampleRateEv
+ 1404              	.LVL92:
+ 259:faust.cpp     **** 
+ 1405              		.loc 7 259 27 view .LVU325
+ 1406 001e 0821     		movs	r1, #8
+ 1407 0020 1248     		ldr	r0, .L85
+ 256:faust.cpp     **** 
+ 1408              		.loc 7 256 39 view .LVU326
+ 1409 0022 B0EE408A 		vmov.f32	s16, s0
+ 1410              	.LVL93:
+ 259:faust.cpp     **** 
+ 1411              		.loc 7 259 5 is_stmt 1 view .LVU327
+ 259:faust.cpp     **** 
+ 1412              		.loc 7 259 27 is_stmt 0 view .LVU328
+ 1413 0026 FFF7FEFF 		bl	_ZN5daisy9DaisySeed17SetAudioBlockSizeEj
+ 1414              	.LVL94:
+ 262:faust.cpp     ****     finputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1415              		.loc 7 262 5 is_stmt 1 view .LVU329
+ 262:faust.cpp     ****     finputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1416              		.loc 7 262 47 is_stmt 0 view .LVU330
+ 1417 002a 2020     		movs	r0, #32
+ 1418 002c FFF7FEFF 		bl	_Znaj
+ 1419              	.LVL95:
+ 1420 0030 0346     		mov	r3, r0
+ 263:faust.cpp     **** 
+ 1421              		.loc 7 263 47 view .LVU331
+ 1422 0032 2020     		movs	r0, #32
+ 262:faust.cpp     ****     finputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1423              		.loc 7 262 16 view .LVU332
+ 1424 0034 2B60     		str	r3, [r5]
+ 263:faust.cpp     **** 
+ 1425              		.loc 7 263 5 is_stmt 1 view .LVU333
+ARM GAS  /tmp/ccFZhNkn.s 			page 41
+
+
+ 263:faust.cpp     **** 
+ 1426              		.loc 7 263 47 is_stmt 0 view .LVU334
+ 1427 0036 FFF7FEFF 		bl	_Znaj
+ 1428              	.LVL96:
+ 1429 003a 0346     		mov	r3, r0
+ 1430              		.loc 7 265 48 view .LVU335
+ 1431 003c 2020     		movs	r0, #32
+ 263:faust.cpp     **** 
+ 1432              		.loc 7 263 16 view .LVU336
+ 1433 003e 6B60     		str	r3, [r5, #4]
+ 1434              		.loc 7 265 5 is_stmt 1 view .LVU337
+ 1435              		.loc 7 265 48 is_stmt 0 view .LVU338
+ 1436 0040 FFF7FEFF 		bl	_Znaj
+ 1437              	.LVL97:
+ 1438 0044 0346     		mov	r3, r0
+ 266:faust.cpp     ****     foutputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1439              		.loc 7 266 48 view .LVU339
+ 1440 0046 2020     		movs	r0, #32
+ 265:faust.cpp     ****     foutputs[1] = new FAUSTFLOAT[MY_BUFFER_SIZE];
+ 1441              		.loc 7 265 17 view .LVU340
+ 1442 0048 2360     		str	r3, [r4]
+ 1443              		.loc 7 266 5 is_stmt 1 view .LVU341
+ 1444              		.loc 7 266 48 is_stmt 0 view .LVU342
+ 1445 004a FFF7FEFF 		bl	_Znaj
+ 1446              	.LVL98:
+ 1447              	.LBB161:
+ 1448              	.LBB162:
+ 177:faust.cpp     ****     }
+ 1449              		.loc 7 177 21 view .LVU343
+ 1450 004e FDEEC87A 		vcvt.s32.f32	s15, s16
+ 1451              	.LBE162:
+ 1452              	.LBE161:
+ 1453              		.loc 7 266 48 view .LVU344
+ 1454 0052 0346     		mov	r3, r0
+ 1455              	.LBB165:
+ 1456              	.LBB163:
+ 177:faust.cpp     ****     }
+ 1457              		.loc 7 177 21 view .LVU345
+ 1458 0054 0848     		ldr	r0, .L85+12
+ 1459              	.LBE163:
+ 1460              	.LBE165:
+ 1461              		.loc 7 266 17 view .LVU346
+ 1462 0056 6360     		str	r3, [r4, #4]
+ 267:faust.cpp     **** 
+ 268:faust.cpp     ****     // inti Faust DSP
+ 269:faust.cpp     ****     DSP.init(sample_rate);
+ 1463              		.loc 7 269 5 is_stmt 1 view .LVU347
+ 1464              	.LVL99:
+ 1465              	.LBB166:
+ 1466              	.LBI161:
+ 174:faust.cpp     ****     {
+ 1467              		.loc 7 174 18 view .LVU348
+ 1468              	.LBB164:
+ 176:faust.cpp     ****         instanceInit(sample_rate);
+ 1469              		.loc 7 176 9 view .LVU349
+ 177:faust.cpp     ****     }
+ 1470              		.loc 7 177 9 view .LVU350
+ARM GAS  /tmp/ccFZhNkn.s 			page 42
+
+
+ 177:faust.cpp     ****     }
+ 1471              		.loc 7 177 21 is_stmt 0 view .LVU351
+ 1472 0058 17EE901A 		vmov	r1, s15	@ int
+ 1473 005c FFF7FEFF 		bl	_ZN5mydsp12instanceInitEi
+ 1474              	.LVL100:
+ 177:faust.cpp     ****     }
+ 1475              		.loc 7 177 21 view .LVU352
+ 1476              	.LBE164:
+ 1477              	.LBE166:
+ 270:faust.cpp     **** 
+ 271:faust.cpp     **** #ifdef MIDICTRL
+ 272:faust.cpp     ****     daisy_midi midi_handler;
+ 273:faust.cpp     **** #endif
+ 274:faust.cpp     **** 
+ 275:faust.cpp     **** 
+ 276:faust.cpp     ****     // start callback
+ 277:faust.cpp     ****     seed.StartAudio(AudioCallback);
+ 1478              		.loc 7 277 5 is_stmt 1 view .LVU353
+ 1479              		.loc 7 277 20 is_stmt 0 view .LVU354
+ 1480 0060 0649     		ldr	r1, .L85+16
+ 1481 0062 0248     		ldr	r0, .L85
+ 1482 0064 FFF7FEFF 		bl	_ZN5daisy9DaisySeed10StartAudioEPFvPKfPfjE
+ 1483              	.LVL101:
+ 1484              	.L83:
+ 278:faust.cpp     **** 
+ 279:faust.cpp     **** 
+ 280:faust.cpp     **** #ifdef MIDICTRL
+ 281:faust.cpp     ****     midi_handler.startMidi();
+ 282:faust.cpp     ****     ;
+ 283:faust.cpp     **** #endif
+ 284:faust.cpp     **** 
+ 285:faust.cpp     ****     while(1)
+ 1485              		.loc 7 285 5 is_stmt 1 discriminator 1 view .LVU355
+ 1486              		.loc 7 285 5 discriminator 1 view .LVU356
+ 1487              		.loc 7 285 5 discriminator 1 view .LVU357
+ 1488              		.loc 7 285 5 discriminator 1 view .LVU358
+ 1489 0068 FEE7     		b	.L83
+ 1490              	.L86:
+ 1491 006a 00BF     		.align	2
+ 1492              	.L85:
+ 1493 006c 00000000 		.word	.LANCHOR3
+ 1494 0070 00000000 		.word	.LANCHOR0
+ 1495 0074 00000000 		.word	.LANCHOR2
+ 1496 0078 00000000 		.word	.LANCHOR1
+ 1497 007c 00000000 		.word	_ZL13AudioCallbackPKfPfj
+ 1498              		.cfi_endproc
+ 1499              	.LFE4281:
+ 1501              		.section	.text.startup._GLOBAL__sub_I_finputs,"ax",%progbits
+ 1502              		.align	1
+ 1503              		.p2align 2,,3
+ 1504              		.syntax unified
+ 1505              		.thumb
+ 1506              		.thumb_func
+ 1507              		.fpu fpv5-d16
+ 1509              	_GLOBAL__sub_I_finputs:
+ 1510              	.LFB4839:
+ 286:faust.cpp     ****     {
+ARM GAS  /tmp/ccFZhNkn.s 			page 43
+
+
+ 287:faust.cpp     **** #ifdef MIDICTRL
+ 288:faust.cpp     ****         midi_handler.processMidi();
+ 289:faust.cpp     **** #endif
+ 290:faust.cpp     ****     }
+ 291:faust.cpp     **** }
+ 1511              		.loc 7 291 1 view -0
+ 1512              		.cfi_startproc
+ 1513              		@ args = 0, pretend = 0, frame = 0
+ 1514              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1515              	.LBB186:
+ 1516              	.LBI186:
+ 1517              		.loc 7 291 1 view .LVU360
+ 1518              	.LVL102:
+ 1519              	.LBB187:
+ 1520              	.LBB188:
+ 1521              	.LBI188:
+  96:faust.cpp     **** {
+ 1522              		.loc 7 96 7 view .LVU361
+ 1523              	.LBB189:
+ 1524              	.LBB190:
+ 1525              	.LBI190:
+  57:faust/dsp/dsp.h ****     virtual ~dsp() {}
+ 1526              		.loc 6 57 5 view .LVU362
+  57:faust/dsp/dsp.h ****     virtual ~dsp() {}
+ 1527              		.loc 6 57 5 is_stmt 0 view .LVU363
+ 1528              	.LBE190:
+ 1529              	.LBE189:
+ 1530              	.LBE188:
+ 1531              	.LBE187:
+ 1532              	.LBE186:
+ 1533              		.loc 7 291 1 view .LVU364
+ 1534 0000 08B5     		push	{r3, lr}
+ 1535              		.cfi_def_cfa_offset 8
+ 1536              		.cfi_offset 3, -8
+ 1537              		.cfi_offset 14, -4
+ 1538              	.LBB213:
+ 1539              	.LBB211:
+ 1540              	.LBB193:
+ 1541              	.LBB191:
+  96:faust.cpp     **** {
+ 1542              		.loc 7 96 7 view .LVU365
+ 1543 0002 0848     		ldr	r0, .L89
+ 1544 0004 084B     		ldr	r3, .L89+4
+ 1545              	.LBE191:
+ 1546              	.LBE193:
+ 222:faust.cpp     **** 
+ 1547              		.loc 7 222 7 view .LVU366
+ 1548 0006 094A     		ldr	r2, .L89+8
+ 1549 0008 0949     		ldr	r1, .L89+12
+ 1550              	.LBB194:
+ 1551              	.LBB192:
+  96:faust.cpp     **** {
+ 1552              		.loc 7 96 7 view .LVU367
+ 1553 000a 0360     		str	r3, [r0]
+ 1554              	.LVL103:
+  96:faust.cpp     **** {
+ 1555              		.loc 7 96 7 view .LVU368
+ARM GAS  /tmp/ccFZhNkn.s 			page 44
+
+
+ 1556              	.LBE192:
+ 1557              	.LBE194:
+ 222:faust.cpp     **** 
+ 1558              		.loc 7 222 7 view .LVU369
+ 1559 000c FFF7FEFF 		bl	__aeabi_atexit
+ 1560              	.LVL104:
+ 1561              	.LBB195:
+ 1562              	.LBI195:
+  21:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ 1563              		.loc 1 21 5 is_stmt 1 view .LVU370
+ 1564              	.LBB196:
+ 1565              	.LBB197:
+ 1566              	.LBI197:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1567              		.loc 5 62 5 view .LVU371
+ 1568              	.LBB198:
+ 1569              	.LBB199:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1570              		.loc 5 62 35 is_stmt 0 view .LVU372
+ 1571 0010 0023     		movs	r3, #0
+ 1572 0012 0848     		ldr	r0, .L89+16
+ 1573              	.LBE199:
+ 1574              	.LBE198:
+ 1575              	.LBE197:
+ 1576              	.LBE196:
+ 1577              	.LBE195:
+ 226:faust.cpp     **** 
+ 1578              		.loc 7 226 25 view .LVU373
+ 1579 0014 054A     		ldr	r2, .L89+8
+ 1580              	.LBB210:
+ 1581              	.LBB209:
+ 1582              	.LBB202:
+ 1583              	.LBB201:
+ 1584              	.LBB200:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1585              		.loc 5 62 35 view .LVU374
+ 1586 0016 4361     		str	r3, [r0, #20]
+ 1587              	.LVL105:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1588              		.loc 5 62 35 view .LVU375
+ 1589              	.LBE200:
+ 1590              	.LBE201:
+ 1591              	.LBE202:
+ 1592              	.LBB203:
+ 1593              	.LBI203:
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1594              		.loc 4 84 5 is_stmt 1 view .LVU376
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1595              		.loc 4 84 5 is_stmt 0 view .LVU377
+ 1596              	.LBE203:
+ 1597              	.LBB204:
+ 1598              	.LBI204:
+ 1599              		.file 8 "../../libdaisy/src/per/dac.h"
+   1:../../libdaisy/src/per/dac.h **** #pragma once
+   2:../../libdaisy/src/per/dac.h **** #ifndef DSY_DAC_H
+   3:../../libdaisy/src/per/dac.h **** #define DSY_DAC_H
+   4:../../libdaisy/src/per/dac.h **** 
+ARM GAS  /tmp/ccFZhNkn.s 			page 45
+
+
+   5:../../libdaisy/src/per/dac.h **** #include "daisy_core.h"
+   6:../../libdaisy/src/per/dac.h **** 
+   7:../../libdaisy/src/per/dac.h **** namespace daisy
+   8:../../libdaisy/src/per/dac.h **** {
+   9:../../libdaisy/src/per/dac.h **** /** DAC handle for Built-in DAC Peripheral 
+  10:../../libdaisy/src/per/dac.h ****  ** 
+  11:../../libdaisy/src/per/dac.h ****  ** For now only Normal Mode is supported,
+  12:../../libdaisy/src/per/dac.h ****  ** Sample and hold mode provides reduced power consumption, but requires a bit more setup.
+  13:../../libdaisy/src/per/dac.h ****  **
+  14:../../libdaisy/src/per/dac.h ****  ** For now connecting the DAC through other internal periphearls is also not supported.
+  15:../../libdaisy/src/per/dac.h ****  **
+  16:../../libdaisy/src/per/dac.h ****  ** Since the DAC channels have dedicated pins we don't need to pass in a pin config like with
+  17:../../libdaisy/src/per/dac.h ****  ** other modules. However, it is still important to not try to use the DAC pins for anything else.
+  18:../../libdaisy/src/per/dac.h ****  ** DAC Channel 1 is on PA4, and DAC Channel 2 is on PA5
+  19:../../libdaisy/src/per/dac.h ****  ***/
+  20:../../libdaisy/src/per/dac.h **** class DacHandle
+  21:../../libdaisy/src/per/dac.h **** {
+  22:../../libdaisy/src/per/dac.h ****   public:
+  23:../../libdaisy/src/per/dac.h ****     /** Return Values for the DacHandle class */
+  24:../../libdaisy/src/per/dac.h ****     enum class Result
+  25:../../libdaisy/src/per/dac.h ****     {
+  26:../../libdaisy/src/per/dac.h ****         OK,
+  27:../../libdaisy/src/per/dac.h ****         ERR,
+  28:../../libdaisy/src/per/dac.h ****     };
+  29:../../libdaisy/src/per/dac.h **** 
+  30:../../libdaisy/src/per/dac.h ****     /** Selects which channel(s) will be configured for use. */
+  31:../../libdaisy/src/per/dac.h ****     enum class Channel
+  32:../../libdaisy/src/per/dac.h ****     {
+  33:../../libdaisy/src/per/dac.h ****         ONE,
+  34:../../libdaisy/src/per/dac.h ****         TWO,
+  35:../../libdaisy/src/per/dac.h ****         BOTH,
+  36:../../libdaisy/src/per/dac.h ****     };
+  37:../../libdaisy/src/per/dac.h **** 
+  38:../../libdaisy/src/per/dac.h ****     /** Sets the Mode for the DAC channels.
+  39:../../libdaisy/src/per/dac.h ****      **
+  40:../../libdaisy/src/per/dac.h ****      ** Polling mode uses the blocking mode to transmit a single value at a time.
+  41:../../libdaisy/src/per/dac.h ****      **
+  42:../../libdaisy/src/per/dac.h ****      ** DMA mode uses a buffer, and periodically transmits it triggering a 
+  43:../../libdaisy/src/per/dac.h ****      ** callback to fill the buffer when it is ready for more samples.
+  44:../../libdaisy/src/per/dac.h ****      ***/
+  45:../../libdaisy/src/per/dac.h ****     enum class Mode
+  46:../../libdaisy/src/per/dac.h ****     {
+  47:../../libdaisy/src/per/dac.h ****         POLLING,
+  48:../../libdaisy/src/per/dac.h ****         DMA,
+  49:../../libdaisy/src/per/dac.h ****     };
+  50:../../libdaisy/src/per/dac.h **** 
+  51:../../libdaisy/src/per/dac.h ****     /** Sets the number of bits per sample transmitted out of the DAC.
+  52:../../libdaisy/src/per/dac.h ****      ** The output range will be: 0V - VDDA
+  53:../../libdaisy/src/per/dac.h ****      ** The resolution will be roughly: bitdepth / (VDDA - 0V) 
+  54:../../libdaisy/src/per/dac.h ****      ***/
+  55:../../libdaisy/src/per/dac.h ****     enum class BitDepth
+  56:../../libdaisy/src/per/dac.h ****     {
+  57:../../libdaisy/src/per/dac.h ****         BITS_8,
+  58:../../libdaisy/src/per/dac.h ****         BITS_12
+  59:../../libdaisy/src/per/dac.h ****     };
+  60:../../libdaisy/src/per/dac.h **** 
+  61:../../libdaisy/src/per/dac.h ****     /** Sets whether the DAC output is buffered for higher drive ability. */
+ARM GAS  /tmp/ccFZhNkn.s 			page 46
+
+
+  62:../../libdaisy/src/per/dac.h ****     enum class BufferState
+  63:../../libdaisy/src/per/dac.h ****     {
+  64:../../libdaisy/src/per/dac.h ****         ENABLED,
+  65:../../libdaisy/src/per/dac.h ****         DISABLED,
+  66:../../libdaisy/src/per/dac.h ****     };
+  67:../../libdaisy/src/per/dac.h **** 
+  68:../../libdaisy/src/per/dac.h ****     /** Configuration structure for initializing the DAC structure. */
+  69:../../libdaisy/src/per/dac.h ****     struct Config
+  70:../../libdaisy/src/per/dac.h ****     {
+  71:../../libdaisy/src/per/dac.h ****         /** Target Samplerate in Hz used to configure the internal 
+  72:../../libdaisy/src/per/dac.h ****          ** timebase for DMA mode. Does nothing in POLLING mode.
+  73:../../libdaisy/src/per/dac.h ****          ** If the value is 0 at Init time this will default to 48000Hz 
+  74:../../libdaisy/src/per/dac.h ****          ** otherwise the driver will attempt meet the target.*/
+  75:../../libdaisy/src/per/dac.h ****         uint32_t target_samplerate;
+  76:../../libdaisy/src/per/dac.h **** 
+  77:../../libdaisy/src/per/dac.h ****         Channel     chn;
+  78:../../libdaisy/src/per/dac.h ****         Mode        mode;
+  79:../../libdaisy/src/per/dac.h ****         BitDepth    bitdepth;
+  80:../../libdaisy/src/per/dac.h ****         BufferState buff_state;
+  81:../../libdaisy/src/per/dac.h ****     };
+  82:../../libdaisy/src/per/dac.h **** 
+  83:../../libdaisy/src/per/dac.h ****     DacHandle() : pimpl_(nullptr) {}
+ 1600              		.loc 8 83 5 is_stmt 1 view .LVU378
+ 1601              	.LBB205:
+ 1602              	.LBB206:
+ 1603              		.loc 8 83 33 is_stmt 0 view .LVU379
+ 1604 0018 0362     		str	r3, [r0, #32]
+ 1605              	.LVL106:
+ 1606              		.loc 8 83 33 view .LVU380
+ 1607              	.LBE206:
+ 1608              	.LBE205:
+ 1609              	.LBE204:
+ 1610              	.LBB207:
+ 1611              	.LBI207:
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1612              		.loc 3 40 5 is_stmt 1 view .LVU381
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1613              		.loc 3 40 5 is_stmt 0 view .LVU382
+ 1614              	.LBE207:
+ 1615              	.LBB208:
+ 1616              	.LBI208:
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1617              		.loc 2 58 5 is_stmt 1 view .LVU383
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1618              		.loc 2 58 5 is_stmt 0 view .LVU384
+ 1619              	.LBE208:
+ 1620              	.LBE209:
+ 1621              	.LBE210:
+ 226:faust.cpp     **** 
+ 1622              		.loc 7 226 25 view .LVU385
+ 1623 001a 0749     		ldr	r1, .L89+20
+ 1624              	.LBE211:
+ 1625              	.LBE213:
+ 1626              		.loc 7 291 1 view .LVU386
+ 1627 001c BDE80840 		pop	{r3, lr}
+ 1628              		.cfi_restore 14
+ 1629              		.cfi_restore 3
+ARM GAS  /tmp/ccFZhNkn.s 			page 47
+
+
+ 1630              		.cfi_def_cfa_offset 0
+ 1631              	.LBB214:
+ 1632              	.LBB212:
+ 226:faust.cpp     **** 
+ 1633              		.loc 7 226 25 view .LVU387
+ 1634 0020 FFF7FEBF 		b	__aeabi_atexit
+ 1635              	.LVL107:
+ 1636              	.L90:
+ 1637              		.align	2
+ 1638              	.L89:
+ 1639 0024 00000000 		.word	.LANCHOR1
+ 1640 0028 08000000 		.word	_ZTV5mydsp+8
+ 1641 002c 00000000 		.word	__dso_handle
+ 1642 0030 00000000 		.word	_ZN5mydspD1Ev
+ 1643 0034 00000000 		.word	.LANCHOR3
+ 1644 0038 00000000 		.word	_ZN5daisy9DaisySeedD1Ev
+ 1645              	.LBE212:
+ 1646              	.LBE214:
+ 1647              		.cfi_endproc
+ 1648              	.LFE4839:
+ 1650              		.section	.init_array,"aw",%init_array
+ 1651              		.align	2
+ 1652 0000 00000000 		.word	_GLOBAL__sub_I_finputs(target1)
+ 1653              		.weak	_ZTS3dsp
+ 1654              		.section	.rodata._ZTS3dsp,"aG",%progbits,_ZTS3dsp,comdat
+ 1655              		.align	2
+ 1658              	_ZTS3dsp:
+ 1659 0000 33647370 		.ascii	"3dsp\000"
+ 1659      00
+ 1660              		.weak	_ZTI3dsp
+ 1661              		.section	.rodata._ZTI3dsp,"aG",%progbits,_ZTI3dsp,comdat
+ 1662              		.align	2
+ 1665              	_ZTI3dsp:
+ 1666 0000 08000000 		.word	_ZTVN10__cxxabiv117__class_type_infoE+8
+ 1667 0004 00000000 		.word	_ZTS3dsp
+ 1668              		.weak	_ZTS5mydsp
+ 1669              		.section	.rodata._ZTS5mydsp,"aG",%progbits,_ZTS5mydsp,comdat
+ 1670              		.align	2
+ 1673              	_ZTS5mydsp:
+ 1674 0000 356D7964 		.ascii	"5mydsp\000"
+ 1674      737000
+ 1675              		.weak	_ZTI5mydsp
+ 1676              		.section	.rodata._ZTI5mydsp,"aG",%progbits,_ZTI5mydsp,comdat
+ 1677              		.align	2
+ 1680              	_ZTI5mydsp:
+ 1681 0000 08000000 		.word	_ZTVN10__cxxabiv120__si_class_type_infoE+8
+ 1682 0004 00000000 		.word	_ZTS5mydsp
+ 1683 0008 00000000 		.word	_ZTI3dsp
+ 1684              		.weak	_ZTV5mydsp
+ 1685              		.section	.rodata._ZTV5mydsp,"aG",%progbits,_ZTV5mydsp,comdat
+ 1686              		.align	2
+ 1689              	_ZTV5mydsp:
+ 1690 0000 00000000 		.word	0
+ 1691 0004 00000000 		.word	_ZTI5mydsp
+ 1692 0008 00000000 		.word	_ZN5mydspD1Ev
+ 1693 000c 00000000 		.word	_ZN5mydspD0Ev
+ 1694 0010 00000000 		.word	_ZN5mydsp12getNumInputsEv
+ARM GAS  /tmp/ccFZhNkn.s 			page 48
+
+
+ 1695 0014 00000000 		.word	_ZN5mydsp13getNumOutputsEv
+ 1696 0018 00000000 		.word	_ZN5mydsp18buildUserInterfaceEP2UI
+ 1697 001c 00000000 		.word	_ZN5mydsp13getSampleRateEv
+ 1698 0020 00000000 		.word	_ZN5mydsp4initEi
+ 1699 0024 00000000 		.word	_ZN5mydsp12instanceInitEi
+ 1700 0028 00000000 		.word	_ZN5mydsp17instanceConstantsEi
+ 1701 002c 00000000 		.word	_ZN5mydsp26instanceResetUserInterfaceEv
+ 1702 0030 00000000 		.word	_ZN5mydsp13instanceClearEv
+ 1703 0034 00000000 		.word	_ZN5mydsp5cloneEv
+ 1704 0038 00000000 		.word	_ZN5mydsp8metadataEP4Meta
+ 1705 003c 00000000 		.word	_ZN5mydsp7computeEiPPfS1_
+ 1706 0040 00000000 		.word	_ZN3dsp7computeEdiPPfS1_
+ 1707 0044 00000000 		.word	_ZN5mydsp12getInputRateEi
+ 1708 0048 00000000 		.word	_ZN5mydsp13getOutputRateEi
+ 1709              		.global	DSP
+ 1710              		.global	foutputs
+ 1711              		.global	finputs
+ 1712              		.section	.bss.DSP,"aw",%nobits
+ 1713              		.align	2
+ 1714              		.set	.LANCHOR1,. + 0
+ 1717              	DSP:
+ 1718 0000 00000000 		.space	24
+ 1718      00000000 
+ 1718      00000000 
+ 1718      00000000 
+ 1718      00000000 
+ 1719              		.section	.bss._ZL4seed,"aw",%nobits
+ 1720              		.align	2
+ 1721              		.set	.LANCHOR3,. + 0
+ 1724              	_ZL4seed:
+ 1725 0000 00000000 		.space	60
+ 1725      00000000 
+ 1725      00000000 
+ 1725      00000000 
+ 1725      00000000 
+ 1726              		.section	.bss.finputs,"aw",%nobits
+ 1727              		.align	2
+ 1728              		.set	.LANCHOR0,. + 0
+ 1731              	finputs:
+ 1732 0000 00000000 		.space	8
+ 1732      00000000 
+ 1733              		.section	.bss.foutputs,"aw",%nobits
+ 1734              		.align	2
+ 1735              		.set	.LANCHOR2,. + 0
+ 1738              	foutputs:
+ 1739 0000 00000000 		.space	8
+ 1739      00000000 
+ 1740              		.text
+ 1741              	.Letext0:
+ 1742              		.file 9 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 1743              		.file 10 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 1744              		.file 11 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 1745              		.file 12 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1746              		.file 13 "/usr/include/newlib/c++/9.2.1/cmath"
+ 1747              		.file 14 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+ 1748              		.file 15 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 1749              		.file 16 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ARM GAS  /tmp/ccFZhNkn.s 			page 49
+
+
+ 1750              		.file 17 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 1751              		.file 18 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 1752              		.file 19 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 1753              		.file 20 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ 1754              		.file 21 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 1755              		.file 22 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 1756              		.file 23 "/usr/include/newlib/c++/9.2.1/new"
+ 1757              		.file 24 "/usr/include/newlib/c++/9.2.1/clocale"
+ 1758              		.file 25 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 1759              		.file 26 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 1760              		.file 27 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 1761              		.file 28 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 1762              		.file 29 "/usr/include/newlib/c++/9.2.1/cstring"
+ 1763              		.file 30 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 1764              		.file 31 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 1765              		.file 32 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ 1766              		.file 33 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 1767              		.file 34 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 1768              		.file 35 "/usr/include/newlib/sys/_types.h"
+ 1769              		.file 36 "<built-in>"
+ 1770              		.file 37 "/usr/include/newlib/sys/reent.h"
+ 1771              		.file 38 "/usr/include/newlib/sys/lock.h"
+ 1772              		.file 39 "/usr/include/newlib/math.h"
+ 1773              		.file 40 "/usr/include/newlib/stdlib.h"
+ 1774              		.file 41 "/usr/include/newlib/c++/9.2.1/math.h"
+ 1775              		.file 42 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1776              		.file 43 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 1777              		.file 44 "../../DaisySP/Source/Control/adenv.h"
+ 1778              		.file 45 "../../DaisySP/Source/Utility/dsp.h"
+ 1779              		.file 46 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 1780              		.file 47 "/usr/include/newlib/wchar.h"
+ 1781              		.file 48 "/usr/include/newlib/locale.h"
+ 1782              		.file 49 "/usr/include/newlib/ctype.h"
+ 1783              		.file 50 "/usr/include/newlib/stdio.h"
+ 1784              		.file 51 "/usr/include/newlib/sys/errno.h"
+ 1785              		.file 52 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 1786              		.file 53 "/usr/include/newlib/string.h"
+ 1787              		.file 54 "../../libdaisy/src/daisy_core.h"
+ 1788              		.file 55 "../../libdaisy/src/per/tim.h"
+ 1789              		.file 56 "../../libdaisy/src/per/sai.h"
+ 1790              		.file 57 "../../libdaisy/src/util/wav_format.h"
+ 1791              		.file 58 "../../libdaisy/src/per/qspi.h"
+ 1792              		.file 59 "../../libdaisy/src/per/gpio.h"
+ 1793              		.file 60 "../../libdaisy/src/dev/sdram.h"
+ 1794              		.file 61 "/usr/include/newlib/sys/unistd.h"
+ 1795              		.file 62 "../../libdaisy/src/util/oled_fonts.h"
+ 1796              		.file 63 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 1797              		.file 64 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 1798              		.file 65 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 1799              		.file 66 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 1800              		.file 67 "../../libdaisy/src/util/sd_diskio.h"
+ 1801              		.file 68 "../../libdaisy/src/sys/fatfs.h"
+ 1802              		.file 69 "../../libdaisy/src/dev/sr_595.h"
+ 1803              		.file 70 "faust/gui/UI.h"
+ARM GAS  /tmp/ccFZhNkn.s 			page 50
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 faust.cpp
+     /tmp/ccFZhNkn.s:17     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 $t
+     /tmp/ccFZhNkn.s:26     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 _ZN5daisy9DaisySeedD2Ev
+     /tmp/ccFZhNkn.s:26     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 _ZN5daisy9DaisySeedD1Ev
+     /tmp/ccFZhNkn.s:67     .text._ZN3dsp7computeEdiPPfS1_:0000000000000000 $t
+     /tmp/ccFZhNkn.s:75     .text._ZN3dsp7computeEdiPPfS1_:0000000000000000 _ZN3dsp7computeEdiPPfS1_
+     /tmp/ccFZhNkn.s:106    .rodata._ZN5mydsp8metadataEP4Meta.str1.4:0000000000000000 $d
+     /tmp/ccFZhNkn.s:143    .text._ZN5mydsp8metadataEP4Meta:0000000000000000 $t
+     /tmp/ccFZhNkn.s:151    .text._ZN5mydsp8metadataEP4Meta:0000000000000000 _ZN5mydsp8metadataEP4Meta
+     /tmp/ccFZhNkn.s:241    .text._ZN5mydsp8metadataEP4Meta:0000000000000050 $d
+     /tmp/ccFZhNkn.s:257    .text._ZN5mydsp12getNumInputsEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:265    .text._ZN5mydsp12getNumInputsEv:0000000000000000 _ZN5mydsp12getNumInputsEv
+     /tmp/ccFZhNkn.s:283    .text._ZN5mydsp13getNumOutputsEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:291    .text._ZN5mydsp13getNumOutputsEv:0000000000000000 _ZN5mydsp13getNumOutputsEv
+     /tmp/ccFZhNkn.s:309    .text._ZN5mydsp12getInputRateEi:0000000000000000 $t
+     /tmp/ccFZhNkn.s:317    .text._ZN5mydsp12getInputRateEi:0000000000000000 _ZN5mydsp12getInputRateEi
+     /tmp/ccFZhNkn.s:341    .text._ZN5mydsp13getOutputRateEi:0000000000000000 $t
+     /tmp/ccFZhNkn.s:349    .text._ZN5mydsp13getOutputRateEi:0000000000000000 _ZN5mydsp13getOutputRateEi
+     /tmp/ccFZhNkn.s:372    .text._ZN5mydsp17instanceConstantsEi:0000000000000000 $t
+     /tmp/ccFZhNkn.s:380    .text._ZN5mydsp17instanceConstantsEi:0000000000000000 _ZN5mydsp17instanceConstantsEi
+     /tmp/ccFZhNkn.s:397    .text._ZN5mydsp26instanceResetUserInterfaceEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:405    .text._ZN5mydsp26instanceResetUserInterfaceEv:0000000000000000 _ZN5mydsp26instanceResetUserInterfaceEv
+     /tmp/ccFZhNkn.s:426    .text._ZN5mydsp13instanceClearEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:434    .text._ZN5mydsp13instanceClearEv:0000000000000000 _ZN5mydsp13instanceClearEv
+     /tmp/ccFZhNkn.s:459    .text._ZN5mydsp13getSampleRateEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:467    .text._ZN5mydsp13getSampleRateEv:0000000000000000 _ZN5mydsp13getSampleRateEv
+     /tmp/ccFZhNkn.s:485    .rodata._ZN5mydsp18buildUserInterfaceEP2UI.str1.4:0000000000000000 $d
+     /tmp/ccFZhNkn.s:492    .text._ZN5mydsp18buildUserInterfaceEP2UI:0000000000000000 $t
+     /tmp/ccFZhNkn.s:500    .text._ZN5mydsp18buildUserInterfaceEP2UI:0000000000000000 _ZN5mydsp18buildUserInterfaceEP2UI
+     /tmp/ccFZhNkn.s:588    .text._ZN5mydsp18buildUserInterfaceEP2UI:000000000000006c $d
+     /tmp/ccFZhNkn.s:597    .text._ZN5mydsp7computeEiPPfS1_:0000000000000000 $t
+     /tmp/ccFZhNkn.s:605    .text._ZN5mydsp7computeEiPPfS1_:0000000000000000 _ZN5mydsp7computeEiPPfS1_
+     /tmp/ccFZhNkn.s:704    .text._ZN5mydsp7computeEiPPfS1_:0000000000000054 $d
+     /tmp/ccFZhNkn.s:710    .text._ZL13AudioCallbackPKfPfj:0000000000000000 $t
+     /tmp/ccFZhNkn.s:717    .text._ZL13AudioCallbackPKfPfj:0000000000000000 _ZL13AudioCallbackPKfPfj
+     /tmp/ccFZhNkn.s:874    .text._ZL13AudioCallbackPKfPfj:00000000000000a4 $d
+     /tmp/ccFZhNkn.s:883    .text._ZN5mydspD2Ev:0000000000000000 $t
+     /tmp/ccFZhNkn.s:891    .text._ZN5mydspD2Ev:0000000000000000 _ZN5mydspD2Ev
+     /tmp/ccFZhNkn.s:891    .text._ZN5mydspD2Ev:0000000000000000 _ZN5mydspD1Ev
+     /tmp/ccFZhNkn.s:912    .text._ZN5mydsp5cloneEv:0000000000000000 $t
+     /tmp/ccFZhNkn.s:920    .text._ZN5mydsp5cloneEv:0000000000000000 _ZN5mydsp5cloneEv
+     /tmp/ccFZhNkn.s:967    .text._ZN5mydsp5cloneEv:000000000000001c $d
+     /tmp/ccFZhNkn.s:1689   .rodata._ZTV5mydsp:0000000000000000 _ZTV5mydsp
+     /tmp/ccFZhNkn.s:972    .text._ZN5mydspD0Ev:0000000000000000 $t
+     /tmp/ccFZhNkn.s:980    .text._ZN5mydspD0Ev:0000000000000000 _ZN5mydspD0Ev
+     /tmp/ccFZhNkn.s:1016   .text._ZN5mydsp12instanceInitEi:0000000000000000 $t
+     /tmp/ccFZhNkn.s:1024   .text._ZN5mydsp12instanceInitEi:0000000000000000 _ZN5mydsp12instanceInitEi
+     /tmp/ccFZhNkn.s:1159   .text._ZN5mydsp12instanceInitEi:0000000000000054 $d
+     /tmp/ccFZhNkn.s:1166   .text._ZN5mydsp4initEi:0000000000000000 $t
+     /tmp/ccFZhNkn.s:1174   .text._ZN5mydsp4initEi:0000000000000000 _ZN5mydsp4initEi
+     /tmp/ccFZhNkn.s:1347   .text._ZN5mydsp4initEi:0000000000000064 $d
+     /tmp/ccFZhNkn.s:1357   .text.startup.main:0000000000000000 $t
+     /tmp/ccFZhNkn.s:1365   .text.startup.main:0000000000000000 main
+     /tmp/ccFZhNkn.s:1493   .text.startup.main:000000000000006c $d
+     /tmp/ccFZhNkn.s:1502   .text.startup._GLOBAL__sub_I_finputs:0000000000000000 $t
+     /tmp/ccFZhNkn.s:1509   .text.startup._GLOBAL__sub_I_finputs:0000000000000000 _GLOBAL__sub_I_finputs
+ARM GAS  /tmp/ccFZhNkn.s 			page 51
+
+
+     /tmp/ccFZhNkn.s:1639   .text.startup._GLOBAL__sub_I_finputs:0000000000000024 $d
+     /tmp/ccFZhNkn.s:1651   .init_array:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1658   .rodata._ZTS3dsp:0000000000000000 _ZTS3dsp
+     /tmp/ccFZhNkn.s:1655   .rodata._ZTS3dsp:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1665   .rodata._ZTI3dsp:0000000000000000 _ZTI3dsp
+     /tmp/ccFZhNkn.s:1662   .rodata._ZTI3dsp:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1673   .rodata._ZTS5mydsp:0000000000000000 _ZTS5mydsp
+     /tmp/ccFZhNkn.s:1670   .rodata._ZTS5mydsp:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1680   .rodata._ZTI5mydsp:0000000000000000 _ZTI5mydsp
+     /tmp/ccFZhNkn.s:1677   .rodata._ZTI5mydsp:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1686   .rodata._ZTV5mydsp:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1717   .bss.DSP:0000000000000000 DSP
+     /tmp/ccFZhNkn.s:1738   .bss.foutputs:0000000000000000 foutputs
+     /tmp/ccFZhNkn.s:1731   .bss.finputs:0000000000000000 finputs
+     /tmp/ccFZhNkn.s:1713   .bss.DSP:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1720   .bss._ZL4seed:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1724   .bss._ZL4seed:0000000000000000 _ZL4seed
+     /tmp/ccFZhNkn.s:1727   .bss.finputs:0000000000000000 $d
+     /tmp/ccFZhNkn.s:1734   .bss.foutputs:0000000000000000 $d
+                           .group:0000000000000000 _ZN5daisy9DaisySeedD5Ev
+                           .group:0000000000000000 _ZN5mydspD5Ev
+
+UNDEFINED SYMBOLS
+_Znwj
+_ZdlPvj
+_ZN5daisy9DaisySeed9ConfigureEv
+_ZN5daisy9DaisySeed4InitEb
+_ZN5daisy9DaisySeed15AudioSampleRateEv
+_ZN5daisy9DaisySeed17SetAudioBlockSizeEj
+_Znaj
+_ZN5daisy9DaisySeed10StartAudioEPFvPKfPfjE
+__aeabi_atexit
+__dso_handle
+_ZTVN10__cxxabiv117__class_type_infoE
+_ZTVN10__cxxabiv120__si_class_type_infoE

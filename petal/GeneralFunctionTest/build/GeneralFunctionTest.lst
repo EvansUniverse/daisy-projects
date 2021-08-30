@@ -1,0 +1,3243 @@
+ARM GAS  /tmp/ccSfmKRm.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"GeneralFunctionTest.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN5daisy12SdmmcHandlerD2Ev,"axG",%progbits,_ZN5daisy12SdmmcHandlerD5Ev,comdat
+  17              		.align	1
+  18              		.p2align 2,,3
+  19              		.weak	_ZN5daisy12SdmmcHandlerD2Ev
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-d16
+  26              	_ZN5daisy12SdmmcHandlerD2Ev:
+  27              	.LVL0:
+  28              	.LFB1641:
+  29              		.file 1 "../../libdaisy/src/per/sdmmc.h"
+   1:../../libdaisy/src/per/sdmmc.h **** /*
+   2:../../libdaisy/src/per/sdmmc.h **** TODO: 
+   3:../../libdaisy/src/per/sdmmc.h **** - Implement configuration (currently all settings are fixed).
+   4:../../libdaisy/src/per/sdmmc.h **** */
+   5:../../libdaisy/src/per/sdmmc.h **** #pragma once
+   6:../../libdaisy/src/per/sdmmc.h **** #ifndef DSY_SDMMC_H
+   7:../../libdaisy/src/per/sdmmc.h **** #define DSY_SDMMC_H /**< macro */
+   8:../../libdaisy/src/per/sdmmc.h **** 
+   9:../../libdaisy/src/per/sdmmc.h **** #include <stdint.h>
+  10:../../libdaisy/src/per/sdmmc.h **** 
+  11:../../libdaisy/src/per/sdmmc.h **** 
+  12:../../libdaisy/src/per/sdmmc.h **** namespace daisy
+  13:../../libdaisy/src/per/sdmmc.h **** {
+  14:../../libdaisy/src/per/sdmmc.h **** /** @addtogroup other
+  15:../../libdaisy/src/per/sdmmc.h ****     @{
+  16:../../libdaisy/src/per/sdmmc.h ****     */
+  17:../../libdaisy/src/per/sdmmc.h **** 
+  18:../../libdaisy/src/per/sdmmc.h **** /** Configuration for interfacing with SD cards.
+  19:../../libdaisy/src/per/sdmmc.h ****  *  Currently only supports operation using FatFS filesystem
+  20:../../libdaisy/src/per/sdmmc.h ****  * 
+  21:../../libdaisy/src/per/sdmmc.h ****  *  Only SDMMC1 is supported at this time.
+  22:../../libdaisy/src/per/sdmmc.h ****  *
+  23:../../libdaisy/src/per/sdmmc.h ****  *  Pins are fixed to the following:
+  24:../../libdaisy/src/per/sdmmc.h ****  *  PC12 - SDMMC1 CK
+  25:../../libdaisy/src/per/sdmmc.h ****  *  PD2  - SDMMC1 CMD
+  26:../../libdaisy/src/per/sdmmc.h ****  *  PC8  - SDMMC1 D0
+  27:../../libdaisy/src/per/sdmmc.h ****  *  PC9  - SDMMC1 D1 (optional)
+  28:../../libdaisy/src/per/sdmmc.h ****  *  PC10 - SDMMC1 D2 (optional)
+  29:../../libdaisy/src/per/sdmmc.h ****  *  PC11 - SDMMC1 D3 (optional)
+ARM GAS  /tmp/ccSfmKRm.s 			page 2
+
+
+  30:../../libdaisy/src/per/sdmmc.h **** */
+  31:../../libdaisy/src/per/sdmmc.h **** class SdmmcHandler
+  32:../../libdaisy/src/per/sdmmc.h **** {
+  33:../../libdaisy/src/per/sdmmc.h ****   public:
+  34:../../libdaisy/src/per/sdmmc.h ****     /** Return values for the SdmmcHandler class */
+  35:../../libdaisy/src/per/sdmmc.h ****     enum class Result
+  36:../../libdaisy/src/per/sdmmc.h ****     {
+  37:../../libdaisy/src/per/sdmmc.h ****         OK,
+  38:../../libdaisy/src/per/sdmmc.h ****         ERROR,
+  39:../../libdaisy/src/per/sdmmc.h ****     };
+  40:../../libdaisy/src/per/sdmmc.h **** 
+  41:../../libdaisy/src/per/sdmmc.h ****     /** Sets whether 4-bit mode or 1-bit mode is used for the SDMMC */
+  42:../../libdaisy/src/per/sdmmc.h ****     enum class BusWidth
+  43:../../libdaisy/src/per/sdmmc.h ****     {
+  44:../../libdaisy/src/per/sdmmc.h ****         BITS_1, /**< Only 1 bit of data per clock is transferred */
+  45:../../libdaisy/src/per/sdmmc.h ****         BITS_4, /**< 4-bits of parallel data for each clock pulse */
+  46:../../libdaisy/src/per/sdmmc.h ****     };
+  47:../../libdaisy/src/per/sdmmc.h **** 
+  48:../../libdaisy/src/per/sdmmc.h ****     /** 
+  49:../../libdaisy/src/per/sdmmc.h ****     Sets the desired clock speed of the SD card bus. \n 
+  50:../../libdaisy/src/per/sdmmc.h ****     Initialization is always done at or below 400kHz, and then the user speed is set.
+  51:../../libdaisy/src/per/sdmmc.h ****     */
+  52:../../libdaisy/src/per/sdmmc.h ****     enum class Speed
+  53:../../libdaisy/src/per/sdmmc.h ****     {
+  54:../../libdaisy/src/per/sdmmc.h ****         SLOW, /**< 400kHz, initialization  performed at this rate, before moving to user value */
+  55:../../libdaisy/src/per/sdmmc.h ****         MEDIUM_SLOW, /**< 12.5MHz - half of standard rate */
+  56:../../libdaisy/src/per/sdmmc.h ****         STANDARD,    /**< 25MHz - DS (Default Speed for SDMMC) */
+  57:../../libdaisy/src/per/sdmmc.h ****         FAST,        /**< 50MHz - HS (High Speed signaling) */
+  58:../../libdaisy/src/per/sdmmc.h ****         VERY_FAST, /**< 100MHz - SDR50 Overclocked rate for maximum transfer rates */
+  59:../../libdaisy/src/per/sdmmc.h ****     };
+  60:../../libdaisy/src/per/sdmmc.h **** 
+  61:../../libdaisy/src/per/sdmmc.h ****     struct Config
+  62:../../libdaisy/src/per/sdmmc.h ****     {
+  63:../../libdaisy/src/per/sdmmc.h ****         Speed    speed;
+  64:../../libdaisy/src/per/sdmmc.h ****         BusWidth width;
+  65:../../libdaisy/src/per/sdmmc.h ****         bool
+  66:../../libdaisy/src/per/sdmmc.h ****             clock_powersave; /**< When true, the clock will stop between transfers to save power. *
+  67:../../libdaisy/src/per/sdmmc.h **** 
+  68:../../libdaisy/src/per/sdmmc.h ****         /** Configures settings to their default settings */
+  69:../../libdaisy/src/per/sdmmc.h ****         void Defaults()
+  70:../../libdaisy/src/per/sdmmc.h ****         {
+  71:../../libdaisy/src/per/sdmmc.h ****             speed           = Speed::FAST;
+  72:../../libdaisy/src/per/sdmmc.h ****             width           = BusWidth::BITS_4;
+  73:../../libdaisy/src/per/sdmmc.h ****             clock_powersave = false;
+  74:../../libdaisy/src/per/sdmmc.h ****         }
+  75:../../libdaisy/src/per/sdmmc.h ****     };
+  76:../../libdaisy/src/per/sdmmc.h **** 
+  77:../../libdaisy/src/per/sdmmc.h ****     SdmmcHandler() {}
+  78:../../libdaisy/src/per/sdmmc.h ****     ~SdmmcHandler() {}
+  30              		.loc 1 78 5 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              		.loc 1 78 22 is_stmt 0 view .LVU1
+  36 0000 7047     		bx	lr
+  37              		.cfi_endproc
+ARM GAS  /tmp/ccSfmKRm.s 			page 3
+
+
+  38              	.LFE1641:
+  40              		.weak	_ZN5daisy12SdmmcHandlerD1Ev
+  41              		.thumb_set _ZN5daisy12SdmmcHandlerD1Ev,_ZN5daisy12SdmmcHandlerD2Ev
+  42 0002 00BF     		.section	.text._ZN5daisy10DaisyPetalD2Ev,"axG",%progbits,_ZN5daisy10DaisyPetalD5Ev,comdat
+  43              		.align	1
+  44              		.p2align 2,,3
+  45              		.weak	_ZN5daisy10DaisyPetalD2Ev
+  46              		.syntax unified
+  47              		.thumb
+  48              		.thumb_func
+  49              		.fpu fpv5-d16
+  51              	_ZN5daisy10DaisyPetalD2Ev:
+  52              	.LVL1:
+  53              	.LFB2049:
+  54              		.file 2 "../../libdaisy/src/daisy_petal.h"
+   1:../../libdaisy/src/daisy_petal.h **** #pragma once
+   2:../../libdaisy/src/daisy_petal.h **** #ifndef DSY_PETAL_H
+   3:../../libdaisy/src/daisy_petal.h **** #define DSY_PETAL_H /**< & */
+   4:../../libdaisy/src/daisy_petal.h **** 
+   5:../../libdaisy/src/daisy_petal.h **** #include "daisy_seed.h"
+   6:../../libdaisy/src/daisy_petal.h **** 
+   7:../../libdaisy/src/daisy_petal.h **** namespace daisy
+   8:../../libdaisy/src/daisy_petal.h **** {
+   9:../../libdaisy/src/daisy_petal.h **** /**
+  10:../../libdaisy/src/daisy_petal.h ****    @brief Helpers and hardware definitions for daisy petal.
+  11:../../libdaisy/src/daisy_petal.h ****    @ingroup boards
+  12:../../libdaisy/src/daisy_petal.h **** */
+  13:../../libdaisy/src/daisy_petal.h **** class DaisyPetal
+  14:../../libdaisy/src/daisy_petal.h **** {
+  15:../../libdaisy/src/daisy_petal.h ****   public:
+  16:../../libdaisy/src/daisy_petal.h ****     /** Switches */
+  17:../../libdaisy/src/daisy_petal.h ****     enum Sw
+  18:../../libdaisy/src/daisy_petal.h ****     {
+  19:../../libdaisy/src/daisy_petal.h ****         SW_1,    /**< Footswitch */
+  20:../../libdaisy/src/daisy_petal.h ****         SW_2,    /**< Footswitch */
+  21:../../libdaisy/src/daisy_petal.h ****         SW_3,    /**< Footswitch */
+  22:../../libdaisy/src/daisy_petal.h ****         SW_4,    /**< Footswitch */
+  23:../../libdaisy/src/daisy_petal.h ****         SW_5,    /**< Toggle */
+  24:../../libdaisy/src/daisy_petal.h ****         SW_6,    /**< Toggle */
+  25:../../libdaisy/src/daisy_petal.h ****         SW_7,    /**< Toggle */
+  26:../../libdaisy/src/daisy_petal.h ****         SW_LAST, /**< Last enum item */
+  27:../../libdaisy/src/daisy_petal.h ****     };
+  28:../../libdaisy/src/daisy_petal.h **** 
+  29:../../libdaisy/src/daisy_petal.h ****     /** Knobs */
+  30:../../libdaisy/src/daisy_petal.h ****     enum Knob
+  31:../../libdaisy/src/daisy_petal.h ****     {
+  32:../../libdaisy/src/daisy_petal.h ****         KNOB_1,    /**< & */
+  33:../../libdaisy/src/daisy_petal.h ****         KNOB_2,    /**< & */
+  34:../../libdaisy/src/daisy_petal.h ****         KNOB_3,    /**< & */
+  35:../../libdaisy/src/daisy_petal.h ****         KNOB_4,    /**< & */
+  36:../../libdaisy/src/daisy_petal.h ****         KNOB_5,    /**< & */
+  37:../../libdaisy/src/daisy_petal.h ****         KNOB_6,    /**< & */
+  38:../../libdaisy/src/daisy_petal.h ****         KNOB_LAST, /**< & */
+  39:../../libdaisy/src/daisy_petal.h ****     };
+  40:../../libdaisy/src/daisy_petal.h **** 
+  41:../../libdaisy/src/daisy_petal.h ****     /** Leds in ringled */
+  42:../../libdaisy/src/daisy_petal.h ****     enum RingLed
+ARM GAS  /tmp/ccSfmKRm.s 			page 4
+
+
+  43:../../libdaisy/src/daisy_petal.h ****     {
+  44:../../libdaisy/src/daisy_petal.h ****         RING_LED_1,   /**< & */
+  45:../../libdaisy/src/daisy_petal.h ****         RING_LED_2,   /**< & */
+  46:../../libdaisy/src/daisy_petal.h ****         RING_LED_3,   /**< & */
+  47:../../libdaisy/src/daisy_petal.h ****         RING_LED_4,   /**< & */
+  48:../../libdaisy/src/daisy_petal.h ****         RING_LED_5,   /**< & */
+  49:../../libdaisy/src/daisy_petal.h ****         RING_LED_6,   /**< & */
+  50:../../libdaisy/src/daisy_petal.h ****         RING_LED_7,   /**< & */
+  51:../../libdaisy/src/daisy_petal.h ****         RING_LED_8,   /**< & */
+  52:../../libdaisy/src/daisy_petal.h ****         RING_LED_LAST /**< & */
+  53:../../libdaisy/src/daisy_petal.h ****     };
+  54:../../libdaisy/src/daisy_petal.h **** 
+  55:../../libdaisy/src/daisy_petal.h ****     /** footswitch leds */
+  56:../../libdaisy/src/daisy_petal.h ****     enum FootswitchLed
+  57:../../libdaisy/src/daisy_petal.h ****     {
+  58:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_1,    /**< & */
+  59:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_2,    /**< & */
+  60:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_3,    /**< & */
+  61:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_4,    /**< & */
+  62:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_LAST, /**< & */
+  63:../../libdaisy/src/daisy_petal.h ****     };
+  64:../../libdaisy/src/daisy_petal.h **** 
+  65:../../libdaisy/src/daisy_petal.h ****     /** Constructor */
+  66:../../libdaisy/src/daisy_petal.h ****     DaisyPetal() {}
+  67:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+  68:../../libdaisy/src/daisy_petal.h ****     ~DaisyPetal() {}
+  55              		.loc 2 68 5 is_stmt 1 view -0
+  56              		.cfi_startproc
+  57              		@ args = 0, pretend = 0, frame = 0
+  58              		@ frame_needed = 0, uses_anonymous_args = 0
+  59              		@ link register save eliminated.
+  60              	.LBB209:
+  61              	.LBI209:
+  62              		.file 3 "../../libdaisy/src/hid/ctrl.h"
+   1:../../libdaisy/src/hid/ctrl.h **** #pragma once
+   2:../../libdaisy/src/hid/ctrl.h **** #ifndef DSY_KNOB_H
+   3:../../libdaisy/src/hid/ctrl.h **** #define DSY_KNOB_H /**< & */
+   4:../../libdaisy/src/hid/ctrl.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/ctrl.h **** 
+   6:../../libdaisy/src/hid/ctrl.h **** #ifdef __cplusplus
+   7:../../libdaisy/src/hid/ctrl.h **** namespace daisy
+   8:../../libdaisy/src/hid/ctrl.h **** {
+   9:../../libdaisy/src/hid/ctrl.h **** /**
+  10:../../libdaisy/src/hid/ctrl.h ****     @brief Hardware Interface for control inputs \n 
+  11:../../libdaisy/src/hid/ctrl.h ****     Primarily designed for ADC input controls such as \n 
+  12:../../libdaisy/src/hid/ctrl.h ****     potentiometers, and control voltage. \n 
+  13:../../libdaisy/src/hid/ctrl.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/ctrl.h ****     @date November 2019
+  15:../../libdaisy/src/hid/ctrl.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/ctrl.h **** */
+  17:../../libdaisy/src/hid/ctrl.h **** class AnalogControl
+  18:../../libdaisy/src/hid/ctrl.h **** {
+  19:../../libdaisy/src/hid/ctrl.h ****   public:
+  20:../../libdaisy/src/hid/ctrl.h ****     /** Constructor */
+  21:../../libdaisy/src/hid/ctrl.h ****     AnalogControl() {}
+  22:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+  23:../../libdaisy/src/hid/ctrl.h ****     ~AnalogControl() {}
+ARM GAS  /tmp/ccSfmKRm.s 			page 5
+
+
+  63              		.loc 3 23 5 view .LVU3
+  64              		.loc 3 23 5 is_stmt 0 view .LVU4
+  65              	.LBE209:
+  66              	.LBB210:
+  67              	.LBI210:
+  68              		.file 4 "../../libdaisy/src/hid/encoder.h"
+   1:../../libdaisy/src/hid/encoder.h **** #pragma once
+   2:../../libdaisy/src/hid/encoder.h **** #ifndef DSY_ENCODER_H
+   3:../../libdaisy/src/hid/encoder.h **** #define DSY_ENCODER_H
+   4:../../libdaisy/src/hid/encoder.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/encoder.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/encoder.h **** #include "hid/switch.h"
+   7:../../libdaisy/src/hid/encoder.h **** 
+   8:../../libdaisy/src/hid/encoder.h **** namespace daisy
+   9:../../libdaisy/src/hid/encoder.h **** {
+  10:../../libdaisy/src/hid/encoder.h **** /** 
+  11:../../libdaisy/src/hid/encoder.h ****     @brief Generic Class for handling Quadrature Encoders \n 
+  12:../../libdaisy/src/hid/encoder.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Encoder classes
+  13:../../libdaisy/src/hid/encoder.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/encoder.h ****     @date December 2019
+  15:../../libdaisy/src/hid/encoder.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/encoder.h **** */
+  17:../../libdaisy/src/hid/encoder.h **** class Encoder
+  18:../../libdaisy/src/hid/encoder.h **** {
+  19:../../libdaisy/src/hid/encoder.h ****   public:
+  20:../../libdaisy/src/hid/encoder.h ****     Encoder() {}
+  21:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+  69              		.loc 4 21 5 is_stmt 1 view .LVU5
+  70              	.LBB211:
+  71              	.LBI211:
+  72              		.file 5 "../../libdaisy/src/hid/switch.h"
+   1:../../libdaisy/src/hid/switch.h **** #pragma once
+   2:../../libdaisy/src/hid/switch.h **** #ifndef DSY_SWITCH_H
+   3:../../libdaisy/src/hid/switch.h **** #define DSY_SWITCH_H
+   4:../../libdaisy/src/hid/switch.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/switch.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/switch.h **** 
+   7:../../libdaisy/src/hid/switch.h **** namespace daisy
+   8:../../libdaisy/src/hid/switch.h **** {
+   9:../../libdaisy/src/hid/switch.h **** /** 
+  10:../../libdaisy/src/hid/switch.h ****     Generic Class for handling momentary/latching switches \n 
+  11:../../libdaisy/src/hid/switch.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Switch classes
+  12:../../libdaisy/src/hid/switch.h ****     @author Stephen Hensley
+  13:../../libdaisy/src/hid/switch.h ****     @date December 2019
+  14:../../libdaisy/src/hid/switch.h ****     @ingroup controls
+  15:../../libdaisy/src/hid/switch.h **** */
+  16:../../libdaisy/src/hid/switch.h **** class Switch
+  17:../../libdaisy/src/hid/switch.h **** {
+  18:../../libdaisy/src/hid/switch.h ****   public:
+  19:../../libdaisy/src/hid/switch.h ****     /** Specifies the expected behavior of the switch */
+  20:../../libdaisy/src/hid/switch.h ****     enum Type
+  21:../../libdaisy/src/hid/switch.h ****     {
+  22:../../libdaisy/src/hid/switch.h ****         TYPE_TOGGLE,    /**< & */
+  23:../../libdaisy/src/hid/switch.h ****         TYPE_MOMENTARY, /**< & */
+  24:../../libdaisy/src/hid/switch.h ****     };
+  25:../../libdaisy/src/hid/switch.h ****     /** Specifies whether the pressed is HIGH or LOW. */
+  26:../../libdaisy/src/hid/switch.h ****     enum Polarity
+ARM GAS  /tmp/ccSfmKRm.s 			page 6
+
+
+  27:../../libdaisy/src/hid/switch.h ****     {
+  28:../../libdaisy/src/hid/switch.h ****         POLARITY_NORMAL,   /**< & */
+  29:../../libdaisy/src/hid/switch.h ****         POLARITY_INVERTED, /**< & */
+  30:../../libdaisy/src/hid/switch.h ****     };
+  31:../../libdaisy/src/hid/switch.h **** 
+  32:../../libdaisy/src/hid/switch.h ****     /** Specifies whether to use built-in Pull Up/Down resistors to hold button at a given state wh
+  33:../../libdaisy/src/hid/switch.h ****     enum Pull
+  34:../../libdaisy/src/hid/switch.h ****     {
+  35:../../libdaisy/src/hid/switch.h ****         PULL_UP,   /**< & */
+  36:../../libdaisy/src/hid/switch.h ****         PULL_DOWN, /**< & */
+  37:../../libdaisy/src/hid/switch.h ****         PULL_NONE, /**< & */
+  38:../../libdaisy/src/hid/switch.h ****     };
+  39:../../libdaisy/src/hid/switch.h **** 
+  40:../../libdaisy/src/hid/switch.h ****     Switch() {}
+  41:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+  73              		.loc 5 41 5 view .LVU6
+  74              		.loc 5 41 5 is_stmt 0 view .LVU7
+  75              	.LBE211:
+  76              	.LBE210:
+  77              	.LBB212:
+  78              	.LBI212:
+  79              		.file 6 "../../libdaisy/src/daisy_seed.h"
+   1:../../libdaisy/src/daisy_seed.h **** #pragma once
+   2:../../libdaisy/src/daisy_seed.h **** #ifndef DSY_SEED_H
+   3:../../libdaisy/src/daisy_seed.h **** #define DSY_SEED_H
+   4:../../libdaisy/src/daisy_seed.h **** 
+   5:../../libdaisy/src/daisy_seed.h **** #include "daisy.h"
+   6:../../libdaisy/src/daisy_seed.h **** 
+   7:../../libdaisy/src/daisy_seed.h **** //Uncomment this out if you're still using the rev2 hardware
+   8:../../libdaisy/src/daisy_seed.h **** //#define SEED_REV2
+   9:../../libdaisy/src/daisy_seed.h **** 
+  10:../../libdaisy/src/daisy_seed.h **** namespace daisy
+  11:../../libdaisy/src/daisy_seed.h **** {
+  12:../../libdaisy/src/daisy_seed.h **** /**
+  13:../../libdaisy/src/daisy_seed.h ****    @brief This is the higher-level interface for the Daisy board. \n 
+  14:../../libdaisy/src/daisy_seed.h ****     All basic peripheral configuration/initialization is setup here. \n
+  15:../../libdaisy/src/daisy_seed.h **** 
+  16:../../libdaisy/src/daisy_seed.h ****    @ingroup boards
+  17:../../libdaisy/src/daisy_seed.h **** */
+  18:../../libdaisy/src/daisy_seed.h **** class DaisySeed
+  19:../../libdaisy/src/daisy_seed.h **** {
+  20:../../libdaisy/src/daisy_seed.h ****   public:
+  21:../../libdaisy/src/daisy_seed.h ****     DaisySeed() {}
+  22:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+  80              		.loc 6 22 5 is_stmt 1 view .LVU8
+  81              	.LBB213:
+  82              	.LBI213:
+  83              		.file 7 "../../libdaisy/src/sys/system.h"
+   1:../../libdaisy/src/sys/system.h **** #ifndef DSY_SYSTEM_H
+   2:../../libdaisy/src/sys/system.h **** #define DSY_SYSTEM_H
+   3:../../libdaisy/src/sys/system.h **** 
+   4:../../libdaisy/src/sys/system.h **** #ifndef UNIT_TEST // for unit tests, a dummy implementation is provided below
+   5:../../libdaisy/src/sys/system.h **** 
+   6:../../libdaisy/src/sys/system.h **** #include <cstdint>
+   7:../../libdaisy/src/sys/system.h **** #include "per/tim.h"
+   8:../../libdaisy/src/sys/system.h **** 
+   9:../../libdaisy/src/sys/system.h **** namespace daisy
+ARM GAS  /tmp/ccSfmKRm.s 			page 7
+
+
+  10:../../libdaisy/src/sys/system.h **** {
+  11:../../libdaisy/src/sys/system.h **** /** A handle for interacting with the Core System. 
+  12:../../libdaisy/src/sys/system.h ****  ** This includes the Clock tree, MPU, global DMA initialization,
+  13:../../libdaisy/src/sys/system.h ****  ** cache handling, and any other necessary global initiailzation
+  14:../../libdaisy/src/sys/system.h ****  **
+  15:../../libdaisy/src/sys/system.h ****  ** @author shensley
+  16:../../libdaisy/src/sys/system.h ****  ** @addtogroup system
+  17:../../libdaisy/src/sys/system.h ****  */
+  18:../../libdaisy/src/sys/system.h **** class System
+  19:../../libdaisy/src/sys/system.h **** {
+  20:../../libdaisy/src/sys/system.h ****   public:
+  21:../../libdaisy/src/sys/system.h ****     /** Contains settings for initializing the System */
+  22:../../libdaisy/src/sys/system.h ****     struct Config
+  23:../../libdaisy/src/sys/system.h ****     {
+  24:../../libdaisy/src/sys/system.h ****         /** Specifies the system clock frequency that feeds APB/AHB clocks, etc. */
+  25:../../libdaisy/src/sys/system.h ****         enum class SysClkFreq
+  26:../../libdaisy/src/sys/system.h ****         {
+  27:../../libdaisy/src/sys/system.h ****             FREQ_400MHZ,
+  28:../../libdaisy/src/sys/system.h ****             FREQ_480MHZ,
+  29:../../libdaisy/src/sys/system.h ****         };
+  30:../../libdaisy/src/sys/system.h **** 
+  31:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to defaults
+  32:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 400MHz
+  33:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  34:../../libdaisy/src/sys/system.h ****          ** */
+  35:../../libdaisy/src/sys/system.h ****         void Defaults()
+  36:../../libdaisy/src/sys/system.h ****         {
+  37:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_400MHZ;
+  38:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  39:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  40:../../libdaisy/src/sys/system.h ****         }
+  41:../../libdaisy/src/sys/system.h **** 
+  42:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to boost mode:
+  43:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 480MHz
+  44:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  45:../../libdaisy/src/sys/system.h ****          ** */
+  46:../../libdaisy/src/sys/system.h ****         void Boost()
+  47:../../libdaisy/src/sys/system.h ****         {
+  48:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_480MHZ;
+  49:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  50:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  51:../../libdaisy/src/sys/system.h ****         }
+  52:../../libdaisy/src/sys/system.h **** 
+  53:../../libdaisy/src/sys/system.h ****         SysClkFreq cpu_freq;
+  54:../../libdaisy/src/sys/system.h ****         bool       use_dcache;
+  55:../../libdaisy/src/sys/system.h ****         bool       use_icache;
+  56:../../libdaisy/src/sys/system.h ****     };
+  57:../../libdaisy/src/sys/system.h **** 
+  58:../../libdaisy/src/sys/system.h ****     System() {}
+  59:../../libdaisy/src/sys/system.h ****     ~System() {}
+  84              		.loc 7 59 5 view .LVU9
+  85              		.loc 7 59 5 is_stmt 0 view .LVU10
+  86              	.LBE213:
+  87              	.LBB214:
+  88              	.LBI214:
+  89              		.file 8 "../../libdaisy/src/hid/usb.h"
+   1:../../libdaisy/src/hid/usb.h **** #pragma once
+ARM GAS  /tmp/ccSfmKRm.s 			page 8
+
+
+   2:../../libdaisy/src/hid/usb.h **** #ifndef DSY_HID_USB_H
+   3:../../libdaisy/src/hid/usb.h **** #define DSY_HID_USB_H
+   4:../../libdaisy/src/hid/usb.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/usb.h **** #include <stdlib.h>
+   6:../../libdaisy/src/hid/usb.h **** 
+   7:../../libdaisy/src/hid/usb.h **** namespace daisy
+   8:../../libdaisy/src/hid/usb.h **** /** @addtogroup externals
+   9:../../libdaisy/src/hid/usb.h ****     @{
+  10:../../libdaisy/src/hid/usb.h **** */
+  11:../../libdaisy/src/hid/usb.h **** 
+  12:../../libdaisy/src/hid/usb.h **** {
+  13:../../libdaisy/src/hid/usb.h **** /** 
+  14:../../libdaisy/src/hid/usb.h ****     @brief Interface for initializing and using the USB Peripherals on the daisy
+  15:../../libdaisy/src/hid/usb.h ****     @author Stephen Hensley
+  16:../../libdaisy/src/hid/usb.h ****     @date December 2019
+  17:../../libdaisy/src/hid/usb.h **** */
+  18:../../libdaisy/src/hid/usb.h **** class UsbHandle
+  19:../../libdaisy/src/hid/usb.h **** {
+  20:../../libdaisy/src/hid/usb.h ****   public:
+  21:../../libdaisy/src/hid/usb.h ****     /** Return values for USBHandle Functions */
+  22:../../libdaisy/src/hid/usb.h ****     enum class Result
+  23:../../libdaisy/src/hid/usb.h ****     {
+  24:../../libdaisy/src/hid/usb.h ****         OK,
+  25:../../libdaisy/src/hid/usb.h ****         ERR,
+  26:../../libdaisy/src/hid/usb.h ****     };
+  27:../../libdaisy/src/hid/usb.h **** 
+  28:../../libdaisy/src/hid/usb.h ****     /** Specified which of the two USB Peripherals to initialize. */
+  29:../../libdaisy/src/hid/usb.h ****     enum UsbPeriph
+  30:../../libdaisy/src/hid/usb.h ****     {
+  31:../../libdaisy/src/hid/usb.h ****         FS_INTERNAL, /**< Internal pin */
+  32:../../libdaisy/src/hid/usb.h ****         FS_EXTERNAL, /**< FS External D+ pin is Pin 38 (GPIO32). FS External D- pin is Pin 37 (GPIO
+  33:../../libdaisy/src/hid/usb.h ****         FS_BOTH,     /**< Both */
+  34:../../libdaisy/src/hid/usb.h ****     };
+  35:../../libdaisy/src/hid/usb.h **** 
+  36:../../libdaisy/src/hid/usb.h **** 
+  37:../../libdaisy/src/hid/usb.h ****     /** Function called upon reception of a buffer */
+  38:../../libdaisy/src/hid/usb.h ****     typedef void (*ReceiveCallback)(uint8_t* buff, uint32_t* len);
+  39:../../libdaisy/src/hid/usb.h **** 
+  40:../../libdaisy/src/hid/usb.h ****     UsbHandle() {}
+  41:../../libdaisy/src/hid/usb.h **** 
+  42:../../libdaisy/src/hid/usb.h ****     ~UsbHandle() {}
+  90              		.loc 8 42 5 is_stmt 1 view .LVU11
+  91              		.loc 8 42 5 is_stmt 0 view .LVU12
+  92              	.LBE214:
+  93              	.LBB215:
+  94              	.LBI215:
+  95              		.file 9 "../../libdaisy/src/per/adc.h"
+   1:../../libdaisy/src/per/adc.h **** #pragma once
+   2:../../libdaisy/src/per/adc.h **** #ifndef DSY_ADC_H
+   3:../../libdaisy/src/per/adc.h **** #define DSY_ADC_H /**< Macro */
+   4:../../libdaisy/src/per/adc.h **** #include <stdint.h>
+   5:../../libdaisy/src/per/adc.h **** #include <stdlib.h>
+   6:../../libdaisy/src/per/adc.h **** #include "daisy_core.h"
+   7:../../libdaisy/src/per/adc.h **** #include "per/gpio.h"
+   8:../../libdaisy/src/per/adc.h **** 
+   9:../../libdaisy/src/per/adc.h **** #define DSY_ADC_MAX_CHANNELS 14 /**< Maximum number of ADC channels */
+  10:../../libdaisy/src/per/adc.h **** 
+ARM GAS  /tmp/ccSfmKRm.s 			page 9
+
+
+  11:../../libdaisy/src/per/adc.h **** namespace daisy
+  12:../../libdaisy/src/per/adc.h **** {
+  13:../../libdaisy/src/per/adc.h **** /** @addtogroup analog_digital_conversion
+  14:../../libdaisy/src/per/adc.h ****     @{
+  15:../../libdaisy/src/per/adc.h **** */
+  16:../../libdaisy/src/per/adc.h **** 
+  17:../../libdaisy/src/per/adc.h **** /* While there may not be many configuration options here,
+  18:../../libdaisy/src/per/adc.h **** using a struct like this allows us to add more configuration
+  19:../../libdaisy/src/per/adc.h **** later without breaking existing functionality.
+  20:../../libdaisy/src/per/adc.h **** */
+  21:../../libdaisy/src/per/adc.h **** 
+  22:../../libdaisy/src/per/adc.h **** /** Configuration Structure for a given channel */
+  23:../../libdaisy/src/per/adc.h **** struct AdcChannelConfig
+  24:../../libdaisy/src/per/adc.h **** {
+  25:../../libdaisy/src/per/adc.h ****     /** Which pin to use for multiplexing */
+  26:../../libdaisy/src/per/adc.h ****     enum MuxPin
+  27:../../libdaisy/src/per/adc.h ****     {
+  28:../../libdaisy/src/per/adc.h ****         MUX_SEL_0,    /**< & */
+  29:../../libdaisy/src/per/adc.h ****         MUX_SEL_1,    /**< & */
+  30:../../libdaisy/src/per/adc.h ****         MUX_SEL_2,    /**< & */
+  31:../../libdaisy/src/per/adc.h ****         MUX_SEL_LAST, /**< & */
+  32:../../libdaisy/src/per/adc.h ****     };
+  33:../../libdaisy/src/per/adc.h **** 
+  34:../../libdaisy/src/per/adc.h ****     /** Initializes a single ADC pin as an ADC. 
+  35:../../libdaisy/src/per/adc.h ****     \param pin Pin to init.
+  36:../../libdaisy/src/per/adc.h ****      */
+  37:../../libdaisy/src/per/adc.h ****     void InitSingle(dsy_gpio_pin pin);
+  38:../../libdaisy/src/per/adc.h **** 
+  39:../../libdaisy/src/per/adc.h ****     /** 
+  40:../../libdaisy/src/per/adc.h ****     Initializes a single ADC pin as a Multiplexed ADC.
+  41:../../libdaisy/src/per/adc.h ****     Requires a CD405X Multiplexer connected to the pin.
+  42:../../libdaisy/src/per/adc.h ****     You only need to supply the mux pins that are required,
+  43:../../libdaisy/src/per/adc.h ****     e.g. a 4052 mux would only require mux_0 and mux_1.
+  44:../../libdaisy/src/per/adc.h ****     Internal Callbacks handle the pin addressing.
+  45:../../libdaisy/src/per/adc.h ****     \param mux_channels must be 1-8
+  46:../../libdaisy/src/per/adc.h ****     \param mux_0 First mux pin
+  47:../../libdaisy/src/per/adc.h ****     \param mux_1 Second mux pin
+  48:../../libdaisy/src/per/adc.h ****     \param mux_2 Third mux pin
+  49:../../libdaisy/src/per/adc.h ****     \param adc_pin &
+  50:../../libdaisy/src/per/adc.h ****     */
+  51:../../libdaisy/src/per/adc.h ****     void InitMux(dsy_gpio_pin adc_pin,
+  52:../../libdaisy/src/per/adc.h ****                  size_t       mux_channels,
+  53:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_0,
+  54:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_1 = {DSY_GPIOX, 0},
+  55:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_2 = {DSY_GPIOX, 0});
+  56:../../libdaisy/src/per/adc.h **** 
+  57:../../libdaisy/src/per/adc.h ****     dsy_gpio pin_;                   /**< & */
+  58:../../libdaisy/src/per/adc.h ****     dsy_gpio mux_pin_[MUX_SEL_LAST]; /**< & */
+  59:../../libdaisy/src/per/adc.h ****     uint8_t  mux_channels_;          /**< & */
+  60:../../libdaisy/src/per/adc.h **** };
+  61:../../libdaisy/src/per/adc.h **** 
+  62:../../libdaisy/src/per/adc.h **** /**
+  63:../../libdaisy/src/per/adc.h ****    Handler for analog to digital conversion
+  64:../../libdaisy/src/per/adc.h **** */
+  65:../../libdaisy/src/per/adc.h **** class AdcHandle
+  66:../../libdaisy/src/per/adc.h **** {
+  67:../../libdaisy/src/per/adc.h ****   public:
+ARM GAS  /tmp/ccSfmKRm.s 			page 10
+
+
+  68:../../libdaisy/src/per/adc.h ****     /** Supported oversampling amounts */
+  69:../../libdaisy/src/per/adc.h ****     enum OverSampling
+  70:../../libdaisy/src/per/adc.h ****     {
+  71:../../libdaisy/src/per/adc.h ****         OVS_NONE, /**< & */
+  72:../../libdaisy/src/per/adc.h ****         OVS_4,    /**< & */
+  73:../../libdaisy/src/per/adc.h ****         OVS_8,    /**< & */
+  74:../../libdaisy/src/per/adc.h ****         OVS_16,   /**< & */
+  75:../../libdaisy/src/per/adc.h ****         OVS_32,   /**< & */
+  76:../../libdaisy/src/per/adc.h ****         OVS_64,   /**< & */
+  77:../../libdaisy/src/per/adc.h ****         OVS_128,  /**< & */
+  78:../../libdaisy/src/per/adc.h ****         OVS_256,  /**< & */
+  79:../../libdaisy/src/per/adc.h ****         OVS_512,  /**< & */
+  80:../../libdaisy/src/per/adc.h ****         OVS_1024, /**< & */
+  81:../../libdaisy/src/per/adc.h ****         OVS_LAST, /**< & */
+  82:../../libdaisy/src/per/adc.h ****     };
+  83:../../libdaisy/src/per/adc.h **** 
+  84:../../libdaisy/src/per/adc.h ****     AdcHandle() {}
+  85:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+  96              		.loc 9 85 5 is_stmt 1 view .LVU13
+  97              		.loc 9 85 5 is_stmt 0 view .LVU14
+  98              	.LBE215:
+  99              	.LBB216:
+ 100              	.LBI216:
+ 101              		.file 10 "../../libdaisy/src/hid/audio.h"
+   1:../../libdaisy/src/hid/audio.h **** #ifndef DSY_AUDIO_H
+   2:../../libdaisy/src/hid/audio.h **** #define DSY_AUDIO_H /**< & */
+   3:../../libdaisy/src/hid/audio.h **** 
+   4:../../libdaisy/src/hid/audio.h **** #include "per/sai.h"
+   5:../../libdaisy/src/hid/audio.h **** 
+   6:../../libdaisy/src/hid/audio.h **** namespace daisy
+   7:../../libdaisy/src/hid/audio.h **** {
+   8:../../libdaisy/src/hid/audio.h **** class AudioHandle
+   9:../../libdaisy/src/hid/audio.h **** {
+  10:../../libdaisy/src/hid/audio.h ****   public:
+  11:../../libdaisy/src/hid/audio.h ****     /** Manually configurable details about the Audio Engine */
+  12:../../libdaisy/src/hid/audio.h ****     /** TODO: Figure out how to get samplerate in here. */
+  13:../../libdaisy/src/hid/audio.h ****     struct Config
+  14:../../libdaisy/src/hid/audio.h ****     {
+  15:../../libdaisy/src/hid/audio.h ****         size_t                        blocksize;
+  16:../../libdaisy/src/hid/audio.h ****         SaiHandle::Config::SampleRate samplerate;
+  17:../../libdaisy/src/hid/audio.h ****         float                         postgain;
+  18:../../libdaisy/src/hid/audio.h ****     };
+  19:../../libdaisy/src/hid/audio.h **** 
+  20:../../libdaisy/src/hid/audio.h ****     enum class Result
+  21:../../libdaisy/src/hid/audio.h ****     {
+  22:../../libdaisy/src/hid/audio.h ****         OK,
+  23:../../libdaisy/src/hid/audio.h ****         ERR,
+  24:../../libdaisy/src/hid/audio.h ****     };
+  25:../../libdaisy/src/hid/audio.h **** 
+  26:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving input buffer
+  27:../../libdaisy/src/hid/audio.h ****      * Buffer arranged by float[chn][sample] 
+  28:../../libdaisy/src/hid/audio.h ****      * const so that the user can't modify the input
+  29:../../libdaisy/src/hid/audio.h ****     */
+  30:../../libdaisy/src/hid/audio.h ****     typedef const float* const* InputBuffer;
+  31:../../libdaisy/src/hid/audio.h **** 
+  32:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving output buffer
+  33:../../libdaisy/src/hid/audio.h ****      * Arranged by float[chn][sample] 
+ARM GAS  /tmp/ccSfmKRm.s 			page 11
+
+
+  34:../../libdaisy/src/hid/audio.h ****     */
+  35:../../libdaisy/src/hid/audio.h ****     typedef float** OutputBuffer;
+  36:../../libdaisy/src/hid/audio.h **** 
+  37:../../libdaisy/src/hid/audio.h ****     /** Type for a Non-Interleaving audio callback 
+  38:../../libdaisy/src/hid/audio.h ****    * Non-Interleaving audio callbacks in daisy will be of this type
+  39:../../libdaisy/src/hid/audio.h ****   */
+  40:../../libdaisy/src/hid/audio.h ****     typedef void (*AudioCallback)(InputBuffer  in,
+  41:../../libdaisy/src/hid/audio.h ****                                   OutputBuffer out,
+  42:../../libdaisy/src/hid/audio.h ****                                   size_t       size);
+  43:../../libdaisy/src/hid/audio.h **** 
+  44:../../libdaisy/src/hid/audio.h ****     /** Interleaving Input buffer
+  45:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }]
+  46:../../libdaisy/src/hid/audio.h ****      ** this is const, as the user shouldn't modify it
+  47:../../libdaisy/src/hid/audio.h ****     */
+  48:../../libdaisy/src/hid/audio.h ****     typedef const float* InterleavingInputBuffer;
+  49:../../libdaisy/src/hid/audio.h **** 
+  50:../../libdaisy/src/hid/audio.h ****     /** Interleaving Output buffer 
+  51:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }
+  52:../../libdaisy/src/hid/audio.h ****     */
+  53:../../libdaisy/src/hid/audio.h ****     typedef float* InterleavingOutputBuffer;
+  54:../../libdaisy/src/hid/audio.h **** 
+  55:../../libdaisy/src/hid/audio.h ****     /** Interleaving Audio Callback 
+  56:../../libdaisy/src/hid/audio.h ****    * Interleaving audio callbacks in daisy must be of this type
+  57:../../libdaisy/src/hid/audio.h ****   */
+  58:../../libdaisy/src/hid/audio.h ****     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
+  59:../../libdaisy/src/hid/audio.h ****                                               InterleavingOutputBuffer out,
+  60:../../libdaisy/src/hid/audio.h ****                                               size_t                   size);
+  61:../../libdaisy/src/hid/audio.h **** 
+  62:../../libdaisy/src/hid/audio.h ****     AudioHandle() : pimpl_(nullptr) {}
+  63:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 102              		.loc 10 63 5 is_stmt 1 view .LVU15
+ 103              		.loc 10 63 5 is_stmt 0 view .LVU16
+ 104              	.LBE216:
+ 105              	.LBE212:
+ 106              		.loc 2 68 20 view .LVU17
+ 107 0000 7047     		bx	lr
+ 108              		.cfi_endproc
+ 109              	.LFE2049:
+ 111              		.weak	_ZN5daisy10DaisyPetalD1Ev
+ 112              		.thumb_set _ZN5daisy10DaisyPetalD1Ev,_ZN5daisy10DaisyPetalD2Ev
+ 113 0002 00BF     		.section	.text._Z8callbackPKfPfj,"ax",%progbits
+ 114              		.align	1
+ 115              		.p2align 2,,3
+ 116              		.global	_Z8callbackPKfPfj
+ 117              		.syntax unified
+ 118              		.thumb
+ 119              		.thumb_func
+ 120              		.fpu fpv5-d16
+ 122              	_Z8callbackPKfPfj:
+ 123              	.LVL2:
+ 124              	.LFB4223:
+ 125              		.file 11 "GeneralFunctionTest.cpp"
+   1:GeneralFunctionTest.cpp **** #include <stdio.h>
+   2:GeneralFunctionTest.cpp **** #include <string.h>
+   3:GeneralFunctionTest.cpp **** #include "daisy_petal.h"
+   4:GeneralFunctionTest.cpp **** #include "daisysp.h"
+   5:GeneralFunctionTest.cpp **** #include "fatfs.h"
+ARM GAS  /tmp/ccSfmKRm.s 			page 12
+
+
+   6:GeneralFunctionTest.cpp **** 
+   7:GeneralFunctionTest.cpp **** #define KNOB_ID "KNOB_"
+   8:GeneralFunctionTest.cpp **** #define SW_ID "SWITCH_"
+   9:GeneralFunctionTest.cpp **** #define ENC_ID "ENCODER_"
+  10:GeneralFunctionTest.cpp **** 
+  11:GeneralFunctionTest.cpp **** #define TEST_FILE_NAME "DaisyTestFile.txt"
+  12:GeneralFunctionTest.cpp **** #define TEST_FILE_CONTENTS \
+  13:GeneralFunctionTest.cpp ****     "This file is used for testing the Daisy breakout boards. Happy Hacking!"
+  14:GeneralFunctionTest.cpp **** 
+  15:GeneralFunctionTest.cpp **** using namespace daisy;
+  16:GeneralFunctionTest.cpp **** using namespace daisysp;
+  17:GeneralFunctionTest.cpp **** 
+  18:GeneralFunctionTest.cpp **** int  TestSdCard();
+  19:GeneralFunctionTest.cpp **** void UpdateUsb(int sd_sta);
+  20:GeneralFunctionTest.cpp **** void UpdateLeds();
+  21:GeneralFunctionTest.cpp **** 
+  22:GeneralFunctionTest.cpp **** // Declare a local daisy_petal for hardware access
+  23:GeneralFunctionTest.cpp **** DaisyPetal hw;
+  24:GeneralFunctionTest.cpp **** // Handler for SD Card Hardware
+  25:GeneralFunctionTest.cpp **** SdmmcHandler sd;
+  26:GeneralFunctionTest.cpp **** 
+  27:GeneralFunctionTest.cpp **** // Variable for tracking encoder increments since there is it's not a continuous control like the r
+  28:GeneralFunctionTest.cpp **** int32_t enc_tracker;
+  29:GeneralFunctionTest.cpp **** 
+  30:GeneralFunctionTest.cpp **** // This runs at a fixed rate to prepare audio samples
+  31:GeneralFunctionTest.cpp **** void callback(AudioHandle::InterleavingInputBuffer  in,
+  32:GeneralFunctionTest.cpp ****               AudioHandle::InterleavingOutputBuffer out,
+  33:GeneralFunctionTest.cpp ****               size_t                                size)
+  34:GeneralFunctionTest.cpp **** {
+ 126              		.loc 11 34 1 is_stmt 1 view -0
+ 127              		.cfi_startproc
+ 128              		@ args = 0, pretend = 0, frame = 0
+ 129              		@ frame_needed = 0, uses_anonymous_args = 0
+  35:GeneralFunctionTest.cpp ****     int32_t inc;
+ 130              		.loc 11 35 5 view .LVU19
+  36:GeneralFunctionTest.cpp ****     hw.ProcessDigitalControls();
+ 131              		.loc 11 36 5 view .LVU20
+  34:GeneralFunctionTest.cpp ****     int32_t inc;
+ 132              		.loc 11 34 1 is_stmt 0 view .LVU21
+ 133 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 134              		.cfi_def_cfa_offset 24
+ 135              		.cfi_offset 3, -24
+ 136              		.cfi_offset 4, -20
+ 137              		.cfi_offset 5, -16
+ 138              		.cfi_offset 6, -12
+ 139              		.cfi_offset 7, -8
+ 140              		.cfi_offset 14, -4
+ 141              		.loc 11 36 30 view .LVU22
+ 142 0002 1A4F     		ldr	r7, .L15
+  34:GeneralFunctionTest.cpp ****     int32_t inc;
+ 143              		.loc 11 34 1 view .LVU23
+ 144 0004 0446     		mov	r4, r0
+ 145 0006 1646     		mov	r6, r2
+ 146 0008 0D46     		mov	r5, r1
+ 147              		.loc 11 36 30 view .LVU24
+ 148 000a 3846     		mov	r0, r7
+ 149              	.LVL3:
+ARM GAS  /tmp/ccSfmKRm.s 			page 13
+
+
+ 150              		.loc 11 36 30 view .LVU25
+ 151 000c FFF7FEFF 		bl	_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+ 152              	.LVL4:
+  37:GeneralFunctionTest.cpp ****     hw.ProcessAnalogControls();
+ 153              		.loc 11 37 5 is_stmt 1 view .LVU26
+ 154              		.loc 11 37 29 is_stmt 0 view .LVU27
+ 155 0010 3846     		mov	r0, r7
+ 156 0012 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+ 157              	.LVL5:
+  38:GeneralFunctionTest.cpp **** 
+  39:GeneralFunctionTest.cpp ****     // Handle Enc
+  40:GeneralFunctionTest.cpp ****     inc = hw.encoder.Increment();
+ 158              		.loc 11 40 5 is_stmt 1 view .LVU28
+ 159              		.loc 11 40 31 is_stmt 0 view .LVU29
+ 160 0016 BB6D     		ldr	r3, [r7, #88]
+ 161              	.LVL6:
+  22:../../libdaisy/src/hid/encoder.h **** 
+  23:../../libdaisy/src/hid/encoder.h ****     /** Initializes the encoder with the specified hardware pins.
+  24:../../libdaisy/src/hid/encoder.h **** */
+  25:../../libdaisy/src/hid/encoder.h ****     //
+  26:../../libdaisy/src/hid/encoder.h ****     /** Update rate should be the rate at which Debounce() gets called
+  27:../../libdaisy/src/hid/encoder.h **** in Hertz.
+  28:../../libdaisy/src/hid/encoder.h **** */
+  29:../../libdaisy/src/hid/encoder.h ****     //
+  30:../../libdaisy/src/hid/encoder.h ****     void
+  31:../../libdaisy/src/hid/encoder.h ****     Init(dsy_gpio_pin a, dsy_gpio_pin b, dsy_gpio_pin click, float update_rate);
+  32:../../libdaisy/src/hid/encoder.h ****     /** Called at update_rate to debounce and handle timing for the switch.
+  33:../../libdaisy/src/hid/encoder.h **** */
+  34:../../libdaisy/src/hid/encoder.h ****     //
+  35:../../libdaisy/src/hid/encoder.h ****     /** In order for events not to be missed, its important that the Edge/Pressed checks
+  36:../../libdaisy/src/hid/encoder.h **** be made at the same rate as the debounce function is being called.
+  37:../../libdaisy/src/hid/encoder.h **** */
+  38:../../libdaisy/src/hid/encoder.h ****     void Debounce();
+  39:../../libdaisy/src/hid/encoder.h ****     /** Returns +1 if the encoder was turned clockwise, -1 if it was turned counter-clockwise, or 0
+  40:../../libdaisy/src/hid/encoder.h **** */
+  41:../../libdaisy/src/hid/encoder.h ****     inline int32_t Increment() const { return inc_; }
+ 162              		.loc 4 41 40 is_stmt 1 view .LVU30
+  41:GeneralFunctionTest.cpp ****     if(inc > 0)
+ 163              		.loc 11 41 5 view .LVU31
+  42:GeneralFunctionTest.cpp ****         enc_tracker += 1;
+ 164              		.loc 11 42 21 is_stmt 0 view .LVU32
+ 165 0018 154A     		ldr	r2, .L15+4
+  41:GeneralFunctionTest.cpp ****     if(inc > 0)
+ 166              		.loc 11 41 5 view .LVU33
+ 167 001a 002B     		cmp	r3, #0
+ 168              		.loc 11 42 21 view .LVU34
+ 169 001c 1368     		ldr	r3, [r2]
+ 170              	.LVL7:
+  41:GeneralFunctionTest.cpp ****     if(inc > 0)
+ 171              		.loc 11 41 5 view .LVU35
+ 172 001e 1FDD     		ble	.L5
+ 173              		.loc 11 42 9 is_stmt 1 view .LVU36
+ 174              		.loc 11 42 21 is_stmt 0 view .LVU37
+ 175 0020 0133     		adds	r3, r3, #1
+ 176 0022 1360     		str	r3, [r2]
+ 177              	.L6:
+  43:GeneralFunctionTest.cpp ****     else if(inc < 0)
+ARM GAS  /tmp/ccSfmKRm.s 			page 14
+
+
+  44:GeneralFunctionTest.cpp ****         enc_tracker -= 1;
+  45:GeneralFunctionTest.cpp ****     // Clip
+  46:GeneralFunctionTest.cpp ****     if(enc_tracker > 100)
+ 178              		.loc 11 46 5 is_stmt 1 view .LVU38
+ 179 0024 642B     		cmp	r3, #100
+ 180 0026 16DD     		ble	.L8
+  47:GeneralFunctionTest.cpp ****         enc_tracker = 100;
+ 181              		.loc 11 47 9 view .LVU39
+ 182              		.loc 11 47 21 is_stmt 0 view .LVU40
+ 183 0028 6423     		movs	r3, #100
+ 184 002a 1360     		str	r3, [r2]
+ 185              	.L9:
+ 186              	.LVL8:
+ 187              	.LBB217:
+  48:GeneralFunctionTest.cpp ****     else if(enc_tracker < 0)
+  49:GeneralFunctionTest.cpp ****         enc_tracker = 0;
+  50:GeneralFunctionTest.cpp **** 
+  51:GeneralFunctionTest.cpp ****     // Audio Rate Loop
+  52:GeneralFunctionTest.cpp ****     for(size_t i = 0; i < size; i += 2)
+ 188              		.loc 11 52 25 is_stmt 1 discriminator 3 view .LVU41
+ 189 002c 96B1     		cbz	r6, .L4
+ 190 002e 013E     		subs	r6, r6, #1
+ 191              	.LVL9:
+ 192              		.loc 11 52 25 is_stmt 0 discriminator 3 view .LVU42
+ 193 0030 04F10802 		add	r2, r4, #8
+ 194 0034 2046     		mov	r0, r4
+ 195 0036 2946     		mov	r1, r5
+ 196 0038 7608     		lsrs	r6, r6, #1
+ 197              	.LVL10:
+ 198              		.loc 11 52 25 discriminator 3 view .LVU43
+ 199 003a 02EBC602 		add	r2, r2, r6, lsl #3
+ 200              	.LVL11:
+ 201              	.L12:
+  53:GeneralFunctionTest.cpp ****     {
+  54:GeneralFunctionTest.cpp ****         out[i]     = in[i];
+ 202              		.loc 11 54 9 is_stmt 1 discriminator 2 view .LVU44
+ 203              		.loc 11 54 26 is_stmt 0 discriminator 2 view .LVU45
+ 204 003e 0368     		ldr	r3, [r0]	@ float
+ 205 0040 0830     		adds	r0, r0, #8
+ 206 0042 0831     		adds	r1, r1, #8
+ 207              		.loc 11 54 20 discriminator 2 view .LVU46
+ 208 0044 41F8083C 		str	r3, [r1, #-8]	@ float
+  55:GeneralFunctionTest.cpp ****         out[i + 1] = in[i + 1];
+ 209              		.loc 11 55 9 is_stmt 1 discriminator 2 view .LVU47
+ 210              		.loc 11 55 30 is_stmt 0 discriminator 2 view .LVU48
+ 211 0048 50F8043C 		ldr	r3, [r0, #-4]	@ float
+  52:GeneralFunctionTest.cpp ****     {
+ 212              		.loc 11 52 25 discriminator 2 view .LVU49
+ 213 004c 9042     		cmp	r0, r2
+ 214              		.loc 11 55 20 discriminator 2 view .LVU50
+ 215 004e 41F8043C 		str	r3, [r1, #-4]	@ float
+  52:GeneralFunctionTest.cpp ****     {
+ 216              		.loc 11 52 5 is_stmt 1 discriminator 2 view .LVU51
+  52:GeneralFunctionTest.cpp ****     {
+ 217              		.loc 11 52 25 discriminator 2 view .LVU52
+ 218 0052 F4D1     		bne	.L12
+ 219              	.L4:
+ARM GAS  /tmp/ccSfmKRm.s 			page 15
+
+
+  52:GeneralFunctionTest.cpp ****     {
+ 220              		.loc 11 52 25 is_stmt 0 discriminator 2 view .LVU53
+ 221              	.LBE217:
+  56:GeneralFunctionTest.cpp ****     }
+  57:GeneralFunctionTest.cpp **** }
+ 222              		.loc 11 57 1 view .LVU54
+ 223 0054 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 224              	.LVL12:
+ 225              	.L8:
+  48:GeneralFunctionTest.cpp ****         enc_tracker = 0;
+ 226              		.loc 11 48 10 is_stmt 1 view .LVU55
+ 227 0056 002B     		cmp	r3, #0
+ 228 0058 E8DA     		bge	.L9
+  49:GeneralFunctionTest.cpp **** 
+ 229              		.loc 11 49 9 view .LVU56
+  49:GeneralFunctionTest.cpp **** 
+ 230              		.loc 11 49 21 is_stmt 0 view .LVU57
+ 231 005a 0023     		movs	r3, #0
+ 232 005c 1360     		str	r3, [r2]
+ 233 005e E5E7     		b	.L9
+ 234              	.L5:
+  43:GeneralFunctionTest.cpp ****         enc_tracker -= 1;
+ 235              		.loc 11 43 10 is_stmt 1 view .LVU58
+  44:GeneralFunctionTest.cpp ****     // Clip
+ 236              		.loc 11 44 9 view .LVU59
+  44:GeneralFunctionTest.cpp ****     // Clip
+ 237              		.loc 11 44 21 is_stmt 0 view .LVU60
+ 238 0060 1CBF     		itt	ne
+ 239 0062 03F1FF33 		addne	r3, r3, #-1
+ 240 0066 1360     		strne	r3, [r2]
+ 241 0068 DCE7     		b	.L6
+ 242              	.L16:
+ 243 006a 00BF     		.align	2
+ 244              	.L15:
+ 245 006c 00000000 		.word	.LANCHOR0
+ 246 0070 00000000 		.word	.LANCHOR1
+ 247              		.cfi_endproc
+ 248              	.LFE4223:
+ 250              		.section	.rodata._Z10TestSdCardv.str1.4,"aMS",%progbits,1
+ 251              		.align	2
+ 252              	.LC1:
+ 253 0000 54686973 		.ascii	"This file is used for testing the Daisy breakout bo"
+ 253      2066696C 
+ 253      65206973 
+ 253      20757365 
+ 253      6420666F 
+ 254 0033 61726473 		.ascii	"ards. Happy Hacking!\000"
+ 254      2E204861 
+ 254      70707920 
+ 254      4861636B 
+ 254      696E6721 
+ 255              		.align	2
+ 256              	.LC2:
+ 257 0048 44616973 		.ascii	"DaisyTestFile.txt\000"
+ 257      79546573 
+ 257      7446696C 
+ 257      652E7478 
+ARM GAS  /tmp/ccSfmKRm.s 			page 16
+
+
+ 257      7400
+ 258              		.section	.text._Z10TestSdCardv,"ax",%progbits
+ 259              		.align	1
+ 260              		.p2align 2,,3
+ 261              		.global	_Z10TestSdCardv
+ 262              		.syntax unified
+ 263              		.thumb
+ 264              		.thumb_func
+ 265              		.fpu fpv5-d16
+ 267              	_Z10TestSdCardv:
+ 268              	.LFB4225:
+  58:GeneralFunctionTest.cpp **** 
+  59:GeneralFunctionTest.cpp **** int main(void)
+  60:GeneralFunctionTest.cpp **** {
+  61:GeneralFunctionTest.cpp ****     int      sdfail;
+  62:GeneralFunctionTest.cpp ****     uint32_t led_period, usb_period, now;
+  63:GeneralFunctionTest.cpp ****     uint32_t last_led_update, last_usb_update;
+  64:GeneralFunctionTest.cpp **** 
+  65:GeneralFunctionTest.cpp ****     // LED Freq = 60Hz
+  66:GeneralFunctionTest.cpp ****     // USB Freq= 10Hz
+  67:GeneralFunctionTest.cpp ****     led_period = 5;
+  68:GeneralFunctionTest.cpp ****     usb_period = 100;
+  69:GeneralFunctionTest.cpp **** 
+  70:GeneralFunctionTest.cpp ****     hw.Init();
+  71:GeneralFunctionTest.cpp **** 
+  72:GeneralFunctionTest.cpp ****     last_led_update = last_usb_update = now = System::GetNow();
+  73:GeneralFunctionTest.cpp **** 
+  74:GeneralFunctionTest.cpp ****     // Init USB as VCOM for sending Serial Data
+  75:GeneralFunctionTest.cpp ****     hw.seed.usb_handle.Init(UsbHandle::FS_INTERNAL);
+  76:GeneralFunctionTest.cpp **** 
+  77:GeneralFunctionTest.cpp ****     sdfail = TestSdCard();
+  78:GeneralFunctionTest.cpp **** 
+  79:GeneralFunctionTest.cpp ****     hw.StartAdc();
+  80:GeneralFunctionTest.cpp ****     hw.StartAudio(callback);
+  81:GeneralFunctionTest.cpp **** 
+  82:GeneralFunctionTest.cpp **** 
+  83:GeneralFunctionTest.cpp ****     while(1)
+  84:GeneralFunctionTest.cpp ****     {
+  85:GeneralFunctionTest.cpp ****         // Do Stuff InfInitely Here
+  86:GeneralFunctionTest.cpp ****         now = System::GetNow();
+  87:GeneralFunctionTest.cpp **** 
+  88:GeneralFunctionTest.cpp ****         // Update LEDs (Vegas Mode)
+  89:GeneralFunctionTest.cpp ****         if(now - last_led_update > led_period)
+  90:GeneralFunctionTest.cpp ****         {
+  91:GeneralFunctionTest.cpp ****             last_led_update = now;
+  92:GeneralFunctionTest.cpp ****             UpdateLeds();
+  93:GeneralFunctionTest.cpp ****         }
+  94:GeneralFunctionTest.cpp **** 
+  95:GeneralFunctionTest.cpp ****         if(now - last_usb_update > usb_period)
+  96:GeneralFunctionTest.cpp ****         {
+  97:GeneralFunctionTest.cpp ****             last_usb_update = now;
+  98:GeneralFunctionTest.cpp ****             // opposite of sdfail because
+  99:GeneralFunctionTest.cpp ****             // sdfail is 1 when fail, 0 when success
+ 100:GeneralFunctionTest.cpp ****             // we want to display 1 for success in the tester
+ 101:GeneralFunctionTest.cpp ****             UpdateUsb(!sdfail);
+ 102:GeneralFunctionTest.cpp ****         }
+ 103:GeneralFunctionTest.cpp ****     }
+ARM GAS  /tmp/ccSfmKRm.s 			page 17
+
+
+ 104:GeneralFunctionTest.cpp **** }
+ 105:GeneralFunctionTest.cpp **** 
+ 106:GeneralFunctionTest.cpp **** // Mounts SD card and reads TEST_FILE
+ 107:GeneralFunctionTest.cpp **** // returns 0 if successful, else failure.
+ 108:GeneralFunctionTest.cpp **** int TestSdCard()
+ 109:GeneralFunctionTest.cpp **** {
+ 269              		.loc 11 109 1 is_stmt 1 view -0
+ 270              		.cfi_startproc
+ 271              		@ args = 0, pretend = 0, frame = 4112
+ 272              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110:GeneralFunctionTest.cpp ****     int      sta;
+ 273              		.loc 11 110 5 view .LVU62
+ 111:GeneralFunctionTest.cpp ****     char     inbuff[2048];
+ 274              		.loc 11 111 5 view .LVU63
+ 112:GeneralFunctionTest.cpp ****     char     refbuff[2048];
+ 275              		.loc 11 112 5 view .LVU64
+ 113:GeneralFunctionTest.cpp ****     char *   buff;
+ 276              		.loc 11 113 5 view .LVU65
+ 114:GeneralFunctionTest.cpp ****     uint32_t len, bytesread;
+ 277              		.loc 11 114 5 view .LVU66
+ 115:GeneralFunctionTest.cpp **** 
+ 116:GeneralFunctionTest.cpp ****     memset(inbuff, 0, 2048);
+ 278              		.loc 11 116 5 view .LVU67
+ 109:GeneralFunctionTest.cpp ****     int      sta;
+ 279              		.loc 11 109 1 is_stmt 0 view .LVU68
+ 280 0000 10B5     		push	{r4, lr}
+ 281              		.cfi_def_cfa_offset 8
+ 282              		.cfi_offset 4, -8
+ 283              		.cfi_offset 14, -4
+ 284 0002 ADF5805D 		sub	sp, sp, #4096
+ 285              		.cfi_def_cfa_offset 4104
+ 286              		.loc 11 116 11 view .LVU69
+ 287 0006 4FF40062 		mov	r2, #2048
+ 288 000a 0021     		movs	r1, #0
+ 289              	.LBB218:
+ 290              	.LBB219:
+  72:../../libdaisy/src/per/sdmmc.h ****             clock_powersave = false;
+ 291              		.loc 1 72 29 view .LVU70
+ 292 000c 0124     		movs	r4, #1
+ 293              	.LBE219:
+ 294              	.LBE218:
+ 109:GeneralFunctionTest.cpp ****     int      sta;
+ 295              		.loc 11 109 1 view .LVU71
+ 296 000e 84B0     		sub	sp, sp, #16
+ 297              		.cfi_def_cfa_offset 4120
+ 298              		.loc 11 116 11 view .LVU72
+ 299 0010 04A8     		add	r0, sp, #16
+ 300 0012 FFF7FEFF 		bl	memset
+ 301              	.LVL13:
+ 117:GeneralFunctionTest.cpp ****     memset(refbuff, 0, 2048);
+ 302              		.loc 11 117 5 is_stmt 1 view .LVU73
+ 303              		.loc 11 117 11 is_stmt 0 view .LVU74
+ 304 0016 4FF40062 		mov	r2, #2048
+ 305 001a 0021     		movs	r1, #0
+ 306 001c 0DF50160 		add	r0, sp, #2064
+ 307 0020 FFF7FEFF 		bl	memset
+ 308              	.LVL14:
+ARM GAS  /tmp/ccSfmKRm.s 			page 18
+
+
+ 118:GeneralFunctionTest.cpp **** 
+ 119:GeneralFunctionTest.cpp ****     // Init SDMMC
+ 120:GeneralFunctionTest.cpp ****     SdmmcHandler::Config sd_cfg;
+ 309              		.loc 11 120 5 is_stmt 1 view .LVU75
+ 121:GeneralFunctionTest.cpp ****     sd_cfg.Defaults();
+ 310              		.loc 11 121 5 view .LVU76
+ 311              	.LBB223:
+ 312              	.LBI218:
+  69:../../libdaisy/src/per/sdmmc.h ****         {
+ 313              		.loc 1 69 14 view .LVU77
+ 314              	.LBB220:
+  71:../../libdaisy/src/per/sdmmc.h ****             width           = BusWidth::BITS_4;
+ 315              		.loc 1 71 13 view .LVU78
+  71:../../libdaisy/src/per/sdmmc.h ****             width           = BusWidth::BITS_4;
+ 316              		.loc 1 71 29 is_stmt 0 view .LVU79
+ 317 0024 41F2100C 		movw	ip, #4112
+ 318 0028 1F4B     		ldr	r3, .L24
+ 319 002a 0321     		movs	r1, #3
+ 320 002c EC44     		add	ip, sp, ip
+  73:../../libdaisy/src/per/sdmmc.h ****         }
+ 321              		.loc 1 73 29 view .LVU80
+ 322 002e 0022     		movs	r2, #0
+ 323              	.LBE220:
+ 324              	.LBE223:
+ 122:GeneralFunctionTest.cpp ****     sd.Init(sd_cfg);
+ 325              		.loc 11 122 12 view .LVU81
+ 326 0030 1E48     		ldr	r0, .L24+4
+ 327              	.LBB224:
+ 328              	.LBB221:
+  71:../../libdaisy/src/per/sdmmc.h ****             width           = BusWidth::BITS_4;
+ 329              		.loc 1 71 29 view .LVU82
+ 330 0032 4CF80310 		str	r1, [ip, r3]
+  72:../../libdaisy/src/per/sdmmc.h ****             clock_powersave = false;
+ 331              		.loc 1 72 13 is_stmt 1 view .LVU83
+ 332              	.LBE221:
+ 333              	.LBE224:
+ 334              		.loc 11 122 12 is_stmt 0 view .LVU84
+ 335 0036 01A9     		add	r1, sp, #4
+ 336              	.LVL15:
+ 337              	.LBB225:
+ 338              	.LBB222:
+  73:../../libdaisy/src/per/sdmmc.h ****         }
+ 339              		.loc 1 73 29 view .LVU85
+ 340 0038 8DF80C20 		strb	r2, [sp, #12]
+  72:../../libdaisy/src/per/sdmmc.h ****             clock_powersave = false;
+ 341              		.loc 1 72 29 view .LVU86
+ 342 003c 0294     		str	r4, [sp, #8]
+  73:../../libdaisy/src/per/sdmmc.h ****         }
+ 343              		.loc 1 73 13 is_stmt 1 view .LVU87
+ 344              	.LVL16:
+  73:../../libdaisy/src/per/sdmmc.h ****         }
+ 345              		.loc 1 73 13 is_stmt 0 view .LVU88
+ 346              	.LBE222:
+ 347              	.LBE225:
+ 348              		.loc 11 122 5 is_stmt 1 view .LVU89
+ 349              		.loc 11 122 12 is_stmt 0 view .LVU90
+ 350 003e FFF7FEFF 		bl	_ZN5daisy12SdmmcHandler4InitERKNS0_6ConfigE
+ARM GAS  /tmp/ccSfmKRm.s 			page 19
+
+
+ 351              	.LVL17:
+ 123:GeneralFunctionTest.cpp ****     dsy_fatfs_init();
+ 352              		.loc 11 123 5 is_stmt 1 view .LVU91
+ 353              		.loc 11 123 19 is_stmt 0 view .LVU92
+ 354 0042 FFF7FEFF 		bl	dsy_fatfs_init
+ 355              	.LVL18:
+ 124:GeneralFunctionTest.cpp ****     f_mount(&SDFatFS, SDPath, 1);
+ 356              		.loc 11 124 5 is_stmt 1 view .LVU93
+ 357              		.loc 11 124 12 is_stmt 0 view .LVU94
+ 358 0046 2246     		mov	r2, r4
+ 359 0048 1949     		ldr	r1, .L24+8
+ 360 004a 1A48     		ldr	r0, .L24+12
+ 361 004c FFF7FEFF 		bl	f_mount
+ 362              	.LVL19:
+ 125:GeneralFunctionTest.cpp **** 
+ 126:GeneralFunctionTest.cpp ****     // Fill reference buffer with test contents
+ 127:GeneralFunctionTest.cpp ****     sprintf(refbuff, "%s", TEST_FILE_CONTENTS);
+ 363              		.loc 11 127 5 is_stmt 1 view .LVU95
+ 364              		.loc 11 127 12 is_stmt 0 view .LVU96
+ 365 0050 4822     		movs	r2, #72
+ 366 0052 1949     		ldr	r1, .L24+16
+ 367 0054 0DF50160 		add	r0, sp, #2064
+ 368 0058 FFF7FEFF 		bl	memcpy
+ 369              	.LVL20:
+ 128:GeneralFunctionTest.cpp ****     len = strlen(refbuff);
+ 370              		.loc 11 128 5 is_stmt 1 view .LVU97
+ 129:GeneralFunctionTest.cpp **** 
+ 130:GeneralFunctionTest.cpp ****     // Read from file and compare
+ 131:GeneralFunctionTest.cpp ****     buff = inbuff;
+ 371              		.loc 11 131 5 view .LVU98
+ 132:GeneralFunctionTest.cpp ****     if(f_open(&SDFile, TEST_FILE_NAME, FA_READ) == FR_OK)
+ 372              		.loc 11 132 5 view .LVU99
+ 373              		.loc 11 132 14 is_stmt 0 view .LVU100
+ 374 005c 2246     		mov	r2, r4
+ 375 005e 1749     		ldr	r1, .L24+20
+ 376 0060 1748     		ldr	r0, .L24+24
+ 377 0062 FFF7FEFF 		bl	f_open
+ 378              	.LVL21:
+ 379              		.loc 11 132 5 view .LVU101
+ 380 0066 B8B1     		cbz	r0, .L22
+ 381              	.L18:
+ 133:GeneralFunctionTest.cpp ****     {
+ 134:GeneralFunctionTest.cpp ****         f_read(&SDFile, buff, len, (UINT *)&bytesread);
+ 135:GeneralFunctionTest.cpp ****     }
+ 136:GeneralFunctionTest.cpp ****     if(len == bytesread && strcmp(buff, refbuff) == 0)
+ 382              		.loc 11 136 5 is_stmt 1 view .LVU102
+ 383 0068 41F21002 		movw	r2, #4112
+ 384              		.loc 11 136 12 is_stmt 0 view .LVU103
+ 385 006c 154B     		ldr	r3, .L24+28
+ 386              		.loc 11 136 5 view .LVU104
+ 387 006e 6A44     		add	r2, sp, r2
+ 388 0070 D358     		ldr	r3, [r2, r3]
+ 389 0072 472B     		cmp	r3, #71
+ 390 0074 04D0     		beq	.L23
+ 137:GeneralFunctionTest.cpp ****     {
+ 138:GeneralFunctionTest.cpp ****         sta = 0;
+ 139:GeneralFunctionTest.cpp ****     }
+ARM GAS  /tmp/ccSfmKRm.s 			page 20
+
+
+ 140:GeneralFunctionTest.cpp ****     else
+ 141:GeneralFunctionTest.cpp ****     {
+ 142:GeneralFunctionTest.cpp ****         sta = 1;
+ 391              		.loc 11 142 13 view .LVU105
+ 392 0076 0120     		movs	r0, #1
+ 393              	.LVL22:
+ 143:GeneralFunctionTest.cpp ****     }
+ 144:GeneralFunctionTest.cpp ****     return sta;
+ 394              		.loc 11 144 5 is_stmt 1 view .LVU106
+ 145:GeneralFunctionTest.cpp **** }
+ 395              		.loc 11 145 1 is_stmt 0 view .LVU107
+ 396 0078 0DF5805D 		add	sp, sp, #4096
+ 397 007c 04B0     		add	sp, sp, #16
+ 398              		.cfi_remember_state
+ 399              		.cfi_def_cfa_offset 8
+ 400              		@ sp needed
+ 401 007e 10BD     		pop	{r4, pc}
+ 402              	.LVL23:
+ 403              	.L23:
+ 404              		.cfi_restore_state
+ 136:GeneralFunctionTest.cpp ****     {
+ 405              		.loc 11 136 34 discriminator 1 view .LVU108
+ 406 0080 0DF50161 		add	r1, sp, #2064
+ 407 0084 04A8     		add	r0, sp, #16
+ 408              	.LVL24:
+ 136:GeneralFunctionTest.cpp ****     {
+ 409              		.loc 11 136 34 discriminator 1 view .LVU109
+ 410 0086 FFF7FEFF 		bl	strcmp
+ 411              	.LVL25:
+ 136:GeneralFunctionTest.cpp ****     {
+ 412              		.loc 11 136 25 discriminator 1 view .LVU110
+ 413 008a 0038     		subs	r0, r0, #0
+ 414 008c 18BF     		it	ne
+ 415 008e 0120     		movne	r0, #1
+ 416              		.loc 11 145 1 discriminator 1 view .LVU111
+ 417 0090 0DF5805D 		add	sp, sp, #4096
+ 418 0094 04B0     		add	sp, sp, #16
+ 419              		.cfi_remember_state
+ 420              		.cfi_def_cfa_offset 8
+ 421              		@ sp needed
+ 422 0096 10BD     		pop	{r4, pc}
+ 423              	.LVL26:
+ 424              	.L22:
+ 425              		.cfi_restore_state
+ 134:GeneralFunctionTest.cpp ****     }
+ 426              		.loc 11 134 9 is_stmt 1 view .LVU112
+ 134:GeneralFunctionTest.cpp ****     }
+ 427              		.loc 11 134 15 is_stmt 0 view .LVU113
+ 428 0098 6B46     		mov	r3, sp
+ 429 009a 4722     		movs	r2, #71
+ 430 009c 04A9     		add	r1, sp, #16
+ 431              	.LVL27:
+ 134:GeneralFunctionTest.cpp ****     }
+ 432              		.loc 11 134 15 view .LVU114
+ 433 009e 0848     		ldr	r0, .L24+24
+ 434 00a0 FFF7FEFF 		bl	f_read
+ 435              	.LVL28:
+ARM GAS  /tmp/ccSfmKRm.s 			page 21
+
+
+ 134:GeneralFunctionTest.cpp ****     }
+ 436              		.loc 11 134 15 view .LVU115
+ 437 00a4 E0E7     		b	.L18
+ 438              	.L25:
+ 439 00a6 00BF     		.align	2
+ 440              	.L24:
+ 441 00a8 F4EFFFFF 		.word	-4108
+ 442 00ac 00000000 		.word	.LANCHOR2
+ 443 00b0 00000000 		.word	SDPath
+ 444 00b4 00000000 		.word	SDFatFS
+ 445 00b8 00000000 		.word	.LC1
+ 446 00bc 48000000 		.word	.LC2
+ 447 00c0 00000000 		.word	SDFile
+ 448 00c4 F0EFFFFF 		.word	-4112
+ 449              		.cfi_endproc
+ 450              	.LFE4225:
+ 452              		.section	.rodata._Z9UpdateUsbi.str1.4,"aMS",%progbits,1
+ 453              		.align	2
+ 454              	.LC3:
+ 455 0000 4B4E4F42 		.ascii	"KNOB_\000"
+ 455      5F00
+ 456 0006 0000     		.align	2
+ 457              	.LC4:
+ 458 0008 7B257325 		.ascii	"{%s%d, %d},\000"
+ 458      642C2025 
+ 458      647D2C00 
+ 459              		.align	2
+ 460              	.LC5:
+ 461 0014 7B455850 		.ascii	"{EXP_0, %d},\000"
+ 461      5F302C20 
+ 461      25647D2C 
+ 461      00
+ 462 0021 000000   		.align	2
+ 463              	.LC6:
+ 464 0024 53574954 		.ascii	"SWITCH_\000"
+ 464      43485F00 
+ 465              		.align	2
+ 466              	.LC7:
+ 467 002c 454E434F 		.ascii	"ENCODER_\000"
+ 467      4445525F 
+ 467      00
+ 468 0035 000000   		.align	2
+ 469              	.LC8:
+ 470 0038 7B25735F 		.ascii	"{%s_SW, %d},\000"
+ 470      53572C20 
+ 470      25647D2C 
+ 470      00
+ 471 0045 000000   		.align	2
+ 472              	.LC9:
+ 473 0048 7B25735F 		.ascii	"{%s_INC, %ld},\000"
+ 473      494E432C 
+ 473      20256C64 
+ 473      7D2C00
+ 474 0057 00       		.align	2
+ 475              	.LC10:
+ 476 0058 7B53444D 		.ascii	"{SDMMC, %d}\000"
+ 476      4D432C20 
+ARM GAS  /tmp/ccSfmKRm.s 			page 22
+
+
+ 476      25647D00 
+ 477              		.align	2
+ 478              	.LC11:
+ 479 0064 0D0A00   		.ascii	"\015\012\000"
+ 480              		.section	.text._Z9UpdateUsbi,"ax",%progbits
+ 481              		.align	1
+ 482              		.p2align 2,,3
+ 483              		.global	_Z9UpdateUsbi
+ 484              		.syntax unified
+ 485              		.thumb
+ 486              		.thumb_func
+ 487              		.fpu fpv5-d16
+ 489              	_Z9UpdateUsbi:
+ 490              	.LVL29:
+ 491              	.LFB4226:
+ 146:GeneralFunctionTest.cpp **** 
+ 147:GeneralFunctionTest.cpp **** // Send Control Data
+ 148:GeneralFunctionTest.cpp **** // Format:
+ 149:GeneralFunctionTest.cpp **** // { ctrl_id, ctrl_data }, {ctrl_id, ctrl_data}, etc.
+ 150:GeneralFunctionTest.cpp **** void UpdateUsb(int sd_sta)
+ 151:GeneralFunctionTest.cpp **** {
+ 492              		.loc 11 151 1 is_stmt 1 view -0
+ 493              		.cfi_startproc
+ 494              		@ args = 0, pretend = 0, frame = 4224
+ 495              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152:GeneralFunctionTest.cpp ****     char catbuff[4095];
+ 496              		.loc 11 152 5 view .LVU117
+ 153:GeneralFunctionTest.cpp ****     char buff[128];
+ 497              		.loc 11 153 5 view .LVU118
+ 154:GeneralFunctionTest.cpp ****     memset(catbuff, 0, 4095);
+ 498              		.loc 11 154 5 view .LVU119
+ 151:GeneralFunctionTest.cpp ****     char catbuff[4095];
+ 499              		.loc 11 151 1 is_stmt 0 view .LVU120
+ 500 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+ 501              		.cfi_def_cfa_offset 28
+ 502              		.cfi_offset 4, -28
+ 503              		.cfi_offset 5, -24
+ 504              		.cfi_offset 6, -20
+ 505              		.cfi_offset 7, -16
+ 506              		.cfi_offset 8, -12
+ 507              		.cfi_offset 9, -8
+ 508              		.cfi_offset 14, -4
+ 509 0004 2DED028B 		vpush.64	{d8}
+ 510              		.cfi_def_cfa_offset 36
+ 511              		.cfi_offset 80, -36
+ 512              		.cfi_offset 81, -32
+ 513 0008 ADF5845D 		sub	sp, sp, #4224
+ 514              		.cfi_def_cfa_offset 4260
+ 515              		.loc 11 154 11 view .LVU121
+ 516 000c 0021     		movs	r1, #0
+ 517 000e 40F6FF72 		movw	r2, #4095
+ 151:GeneralFunctionTest.cpp ****     char catbuff[4095];
+ 518              		.loc 11 151 1 view .LVU122
+ 519 0012 0746     		mov	r7, r0
+ 520 0014 83B0     		sub	sp, sp, #12
+ 521              		.cfi_def_cfa_offset 4272
+ 155:GeneralFunctionTest.cpp ****     memset(buff, 0, 128);
+ARM GAS  /tmp/ccSfmKRm.s 			page 23
+
+
+ 522              		.loc 11 155 11 view .LVU123
+ 523 0016 0C46     		mov	r4, r1
+ 524 0018 DFF82081 		ldr	r8, .L32+4
+ 154:GeneralFunctionTest.cpp ****     memset(catbuff, 0, 4095);
+ 525              		.loc 11 154 11 view .LVU124
+ 526 001c 22AE     		add	r6, sp, #136
+ 527 001e 3046     		mov	r0, r6
+ 528              	.LVL30:
+ 154:GeneralFunctionTest.cpp ****     memset(catbuff, 0, 4095);
+ 529              		.loc 11 154 11 view .LVU125
+ 530 0020 FFF7FEFF 		bl	memset
+ 531              	.LVL31:
+ 532              		.loc 11 155 5 is_stmt 1 view .LVU126
+ 533              		.loc 11 155 11 is_stmt 0 view .LVU127
+ 534 0024 02A8     		add	r0, sp, #8
+ 535 0026 8022     		movs	r2, #128
+ 536 0028 2146     		mov	r1, r4
+ 537 002a FFF7FEFF 		bl	memset
+ 538              	.LVL32:
+ 156:GeneralFunctionTest.cpp ****     // Get Ready to send:
+ 157:GeneralFunctionTest.cpp ****     // Knobs
+ 158:GeneralFunctionTest.cpp ****     for(size_t i = 0; i < hw.KNOB_LAST; i++)
+ 539              		.loc 11 158 5 is_stmt 1 view .LVU128
+ 540              	.LBB226:
+ 541              		.loc 11 158 25 view .LVU129
+ 542              	.L27:
+ 159:GeneralFunctionTest.cpp ****     {
+ 160:GeneralFunctionTest.cpp ****         sprintf(
+ 543              		.loc 11 160 9 discriminator 2 view .LVU130
+ 544 002e 2146     		mov	r1, r4
+ 161:GeneralFunctionTest.cpp ****             buff,
+ 162:GeneralFunctionTest.cpp ****             "{%s%d, %d},",
+ 163:GeneralFunctionTest.cpp ****             KNOB_ID,
+ 164:GeneralFunctionTest.cpp ****             i + 1,
+ 165:GeneralFunctionTest.cpp ****             (int)(hw.GetKnobValue(static_cast<DaisyPetal::Knob>(i)) * 1000.f));
+ 545              		.loc 11 165 69 is_stmt 0 discriminator 2 view .LVU131
+ 546 0030 9FED418A 		vldr.32	s16, .L32
+ 547              		.loc 11 165 34 discriminator 2 view .LVU132
+ 548 0034 4148     		ldr	r0, .L32+4
+ 549 0036 0134     		adds	r4, r4, #1
+ 550              	.LVL33:
+ 551              		.loc 11 165 34 discriminator 2 view .LVU133
+ 552 0038 C9B2     		uxtb	r1, r1
+ 553              	.LVL34:
+ 554              		.loc 11 165 34 discriminator 2 view .LVU134
+ 555 003a FFF7FEFF 		bl	_ZN5daisy10DaisyPetal12GetKnobValueENS0_4KnobE
+ 556              	.LVL35:
+ 557              		.loc 11 165 69 discriminator 2 view .LVU135
+ 558 003e 20EE080A 		vmul.f32	s0, s0, s16
+ 160:GeneralFunctionTest.cpp ****             buff,
+ 559              		.loc 11 160 16 discriminator 2 view .LVU136
+ 560 0042 2346     		mov	r3, r4
+ 561 0044 3E4A     		ldr	r2, .L32+8
+ 562 0046 3F49     		ldr	r1, .L32+12
+ 563 0048 02A8     		add	r0, sp, #8
+ 564 004a BDEEC00A 		vcvt.s32.f32	s0, s0
+ 565 004e 8DED000A 		vstr.32	s0, [sp]	@ int
+ARM GAS  /tmp/ccSfmKRm.s 			page 24
+
+
+ 566 0052 FFF7FEFF 		bl	sprintf
+ 567              	.LVL36:
+ 166:GeneralFunctionTest.cpp ****         strcat(catbuff, buff);
+ 568              		.loc 11 166 9 is_stmt 1 discriminator 2 view .LVU137
+ 569              		.loc 11 166 15 is_stmt 0 discriminator 2 view .LVU138
+ 570 0056 02A9     		add	r1, sp, #8
+ 571 0058 3046     		mov	r0, r6
+ 572 005a FFF7FEFF 		bl	strcat
+ 573              	.LVL37:
+ 158:GeneralFunctionTest.cpp ****     {
+ 574              		.loc 11 158 5 is_stmt 1 discriminator 2 view .LVU139
+ 158:GeneralFunctionTest.cpp ****     {
+ 575              		.loc 11 158 25 discriminator 2 view .LVU140
+ 576 005e 062C     		cmp	r4, #6
+ 577 0060 E5D1     		bne	.L27
+ 578              	.LBE226:
+ 167:GeneralFunctionTest.cpp ****     }
+ 168:GeneralFunctionTest.cpp ****     // Expression
+ 169:GeneralFunctionTest.cpp ****     sprintf(buff, "{EXP_0, %d},", (int)(hw.GetExpression() * 1000.f));
+ 579              		.loc 11 169 5 view .LVU141
+ 580              		.loc 11 169 57 is_stmt 0 view .LVU142
+ 581 0062 3648     		ldr	r0, .L32+4
+ 582              	.LBB227:
+ 170:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 171:GeneralFunctionTest.cpp ****     // Switches
+ 172:GeneralFunctionTest.cpp ****     for(size_t i = 0; i < hw.SW_LAST; i++)
+ 583              		.loc 11 172 16 view .LVU143
+ 584 0064 0024     		movs	r4, #0
+ 585              	.LVL38:
+ 586              		.loc 11 172 16 view .LVU144
+ 587              	.LBE227:
+ 169:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 588              		.loc 11 169 57 view .LVU145
+ 589 0066 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal13GetExpressionEv
+ 590              	.LVL39:
+ 169:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 591              		.loc 11 169 60 view .LVU146
+ 592 006a 20EE080A 		vmul.f32	s0, s0, s16
+ 169:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 593              		.loc 11 169 12 view .LVU147
+ 594 006e 3649     		ldr	r1, .L32+16
+ 595 0070 02A8     		add	r0, sp, #8
+ 596 0072 DFF8C890 		ldr	r9, .L32+4
+ 597 0076 FDEEC07A 		vcvt.s32.f32	s15, s0
+ 598 007a 17EE902A 		vmov	r2, s15	@ int
+ 599 007e FFF7FEFF 		bl	sprintf
+ 600              	.LVL40:
+ 170:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 601              		.loc 11 170 5 is_stmt 1 view .LVU148
+ 170:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 602              		.loc 11 170 11 is_stmt 0 view .LVU149
+ 603 0082 02A9     		add	r1, sp, #8
+ 604 0084 3046     		mov	r0, r6
+ 605 0086 FFF7FEFF 		bl	strcat
+ 606              	.LVL41:
+ 607              		.loc 11 172 5 is_stmt 1 view .LVU150
+ 608              	.LBB236:
+ARM GAS  /tmp/ccSfmKRm.s 			page 25
+
+
+ 609              		.loc 11 172 25 view .LVU151
+ 610              	.L28:
+ 173:GeneralFunctionTest.cpp ****     {
+ 174:GeneralFunctionTest.cpp ****         sprintf(buff, "{%s%d, %d},", SW_ID, i + 1, hw.switches[i].Pressed());
+ 611              		.loc 11 174 9 discriminator 2 view .LVU152
+ 612              	.LBB228:
+ 613              	.LBB229:
+  42:../../libdaisy/src/hid/switch.h **** 
+  43:../../libdaisy/src/hid/switch.h ****     /** 
+  44:../../libdaisy/src/hid/switch.h ****     Initializes the switch object with a given port/pin combo.
+  45:../../libdaisy/src/hid/switch.h ****     \param pin port/pin object to tell the switch which hardware pin to use.
+  46:../../libdaisy/src/hid/switch.h ****     \param update_rate the rate at which the Debounce() function will be called. (used for timing).
+  47:../../libdaisy/src/hid/switch.h ****     \param t switch type -- Default: TYPE_MOMENTARY
+  48:../../libdaisy/src/hid/switch.h ****     \param pol switch polarity -- Default: POLARITY_INVERTED
+  49:../../libdaisy/src/hid/switch.h ****     \param pu switch pull up/down -- Default: PULL_UP
+  50:../../libdaisy/src/hid/switch.h ****     */
+  51:../../libdaisy/src/hid/switch.h ****     void
+  52:../../libdaisy/src/hid/switch.h ****     Init(dsy_gpio_pin pin, float update_rate, Type t, Polarity pol, Pull pu);
+  53:../../libdaisy/src/hid/switch.h **** 
+  54:../../libdaisy/src/hid/switch.h ****     /**
+  55:../../libdaisy/src/hid/switch.h ****        Simplified Init.
+  56:../../libdaisy/src/hid/switch.h ****        \param pin port/pin object to tell the switch which hardware pin to use.
+  57:../../libdaisy/src/hid/switch.h ****        \param update_rate the rate at which the Debounce() function will be called. (used for timin
+  58:../../libdaisy/src/hid/switch.h ****     */
+  59:../../libdaisy/src/hid/switch.h ****     void Init(dsy_gpio_pin pin, float update_rate);
+  60:../../libdaisy/src/hid/switch.h **** 
+  61:../../libdaisy/src/hid/switch.h ****     /** 
+  62:../../libdaisy/src/hid/switch.h ****     Called at update_rate to debounce and handle timing for the switch.
+  63:../../libdaisy/src/hid/switch.h ****     In order for events not to be missed, its important that the Edge/Pressed checks
+  64:../../libdaisy/src/hid/switch.h ****     be made at the same rate as the debounce function is being called.
+  65:../../libdaisy/src/hid/switch.h ****     */
+  66:../../libdaisy/src/hid/switch.h ****     void Debounce();
+  67:../../libdaisy/src/hid/switch.h **** 
+  68:../../libdaisy/src/hid/switch.h ****     /** \return true if a button was just pressed. */
+  69:../../libdaisy/src/hid/switch.h ****     inline bool RisingEdge() const { return state_ == 0x7f; }
+  70:../../libdaisy/src/hid/switch.h **** 
+  71:../../libdaisy/src/hid/switch.h ****     /** \return true if the button was just released */
+  72:../../libdaisy/src/hid/switch.h ****     inline bool FallingEdge() const { return state_ == 0x80; }
+  73:../../libdaisy/src/hid/switch.h **** 
+  74:../../libdaisy/src/hid/switch.h ****     /** \return true if the button is held down (or if the toggle is on) */
+  75:../../libdaisy/src/hid/switch.h ****     inline bool Pressed() const { return state_ == 0xff; }
+ 614              		.loc 5 75 52 is_stmt 0 discriminator 2 view .LVU153
+ 615 008a 99F84151 		ldrb	r5, [r9, #321]	@ zero_extendqisi2
+ 616              	.LBE229:
+ 617              	.LBE228:
+ 618              		.loc 11 174 16 discriminator 2 view .LVU154
+ 619 008e 0134     		adds	r4, r4, #1
+ 620              	.LVL42:
+ 621              	.LBB233:
+ 622              	.LBI228:
+ 623              		.loc 5 75 17 is_stmt 1 discriminator 2 view .LVU155
+ 624              	.LBB230:
+ 625              		.loc 5 75 35 discriminator 2 view .LVU156
+ 626              	.LBE230:
+ 627              	.LBE233:
+ 628              		.loc 11 174 16 is_stmt 0 discriminator 2 view .LVU157
+ 629 0090 2E4A     		ldr	r2, .L32+20
+ARM GAS  /tmp/ccSfmKRm.s 			page 26
+
+
+ 630 0092 02A8     		add	r0, sp, #8
+ 631              	.LBB234:
+ 632              	.LBB231:
+ 633              		.loc 5 75 52 discriminator 2 view .LVU158
+ 634 0094 A5F1FF05 		sub	r5, #255
+ 635              	.LBE231:
+ 636              	.LBE234:
+ 637              		.loc 11 174 16 discriminator 2 view .LVU159
+ 638 0098 2346     		mov	r3, r4
+ 639 009a 2A49     		ldr	r1, .L32+12
+ 640 009c 09F11009 		add	r9, r9, #16
+ 641              	.LVL43:
+ 642              	.LBB235:
+ 643              	.LBB232:
+ 644              		.loc 5 75 52 discriminator 2 view .LVU160
+ 645 00a0 B5FA85F5 		clz	r5, r5
+ 646 00a4 6D09     		lsrs	r5, r5, #5
+ 647              	.LBE232:
+ 648              	.LBE235:
+ 649              		.loc 11 174 16 discriminator 2 view .LVU161
+ 650 00a6 0095     		str	r5, [sp]
+ 651 00a8 FFF7FEFF 		bl	sprintf
+ 652              	.LVL44:
+ 175:GeneralFunctionTest.cpp ****         strcat(catbuff, buff);
+ 653              		.loc 11 175 9 is_stmt 1 discriminator 2 view .LVU162
+ 654              		.loc 11 175 15 is_stmt 0 discriminator 2 view .LVU163
+ 655 00ac 02A9     		add	r1, sp, #8
+ 656 00ae 3046     		mov	r0, r6
+ 657 00b0 FFF7FEFF 		bl	strcat
+ 658              	.LVL45:
+ 172:GeneralFunctionTest.cpp ****     {
+ 659              		.loc 11 172 5 is_stmt 1 discriminator 2 view .LVU164
+ 172:GeneralFunctionTest.cpp ****     {
+ 660              		.loc 11 172 25 discriminator 2 view .LVU165
+ 661 00b4 072C     		cmp	r4, #7
+ 662 00b6 E8D1     		bne	.L28
+ 663              	.LBE236:
+ 176:GeneralFunctionTest.cpp ****     }
+ 177:GeneralFunctionTest.cpp ****     // Enc
+ 178:GeneralFunctionTest.cpp ****     sprintf(buff, "{%s_SW, %d},", ENC_ID, hw.encoder.Pressed());
+ 664              		.loc 11 178 5 view .LVU166
+ 665              	.LVL46:
+ 666              	.LBB237:
+ 667              	.LBI237:
+  42:../../libdaisy/src/hid/encoder.h ****     /** Returns true if the encoder was just pressed.
+  43:../../libdaisy/src/hid/encoder.h **** */
+  44:../../libdaisy/src/hid/encoder.h ****     inline bool RisingEdge() const { return sw_.RisingEdge(); }
+  45:../../libdaisy/src/hid/encoder.h ****     /** Returns true if the encoder was just released.
+  46:../../libdaisy/src/hid/encoder.h **** */
+  47:../../libdaisy/src/hid/encoder.h ****     inline bool FallingEdge() const { return sw_.FallingEdge(); }
+  48:../../libdaisy/src/hid/encoder.h ****     /** Returns true while the encoder is held down.
+  49:../../libdaisy/src/hid/encoder.h **** */
+  50:../../libdaisy/src/hid/encoder.h ****     inline bool Pressed() const { return sw_.Pressed(); }
+ 668              		.loc 4 50 17 view .LVU167
+ 669              	.LBB238:
+ 670              		.loc 4 50 35 view .LVU168
+ 671              	.LBB239:
+ARM GAS  /tmp/ccSfmKRm.s 			page 27
+
+
+ 672              	.LBI239:
+ 673              		.loc 5 75 17 view .LVU169
+ 674              	.LBB240:
+ 675              		.loc 5 75 35 view .LVU170
+ 676              		.loc 5 75 52 is_stmt 0 view .LVU171
+ 677 00b8 98F84130 		ldrb	r3, [r8, #65]	@ zero_extendqisi2
+ 678              	.LBE240:
+ 679              	.LBE239:
+ 680              	.LBE238:
+ 681              	.LBE237:
+ 682              		.loc 11 178 12 view .LVU172
+ 683 00bc 02A8     		add	r0, sp, #8
+ 684 00be 244A     		ldr	r2, .L32+24
+ 685 00c0 A3F1FF03 		sub	r3, #255
+ 686 00c4 2349     		ldr	r1, .L32+28
+ 687 00c6 B3FA83F3 		clz	r3, r3
+ 688 00ca 5B09     		lsrs	r3, r3, #5
+ 689 00cc FFF7FEFF 		bl	sprintf
+ 690              	.LVL47:
+ 179:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 691              		.loc 11 179 5 is_stmt 1 view .LVU173
+ 692              		.loc 11 179 11 is_stmt 0 view .LVU174
+ 693 00d0 02A9     		add	r1, sp, #8
+ 694 00d2 3046     		mov	r0, r6
+ 695 00d4 FFF7FEFF 		bl	strcat
+ 696              	.LVL48:
+ 180:GeneralFunctionTest.cpp ****     sprintf(buff, "{%s_INC, %ld},", ENC_ID, enc_tracker);
+ 697              		.loc 11 180 5 is_stmt 1 view .LVU175
+ 698              		.loc 11 180 12 is_stmt 0 view .LVU176
+ 699 00d8 1F4B     		ldr	r3, .L32+32
+ 700 00da 1D4A     		ldr	r2, .L32+24
+ 701 00dc 02A8     		add	r0, sp, #8
+ 702 00de 1B68     		ldr	r3, [r3]
+ 703 00e0 1E49     		ldr	r1, .L32+36
+ 704 00e2 FFF7FEFF 		bl	sprintf
+ 705              	.LVL49:
+ 181:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 706              		.loc 11 181 5 is_stmt 1 view .LVU177
+ 707              		.loc 11 181 11 is_stmt 0 view .LVU178
+ 708 00e6 02A9     		add	r1, sp, #8
+ 709 00e8 3046     		mov	r0, r6
+ 710 00ea FFF7FEFF 		bl	strcat
+ 711              	.LVL50:
+ 182:GeneralFunctionTest.cpp ****     // SD Card Status
+ 183:GeneralFunctionTest.cpp ****     sprintf(buff, "{SDMMC, %d}", sd_sta);
+ 712              		.loc 11 183 5 is_stmt 1 view .LVU179
+ 713              		.loc 11 183 12 is_stmt 0 view .LVU180
+ 714 00ee 3A46     		mov	r2, r7
+ 715 00f0 1B49     		ldr	r1, .L32+40
+ 716 00f2 02A8     		add	r0, sp, #8
+ 717 00f4 FFF7FEFF 		bl	sprintf
+ 718              	.LVL51:
+ 184:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 719              		.loc 11 184 5 is_stmt 1 view .LVU181
+ 720 00f8 3046     		mov	r0, r6
+ 721 00fa FFF7FEFF 		bl	strlen
+ 722              	.LVL52:
+ARM GAS  /tmp/ccSfmKRm.s 			page 28
+
+
+ 723              		.loc 11 184 11 is_stmt 0 view .LVU182
+ 724 00fe 02A9     		add	r1, sp, #8
+ 725 0100 3044     		add	r0, r0, r6
+ 726 0102 FFF7FEFF 		bl	stpcpy
+ 727              	.LVL53:
+ 185:GeneralFunctionTest.cpp ****     // EndTx
+ 186:GeneralFunctionTest.cpp ****     sprintf(buff, "\r\n");
+ 728              		.loc 11 186 12 view .LVU183
+ 729 0106 174A     		ldr	r2, .L32+44
+ 184:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 730              		.loc 11 184 11 view .LVU184
+ 731 0108 0346     		mov	r3, r0
+ 732              		.loc 11 186 5 is_stmt 1 view .LVU185
+ 187:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 188:GeneralFunctionTest.cpp ****     hw.seed.usb_handle.TransmitInternal((uint8_t *)catbuff, strlen(catbuff));
+ 733              		.loc 11 188 40 is_stmt 0 view .LVU186
+ 734 010a 3146     		mov	r1, r6
+ 186:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 735              		.loc 11 186 12 view .LVU187
+ 736 010c 1468     		ldr	r4, [r2]
+ 737              	.LVL54:
+ 184:GeneralFunctionTest.cpp ****     // EndTx
+ 738              		.loc 11 184 11 view .LVU188
+ 739 010e 9A1B     		subs	r2, r3, r6
+ 740              		.loc 11 188 40 view .LVU189
+ 741 0110 1548     		ldr	r0, .L32+48
+ 186:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 742              		.loc 11 186 12 view .LVU190
+ 743 0112 ADF80840 		strh	r4, [sp, #8]	@ movhi
+ 744 0116 240C     		lsrs	r4, r4, #16
+ 187:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 745              		.loc 11 187 11 view .LVU191
+ 746 0118 BDF80850 		ldrh	r5, [sp, #8]	@ unaligned
+ 747              		.loc 11 188 40 view .LVU192
+ 748 011c 0232     		adds	r2, r2, #2
+ 186:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 749              		.loc 11 186 12 view .LVU193
+ 750 011e 8DF80A40 		strb	r4, [sp, #10]
+ 187:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 751              		.loc 11 187 5 is_stmt 1 view .LVU194
+ 187:GeneralFunctionTest.cpp ****     strcat(catbuff, buff);
+ 752              		.loc 11 187 11 is_stmt 0 view .LVU195
+ 753 0122 1D80     		strh	r5, [r3]	@ unaligned
+ 754 0124 9C70     		strb	r4, [r3, #2]
+ 755              		.loc 11 188 5 is_stmt 1 view .LVU196
+ 756              		.loc 11 188 40 is_stmt 0 view .LVU197
+ 757 0126 FFF7FEFF 		bl	_ZN5daisy9UsbHandle16TransmitInternalEPhj
+ 758              	.LVL55:
+ 189:GeneralFunctionTest.cpp **** }
+ 759              		.loc 11 189 1 view .LVU198
+ 760 012a 0DF5845D 		add	sp, sp, #4224
+ 761 012e 03B0     		add	sp, sp, #12
+ 762              		.cfi_def_cfa_offset 36
+ 763              		@ sp needed
+ 764 0130 BDEC028B 		vldm	sp!, {d8}
+ 765              		.cfi_restore 80
+ 766              		.cfi_restore 81
+ARM GAS  /tmp/ccSfmKRm.s 			page 29
+
+
+ 767              		.cfi_def_cfa_offset 28
+ 768 0134 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 769              	.LVL56:
+ 770              	.L33:
+ 771              		.loc 11 189 1 view .LVU199
+ 772              		.align	2
+ 773              	.L32:
+ 774 0138 00007A44 		.word	1148846080
+ 775 013c 00000000 		.word	.LANCHOR0
+ 776 0140 00000000 		.word	.LC3
+ 777 0144 08000000 		.word	.LC4
+ 778 0148 14000000 		.word	.LC5
+ 779 014c 24000000 		.word	.LC6
+ 780 0150 2C000000 		.word	.LC7
+ 781 0154 38000000 		.word	.LC8
+ 782 0158 00000000 		.word	.LANCHOR1
+ 783 015c 48000000 		.word	.LC9
+ 784 0160 58000000 		.word	.LC10
+ 785 0164 64000000 		.word	.LC11
+ 786 0168 24000000 		.word	.LANCHOR0+36
+ 787              		.cfi_endproc
+ 788              	.LFE4226:
+ 790              		.section	.text._Z10UpdateLedsv,"ax",%progbits
+ 791              		.align	1
+ 792              		.p2align 2,,3
+ 793              		.global	_Z10UpdateLedsv
+ 794              		.syntax unified
+ 795              		.thumb
+ 796              		.thumb_func
+ 797              		.fpu fpv5-d16
+ 799              	_Z10UpdateLedsv:
+ 800              	.LFB4227:
+ 190:GeneralFunctionTest.cpp **** 
+ 191:GeneralFunctionTest.cpp **** void UpdateLeds()
+ 192:GeneralFunctionTest.cpp **** {
+ 801              		.loc 11 192 1 is_stmt 1 view -0
+ 802              		.cfi_startproc
+ 803              		@ args = 0, pretend = 0, frame = 0
+ 804              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193:GeneralFunctionTest.cpp ****     uint32_t now;
+ 805              		.loc 11 193 5 view .LVU201
+ 194:GeneralFunctionTest.cpp ****     now = System::GetNow();
+ 806              		.loc 11 194 5 view .LVU202
+ 192:GeneralFunctionTest.cpp ****     uint32_t now;
+ 807              		.loc 11 192 1 is_stmt 0 view .LVU203
+ 808 0000 70B5     		push	{r4, r5, r6, lr}
+ 809              		.cfi_def_cfa_offset 16
+ 810              		.cfi_offset 4, -16
+ 811              		.cfi_offset 5, -12
+ 812              		.cfi_offset 6, -8
+ 813              		.cfi_offset 14, -4
+ 814              		.loc 11 194 25 view .LVU204
+ 815 0002 FFF7FEFF 		bl	_ZN5daisy6System6GetNowEv
+ 816              	.LVL57:
+ 817 0006 0546     		mov	r5, r0
+ 818              	.LBB241:
+ 195:GeneralFunctionTest.cpp ****     hw.ClearLeds();
+ARM GAS  /tmp/ccSfmKRm.s 			page 30
+
+
+ 196:GeneralFunctionTest.cpp ****     // Use now as a source for time so we don't have to use any global vars
+ 197:GeneralFunctionTest.cpp ****     // First gradually pulse all 4 Footswitch LEDs
+ 198:GeneralFunctionTest.cpp ****     for(size_t i = 0; i < hw.FOOTSWITCH_LED_LAST; i++)
+ 819              		.loc 11 198 16 view .LVU205
+ 820 0008 0024     		movs	r4, #0
+ 821              	.LBE241:
+ 195:GeneralFunctionTest.cpp ****     hw.ClearLeds();
+ 822              		.loc 11 195 17 view .LVU206
+ 823 000a 3948     		ldr	r0, .L48
+ 824              	.LVL58:
+ 195:GeneralFunctionTest.cpp ****     hw.ClearLeds();
+ 825              		.loc 11 195 5 is_stmt 1 view .LVU207
+ 195:GeneralFunctionTest.cpp ****     hw.ClearLeds();
+ 826              		.loc 11 195 17 is_stmt 0 view .LVU208
+ 827 000c 2E46     		mov	r6, r5
+ 828 000e FFF7FEFF 		bl	_ZN5daisy10DaisyPetal9ClearLedsEv
+ 829              	.LVL59:
+ 830              		.loc 11 198 5 is_stmt 1 view .LVU209
+ 831              	.LBB244:
+ 832              		.loc 11 198 25 view .LVU210
+ 833              	.L35:
+ 834              	.LBB242:
+ 199:GeneralFunctionTest.cpp ****     {
+ 200:GeneralFunctionTest.cpp ****         size_t total, base;
+ 835              		.loc 11 200 9 discriminator 2 view .LVU211
+ 201:GeneralFunctionTest.cpp ****         total        = 511;
+ 836              		.loc 11 201 9 discriminator 2 view .LVU212
+ 202:GeneralFunctionTest.cpp ****         base         = total / hw.FOOTSWITCH_LED_LAST;
+ 837              		.loc 11 202 9 discriminator 2 view .LVU213
+ 203:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 838              		.loc 11 203 9 discriminator 2 view .LVU214
+ 204:GeneralFunctionTest.cpp ****         hw.SetFootswitchLed(static_cast<DaisyPetal::FootswitchLed>(i), bright);
+ 839              		.loc 11 204 9 discriminator 2 view .LVU215
+ 203:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 840              		.loc 11 203 51 is_stmt 0 discriminator 2 view .LVU216
+ 841 0012 C6F30803 		ubfx	r3, r6, #0, #9
+ 203:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 842              		.loc 11 203 15 discriminator 2 view .LVU217
+ 843 0016 9FED370A 		vldr.32	s0, .L48+4
+ 844              		.loc 11 204 28 discriminator 2 view .LVU218
+ 845 001a E1B2     		uxtb	r1, r4
+ 846              	.LBE242:
+ 198:GeneralFunctionTest.cpp ****     {
+ 847              		.loc 11 198 5 discriminator 2 view .LVU219
+ 848 001c 0134     		adds	r4, r4, #1
+ 849              	.LVL60:
+ 850              	.LBB243:
+ 203:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 851              		.loc 11 203 51 discriminator 2 view .LVU220
+ 852 001e 07EE903A 		vmov	s15, r3	@ int
+ 853              		.loc 11 204 28 discriminator 2 view .LVU221
+ 854 0022 3348     		ldr	r0, .L48
+ 855 0024 7F36     		adds	r6, r6, #127
+ 856              	.LVL61:
+ 203:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 857              		.loc 11 203 24 discriminator 2 view .LVU222
+ 858 0026 F8EEE77A 		vcvt.f32.s32	s15, s15
+ARM GAS  /tmp/ccSfmKRm.s 			page 31
+
+
+ 859              		.loc 11 204 28 discriminator 2 view .LVU223
+ 860 002a 87EE800A 		vdiv.f32	s0, s15, s0
+ 861 002e FFF7FEFF 		bl	_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+ 862              	.LVL62:
+ 863              	.LBE243:
+ 198:GeneralFunctionTest.cpp ****     {
+ 864              		.loc 11 198 5 is_stmt 1 discriminator 2 view .LVU224
+ 198:GeneralFunctionTest.cpp ****     {
+ 865              		.loc 11 198 25 discriminator 2 view .LVU225
+ 866 0032 042C     		cmp	r4, #4
+ 867 0034 EDD1     		bne	.L35
+ 868              	.LBE244:
+ 869              	.LBB245:
+ 870              	.LBB246:
+ 205:GeneralFunctionTest.cpp ****     }
+ 206:GeneralFunctionTest.cpp ****     // And now the ring
+ 207:GeneralFunctionTest.cpp ****     for(size_t i = 0; i < hw.RING_LED_LAST; i++)
+ 208:GeneralFunctionTest.cpp ****     {
+ 209:GeneralFunctionTest.cpp ****         float    rb, gb, bb;
+ 210:GeneralFunctionTest.cpp ****         uint32_t total, base;
+ 211:GeneralFunctionTest.cpp ****         uint32_t col;
+ 212:GeneralFunctionTest.cpp ****         col = (now >> 10) % 6;
+ 871              		.loc 11 212 20 is_stmt 0 view .LVU226
+ 872 0036 AB0A     		lsrs	r3, r5, #10
+ 873              		.loc 11 212 13 view .LVU227
+ 874 0038 2F4E     		ldr	r6, .L48+8
+ 875              	.LVL63:
+ 876              		.loc 11 212 13 view .LVU228
+ 877              	.LBE246:
+ 207:GeneralFunctionTest.cpp ****     {
+ 878              		.loc 11 207 16 view .LVU229
+ 879 003a 0024     		movs	r4, #0
+ 880              	.LVL64:
+ 881              	.LBB247:
+ 882              		.loc 11 212 13 view .LVU230
+ 883 003c A6FB0326 		umull	r2, r6, r6, r3
+ 884 0040 B608     		lsrs	r6, r6, #2
+ 885 0042 06EB4606 		add	r6, r6, r6, lsl #1
+ 886 0046 A3EB4606 		sub	r6, r3, r6, lsl #1
+ 887 004a 013E     		subs	r6, r6, #1
+ 888              	.LVL65:
+ 889              	.L43:
+ 209:GeneralFunctionTest.cpp ****         uint32_t total, base;
+ 890              		.loc 11 209 9 is_stmt 1 view .LVU231
+ 210:GeneralFunctionTest.cpp ****         uint32_t col;
+ 891              		.loc 11 210 9 view .LVU232
+ 211:GeneralFunctionTest.cpp ****         col = (now >> 10) % 6;
+ 892              		.loc 11 211 9 view .LVU233
+ 893              		.loc 11 212 9 view .LVU234
+ 213:GeneralFunctionTest.cpp ****         //        total = 8191;
+ 214:GeneralFunctionTest.cpp ****         //        base  = total / (hw.RING_LED_LAST);
+ 215:GeneralFunctionTest.cpp ****         total        = 1023;
+ 894              		.loc 11 215 9 view .LVU235
+ 216:GeneralFunctionTest.cpp ****         base         = total / hw.RING_LED_LAST;
+ 895              		.loc 11 216 9 view .LVU236
+ 217:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 896              		.loc 11 217 9 view .LVU237
+ARM GAS  /tmp/ccSfmKRm.s 			page 32
+
+
+ 897              		.loc 11 217 51 is_stmt 0 view .LVU238
+ 898 004c C5F30903 		ubfx	r3, r5, #0, #10
+ 899              		.loc 11 217 15 view .LVU239
+ 900 0050 DFED2A6A 		vldr.32	s13, .L48+12
+ 218:GeneralFunctionTest.cpp ****         bright       = 1.0f - bright;
+ 901              		.loc 11 218 22 view .LVU240
+ 902 0054 F7EE000A 		vmov.f32	s1, #1.0e+0
+ 217:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 903              		.loc 11 217 24 view .LVU241
+ 904 0058 07EE903A 		vmov	s15, r3	@ int
+ 905 005c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 217:GeneralFunctionTest.cpp ****         float bright = (float)((now + (i * base)) & total) / (float)total;
+ 906              		.loc 11 217 15 view .LVU242
+ 907 0060 87EEA67A 		vdiv.f32	s14, s15, s13
+ 908              	.LVL66:
+ 909              		.loc 11 218 9 is_stmt 1 view .LVU243
+ 910              		.loc 11 218 22 is_stmt 0 view .LVU244
+ 911 0064 70EEC70A 		vsub.f32	s1, s1, s14
+ 912              	.LVL67:
+ 219:GeneralFunctionTest.cpp ****         switch(col)
+ 913              		.loc 11 219 9 is_stmt 1 view .LVU245
+ 914 0068 042E     		cmp	r6, #4
+ 915 006a 39D8     		bhi	.L44
+ 916 006c DFE806F0 		tbb	[pc, r6]
+ 917              	.L38:
+ 918 0070 14       		.byte	(.L42-.L38)/2
+ 919 0071 03       		.byte	(.L41-.L38)/2
+ 920 0072 28       		.byte	(.L40-.L38)/2
+ 921 0073 1F       		.byte	(.L39-.L38)/2
+ 922 0074 2F       		.byte	(.L37-.L38)/2
+ 923 0075 00       		.p2align 1
+ 924              	.L41:
+ 218:GeneralFunctionTest.cpp ****         bright       = 1.0f - bright;
+ 925              		.loc 11 218 22 is_stmt 0 view .LVU246
+ 926 0076 9FED221A 		vldr.32	s2, .L48+16
+ 927 007a B0EE410A 		vmov.f32	s0, s2
+ 928              	.LVL68:
+ 929              	.L36:
+ 220:GeneralFunctionTest.cpp ****         {
+ 221:GeneralFunctionTest.cpp ****             case 0:
+ 222:GeneralFunctionTest.cpp ****                 rb = bright;
+ 223:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 224:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 225:GeneralFunctionTest.cpp ****                 break;
+ 226:GeneralFunctionTest.cpp ****             case 1:
+ 227:GeneralFunctionTest.cpp ****                 rb = 0.6f * bright;
+ 228:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 229:GeneralFunctionTest.cpp ****                 bb = 0.7f * bright;
+ 230:GeneralFunctionTest.cpp ****                 break;
+ 231:GeneralFunctionTest.cpp ****             case 2:
+ 232:GeneralFunctionTest.cpp ****                 rb = 0.0f;
+ 233:GeneralFunctionTest.cpp ****                 gb = bright;
+ 234:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 235:GeneralFunctionTest.cpp ****                 break;
+ 236:GeneralFunctionTest.cpp ****             case 3:
+ 237:GeneralFunctionTest.cpp ****                 rb = 0.0f;
+ 238:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ARM GAS  /tmp/ccSfmKRm.s 			page 33
+
+
+ 239:GeneralFunctionTest.cpp ****                 bb = bright;
+ 240:GeneralFunctionTest.cpp ****                 break;
+ 241:GeneralFunctionTest.cpp ****             case 4:
+ 242:GeneralFunctionTest.cpp ****                 rb = 0.75f * bright;
+ 243:GeneralFunctionTest.cpp ****                 gb = 0.75f * bright;
+ 244:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 245:GeneralFunctionTest.cpp ****                 break;
+ 246:GeneralFunctionTest.cpp ****             case 5:
+ 247:GeneralFunctionTest.cpp ****                 rb = 0.0f;
+ 248:GeneralFunctionTest.cpp ****                 bb = 0.85f * bright;
+ 249:GeneralFunctionTest.cpp ****                 gb = 0.85f * bright;
+ 250:GeneralFunctionTest.cpp ****                 break;
+ 251:GeneralFunctionTest.cpp **** 
+ 252:GeneralFunctionTest.cpp ****             default: rb = gb = bb = bright; break;
+ 253:GeneralFunctionTest.cpp ****         }
+ 254:GeneralFunctionTest.cpp **** 
+ 255:GeneralFunctionTest.cpp ****         hw.SetRingLed(static_cast<DaisyPetal::RingLed>(i), rb, gb, bb);
+ 930              		.loc 11 255 9 is_stmt 1 discriminator 2 view .LVU247
+ 931              		.loc 11 255 22 is_stmt 0 discriminator 2 view .LVU248
+ 932 007e E1B2     		uxtb	r1, r4
+ 933              	.LBE247:
+ 207:GeneralFunctionTest.cpp ****     {
+ 934              		.loc 11 207 5 discriminator 2 view .LVU249
+ 935 0080 0134     		adds	r4, r4, #1
+ 936              	.LVL69:
+ 937              	.LBB248:
+ 938              		.loc 11 255 22 discriminator 2 view .LVU250
+ 939 0082 1B48     		ldr	r0, .L48
+ 940 0084 7F35     		adds	r5, r5, #127
+ 941 0086 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+ 942              	.LVL70:
+ 943              		.loc 11 255 22 discriminator 2 view .LVU251
+ 944              	.LBE248:
+ 207:GeneralFunctionTest.cpp ****     {
+ 945              		.loc 11 207 5 is_stmt 1 discriminator 2 view .LVU252
+ 207:GeneralFunctionTest.cpp ****     {
+ 946              		.loc 11 207 25 discriminator 2 view .LVU253
+ 947 008a 082C     		cmp	r4, #8
+ 948 008c DED1     		bne	.L43
+ 949              	.LBE245:
+ 256:GeneralFunctionTest.cpp ****     }
+ 257:GeneralFunctionTest.cpp ****     hw.UpdateLeds();
+ 950              		.loc 11 257 5 view .LVU254
+ 951              		.loc 11 257 18 is_stmt 0 view .LVU255
+ 952 008e 1848     		ldr	r0, .L48
+ 258:GeneralFunctionTest.cpp **** }
+ 953              		.loc 11 258 1 view .LVU256
+ 954 0090 BDE87040 		pop	{r4, r5, r6, lr}
+ 955              		.cfi_remember_state
+ 956              		.cfi_restore 14
+ 957              		.cfi_restore 6
+ 958              		.cfi_restore 5
+ 959              		.cfi_restore 4
+ 960              		.cfi_def_cfa_offset 0
+ 961              	.LVL71:
+ 257:GeneralFunctionTest.cpp **** }
+ 962              		.loc 11 257 18 view .LVU257
+ARM GAS  /tmp/ccSfmKRm.s 			page 34
+
+
+ 963 0094 FFF7FEBF 		b	_ZN5daisy10DaisyPetal10UpdateLedsEv
+ 964              	.LVL72:
+ 965              	.L42:
+ 966              		.cfi_restore_state
+ 967              	.LBB250:
+ 968              	.LBB249:
+ 226:GeneralFunctionTest.cpp ****                 rb = 0.6f * bright;
+ 969              		.loc 11 226 13 is_stmt 1 view .LVU258
+ 227:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 970              		.loc 11 227 17 view .LVU259
+ 227:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 971              		.loc 11 227 20 is_stmt 0 view .LVU260
+ 972 0098 9FED1A0A 		vldr.32	s0, .L48+20
+ 229:GeneralFunctionTest.cpp ****                 break;
+ 973              		.loc 11 229 20 view .LVU261
+ 974 009c 9FED1A1A 		vldr.32	s2, .L48+24
+ 227:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 975              		.loc 11 227 20 view .LVU262
+ 976 00a0 20EE800A 		vmul.f32	s0, s1, s0
+ 977              	.LVL73:
+ 228:GeneralFunctionTest.cpp ****                 bb = 0.7f * bright;
+ 978              		.loc 11 228 17 is_stmt 1 view .LVU263
+ 229:GeneralFunctionTest.cpp ****                 break;
+ 979              		.loc 11 229 17 view .LVU264
+ 229:GeneralFunctionTest.cpp ****                 break;
+ 980              		.loc 11 229 20 is_stmt 0 view .LVU265
+ 981 00a4 20EE811A 		vmul.f32	s2, s1, s2
+ 982              	.LVL74:
+ 230:GeneralFunctionTest.cpp ****             case 2:
+ 983              		.loc 11 230 17 is_stmt 1 view .LVU266
+ 228:GeneralFunctionTest.cpp ****                 bb = 0.7f * bright;
+ 984              		.loc 11 228 20 is_stmt 0 view .LVU267
+ 985 00a8 DFED150A 		vldr.32	s1, .L48+16
+ 986              	.LVL75:
+ 230:GeneralFunctionTest.cpp ****             case 2:
+ 987              		.loc 11 230 17 view .LVU268
+ 988 00ac E7E7     		b	.L36
+ 989              	.LVL76:
+ 990              	.L39:
+ 241:GeneralFunctionTest.cpp ****                 rb = 0.75f * bright;
+ 991              		.loc 11 241 13 is_stmt 1 view .LVU269
+ 242:GeneralFunctionTest.cpp ****                 gb = 0.75f * bright;
+ 992              		.loc 11 242 17 view .LVU270
+ 242:GeneralFunctionTest.cpp ****                 gb = 0.75f * bright;
+ 993              		.loc 11 242 20 is_stmt 0 view .LVU271
+ 994 00ae F6EE087A 		vmov.f32	s15, #7.5e-1
+ 244:GeneralFunctionTest.cpp ****                 break;
+ 995              		.loc 11 244 20 view .LVU272
+ 996 00b2 9FED131A 		vldr.32	s2, .L48+16
+ 242:GeneralFunctionTest.cpp ****                 gb = 0.75f * bright;
+ 997              		.loc 11 242 20 view .LVU273
+ 998 00b6 60EEA70A 		vmul.f32	s1, s1, s15
+ 999              	.LVL77:
+ 243:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 1000              		.loc 11 243 17 is_stmt 1 view .LVU274
+ 244:GeneralFunctionTest.cpp ****                 break;
+ 1001              		.loc 11 244 17 view .LVU275
+ARM GAS  /tmp/ccSfmKRm.s 			page 35
+
+
+ 245:GeneralFunctionTest.cpp ****             case 5:
+ 1002              		.loc 11 245 17 view .LVU276
+ 243:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 1003              		.loc 11 243 20 is_stmt 0 view .LVU277
+ 1004 00ba B0EE600A 		vmov.f32	s0, s1
+ 245:GeneralFunctionTest.cpp ****             case 5:
+ 1005              		.loc 11 245 17 view .LVU278
+ 1006 00be DEE7     		b	.L36
+ 1007              	.LVL78:
+ 1008              	.L40:
+ 236:GeneralFunctionTest.cpp ****                 rb = 0.0f;
+ 1009              		.loc 11 236 13 is_stmt 1 view .LVU279
+ 237:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 1010              		.loc 11 237 17 view .LVU280
+ 238:GeneralFunctionTest.cpp ****                 bb = bright;
+ 1011              		.loc 11 238 17 view .LVU281
+ 239:GeneralFunctionTest.cpp ****                 break;
+ 1012              		.loc 11 239 17 view .LVU282
+ 240:GeneralFunctionTest.cpp ****             case 4:
+ 1013              		.loc 11 240 17 view .LVU283
+ 239:GeneralFunctionTest.cpp ****                 break;
+ 1014              		.loc 11 239 20 is_stmt 0 view .LVU284
+ 1015 00c0 B0EE601A 		vmov.f32	s2, s1
+ 238:GeneralFunctionTest.cpp ****                 bb = bright;
+ 1016              		.loc 11 238 20 view .LVU285
+ 1017 00c4 DFED0E0A 		vldr.32	s1, .L48+16
+ 1018              	.LVL79:
+ 237:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 1019              		.loc 11 237 20 view .LVU286
+ 1020 00c8 B0EE600A 		vmov.f32	s0, s1
+ 240:GeneralFunctionTest.cpp ****             case 4:
+ 1021              		.loc 11 240 17 view .LVU287
+ 1022 00cc D7E7     		b	.L36
+ 1023              	.LVL80:
+ 1024              	.L37:
+ 246:GeneralFunctionTest.cpp ****                 rb = 0.0f;
+ 1025              		.loc 11 246 13 is_stmt 1 view .LVU288
+ 247:GeneralFunctionTest.cpp ****                 bb = 0.85f * bright;
+ 1026              		.loc 11 247 17 view .LVU289
+ 248:GeneralFunctionTest.cpp ****                 gb = 0.85f * bright;
+ 1027              		.loc 11 248 17 view .LVU290
+ 248:GeneralFunctionTest.cpp ****                 gb = 0.85f * bright;
+ 1028              		.loc 11 248 20 is_stmt 0 view .LVU291
+ 1029 00ce DFED0F7A 		vldr.32	s15, .L48+28
+ 247:GeneralFunctionTest.cpp ****                 bb = 0.85f * bright;
+ 1030              		.loc 11 247 20 view .LVU292
+ 1031 00d2 9FED0B0A 		vldr.32	s0, .L48+16
+ 248:GeneralFunctionTest.cpp ****                 gb = 0.85f * bright;
+ 1032              		.loc 11 248 20 view .LVU293
+ 1033 00d6 60EEA70A 		vmul.f32	s1, s1, s15
+ 1034              	.LVL81:
+ 249:GeneralFunctionTest.cpp ****                 break;
+ 1035              		.loc 11 249 17 is_stmt 1 view .LVU294
+ 250:GeneralFunctionTest.cpp **** 
+ 1036              		.loc 11 250 17 view .LVU295
+ 248:GeneralFunctionTest.cpp ****                 gb = 0.85f * bright;
+ 1037              		.loc 11 248 20 is_stmt 0 view .LVU296
+ARM GAS  /tmp/ccSfmKRm.s 			page 36
+
+
+ 1038 00da B0EE601A 		vmov.f32	s2, s1
+ 250:GeneralFunctionTest.cpp **** 
+ 1039              		.loc 11 250 17 view .LVU297
+ 1040 00de CEE7     		b	.L36
+ 1041              	.LVL82:
+ 1042              	.L44:
+ 222:GeneralFunctionTest.cpp ****                 gb = 0.0f;
+ 1043              		.loc 11 222 20 view .LVU298
+ 1044 00e0 B0EE600A 		vmov.f32	s0, s1
+ 224:GeneralFunctionTest.cpp ****                 break;
+ 1045              		.loc 11 224 20 view .LVU299
+ 1046 00e4 DFED060A 		vldr.32	s1, .L48+16
+ 1047              	.LVL83:
+ 223:GeneralFunctionTest.cpp ****                 bb = 0.0f;
+ 1048              		.loc 11 223 20 view .LVU300
+ 1049 00e8 B0EE601A 		vmov.f32	s2, s1
+ 1050 00ec C7E7     		b	.L36
+ 1051              	.L49:
+ 1052 00ee 00BF     		.align	2
+ 1053              	.L48:
+ 1054 00f0 00000000 		.word	.LANCHOR0
+ 1055 00f4 0080FF43 		.word	1140817920
+ 1056 00f8 ABAAAAAA 		.word	-1431655765
+ 1057 00fc 00C07F44 		.word	1149222912
+ 1058 0100 00000000 		.word	0
+ 1059 0104 9A99193F 		.word	1058642330
+ 1060 0108 3333333F 		.word	1060320051
+ 1061 010c 9A99593F 		.word	1062836634
+ 1062              	.LBE249:
+ 1063              	.LBE250:
+ 1064              		.cfi_endproc
+ 1065              	.LFE4227:
+ 1067              		.section	.text.startup.main,"ax",%progbits
+ 1068              		.align	1
+ 1069              		.p2align 2,,3
+ 1070              		.global	main
+ 1071              		.syntax unified
+ 1072              		.thumb
+ 1073              		.thumb_func
+ 1074              		.fpu fpv5-d16
+ 1076              	main:
+ 1077              	.LFB4224:
+  60:GeneralFunctionTest.cpp ****     int      sdfail;
+ 1078              		.loc 11 60 1 is_stmt 1 view -0
+ 1079              		.cfi_startproc
+ 1080              		@ args = 0, pretend = 0, frame = 0
+ 1081              		@ frame_needed = 0, uses_anonymous_args = 0
+  61:GeneralFunctionTest.cpp ****     uint32_t led_period, usb_period, now;
+ 1082              		.loc 11 61 5 view .LVU302
+  62:GeneralFunctionTest.cpp ****     uint32_t last_led_update, last_usb_update;
+ 1083              		.loc 11 62 5 view .LVU303
+  63:GeneralFunctionTest.cpp **** 
+ 1084              		.loc 11 63 5 view .LVU304
+  67:GeneralFunctionTest.cpp ****     usb_period = 100;
+ 1085              		.loc 11 67 5 view .LVU305
+ 1086              	.LVL84:
+  68:GeneralFunctionTest.cpp **** 
+ARM GAS  /tmp/ccSfmKRm.s 			page 37
+
+
+ 1087              		.loc 11 68 5 view .LVU306
+  70:GeneralFunctionTest.cpp **** 
+ 1088              		.loc 11 70 5 view .LVU307
+  60:GeneralFunctionTest.cpp ****     int      sdfail;
+ 1089              		.loc 11 60 1 is_stmt 0 view .LVU308
+ 1090 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 1091              		.cfi_def_cfa_offset 24
+ 1092              		.cfi_offset 3, -24
+ 1093              		.cfi_offset 4, -20
+ 1094              		.cfi_offset 5, -16
+ 1095              		.cfi_offset 6, -12
+ 1096              		.cfi_offset 7, -8
+ 1097              		.cfi_offset 14, -4
+  70:GeneralFunctionTest.cpp **** 
+ 1098              		.loc 11 70 12 view .LVU309
+ 1099 0002 0021     		movs	r1, #0
+ 1100 0004 1648     		ldr	r0, .L56
+ 1101 0006 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal4InitEb
+ 1102              	.LVL85:
+  72:GeneralFunctionTest.cpp **** 
+ 1103              		.loc 11 72 5 is_stmt 1 view .LVU310
+  72:GeneralFunctionTest.cpp **** 
+ 1104              		.loc 11 72 61 is_stmt 0 view .LVU311
+ 1105 000a FFF7FEFF 		bl	_ZN5daisy6System6GetNowEv
+ 1106              	.LVL86:
+  75:GeneralFunctionTest.cpp **** 
+ 1107              		.loc 11 75 28 view .LVU312
+ 1108 000e 0021     		movs	r1, #0
+  72:GeneralFunctionTest.cpp **** 
+ 1109              		.loc 11 72 61 view .LVU313
+ 1110 0010 0546     		mov	r5, r0
+  75:GeneralFunctionTest.cpp **** 
+ 1111              		.loc 11 75 28 view .LVU314
+ 1112 0012 1448     		ldr	r0, .L56+4
+ 1113              	.LVL87:
+  75:GeneralFunctionTest.cpp **** 
+ 1114              		.loc 11 75 5 is_stmt 1 view .LVU315
+  75:GeneralFunctionTest.cpp **** 
+ 1115              		.loc 11 75 28 is_stmt 0 view .LVU316
+ 1116 0014 FFF7FEFF 		bl	_ZN5daisy9UsbHandle4InitENS0_9UsbPeriphE
+ 1117              	.LVL88:
+  77:GeneralFunctionTest.cpp **** 
+ 1118              		.loc 11 77 5 is_stmt 1 view .LVU317
+  77:GeneralFunctionTest.cpp **** 
+ 1119              		.loc 11 77 24 is_stmt 0 view .LVU318
+ 1120 0018 FFF7FEFF 		bl	_Z10TestSdCardv
+ 1121              	.LVL89:
+ 1122 001c 0746     		mov	r7, r0
+  79:GeneralFunctionTest.cpp ****     hw.StartAudio(callback);
+ 1123              		.loc 11 79 16 view .LVU319
+ 1124 001e 1048     		ldr	r0, .L56
+ 1125              	.LVL90:
+  79:GeneralFunctionTest.cpp ****     hw.StartAudio(callback);
+ 1126              		.loc 11 79 5 is_stmt 1 view .LVU320
+  72:GeneralFunctionTest.cpp **** 
+ 1127              		.loc 11 72 39 is_stmt 0 view .LVU321
+ 1128 0020 2E46     		mov	r6, r5
+ARM GAS  /tmp/ccSfmKRm.s 			page 38
+
+
+  79:GeneralFunctionTest.cpp ****     hw.StartAudio(callback);
+ 1129              		.loc 11 79 16 view .LVU322
+ 1130 0022 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal8StartAdcEv
+ 1131              	.LVL91:
+  80:GeneralFunctionTest.cpp **** 
+ 1132              		.loc 11 80 5 is_stmt 1 view .LVU323
+  80:GeneralFunctionTest.cpp **** 
+ 1133              		.loc 11 80 18 is_stmt 0 view .LVU324
+ 1134 0026 1049     		ldr	r1, .L56+8
+ 1135 0028 0D48     		ldr	r0, .L56
+ 1136 002a FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10StartAudioEPFvPKfPfjE
+ 1137              	.LVL92:
+ 1138              	.L51:
+  83:GeneralFunctionTest.cpp ****     {
+ 1139              		.loc 11 83 5 is_stmt 1 view .LVU325
+  86:GeneralFunctionTest.cpp **** 
+ 1140              		.loc 11 86 9 view .LVU326
+  86:GeneralFunctionTest.cpp **** 
+ 1141              		.loc 11 86 29 is_stmt 0 view .LVU327
+ 1142 002e FFF7FEFF 		bl	_ZN5daisy6System6GetNowEv
+ 1143              	.LVL93:
+  89:GeneralFunctionTest.cpp ****         {
+ 1144              		.loc 11 89 16 view .LVU328
+ 1145 0032 431B     		subs	r3, r0, r5
+  86:GeneralFunctionTest.cpp **** 
+ 1146              		.loc 11 86 29 view .LVU329
+ 1147 0034 0446     		mov	r4, r0
+ 1148              	.LVL94:
+  89:GeneralFunctionTest.cpp ****         {
+ 1149              		.loc 11 89 9 is_stmt 1 view .LVU330
+ 1150 0036 052B     		cmp	r3, #5
+ 1151 0038 0ED8     		bhi	.L55
+ 1152              	.LVL95:
+ 1153              	.L52:
+  95:GeneralFunctionTest.cpp ****         {
+ 1154              		.loc 11 95 9 view .LVU331
+  95:GeneralFunctionTest.cpp ****         {
+ 1155              		.loc 11 95 16 is_stmt 0 view .LVU332
+ 1156 003a A31B     		subs	r3, r4, r6
+  95:GeneralFunctionTest.cpp ****         {
+ 1157              		.loc 11 95 9 view .LVU333
+ 1158 003c 642B     		cmp	r3, #100
+ 1159 003e F6D9     		bls	.L51
+  97:GeneralFunctionTest.cpp ****             // opposite of sdfail because
+ 1160              		.loc 11 97 13 is_stmt 1 view .LVU334
+ 1161              	.LVL96:
+ 101:GeneralFunctionTest.cpp ****         }
+ 1162              		.loc 11 101 13 view .LVU335
+ 101:GeneralFunctionTest.cpp ****         }
+ 1163              		.loc 11 101 22 is_stmt 0 view .LVU336
+ 1164 0040 B7FA87F0 		clz	r0, r7
+  97:GeneralFunctionTest.cpp ****             // opposite of sdfail because
+ 1165              		.loc 11 97 29 view .LVU337
+ 1166 0044 2646     		mov	r6, r4
+ 101:GeneralFunctionTest.cpp ****         }
+ 1167              		.loc 11 101 22 view .LVU338
+ 1168 0046 4009     		lsrs	r0, r0, #5
+ARM GAS  /tmp/ccSfmKRm.s 			page 39
+
+
+ 1169 0048 FFF7FEFF 		bl	_Z9UpdateUsbi
+ 1170              	.LVL97:
+  83:GeneralFunctionTest.cpp ****     {
+ 1171              		.loc 11 83 5 is_stmt 1 view .LVU339
+  86:GeneralFunctionTest.cpp **** 
+ 1172              		.loc 11 86 9 view .LVU340
+  86:GeneralFunctionTest.cpp **** 
+ 1173              		.loc 11 86 29 is_stmt 0 view .LVU341
+ 1174 004c FFF7FEFF 		bl	_ZN5daisy6System6GetNowEv
+ 1175              	.LVL98:
+  89:GeneralFunctionTest.cpp ****         {
+ 1176              		.loc 11 89 16 view .LVU342
+ 1177 0050 431B     		subs	r3, r0, r5
+  86:GeneralFunctionTest.cpp **** 
+ 1178              		.loc 11 86 29 view .LVU343
+ 1179 0052 0446     		mov	r4, r0
+ 1180              	.LVL99:
+  89:GeneralFunctionTest.cpp ****         {
+ 1181              		.loc 11 89 9 is_stmt 1 view .LVU344
+ 1182 0054 052B     		cmp	r3, #5
+ 1183 0056 F0D9     		bls	.L52
+ 1184              	.L55:
+  91:GeneralFunctionTest.cpp ****             UpdateLeds();
+ 1185              		.loc 11 91 13 view .LVU345
+ 1186              	.LVL100:
+  92:GeneralFunctionTest.cpp ****         }
+ 1187              		.loc 11 92 13 view .LVU346
+  91:GeneralFunctionTest.cpp ****             UpdateLeds();
+ 1188              		.loc 11 91 29 is_stmt 0 view .LVU347
+ 1189 0058 0546     		mov	r5, r0
+  92:GeneralFunctionTest.cpp ****         }
+ 1190              		.loc 11 92 23 view .LVU348
+ 1191 005a FFF7FEFF 		bl	_Z10UpdateLedsv
+ 1192              	.LVL101:
+  92:GeneralFunctionTest.cpp ****         }
+ 1193              		.loc 11 92 23 view .LVU349
+ 1194 005e ECE7     		b	.L52
+ 1195              	.L57:
+ 1196              		.align	2
+ 1197              	.L56:
+ 1198 0060 00000000 		.word	.LANCHOR0
+ 1199 0064 24000000 		.word	.LANCHOR0+36
+ 1200 0068 00000000 		.word	_Z8callbackPKfPfj
+ 1201              		.cfi_endproc
+ 1202              	.LFE4224:
+ 1204              		.section	.text.startup._GLOBAL__sub_I_hw,"ax",%progbits
+ 1205              		.align	1
+ 1206              		.p2align 2,,3
+ 1207              		.syntax unified
+ 1208              		.thumb
+ 1209              		.thumb_func
+ 1210              		.fpu fpv5-d16
+ 1212              	_GLOBAL__sub_I_hw:
+ 1213              	.LFB4773:
+ 1214              		.loc 11 258 1 is_stmt 1 view -0
+ 1215              		.cfi_startproc
+ 1216              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccSfmKRm.s 			page 40
+
+
+ 1217              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1218              	.LBB287:
+ 1219              	.LBI287:
+ 1220              		.loc 11 258 1 view .LVU351
+ 1221              	.LVL102:
+ 1222              	.LBB288:
+ 1223              	.LBB289:
+ 1224              	.LBI289:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1225              		.loc 2 66 5 view .LVU352
+ 1226              	.LBB290:
+ 1227              	.LBB291:
+ 1228              	.LBI291:
+  21:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ 1229              		.loc 6 21 5 view .LVU353
+ 1230              	.LBB292:
+ 1231              	.LBB293:
+ 1232              	.LBI293:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1233              		.loc 10 62 5 view .LVU354
+ 1234              	.LBE293:
+ 1235              	.LBE292:
+ 1236              	.LBE291:
+ 1237              	.LBE290:
+ 1238              	.LBE289:
+ 1239              	.LBE288:
+ 1240              	.LBE287:
+ 1241              		.loc 11 258 1 is_stmt 0 view .LVU355
+ 1242 0000 38B5     		push	{r3, r4, r5, lr}
+ 1243              		.cfi_def_cfa_offset 16
+ 1244              		.cfi_offset 3, -16
+ 1245              		.cfi_offset 4, -12
+ 1246              		.cfi_offset 5, -8
+ 1247              		.cfi_offset 14, -4
+ 1248              	.LBB334:
+ 1249              	.LBB330:
+ 1250              	.LBB325:
+ 1251              	.LBB321:
+ 1252              	.LBB308:
+ 1253              	.LBB306:
+ 1254              	.LBB298:
+ 1255              	.LBB294:
+ 1256              	.LBB295:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1257              		.loc 10 62 35 view .LVU356
+ 1258 0002 0D4C     		ldr	r4, .L60
+ 1259 0004 0023     		movs	r3, #0
+ 1260              	.LBE295:
+ 1261              	.LBE294:
+ 1262              	.LBE298:
+ 1263              	.LBE306:
+ 1264              	.LBE308:
+ 1265              	.LBE321:
+ 1266              	.LBE325:
+  23:GeneralFunctionTest.cpp **** // Handler for SD Card Hardware
+ 1267              		.loc 11 23 12 view .LVU357
+ 1268 0006 0D4D     		ldr	r5, .L60+4
+ARM GAS  /tmp/ccSfmKRm.s 			page 41
+
+
+ 1269              	.LBB326:
+ 1270              	.LBB322:
+ 1271              	.LBB309:
+ 1272              	.LBB310:
+ 1273              		.file 12 "../../libdaisy/src/dev/leddriver.h"
+   1:../../libdaisy/src/dev/leddriver.h **** #pragma once
+   2:../../libdaisy/src/dev/leddriver.h **** #ifndef SA_LED_DRIVER_H
+   3:../../libdaisy/src/dev/leddriver.h **** #define SA_LED_DRIVER_H /**< & */
+   4:../../libdaisy/src/dev/leddriver.h **** 
+   5:../../libdaisy/src/dev/leddriver.h **** #ifdef __cplusplus
+   6:../../libdaisy/src/dev/leddriver.h **** 
+   7:../../libdaisy/src/dev/leddriver.h **** #include <stdint.h>
+   8:../../libdaisy/src/dev/leddriver.h **** #include "per/i2c.h"
+   9:../../libdaisy/src/dev/leddriver.h **** #include "per/gpio.h"
+  10:../../libdaisy/src/dev/leddriver.h **** 
+  11:../../libdaisy/src/dev/leddriver.h **** namespace daisy
+  12:../../libdaisy/src/dev/leddriver.h **** {
+  13:../../libdaisy/src/dev/leddriver.h **** /** LED driver for one or multiple PCA9685 12bit PWM chips connected to
+  14:../../libdaisy/src/dev/leddriver.h ****  * a single I2C peripheral.
+  15:../../libdaisy/src/dev/leddriver.h ****  * It includes gamma correction from 8bit brightness values but it 
+  16:../../libdaisy/src/dev/leddriver.h ****  * can also be supplied with raw 12bit values.
+  17:../../libdaisy/src/dev/leddriver.h ****  * This driver uses two buffers - one for drawing, one for transmitting.
+  18:../../libdaisy/src/dev/leddriver.h ****  * Multiple LedDriverPca9685 instances can be used at the same time.
+  19:../../libdaisy/src/dev/leddriver.h ****  * \param numDrivers    The number of PCA9685 driver attached to the I2C
+  20:../../libdaisy/src/dev/leddriver.h ****  *                      peripheral.
+  21:../../libdaisy/src/dev/leddriver.h ****  * \param persistentBufferContents If set to true, the current draw buffer 
+  22:../../libdaisy/src/dev/leddriver.h ****  *                      contents will be copied to the next draw buffer 
+  23:../../libdaisy/src/dev/leddriver.h ****  *                      during SwapBuffersAndTransmit(). Use this, if you plan
+  24:../../libdaisy/src/dev/leddriver.h ****  *                      to write single leds at a time. 
+  25:../../libdaisy/src/dev/leddriver.h ****  *                      If you will alway update all leds before calling 
+  26:../../libdaisy/src/dev/leddriver.h ****  *                      SwapBuffersAndTransmit(), you can set this to false
+  27:../../libdaisy/src/dev/leddriver.h ****  *                      and safe some cycles.
+  28:../../libdaisy/src/dev/leddriver.h ****  */
+  29:../../libdaisy/src/dev/leddriver.h **** template <int numDrivers, bool persistentBufferContents = true>
+  30:../../libdaisy/src/dev/leddriver.h **** class LedDriverPca9685
+ 1274              		.loc 12 30 7 view .LVU358
+ 1275 0008 4FF40072 		mov	r2, #512
+ 1276 000c 04F2D240 		addw	r0, r4, #1234
+ 1277 0010 0B49     		ldr	r1, .L60+8
+ 1278              	.LBE310:
+ 1279              	.LBE309:
+ 1280              	.LBB315:
+ 1281              	.LBB307:
+ 1282              	.LBB299:
+ 1283              	.LBB297:
+ 1284              	.LBB296:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1285              		.loc 10 62 35 view .LVU359
+ 1286 0012 6361     		str	r3, [r4, #20]
+ 1287              	.LVL103:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1288              		.loc 10 62 35 view .LVU360
+ 1289              	.LBE296:
+ 1290              	.LBE297:
+ 1291              	.LBE299:
+ 1292              	.LBB300:
+ 1293              	.LBI300:
+ARM GAS  /tmp/ccSfmKRm.s 			page 42
+
+
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1294              		.loc 9 84 5 is_stmt 1 view .LVU361
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1295              		.loc 9 84 5 is_stmt 0 view .LVU362
+ 1296              	.LBE300:
+ 1297              	.LBB301:
+ 1298              	.LBI301:
+ 1299              		.file 13 "../../libdaisy/src/per/dac.h"
+   1:../../libdaisy/src/per/dac.h **** #pragma once
+   2:../../libdaisy/src/per/dac.h **** #ifndef DSY_DAC_H
+   3:../../libdaisy/src/per/dac.h **** #define DSY_DAC_H
+   4:../../libdaisy/src/per/dac.h **** 
+   5:../../libdaisy/src/per/dac.h **** #include "daisy_core.h"
+   6:../../libdaisy/src/per/dac.h **** 
+   7:../../libdaisy/src/per/dac.h **** namespace daisy
+   8:../../libdaisy/src/per/dac.h **** {
+   9:../../libdaisy/src/per/dac.h **** /** DAC handle for Built-in DAC Peripheral 
+  10:../../libdaisy/src/per/dac.h ****  ** 
+  11:../../libdaisy/src/per/dac.h ****  ** For now only Normal Mode is supported,
+  12:../../libdaisy/src/per/dac.h ****  ** Sample and hold mode provides reduced power consumption, but requires a bit more setup.
+  13:../../libdaisy/src/per/dac.h ****  **
+  14:../../libdaisy/src/per/dac.h ****  ** For now connecting the DAC through other internal periphearls is also not supported.
+  15:../../libdaisy/src/per/dac.h ****  **
+  16:../../libdaisy/src/per/dac.h ****  ** Since the DAC channels have dedicated pins we don't need to pass in a pin config like with
+  17:../../libdaisy/src/per/dac.h ****  ** other modules. However, it is still important to not try to use the DAC pins for anything else.
+  18:../../libdaisy/src/per/dac.h ****  ** DAC Channel 1 is on PA4, and DAC Channel 2 is on PA5
+  19:../../libdaisy/src/per/dac.h ****  ***/
+  20:../../libdaisy/src/per/dac.h **** class DacHandle
+  21:../../libdaisy/src/per/dac.h **** {
+  22:../../libdaisy/src/per/dac.h ****   public:
+  23:../../libdaisy/src/per/dac.h ****     /** Return Values for the DacHandle class */
+  24:../../libdaisy/src/per/dac.h ****     enum class Result
+  25:../../libdaisy/src/per/dac.h ****     {
+  26:../../libdaisy/src/per/dac.h ****         OK,
+  27:../../libdaisy/src/per/dac.h ****         ERR,
+  28:../../libdaisy/src/per/dac.h ****     };
+  29:../../libdaisy/src/per/dac.h **** 
+  30:../../libdaisy/src/per/dac.h ****     /** Selects which channel(s) will be configured for use. */
+  31:../../libdaisy/src/per/dac.h ****     enum class Channel
+  32:../../libdaisy/src/per/dac.h ****     {
+  33:../../libdaisy/src/per/dac.h ****         ONE,
+  34:../../libdaisy/src/per/dac.h ****         TWO,
+  35:../../libdaisy/src/per/dac.h ****         BOTH,
+  36:../../libdaisy/src/per/dac.h ****     };
+  37:../../libdaisy/src/per/dac.h **** 
+  38:../../libdaisy/src/per/dac.h ****     /** Sets the Mode for the DAC channels.
+  39:../../libdaisy/src/per/dac.h ****      **
+  40:../../libdaisy/src/per/dac.h ****      ** Polling mode uses the blocking mode to transmit a single value at a time.
+  41:../../libdaisy/src/per/dac.h ****      **
+  42:../../libdaisy/src/per/dac.h ****      ** DMA mode uses a buffer, and periodically transmits it triggering a 
+  43:../../libdaisy/src/per/dac.h ****      ** callback to fill the buffer when it is ready for more samples.
+  44:../../libdaisy/src/per/dac.h ****      ***/
+  45:../../libdaisy/src/per/dac.h ****     enum class Mode
+  46:../../libdaisy/src/per/dac.h ****     {
+  47:../../libdaisy/src/per/dac.h ****         POLLING,
+  48:../../libdaisy/src/per/dac.h ****         DMA,
+  49:../../libdaisy/src/per/dac.h ****     };
+ARM GAS  /tmp/ccSfmKRm.s 			page 43
+
+
+  50:../../libdaisy/src/per/dac.h **** 
+  51:../../libdaisy/src/per/dac.h ****     /** Sets the number of bits per sample transmitted out of the DAC.
+  52:../../libdaisy/src/per/dac.h ****      ** The output range will be: 0V - VDDA
+  53:../../libdaisy/src/per/dac.h ****      ** The resolution will be roughly: bitdepth / (VDDA - 0V) 
+  54:../../libdaisy/src/per/dac.h ****      ***/
+  55:../../libdaisy/src/per/dac.h ****     enum class BitDepth
+  56:../../libdaisy/src/per/dac.h ****     {
+  57:../../libdaisy/src/per/dac.h ****         BITS_8,
+  58:../../libdaisy/src/per/dac.h ****         BITS_12
+  59:../../libdaisy/src/per/dac.h ****     };
+  60:../../libdaisy/src/per/dac.h **** 
+  61:../../libdaisy/src/per/dac.h ****     /** Sets whether the DAC output is buffered for higher drive ability. */
+  62:../../libdaisy/src/per/dac.h ****     enum class BufferState
+  63:../../libdaisy/src/per/dac.h ****     {
+  64:../../libdaisy/src/per/dac.h ****         ENABLED,
+  65:../../libdaisy/src/per/dac.h ****         DISABLED,
+  66:../../libdaisy/src/per/dac.h ****     };
+  67:../../libdaisy/src/per/dac.h **** 
+  68:../../libdaisy/src/per/dac.h ****     /** Configuration structure for initializing the DAC structure. */
+  69:../../libdaisy/src/per/dac.h ****     struct Config
+  70:../../libdaisy/src/per/dac.h ****     {
+  71:../../libdaisy/src/per/dac.h ****         /** Target Samplerate in Hz used to configure the internal 
+  72:../../libdaisy/src/per/dac.h ****          ** timebase for DMA mode. Does nothing in POLLING mode.
+  73:../../libdaisy/src/per/dac.h ****          ** If the value is 0 at Init time this will default to 48000Hz 
+  74:../../libdaisy/src/per/dac.h ****          ** otherwise the driver will attempt meet the target.*/
+  75:../../libdaisy/src/per/dac.h ****         uint32_t target_samplerate;
+  76:../../libdaisy/src/per/dac.h **** 
+  77:../../libdaisy/src/per/dac.h ****         Channel     chn;
+  78:../../libdaisy/src/per/dac.h ****         Mode        mode;
+  79:../../libdaisy/src/per/dac.h ****         BitDepth    bitdepth;
+  80:../../libdaisy/src/per/dac.h ****         BufferState buff_state;
+  81:../../libdaisy/src/per/dac.h ****     };
+  82:../../libdaisy/src/per/dac.h **** 
+  83:../../libdaisy/src/per/dac.h ****     DacHandle() : pimpl_(nullptr) {}
+ 1300              		.loc 13 83 5 is_stmt 1 view .LVU363
+ 1301              	.LBB302:
+ 1302              	.LBB303:
+ 1303              		.loc 13 83 33 is_stmt 0 view .LVU364
+ 1304 0014 2362     		str	r3, [r4, #32]
+ 1305              	.LVL104:
+ 1306              		.loc 13 83 33 view .LVU365
+ 1307              	.LBE303:
+ 1308              	.LBE302:
+ 1309              	.LBE301:
+ 1310              	.LBB304:
+ 1311              	.LBI304:
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1312              		.loc 8 40 5 is_stmt 1 view .LVU366
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1313              		.loc 8 40 5 is_stmt 0 view .LVU367
+ 1314              	.LBE304:
+ 1315              	.LBB305:
+ 1316              	.LBI305:
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1317              		.loc 7 58 5 is_stmt 1 view .LVU368
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1318              		.loc 7 58 5 is_stmt 0 view .LVU369
+ARM GAS  /tmp/ccSfmKRm.s 			page 44
+
+
+ 1319              	.LBE305:
+ 1320              	.LBE307:
+ 1321              	.LBE315:
+ 1322              	.LBB316:
+ 1323              	.LBI316:
+  20:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+ 1324              		.loc 4 20 5 is_stmt 1 view .LVU370
+ 1325              	.LBB317:
+ 1326              	.LBB318:
+ 1327              	.LBI318:
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 1328              		.loc 5 40 5 view .LVU371
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 1329              		.loc 5 40 5 is_stmt 0 view .LVU372
+ 1330              	.LBE318:
+ 1331              	.LBE317:
+ 1332              	.LBE316:
+ 1333              	.LBE322:
+ 1334              	.LBE326:
+ 1335              	.LBE330:
+ 1336              	.LBE334:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1337              		.loc 2 66 18 is_stmt 1 view .LVU373
+ 1338              	.LBB335:
+ 1339              	.LBB331:
+ 1340              	.LBB327:
+ 1341              	.LBB323:
+ 1342              	.LBB319:
+ 1343              	.LBI319:
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 1344              		.loc 3 21 5 view .LVU374
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 1345              		.loc 3 21 5 is_stmt 0 view .LVU375
+ 1346              	.LBE319:
+ 1347              	.LBE323:
+ 1348              	.LBE327:
+ 1349              	.LBE331:
+ 1350              	.LBE335:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1351              		.loc 2 66 18 is_stmt 1 view .LVU376
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1352              		.loc 2 66 18 view .LVU377
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1353              		.loc 2 66 18 view .LVU378
+ 1354              	.LBB336:
+ 1355              	.LBB332:
+ 1356              	.LBB328:
+ 1357              	.LBB324:
+ 1358              	.LBB320:
+ 1359              	.LBI309:
+ 1360              		.loc 12 30 7 view .LVU379
+ 1361              	.LBB314:
+ 1362              	.LBB311:
+ 1363              	.LBI311:
+ 1364              		.file 14 "../../libdaisy/src/per/i2c.h"
+   1:../../libdaisy/src/per/i2c.h **** #pragma once
+   2:../../libdaisy/src/per/i2c.h **** #include "daisy_core.h"
+ARM GAS  /tmp/ccSfmKRm.s 			page 45
+
+
+   3:../../libdaisy/src/per/i2c.h **** 
+   4:../../libdaisy/src/per/i2c.h **** namespace daisy
+   5:../../libdaisy/src/per/i2c.h **** {
+   6:../../libdaisy/src/per/i2c.h **** /** A handle for interacting with an I2C peripheral. This is a dumb
+   7:../../libdaisy/src/per/i2c.h ****  *  gateway that internally points to one of the four I2C peripherals
+   8:../../libdaisy/src/per/i2c.h ****  *  after it was initialised. It can then be copied and passed around.
+   9:../../libdaisy/src/per/i2c.h ****  *  Use an I2CHandle like this:
+  10:../../libdaisy/src/per/i2c.h ****  *  
+  11:../../libdaisy/src/per/i2c.h ****  *      // setup the configuration
+  12:../../libdaisy/src/per/i2c.h ****  *      I2CHandle::Config i2c_conf;
+  13:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.periph = I2CHandle::Config::Peripheral::I2C_1;
+  14:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.speed  = I2CHandle::Config::Speed::I2C_400KHZ;
+  15:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.mode   = I2CHandle::Config::Mode::Master;
+  16:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.scl  = {DSY_GPIOB, 8};
+  17:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.sda  = {DSY_GPIOB, 9};
+  18:../../libdaisy/src/per/i2c.h ****  *      // initialise the peripheral
+  19:../../libdaisy/src/per/i2c.h ****  *      I2CHandle i2c;
+  20:../../libdaisy/src/per/i2c.h ****  *      i2c.Init(i2c_conf);
+  21:../../libdaisy/src/per/i2c.h ****  *      // now i2c points to the corresponding peripheral and can be used.
+  22:../../libdaisy/src/per/i2c.h ****  *      i2c.TransmitBlocking( ... );
+  23:../../libdaisy/src/per/i2c.h ****  */
+  24:../../libdaisy/src/per/i2c.h **** class I2CHandle
+  25:../../libdaisy/src/per/i2c.h **** {
+  26:../../libdaisy/src/per/i2c.h ****   public:
+  27:../../libdaisy/src/per/i2c.h ****     /** Contains settings for initialising an I2C interface. */
+  28:../../libdaisy/src/per/i2c.h ****     struct Config
+  29:../../libdaisy/src/per/i2c.h ****     {
+  30:../../libdaisy/src/per/i2c.h ****         /** Specifies whether the interface will operate in master or slave mode. */
+  31:../../libdaisy/src/per/i2c.h ****         enum class Mode
+  32:../../libdaisy/src/per/i2c.h ****         {
+  33:../../libdaisy/src/per/i2c.h ****             I2C_MASTER,
+  34:../../libdaisy/src/per/i2c.h ****             I2C_SLAVE,
+  35:../../libdaisy/src/per/i2c.h ****         };
+  36:../../libdaisy/src/per/i2c.h **** 
+  37:../../libdaisy/src/per/i2c.h ****         /** Specifices the internal peripheral to use (these are mapped to different pins on the ha
+  38:../../libdaisy/src/per/i2c.h ****         enum class Peripheral
+  39:../../libdaisy/src/per/i2c.h ****         {
+  40:../../libdaisy/src/per/i2c.h ****             I2C_1 = 0, /**< & */
+  41:../../libdaisy/src/per/i2c.h ****             I2C_2,     /**< & */
+  42:../../libdaisy/src/per/i2c.h ****             I2C_3,     /**< & */
+  43:../../libdaisy/src/per/i2c.h ****             I2C_4,     /**< & */
+  44:../../libdaisy/src/per/i2c.h ****         };
+  45:../../libdaisy/src/per/i2c.h **** 
+  46:../../libdaisy/src/per/i2c.h ****         /** Rate at which the clock/data will be sent/received. The device being used will have max
+  47:../../libdaisy/src/per/i2c.h ****          *  1MHZ Mode is currently 886kHz
+  48:../../libdaisy/src/per/i2c.h ****          */
+  49:../../libdaisy/src/per/i2c.h ****         enum class Speed
+  50:../../libdaisy/src/per/i2c.h ****         {
+  51:../../libdaisy/src/per/i2c.h ****             I2C_100KHZ, /**< & */
+  52:../../libdaisy/src/per/i2c.h ****             I2C_400KHZ, /**< & */
+  53:../../libdaisy/src/per/i2c.h ****             I2C_1MHZ,   /**< & */
+  54:../../libdaisy/src/per/i2c.h ****         };
+  55:../../libdaisy/src/per/i2c.h **** 
+  56:../../libdaisy/src/per/i2c.h ****         Peripheral periph; /**< & */
+  57:../../libdaisy/src/per/i2c.h ****         struct
+  58:../../libdaisy/src/per/i2c.h ****         {
+  59:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin scl; /**< & */
+ARM GAS  /tmp/ccSfmKRm.s 			page 46
+
+
+  60:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin sda; /**< & */
+  61:../../libdaisy/src/per/i2c.h ****         } pin_config;         /**< & */
+  62:../../libdaisy/src/per/i2c.h **** 
+  63:../../libdaisy/src/per/i2c.h ****         Speed speed; /**< & */
+  64:../../libdaisy/src/per/i2c.h ****         Mode  mode;  /**< & */
+  65:../../libdaisy/src/per/i2c.h ****         // 0x10 is chosen as a default to avoid conflicts with reserved addresses
+  66:../../libdaisy/src/per/i2c.h ****         uint8_t address = 0x10; /**< & */
+  67:../../libdaisy/src/per/i2c.h ****     };
+  68:../../libdaisy/src/per/i2c.h **** 
+  69:../../libdaisy/src/per/i2c.h ****     /** Return values for I2C functions. */
+  70:../../libdaisy/src/per/i2c.h ****     enum class Result
+  71:../../libdaisy/src/per/i2c.h ****     {
+  72:../../libdaisy/src/per/i2c.h ****         OK, /**< & */
+  73:../../libdaisy/src/per/i2c.h ****         ERR /**< & */
+  74:../../libdaisy/src/per/i2c.h ****     };
+  75:../../libdaisy/src/per/i2c.h **** 
+  76:../../libdaisy/src/per/i2c.h ****     enum class Direction
+  77:../../libdaisy/src/per/i2c.h ****     {
+  78:../../libdaisy/src/per/i2c.h ****         TRANSMIT, /**< & */
+  79:../../libdaisy/src/per/i2c.h ****         RECEIVE,  /**< & */
+  80:../../libdaisy/src/per/i2c.h ****     };
+  81:../../libdaisy/src/per/i2c.h **** 
+  82:../../libdaisy/src/per/i2c.h ****     I2CHandle() : pimpl_(nullptr) {}
+ 1365              		.loc 14 82 5 view .LVU380
+ 1366              	.LBB312:
+ 1367              	.LBB313:
+ 1368              		.loc 14 82 33 is_stmt 0 view .LVU381
+ 1369 0016 C4F8BC34 		str	r3, [r4, #1212]
+ 1370              	.LVL105:
+ 1371              		.loc 14 82 33 view .LVU382
+ 1372              	.LBE313:
+ 1373              	.LBE312:
+ 1374              	.LBE311:
+ 1375              		.loc 12 30 7 view .LVU383
+ 1376 001a FFF7FEFF 		bl	memcpy
+ 1377              	.LVL106:
+ 1378              		.loc 12 30 7 view .LVU384
+ 1379              	.LBE314:
+ 1380              	.LBE320:
+ 1381              	.LBE324:
+ 1382              	.LBE328:
+  23:GeneralFunctionTest.cpp **** // Handler for SD Card Hardware
+ 1383              		.loc 11 23 12 view .LVU385
+ 1384 001e 2A46     		mov	r2, r5
+ 1385 0020 2046     		mov	r0, r4
+ 1386 0022 0849     		ldr	r1, .L60+12
+ 1387 0024 FFF7FEFF 		bl	__aeabi_atexit
+ 1388              	.LVL107:
+ 1389              	.LBB329:
+ 1390              	.LBI329:
+  77:../../libdaisy/src/per/sdmmc.h ****     ~SdmmcHandler() {}
+ 1391              		.loc 1 77 5 is_stmt 1 view .LVU386
+  77:../../libdaisy/src/per/sdmmc.h ****     ~SdmmcHandler() {}
+ 1392              		.loc 1 77 5 is_stmt 0 view .LVU387
+ 1393              	.LBE329:
+  25:GeneralFunctionTest.cpp **** 
+ 1394              		.loc 11 25 14 view .LVU388
+ARM GAS  /tmp/ccSfmKRm.s 			page 47
+
+
+ 1395 0028 2A46     		mov	r2, r5
+ 1396 002a 0749     		ldr	r1, .L60+16
+ 1397 002c 0748     		ldr	r0, .L60+20
+ 1398              	.LBE332:
+ 1399              	.LBE336:
+ 1400              		.loc 11 258 1 view .LVU389
+ 1401 002e BDE83840 		pop	{r3, r4, r5, lr}
+ 1402              		.cfi_restore 14
+ 1403              		.cfi_restore 5
+ 1404              		.cfi_restore 4
+ 1405              		.cfi_restore 3
+ 1406              		.cfi_def_cfa_offset 0
+ 1407              	.LBB337:
+ 1408              	.LBB333:
+  25:GeneralFunctionTest.cpp **** 
+ 1409              		.loc 11 25 14 view .LVU390
+ 1410 0032 FFF7FEBF 		b	__aeabi_atexit
+ 1411              	.LVL108:
+ 1412              	.L61:
+ 1413 0036 00BF     		.align	2
+ 1414              	.L60:
+ 1415 0038 00000000 		.word	.LANCHOR0
+ 1416 003c 00000000 		.word	__dso_handle
+ 1417 0040 00000000 		.word	.LANCHOR3
+ 1418 0044 00000000 		.word	_ZN5daisy10DaisyPetalD1Ev
+ 1419 0048 00000000 		.word	_ZN5daisy12SdmmcHandlerD1Ev
+ 1420 004c 00000000 		.word	.LANCHOR2
+ 1421              	.LBE333:
+ 1422              	.LBE337:
+ 1423              		.cfi_endproc
+ 1424              	.LFE4773:
+ 1426              		.section	.init_array,"aw",%init_array
+ 1427              		.align	2
+ 1428 0000 00000000 		.word	_GLOBAL__sub_I_hw(target1)
+ 1429              		.global	enc_tracker
+ 1430              		.global	sd
+ 1431              		.global	hw
+ 1432              		.section	.rodata
+ 1433              		.align	2
+ 1434              		.set	.LANCHOR3,. + 0
+ 1435              	.LC0:
+ 1436 0000 0000     		.short	0
+ 1437 0002 0100     		.short	1
+ 1438 0004 0100     		.short	1
+ 1439 0006 0100     		.short	1
+ 1440 0008 0100     		.short	1
+ 1441 000a 0100     		.short	1
+ 1442 000c 0100     		.short	1
+ 1443 000e 0100     		.short	1
+ 1444 0010 0100     		.short	1
+ 1445 0012 0100     		.short	1
+ 1446 0014 0100     		.short	1
+ 1447 0016 0100     		.short	1
+ 1448 0018 0200     		.short	2
+ 1449 001a 0200     		.short	2
+ 1450 001c 0200     		.short	2
+ 1451 001e 0200     		.short	2
+ARM GAS  /tmp/ccSfmKRm.s 			page 48
+
+
+ 1452 0020 0200     		.short	2
+ 1453 0022 0200     		.short	2
+ 1454 0024 0200     		.short	2
+ 1455 0026 0300     		.short	3
+ 1456 0028 0300     		.short	3
+ 1457 002a 0400     		.short	4
+ 1458 002c 0400     		.short	4
+ 1459 002e 0500     		.short	5
+ 1460 0030 0500     		.short	5
+ 1461 0032 0600     		.short	6
+ 1462 0034 0700     		.short	7
+ 1463 0036 0800     		.short	8
+ 1464 0038 0800     		.short	8
+ 1465 003a 0900     		.short	9
+ 1466 003c 0A00     		.short	10
+ 1467 003e 0B00     		.short	11
+ 1468 0040 0C00     		.short	12
+ 1469 0042 0D00     		.short	13
+ 1470 0044 0F00     		.short	15
+ 1471 0046 1000     		.short	16
+ 1472 0048 1100     		.short	17
+ 1473 004a 1200     		.short	18
+ 1474 004c 1400     		.short	20
+ 1475 004e 1500     		.short	21
+ 1476 0050 1700     		.short	23
+ 1477 0052 1900     		.short	25
+ 1478 0054 1A00     		.short	26
+ 1479 0056 1C00     		.short	28
+ 1480 0058 1E00     		.short	30
+ 1481 005a 2000     		.short	32
+ 1482 005c 2200     		.short	34
+ 1483 005e 2400     		.short	36
+ 1484 0060 2600     		.short	38
+ 1485 0062 2800     		.short	40
+ 1486 0064 2B00     		.short	43
+ 1487 0066 2D00     		.short	45
+ 1488 0068 3000     		.short	48
+ 1489 006a 3200     		.short	50
+ 1490 006c 3500     		.short	53
+ 1491 006e 3800     		.short	56
+ 1492 0070 3B00     		.short	59
+ 1493 0072 3E00     		.short	62
+ 1494 0074 4100     		.short	65
+ 1495 0076 4400     		.short	68
+ 1496 0078 4700     		.short	71
+ 1497 007a 4B00     		.short	75
+ 1498 007c 4E00     		.short	78
+ 1499 007e 5200     		.short	82
+ 1500 0080 5500     		.short	85
+ 1501 0082 5900     		.short	89
+ 1502 0084 5D00     		.short	93
+ 1503 0086 6100     		.short	97
+ 1504 0088 6500     		.short	101
+ 1505 008a 6900     		.short	105
+ 1506 008c 6E00     		.short	110
+ 1507 008e 7200     		.short	114
+ 1508 0090 7700     		.short	119
+ARM GAS  /tmp/ccSfmKRm.s 			page 49
+
+
+ 1509 0092 7B00     		.short	123
+ 1510 0094 8000     		.short	128
+ 1511 0096 8500     		.short	133
+ 1512 0098 8A00     		.short	138
+ 1513 009a 8F00     		.short	143
+ 1514 009c 9500     		.short	149
+ 1515 009e 9A00     		.short	154
+ 1516 00a0 9F00     		.short	159
+ 1517 00a2 A500     		.short	165
+ 1518 00a4 AB00     		.short	171
+ 1519 00a6 B100     		.short	177
+ 1520 00a8 B700     		.short	183
+ 1521 00aa BD00     		.short	189
+ 1522 00ac C300     		.short	195
+ 1523 00ae CA00     		.short	202
+ 1524 00b0 D000     		.short	208
+ 1525 00b2 D700     		.short	215
+ 1526 00b4 DE00     		.short	222
+ 1527 00b6 E500     		.short	229
+ 1528 00b8 EC00     		.short	236
+ 1529 00ba F300     		.short	243
+ 1530 00bc FA00     		.short	250
+ 1531 00be 0201     		.short	258
+ 1532 00c0 0A01     		.short	266
+ 1533 00c2 1101     		.short	273
+ 1534 00c4 1901     		.short	281
+ 1535 00c6 2201     		.short	290
+ 1536 00c8 2A01     		.short	298
+ 1537 00ca 3201     		.short	306
+ 1538 00cc 3B01     		.short	315
+ 1539 00ce 4401     		.short	324
+ 1540 00d0 4C01     		.short	332
+ 1541 00d2 5501     		.short	341
+ 1542 00d4 5F01     		.short	351
+ 1543 00d6 6801     		.short	360
+ 1544 00d8 7101     		.short	369
+ 1545 00da 7B01     		.short	379
+ 1546 00dc 8501     		.short	389
+ 1547 00de 8F01     		.short	399
+ 1548 00e0 9901     		.short	409
+ 1549 00e2 A301     		.short	419
+ 1550 00e4 AE01     		.short	430
+ 1551 00e6 B801     		.short	440
+ 1552 00e8 C301     		.short	451
+ 1553 00ea CE01     		.short	462
+ 1554 00ec D901     		.short	473
+ 1555 00ee E501     		.short	485
+ 1556 00f0 F001     		.short	496
+ 1557 00f2 FC01     		.short	508
+ 1558 00f4 0802     		.short	520
+ 1559 00f6 1402     		.short	532
+ 1560 00f8 2002     		.short	544
+ 1561 00fa 2C02     		.short	556
+ 1562 00fc 3902     		.short	569
+ 1563 00fe 4602     		.short	582
+ 1564 0100 5202     		.short	594
+ 1565 0102 6002     		.short	608
+ARM GAS  /tmp/ccSfmKRm.s 			page 50
+
+
+ 1566 0104 6D02     		.short	621
+ 1567 0106 7A02     		.short	634
+ 1568 0108 8802     		.short	648
+ 1569 010a 9602     		.short	662
+ 1570 010c A402     		.short	676
+ 1571 010e B202     		.short	690
+ 1572 0110 C002     		.short	704
+ 1573 0112 CF02     		.short	719
+ 1574 0114 DE02     		.short	734
+ 1575 0116 ED02     		.short	749
+ 1576 0118 FC02     		.short	764
+ 1577 011a 0B03     		.short	779
+ 1578 011c 1B03     		.short	795
+ 1579 011e 2B03     		.short	811
+ 1580 0120 3B03     		.short	827
+ 1581 0122 4B03     		.short	843
+ 1582 0124 5B03     		.short	859
+ 1583 0126 6C03     		.short	876
+ 1584 0128 7D03     		.short	893
+ 1585 012a 8E03     		.short	910
+ 1586 012c 9F03     		.short	927
+ 1587 012e B003     		.short	944
+ 1588 0130 C203     		.short	962
+ 1589 0132 D403     		.short	980
+ 1590 0134 E603     		.short	998
+ 1591 0136 F803     		.short	1016
+ 1592 0138 0A04     		.short	1034
+ 1593 013a 1D04     		.short	1053
+ 1594 013c 3004     		.short	1072
+ 1595 013e 4304     		.short	1091
+ 1596 0140 5604     		.short	1110
+ 1597 0142 6A04     		.short	1130
+ 1598 0144 7E04     		.short	1150
+ 1599 0146 9204     		.short	1170
+ 1600 0148 A604     		.short	1190
+ 1601 014a BA04     		.short	1210
+ 1602 014c CF04     		.short	1231
+ 1603 014e E404     		.short	1252
+ 1604 0150 F904     		.short	1273
+ 1605 0152 0E05     		.short	1294
+ 1606 0154 2405     		.short	1316
+ 1607 0156 3A05     		.short	1338
+ 1608 0158 5005     		.short	1360
+ 1609 015a 6605     		.short	1382
+ 1610 015c 7C05     		.short	1404
+ 1611 015e 9305     		.short	1427
+ 1612 0160 AA05     		.short	1450
+ 1613 0162 C105     		.short	1473
+ 1614 0164 D905     		.short	1497
+ 1615 0166 F005     		.short	1520
+ 1616 0168 0806     		.short	1544
+ 1617 016a 2006     		.short	1568
+ 1618 016c 3906     		.short	1593
+ 1619 016e 5106     		.short	1617
+ 1620 0170 6A06     		.short	1642
+ 1621 0172 8306     		.short	1667
+ 1622 0174 9D06     		.short	1693
+ARM GAS  /tmp/ccSfmKRm.s 			page 51
+
+
+ 1623 0176 B606     		.short	1718
+ 1624 0178 D006     		.short	1744
+ 1625 017a EA06     		.short	1770
+ 1626 017c 0507     		.short	1797
+ 1627 017e 1F07     		.short	1823
+ 1628 0180 3A07     		.short	1850
+ 1629 0182 5507     		.short	1877
+ 1630 0184 7107     		.short	1905
+ 1631 0186 8C07     		.short	1932
+ 1632 0188 A807     		.short	1960
+ 1633 018a C407     		.short	1988
+ 1634 018c E107     		.short	2017
+ 1635 018e FD07     		.short	2045
+ 1636 0190 1A08     		.short	2074
+ 1637 0192 3708     		.short	2103
+ 1638 0194 5508     		.short	2133
+ 1639 0196 7208     		.short	2162
+ 1640 0198 9008     		.short	2192
+ 1641 019a AF08     		.short	2223
+ 1642 019c CD08     		.short	2253
+ 1643 019e EC08     		.short	2284
+ 1644 01a0 0B09     		.short	2315
+ 1645 01a2 2A09     		.short	2346
+ 1646 01a4 4A09     		.short	2378
+ 1647 01a6 6A09     		.short	2410
+ 1648 01a8 8A09     		.short	2442
+ 1649 01aa AA09     		.short	2474
+ 1650 01ac CB09     		.short	2507
+ 1651 01ae EC09     		.short	2540
+ 1652 01b0 0D0A     		.short	2573
+ 1653 01b2 2E0A     		.short	2606
+ 1654 01b4 500A     		.short	2640
+ 1655 01b6 720A     		.short	2674
+ 1656 01b8 940A     		.short	2708
+ 1657 01ba B70A     		.short	2743
+ 1658 01bc DA0A     		.short	2778
+ 1659 01be FD0A     		.short	2813
+ 1660 01c0 210B     		.short	2849
+ 1661 01c2 440B     		.short	2884
+ 1662 01c4 680B     		.short	2920
+ 1663 01c6 8D0B     		.short	2957
+ 1664 01c8 B10B     		.short	2993
+ 1665 01ca D60B     		.short	3030
+ 1666 01cc FB0B     		.short	3067
+ 1667 01ce 210C     		.short	3105
+ 1668 01d0 470C     		.short	3143
+ 1669 01d2 6D0C     		.short	3181
+ 1670 01d4 930C     		.short	3219
+ 1671 01d6 BA0C     		.short	3258
+ 1672 01d8 E10C     		.short	3297
+ 1673 01da 080D     		.short	3336
+ 1674 01dc 300D     		.short	3376
+ 1675 01de 580D     		.short	3416
+ 1676 01e0 800D     		.short	3456
+ 1677 01e2 A80D     		.short	3496
+ 1678 01e4 D10D     		.short	3537
+ 1679 01e6 FA0D     		.short	3578
+ARM GAS  /tmp/ccSfmKRm.s 			page 52
+
+
+ 1680 01e8 230E     		.short	3619
+ 1681 01ea 4D0E     		.short	3661
+ 1682 01ec 770E     		.short	3703
+ 1683 01ee A10E     		.short	3745
+ 1684 01f0 CC0E     		.short	3788
+ 1685 01f2 F70E     		.short	3831
+ 1686 01f4 220F     		.short	3874
+ 1687 01f6 4E0F     		.short	3918
+ 1688 01f8 7A0F     		.short	3962
+ 1689 01fa A60F     		.short	4006
+ 1690 01fc D20F     		.short	4050
+ 1691 01fe FF0F     		.short	4095
+ 1692              		.section	.bss.enc_tracker,"aw",%nobits
+ 1693              		.align	2
+ 1694              		.set	.LANCHOR1,. + 0
+ 1697              	enc_tracker:
+ 1698 0000 00000000 		.space	4
+ 1699              		.section	.bss.hw,"aw",%nobits
+ 1700              		.align	2
+ 1701              		.set	.LANCHOR0,. + 0
+ 1704              	hw:
+ 1705 0000 00000000 		.space	1748
+ 1705      00000000 
+ 1705      00000000 
+ 1705      00000000 
+ 1705      00000000 
+ 1706              		.section	.bss.sd,"aw",%nobits
+ 1707              		.align	2
+ 1708              		.set	.LANCHOR2,. + 0
+ 1711              	sd:
+ 1712 0000 00       		.space	1
+ 1713              		.text
+ 1714              	.Letext0:
+ 1715              		.file 15 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 1716              		.file 16 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 1717              		.file 17 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 1718              		.file 18 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1719              		.file 19 "/usr/include/newlib/c++/9.2.1/cmath"
+ 1720              		.file 20 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+ 1721              		.file 21 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ 1722              		.file 22 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 1723              		.file 23 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 1724              		.file 24 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 1725              		.file 25 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 1726              		.file 26 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ 1727              		.file 27 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 1728              		.file 28 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 1729              		.file 29 "/usr/include/newlib/c++/9.2.1/new"
+ 1730              		.file 30 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 1731              		.file 31 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 1732              		.file 32 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 1733              		.file 33 "/usr/include/newlib/c++/9.2.1/clocale"
+ 1734              		.file 34 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 1735              		.file 35 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 1736              		.file 36 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 1737              		.file 37 "/usr/include/newlib/c++/9.2.1/cstring"
+ 1738              		.file 38 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ARM GAS  /tmp/ccSfmKRm.s 			page 53
+
+
+ 1739              		.file 39 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 1740              		.file 40 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 1741              		.file 41 "/usr/include/newlib/sys/_types.h"
+ 1742              		.file 42 "<built-in>"
+ 1743              		.file 43 "/usr/include/newlib/sys/reent.h"
+ 1744              		.file 44 "/usr/include/newlib/sys/lock.h"
+ 1745              		.file 45 "/usr/include/newlib/math.h"
+ 1746              		.file 46 "/usr/include/newlib/stdlib.h"
+ 1747              		.file 47 "/usr/include/newlib/c++/9.2.1/math.h"
+ 1748              		.file 48 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1749              		.file 49 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 1750              		.file 50 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 1751              		.file 51 "/usr/include/newlib/stdio.h"
+ 1752              		.file 52 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 1753              		.file 53 "../../libdaisy/src/daisy_core.h"
+ 1754              		.file 54 "../../libdaisy/src/per/tim.h"
+ 1755              		.file 55 "../../libdaisy/src/per/sai.h"
+ 1756              		.file 56 "../../libdaisy/src/util/wav_format.h"
+ 1757              		.file 57 "../../libdaisy/src/hid/led.h"
+ 1758              		.file 58 "../../libdaisy/src/util/color.h"
+ 1759              		.file 59 "../../libdaisy/src/hid/rgb_led.h"
+ 1760              		.file 60 "../../libdaisy/src/per/qspi.h"
+ 1761              		.file 61 "../../libdaisy/src/per/gpio.h"
+ 1762              		.file 62 "../../libdaisy/src/dev/sdram.h"
+ 1763              		.file 63 "/usr/include/newlib/sys/unistd.h"
+ 1764              		.file 64 "../../libdaisy/src/util/oled_fonts.h"
+ 1765              		.file 65 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 1766              		.file 66 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 1767              		.file 67 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 1768              		.file 68 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 1769              		.file 69 "../../libdaisy/src/util/sd_diskio.h"
+ 1770              		.file 70 "../../libdaisy/src/sys/fatfs.h"
+ 1771              		.file 71 "../../DaisySP/Source/Control/adenv.h"
+ 1772              		.file 72 "../../DaisySP/Source/Utility/dsp.h"
+ 1773              		.file 73 "/usr/include/newlib/wchar.h"
+ 1774              		.file 74 "/usr/include/newlib/locale.h"
+ 1775              		.file 75 "/usr/include/newlib/ctype.h"
+ 1776              		.file 76 "/usr/include/newlib/sys/errno.h"
+ 1777              		.file 77 "/usr/include/newlib/string.h"
+ 1778              		.file 78 "../../libdaisy/src/dev/sr_595.h"
+ARM GAS  /tmp/ccSfmKRm.s 			page 54
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 GeneralFunctionTest.cpp
+     /tmp/ccSfmKRm.s:17     .text._ZN5daisy12SdmmcHandlerD2Ev:0000000000000000 $t
+     /tmp/ccSfmKRm.s:26     .text._ZN5daisy12SdmmcHandlerD2Ev:0000000000000000 _ZN5daisy12SdmmcHandlerD2Ev
+     /tmp/ccSfmKRm.s:26     .text._ZN5daisy12SdmmcHandlerD2Ev:0000000000000000 _ZN5daisy12SdmmcHandlerD1Ev
+     /tmp/ccSfmKRm.s:43     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 $t
+     /tmp/ccSfmKRm.s:51     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD2Ev
+     /tmp/ccSfmKRm.s:51     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD1Ev
+     /tmp/ccSfmKRm.s:114    .text._Z8callbackPKfPfj:0000000000000000 $t
+     /tmp/ccSfmKRm.s:122    .text._Z8callbackPKfPfj:0000000000000000 _Z8callbackPKfPfj
+     /tmp/ccSfmKRm.s:245    .text._Z8callbackPKfPfj:000000000000006c $d
+     /tmp/ccSfmKRm.s:251    .rodata._Z10TestSdCardv.str1.4:0000000000000000 $d
+     /tmp/ccSfmKRm.s:259    .text._Z10TestSdCardv:0000000000000000 $t
+     /tmp/ccSfmKRm.s:267    .text._Z10TestSdCardv:0000000000000000 _Z10TestSdCardv
+     /tmp/ccSfmKRm.s:441    .text._Z10TestSdCardv:00000000000000a8 $d
+     /tmp/ccSfmKRm.s:453    .rodata._Z9UpdateUsbi.str1.4:0000000000000000 $d
+     /tmp/ccSfmKRm.s:481    .text._Z9UpdateUsbi:0000000000000000 $t
+     /tmp/ccSfmKRm.s:489    .text._Z9UpdateUsbi:0000000000000000 _Z9UpdateUsbi
+     /tmp/ccSfmKRm.s:774    .text._Z9UpdateUsbi:0000000000000138 $d
+     /tmp/ccSfmKRm.s:791    .text._Z10UpdateLedsv:0000000000000000 $t
+     /tmp/ccSfmKRm.s:799    .text._Z10UpdateLedsv:0000000000000000 _Z10UpdateLedsv
+     /tmp/ccSfmKRm.s:918    .text._Z10UpdateLedsv:0000000000000070 $d
+     /tmp/ccSfmKRm.s:1054   .text._Z10UpdateLedsv:00000000000000f0 $d
+     /tmp/ccSfmKRm.s:1068   .text.startup.main:0000000000000000 $t
+     /tmp/ccSfmKRm.s:1076   .text.startup.main:0000000000000000 main
+     /tmp/ccSfmKRm.s:1198   .text.startup.main:0000000000000060 $d
+     /tmp/ccSfmKRm.s:1205   .text.startup._GLOBAL__sub_I_hw:0000000000000000 $t
+     /tmp/ccSfmKRm.s:1212   .text.startup._GLOBAL__sub_I_hw:0000000000000000 _GLOBAL__sub_I_hw
+     /tmp/ccSfmKRm.s:1415   .text.startup._GLOBAL__sub_I_hw:0000000000000038 $d
+     /tmp/ccSfmKRm.s:1427   .init_array:0000000000000000 $d
+     /tmp/ccSfmKRm.s:1697   .bss.enc_tracker:0000000000000000 enc_tracker
+     /tmp/ccSfmKRm.s:1711   .bss.sd:0000000000000000 sd
+     /tmp/ccSfmKRm.s:1704   .bss.hw:0000000000000000 hw
+     /tmp/ccSfmKRm.s:1433   .rodata:0000000000000000 $d
+     /tmp/ccSfmKRm.s:1693   .bss.enc_tracker:0000000000000000 $d
+     /tmp/ccSfmKRm.s:1700   .bss.hw:0000000000000000 $d
+     /tmp/ccSfmKRm.s:1707   .bss.sd:0000000000000000 $d
+     /tmp/ccSfmKRm.s:923    .text._Z10UpdateLedsv:0000000000000075 $d
+     /tmp/ccSfmKRm.s:923    .text._Z10UpdateLedsv:0000000000000076 $t
+                           .group:0000000000000000 _ZN5daisy12SdmmcHandlerD5Ev
+                           .group:0000000000000000 _ZN5daisy10DaisyPetalD5Ev
+
+UNDEFINED SYMBOLS
+_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+memset
+_ZN5daisy12SdmmcHandler4InitERKNS0_6ConfigE
+dsy_fatfs_init
+f_mount
+memcpy
+f_open
+strcmp
+f_read
+SDPath
+SDFatFS
+SDFile
+_ZN5daisy10DaisyPetal12GetKnobValueENS0_4KnobE
+ARM GAS  /tmp/ccSfmKRm.s 			page 55
+
+
+sprintf
+strcat
+_ZN5daisy10DaisyPetal13GetExpressionEv
+strlen
+stpcpy
+_ZN5daisy9UsbHandle16TransmitInternalEPhj
+_ZN5daisy6System6GetNowEv
+_ZN5daisy10DaisyPetal9ClearLedsEv
+_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+_ZN5daisy10DaisyPetal10UpdateLedsEv
+_ZN5daisy10DaisyPetal4InitEb
+_ZN5daisy9UsbHandle4InitENS0_9UsbPeriphE
+_ZN5daisy10DaisyPetal8StartAdcEv
+_ZN5daisy10DaisyPetal10StartAudioEPFvPKfPfjE
+__aeabi_atexit
+__dso_handle

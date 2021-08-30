@@ -1,0 +1,1165 @@
+ARM GAS  /tmp/ccg0ahLw.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 4
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"phase_vocoder.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN12PhaseVocoder4InitEPPvPjPKfjllf,"ax",%progbits
+  17              		.align	1
+  18              		.global	_ZN12PhaseVocoder4InitEPPvPjPKfjllf
+  19              		.arch armv7e-m
+  20              		.syntax unified
+  21              		.thumb
+  22              		.thumb_func
+  23              		.fpu fpv5-d16
+  25              	_ZN12PhaseVocoder4InitEPPvPjPKfjllf:
+  26              	.LVL0:
+  27              	.LFB4290:
+  28              		.file 1 "dsp/pvoc/phase_vocoder.cpp"
+   1:dsp/pvoc/phase_vocoder.cpp **** // Copyright 2014 Emilie Gillet.
+   2:dsp/pvoc/phase_vocoder.cpp **** //
+   3:dsp/pvoc/phase_vocoder.cpp **** // Author: Emilie Gillet (emilie.o.gillet@gmail.com)
+   4:dsp/pvoc/phase_vocoder.cpp **** //
+   5:dsp/pvoc/phase_vocoder.cpp **** // Permission is hereby granted, free of charge, to any person obtaining a copy
+   6:dsp/pvoc/phase_vocoder.cpp **** // of this software and associated documentation files (the "Software"), to deal
+   7:dsp/pvoc/phase_vocoder.cpp **** // in the Software without restriction, including without limitation the rights
+   8:dsp/pvoc/phase_vocoder.cpp **** // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   9:dsp/pvoc/phase_vocoder.cpp **** // copies of the Software, and to permit persons to whom the Software is
+  10:dsp/pvoc/phase_vocoder.cpp **** // furnished to do so, subject to the following conditions:
+  11:dsp/pvoc/phase_vocoder.cpp **** //
+  12:dsp/pvoc/phase_vocoder.cpp **** // The above copyright notice and this permission notice shall be included in
+  13:dsp/pvoc/phase_vocoder.cpp **** // all copies or substantial portions of the Software.
+  14:dsp/pvoc/phase_vocoder.cpp **** //
+  15:dsp/pvoc/phase_vocoder.cpp **** // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:dsp/pvoc/phase_vocoder.cpp **** // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  17:dsp/pvoc/phase_vocoder.cpp **** // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  18:dsp/pvoc/phase_vocoder.cpp **** // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  19:dsp/pvoc/phase_vocoder.cpp **** // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  20:dsp/pvoc/phase_vocoder.cpp **** // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  21:dsp/pvoc/phase_vocoder.cpp **** // THE SOFTWARE.
+  22:dsp/pvoc/phase_vocoder.cpp **** //
+  23:dsp/pvoc/phase_vocoder.cpp **** // See http://creativecommons.org/licenses/MIT/ for more information.
+  24:dsp/pvoc/phase_vocoder.cpp **** //
+  25:dsp/pvoc/phase_vocoder.cpp **** // -----------------------------------------------------------------------------
+  26:dsp/pvoc/phase_vocoder.cpp **** //
+  27:dsp/pvoc/phase_vocoder.cpp **** // Naive phase vocoder.
+  28:dsp/pvoc/phase_vocoder.cpp **** 
+  29:dsp/pvoc/phase_vocoder.cpp **** #include "phase_vocoder.h"
+  30:dsp/pvoc/phase_vocoder.cpp **** 
+ARM GAS  /tmp/ccg0ahLw.s 			page 2
+
+
+  31:dsp/pvoc/phase_vocoder.cpp **** #include <algorithm>
+  32:dsp/pvoc/phase_vocoder.cpp **** 
+  33:dsp/pvoc/phase_vocoder.cpp **** #include "buffer_allocator.h"
+  34:dsp/pvoc/phase_vocoder.cpp **** 
+  35:dsp/pvoc/phase_vocoder.cpp **** using namespace daisysp;
+  36:dsp/pvoc/phase_vocoder.cpp **** 
+  37:dsp/pvoc/phase_vocoder.cpp **** using namespace std;
+  38:dsp/pvoc/phase_vocoder.cpp **** using namespace daisy;
+  39:dsp/pvoc/phase_vocoder.cpp **** 
+  40:dsp/pvoc/phase_vocoder.cpp **** void PhaseVocoder::Init(void**       buffer,
+  41:dsp/pvoc/phase_vocoder.cpp ****                         size_t*      buffer_size,
+  42:dsp/pvoc/phase_vocoder.cpp ****                         const float* large_window_lut,
+  43:dsp/pvoc/phase_vocoder.cpp ****                         size_t       largest_fft_size,
+  44:dsp/pvoc/phase_vocoder.cpp ****                         int32_t      num_channels,
+  45:dsp/pvoc/phase_vocoder.cpp ****                         int32_t      resolution,
+  46:dsp/pvoc/phase_vocoder.cpp ****                         float        sample_rate)
+  47:dsp/pvoc/phase_vocoder.cpp **** {
+  29              		.loc 1 47 1 view -0
+  30              		.cfi_startproc
+  31              		@ args = 12, pretend = 0, frame = 48
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  48:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+  33              		.loc 1 48 5 view .LVU1
+  47:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+  34              		.loc 1 47 1 is_stmt 0 view .LVU2
+  35 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, r10, fp, lr}
+  36              		.cfi_def_cfa_offset 36
+  37              		.cfi_offset 4, -36
+  38              		.cfi_offset 5, -32
+  39              		.cfi_offset 6, -28
+  40              		.cfi_offset 7, -24
+  41              		.cfi_offset 8, -20
+  42              		.cfi_offset 9, -16
+  43              		.cfi_offset 10, -12
+  44              		.cfi_offset 11, -8
+  45              		.cfi_offset 14, -4
+  49:dsp/pvoc/phase_vocoder.cpp **** 
+  50:dsp/pvoc/phase_vocoder.cpp ****     size_t fft_size  = largest_fft_size;
+  51:dsp/pvoc/phase_vocoder.cpp ****     size_t hop_ratio = 4;
+  52:dsp/pvoc/phase_vocoder.cpp **** 
+  53:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator  allocator_0(buffer[0], buffer_size[0]);
+  46              		.loc 1 53 59 view .LVU3
+  47 0004 0F68     		ldr	r7, [r1]
+  47:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+  48              		.loc 1 47 1 view .LVU4
+  49 0006 93B0     		sub	sp, sp, #76
+  50              		.cfi_def_cfa_offset 112
+  54:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator  allocator_1(buffer[1], buffer_size[1]);
+  51              		.loc 1 54 59 view .LVU5
+  52 0008 4E68     		ldr	r6, [r1, #4]
+  47:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+  53              		.loc 1 47 1 view .LVU6
+  54 000a 0546     		mov	r5, r0
+  55              		.loc 1 54 59 view .LVU7
+  56 000c 5168     		ldr	r1, [r2, #4]
+  57              	.LVL1:
+  47:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+ARM GAS  /tmp/ccg0ahLw.s 			page 3
+
+
+  58              		.loc 1 47 1 view .LVU8
+  59 000e 1446     		mov	r4, r2
+  60 0010 0693     		str	r3, [sp, #24]
+  55:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator* allocator[2] = {&allocator_0, &allocator_1};
+  56:dsp/pvoc/phase_vocoder.cpp ****     float*           fft_buffer   = allocator[0]->Allocate<float>(fft_size);
+  57:dsp/pvoc/phase_vocoder.cpp ****     float*           ifft_buffer
+  58:dsp/pvoc/phase_vocoder.cpp ****         = allocator[num_channels_ - 1]->Allocate<float>(fft_size);
+  59:dsp/pvoc/phase_vocoder.cpp **** 
+  60:dsp/pvoc/phase_vocoder.cpp ****     size_t num_textures = kMaxNumTextures;
+  61              		.loc 1 60 12 view .LVU9
+  62 0012 4FF00709 		mov	r9, #7
+  63              	.LBB71:
+  64              	.LBB72:
+  65              	.LBB73:
+  66              	.LBB74:
+  67              	.LBB75:
+  68              	.LBB76:
+  69              		.file 2 "./buffer_allocator.h"
+   1:./buffer_allocator.h **** // Copyright 2014 Emilie Gillet.
+   2:./buffer_allocator.h **** //
+   3:./buffer_allocator.h **** // Author: Emilie Gillet (emilie.o.gillet@gmail.com)
+   4:./buffer_allocator.h **** //
+   5:./buffer_allocator.h **** // Permission is hereby granted, free of charge, to any person obtaining a copy
+   6:./buffer_allocator.h **** // of this software and associated documentation files (the "Software"), to deal
+   7:./buffer_allocator.h **** // in the Software without restriction, including without limitation the rights
+   8:./buffer_allocator.h **** // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   9:./buffer_allocator.h **** // copies of the Software, and to permit persons to whom the Software is
+  10:./buffer_allocator.h **** // furnished to do so, subject to the following conditions:
+  11:./buffer_allocator.h **** //
+  12:./buffer_allocator.h **** // The above copyright notice and this permission notice shall be included in
+  13:./buffer_allocator.h **** // all copies or substantial portions of the Software.
+  14:./buffer_allocator.h **** //
+  15:./buffer_allocator.h **** // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  16:./buffer_allocator.h **** // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  17:./buffer_allocator.h **** // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  18:./buffer_allocator.h **** // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  19:./buffer_allocator.h **** // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  20:./buffer_allocator.h **** // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  21:./buffer_allocator.h **** // THE SOFTWARE.
+  22:./buffer_allocator.h **** //
+  23:./buffer_allocator.h **** // See http://creativecommons.org/licenses/MIT/ for more information.
+  24:./buffer_allocator.h **** //
+  25:./buffer_allocator.h **** // -----------------------------------------------------------------------------
+  26:./buffer_allocator.h **** //
+  27:./buffer_allocator.h **** // Stream buffer for serialization.
+  28:./buffer_allocator.h **** 
+  29:./buffer_allocator.h **** #ifndef STMLIB_UTILS_BUFFER_ALLOCATOR_H_
+  30:./buffer_allocator.h **** #define STMLIB_UTILS_BUFFER_ALLOCATOR_H_
+  31:./buffer_allocator.h **** 
+  32:./buffer_allocator.h **** #include <stddef.h>
+  33:./buffer_allocator.h **** #include <stdint.h>
+  34:./buffer_allocator.h **** 
+  35:./buffer_allocator.h **** class BufferAllocator
+  36:./buffer_allocator.h **** {
+  37:./buffer_allocator.h ****   public:
+  38:./buffer_allocator.h ****     BufferAllocator() {}
+  39:./buffer_allocator.h ****     ~BufferAllocator() {}
+ARM GAS  /tmp/ccg0ahLw.s 			page 4
+
+
+  40:./buffer_allocator.h **** 
+  41:./buffer_allocator.h ****     BufferAllocator(void* buffer, size_t size) { Init(buffer, size); }
+  42:./buffer_allocator.h **** 
+  43:./buffer_allocator.h ****     inline void Init(void* buffer, size_t size)
+  44:./buffer_allocator.h ****     {
+  45:./buffer_allocator.h ****         buffer_ = static_cast<uint8_t*>(buffer);
+  46:./buffer_allocator.h ****         size_   = size;
+  47:./buffer_allocator.h ****         Free();
+  48:./buffer_allocator.h ****     }
+  49:./buffer_allocator.h **** 
+  50:./buffer_allocator.h ****     template <typename T>
+  51:./buffer_allocator.h ****     inline T* Allocate(size_t size)
+  52:./buffer_allocator.h ****     {
+  53:./buffer_allocator.h ****         size_t size_bytes = sizeof(T) * size;
+  54:./buffer_allocator.h ****         if(size_bytes <= free_)
+  55:./buffer_allocator.h ****         {
+  56:./buffer_allocator.h ****             T* start = static_cast<T*>(static_cast<void*>(next_));
+  57:./buffer_allocator.h ****             next_ += size_bytes;
+  58:./buffer_allocator.h ****             free_ -= size_bytes;
+  59:./buffer_allocator.h ****             return start;
+  60:./buffer_allocator.h ****         }
+  61:./buffer_allocator.h ****         else
+  62:./buffer_allocator.h ****         {
+  63:./buffer_allocator.h ****             return NULL;
+  64:./buffer_allocator.h ****         }
+  65:./buffer_allocator.h ****     }
+  66:./buffer_allocator.h **** 
+  67:./buffer_allocator.h ****     inline void Free()
+  68:./buffer_allocator.h ****     {
+  69:./buffer_allocator.h ****         next_ = buffer_;
+  70:./buffer_allocator.h ****         free_ = size_;
+  70              		.loc 2 70 15 view .LVU10
+  71 0016 1091     		str	r1, [sp, #64]
+  72              	.LBE76:
+  73              	.LBE75:
+  46:./buffer_allocator.h ****         Free();
+  74              		.loc 2 46 17 view .LVU11
+  75 0018 1191     		str	r1, [sp, #68]
+  76              	.LBE74:
+  77              	.LBE73:
+  78              	.LBE72:
+  79              	.LBE71:
+  55:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator* allocator[2] = {&allocator_0, &allocator_1};
+  80              		.loc 1 55 64 view .LVU12
+  81 001a 0AA9     		add	r1, sp, #40
+  53:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator  allocator_1(buffer[1], buffer_size[1]);
+  82              		.loc 1 53 59 view .LVU13
+  83 001c 1368     		ldr	r3, [r2]
+  84              	.LVL2:
+  55:dsp/pvoc/phase_vocoder.cpp ****     float*           fft_buffer   = allocator[0]->Allocate<float>(fft_size);
+  85              		.loc 1 55 64 view .LVU14
+  86 001e 0891     		str	r1, [sp, #32]
+  87 0020 0EA9     		add	r1, sp, #56
+  88              	.LBB87:
+  89              	.LBB88:
+  90              	.LBB89:
+  91              	.LBB90:
+ARM GAS  /tmp/ccg0ahLw.s 			page 5
+
+
+  92              	.LBB91:
+  93              	.LBB92:
+  94              		.loc 2 70 15 view .LVU15
+  95 0022 0C93     		str	r3, [sp, #48]
+  96              	.LBE92:
+  97              	.LBE91:
+  98              	.LBE90:
+  99              	.LBE89:
+ 100              	.LBE88:
+ 101              	.LBE87:
+  55:dsp/pvoc/phase_vocoder.cpp ****     float*           fft_buffer   = allocator[0]->Allocate<float>(fft_size);
+ 102              		.loc 1 55 64 view .LVU16
+ 103 0024 0991     		str	r1, [sp, #36]
+ 104              	.LBB103:
+ 105              	.LBB101:
+ 106              	.LBB99:
+ 107              	.LBB97:
+  46:./buffer_allocator.h ****         Free();
+ 108              		.loc 2 46 17 view .LVU17
+ 109 0026 0D93     		str	r3, [sp, #52]
+ 110              	.LBB95:
+ 111              	.LBB93:
+  69:./buffer_allocator.h ****         free_ = size_;
+ 112              		.loc 2 69 15 view .LVU18
+ 113 0028 0A97     		str	r7, [sp, #40]
+ 114              	.LBE93:
+ 115              	.LBE95:
+  45:./buffer_allocator.h ****         size_   = size;
+ 116              		.loc 2 45 17 view .LVU19
+ 117 002a 0B97     		str	r7, [sp, #44]
+ 118              	.LBE97:
+ 119              	.LBE99:
+ 120              	.LBE101:
+ 121              	.LBE103:
+ 122              	.LBB104:
+ 123              	.LBB85:
+ 124              	.LBB83:
+ 125              	.LBB81:
+ 126              	.LBB79:
+ 127              	.LBB77:
+  69:./buffer_allocator.h ****         free_ = size_;
+ 128              		.loc 2 69 15 view .LVU20
+ 129 002c 0E96     		str	r6, [sp, #56]
+ 130              	.LBE77:
+ 131              	.LBE79:
+  45:./buffer_allocator.h ****         size_   = size;
+ 132              		.loc 2 45 17 view .LVU21
+ 133 002e 0F96     		str	r6, [sp, #60]
+ 134              	.LBE81:
+ 135              	.LBE83:
+ 136              	.LBE85:
+ 137              	.LBE104:
+ 138              	.LBB105:
+  61:dsp/pvoc/phase_vocoder.cpp ****     size_t texture_size = (fft_size >> 1) - kHighFrequencyTruncation;
+  62:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 139              		.loc 1 62 17 view .LVU22
+ 140 0030 0026     		movs	r6, #0
+ARM GAS  /tmp/ccg0ahLw.s 			page 6
+
+
+ 141              	.LBE105:
+  47:dsp/pvoc/phase_vocoder.cpp ****     num_channels_ = num_channels;
+ 142              		.loc 1 47 1 view .LVU23
+ 143 0032 DDE91CB0 		ldrd	fp, r0, [sp, #112]
+ 144              	.LVL3:
+ 145              	.LBB127:
+ 146              	.LBB128:
+ 147              	.LBB129:
+  54:./buffer_allocator.h ****         {
+ 148              		.loc 2 54 9 view .LVU24
+ 149 0036 B3EB8B0F 		cmp	r3, fp, lsl #2
+ 150              	.LBE129:
+ 151              	.LBE128:
+ 152              	.LBE127:
+  48:dsp/pvoc/phase_vocoder.cpp **** 
+ 153              		.loc 1 48 19 view .LVU25
+ 154 003a C5F86401 		str	r0, [r5, #356]
+  50:dsp/pvoc/phase_vocoder.cpp ****     size_t hop_ratio = 4;
+ 155              		.loc 1 50 5 is_stmt 1 view .LVU26
+ 156              	.LVL4:
+  51:dsp/pvoc/phase_vocoder.cpp **** 
+ 157              		.loc 1 51 5 view .LVU27
+  53:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator  allocator_1(buffer[1], buffer_size[1]);
+ 158              		.loc 1 53 5 view .LVU28
+ 159              	.LBB141:
+ 160              	.LBI87:
+  41:./buffer_allocator.h **** 
+ 161              		.loc 2 41 5 view .LVU29
+ 162              	.LBE141:
+  41:./buffer_allocator.h **** 
+ 163              		.loc 2 41 50 view .LVU30
+ 164              	.LBB142:
+ 165              	.LBB102:
+ 166              	.LBB100:
+ 167              	.LBI89:
+  43:./buffer_allocator.h ****     {
+ 168              		.loc 2 43 17 view .LVU31
+ 169              	.LBB98:
+  45:./buffer_allocator.h ****         size_   = size;
+ 170              		.loc 2 45 9 view .LVU32
+  46:./buffer_allocator.h ****         Free();
+ 171              		.loc 2 46 9 view .LVU33
+  47:./buffer_allocator.h ****     }
+ 172              		.loc 2 47 9 view .LVU34
+ 173              	.LBB96:
+ 174              	.LBI91:
+  67:./buffer_allocator.h ****     {
+ 175              		.loc 2 67 17 view .LVU35
+ 176              	.LBB94:
+  69:./buffer_allocator.h ****         free_ = size_;
+ 177              		.loc 2 69 9 view .LVU36
+ 178              		.loc 2 70 9 view .LVU37
+ 179              		.loc 2 70 9 is_stmt 0 view .LVU38
+ 180              	.LBE94:
+ 181              	.LBE96:
+ 182              	.LBE98:
+ 183              	.LBE100:
+ARM GAS  /tmp/ccg0ahLw.s 			page 7
+
+
+ 184              	.LBE102:
+ 185              	.LBE142:
+  54:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator* allocator[2] = {&allocator_0, &allocator_1};
+ 186              		.loc 1 54 5 is_stmt 1 view .LVU39
+ 187              	.LBB143:
+ 188              	.LBI71:
+  41:./buffer_allocator.h **** 
+ 189              		.loc 2 41 5 view .LVU40
+ 190              	.LBE143:
+  41:./buffer_allocator.h **** 
+ 191              		.loc 2 41 50 view .LVU41
+ 192              	.LBB144:
+ 193              	.LBB86:
+ 194              	.LBB84:
+ 195              	.LBI73:
+  43:./buffer_allocator.h ****     {
+ 196              		.loc 2 43 17 view .LVU42
+ 197              	.LBB82:
+  45:./buffer_allocator.h ****         size_   = size;
+ 198              		.loc 2 45 9 view .LVU43
+  46:./buffer_allocator.h ****         Free();
+ 199              		.loc 2 46 9 view .LVU44
+  47:./buffer_allocator.h ****     }
+ 200              		.loc 2 47 9 view .LVU45
+ 201              	.LBB80:
+ 202              	.LBI75:
+  67:./buffer_allocator.h ****     {
+ 203              		.loc 2 67 17 view .LVU46
+ 204              	.LBB78:
+  69:./buffer_allocator.h ****         free_ = size_;
+ 205              		.loc 2 69 9 view .LVU47
+ 206              		.loc 2 70 9 view .LVU48
+ 207              		.loc 2 70 9 is_stmt 0 view .LVU49
+ 208              	.LBE78:
+ 209              	.LBE80:
+ 210              	.LBE82:
+ 211              	.LBE84:
+ 212              	.LBE86:
+ 213              	.LBE144:
+  55:dsp/pvoc/phase_vocoder.cpp ****     float*           fft_buffer   = allocator[0]->Allocate<float>(fft_size);
+ 214              		.loc 1 55 5 is_stmt 1 view .LVU50
+  56:dsp/pvoc/phase_vocoder.cpp ****     float*           ifft_buffer
+ 215              		.loc 1 56 5 view .LVU51
+ 216              	.LBB145:
+ 217              	.LBI127:
+  51:./buffer_allocator.h ****     {
+ 218              		.loc 2 51 15 view .LVU52
+ 219              	.LBB137:
+  53:./buffer_allocator.h ****         if(size_bytes <= free_)
+ 220              		.loc 2 53 16 is_stmt 0 view .LVU53
+ 221 003e 4FEA8B01 		lsl	r1, fp, #2
+ 222              	.LVL5:
+ 223              	.LBB133:
+  63:./buffer_allocator.h ****         }
+ 224              		.loc 2 63 20 view .LVU54
+ 225 0042 38BF     		it	cc
+ 226 0044 0027     		movcc	r7, #0
+ARM GAS  /tmp/ccg0ahLw.s 			page 8
+
+
+ 227              	.LVL6:
+  63:./buffer_allocator.h ****         }
+ 228              		.loc 2 63 20 view .LVU55
+ 229              	.LBE133:
+ 230              	.LBE137:
+ 231              	.LBE145:
+  57:dsp/pvoc/phase_vocoder.cpp ****         = allocator[num_channels_ - 1]->Allocate<float>(fft_size);
+ 232              		.loc 1 57 5 is_stmt 1 view .LVU56
+ 233              	.LBB146:
+ 234              	.LBB106:
+  63:dsp/pvoc/phase_vocoder.cpp ****     {
+  64:dsp/pvoc/phase_vocoder.cpp ****         short* ana_syn_buffer
+  65:dsp/pvoc/phase_vocoder.cpp ****             = allocator[i]->Allocate<short>((fft_size + (fft_size >> 1)) * 2);
+ 235              		.loc 1 65 55 is_stmt 0 view .LVU57
+ 236 0046 0BEB5B08 		add	r8, fp, fp, lsr #1
+ 237              	.LBE106:
+ 238              	.LBE146:
+ 239              	.LBB147:
+ 240              	.LBB138:
+ 241              	.LBB134:
+ 242              	.LBB130:
+  58:./buffer_allocator.h ****             return start;
+ 243              		.loc 2 58 19 view .LVU58
+ 244 004a 24BF     		itt	cs
+ 245 004c 5B1A     		subcs	r3, r3, r1
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 246              		.loc 2 57 19 view .LVU59
+ 247 004e 7C18     		addcs	r4, r7, r1
+ 248              	.LBE130:
+ 249              	.LBE134:
+ 250              	.LBE138:
+ 251              	.LBE147:
+ 252              	.LBB148:
+ 253              	.LBB121:
+ 254              	.LBB107:
+ 255              	.LBB108:
+  53:./buffer_allocator.h ****         if(size_bytes <= free_)
+ 256              		.loc 2 53 16 view .LVU60
+ 257 0050 4FEA8808 		lsl	r8, r8, #2
+ 258              	.LBE108:
+ 259              	.LBE107:
+ 260              	.LBE121:
+ 261              	.LBE148:
+ 262              	.LBB149:
+ 263              	.LBB139:
+ 264              	.LBB135:
+ 265              	.LBB131:
+  58:./buffer_allocator.h ****             return start;
+ 266              		.loc 2 58 13 view .LVU61
+ 267 0054 28BF     		it	cs
+ 268 0056 0C93     		strcs	r3, [sp, #48]
+ 269              	.LBE131:
+ 270              	.LBE135:
+ 271              	.LBE139:
+ 272              	.LBE149:
+  58:dsp/pvoc/phase_vocoder.cpp **** 
+ 273              		.loc 1 58 38 view .LVU62
+ARM GAS  /tmp/ccg0ahLw.s 			page 9
+
+
+ 274 0058 12AB     		add	r3, sp, #72
+ 275              	.LBB150:
+ 276              	.LBB140:
+ 277              	.LBB136:
+ 278              	.LBB132:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 279              		.loc 2 57 13 view .LVU63
+ 280 005a 28BF     		it	cs
+ 281 005c 0A94     		strcs	r4, [sp, #40]
+ 282              	.LBE132:
+ 283              	.LBE136:
+ 284              	.LBE140:
+ 285              	.LBE150:
+  58:dsp/pvoc/phase_vocoder.cpp **** 
+ 286              		.loc 1 58 38 view .LVU64
+ 287 005e 03EB8000 		add	r0, r3, r0, lsl #2
+ 288 0062 50F82C3C 		ldr	r3, [r0, #-44]
+ 289              	.LVL7:
+ 290              	.LBB151:
+ 291              	.LBI151:
+  51:./buffer_allocator.h ****     {
+ 292              		.loc 2 51 15 is_stmt 1 view .LVU65
+ 293              	.LBB152:
+ 294              	.LBB153:
+  54:./buffer_allocator.h ****         {
+ 295              		.loc 2 54 26 is_stmt 0 view .LVU66
+ 296 0066 9868     		ldr	r0, [r3, #8]
+  54:./buffer_allocator.h ****         {
+ 297              		.loc 2 54 9 view .LVU67
+ 298 0068 8842     		cmp	r0, r1
+ 299              	.LBB154:
+  56:./buffer_allocator.h ****             next_ += size_bytes;
+ 300              		.loc 2 56 16 view .LVU68
+ 301 006a 29BF     		itett	cs
+ 302 006c D3F800A0 		ldrcs	r10, [r3]
+ 303              	.LVL8:
+  56:./buffer_allocator.h ****             next_ += size_bytes;
+ 304              		.loc 2 56 16 view .LVU69
+ 305              	.LBE154:
+  63:./buffer_allocator.h ****         }
+ 306              		.loc 2 63 20 view .LVU70
+ 307 0070 4FF0000A 		movcc	r10, #0
+ 308              	.LVL9:
+  63:./buffer_allocator.h ****         }
+ 309              		.loc 2 63 20 view .LVU71
+ 310              	.LBE153:
+ 311              	.LBE152:
+ 312              	.LBE151:
+  60:dsp/pvoc/phase_vocoder.cpp ****     size_t texture_size = (fft_size >> 1) - kHighFrequencyTruncation;
+ 313              		.loc 1 60 5 is_stmt 1 view .LVU72
+  61:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 314              		.loc 1 61 5 view .LVU73
+ 315              	.LBB161:
+ 316              	.LBB159:
+ 317              	.LBB157:
+ 318              	.LBB155:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ARM GAS  /tmp/ccg0ahLw.s 			page 10
+
+
+ 319              		.loc 2 57 19 is_stmt 0 view .LVU74
+ 320 0074 0AEB0104 		addcs	r4, r10, r1
+  58:./buffer_allocator.h ****             return start;
+ 321              		.loc 2 58 19 view .LVU75
+ 322 0078 411A     		subcs	r1, r0, r1
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 323              		.loc 2 57 13 view .LVU76
+ 324 007a 28BF     		it	cs
+ 325 007c 1C60     		strcs	r4, [r3]
+ 326              	.LBE155:
+ 327              	.LBE157:
+ 328              	.LBE159:
+ 329              	.LBE161:
+  61:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 330              		.loc 1 61 37 view .LVU77
+ 331 007e 4FEA5B04 		lsr	r4, fp, #1
+ 332              	.LVL10:
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ 333              		.loc 1 62 5 is_stmt 1 view .LVU78
+ 334              	.LBB162:
+ 335              	.LBB160:
+ 336              	.LBB158:
+ 337              	.LBB156:
+  58:./buffer_allocator.h ****             return start;
+ 338              		.loc 2 58 13 is_stmt 0 view .LVU79
+ 339 0082 28BF     		it	cs
+ 340 0084 9960     		strcs	r1, [r3, #8]
+ 341              	.LBE156:
+ 342              	.LBE158:
+ 343              	.LBE160:
+ 344              	.LBE162:
+ 345              	.LBB163:
+ 346              	.LBB122:
+  66:dsp/pvoc/phase_vocoder.cpp **** 
+  67:dsp/pvoc/phase_vocoder.cpp ****         num_textures
+  68:dsp/pvoc/phase_vocoder.cpp ****             = min(allocator[i]->free() / (sizeof(float) * texture_size),
+  69:dsp/pvoc/phase_vocoder.cpp ****                   num_textures);
+  70:dsp/pvoc/phase_vocoder.cpp ****         stft_[i].Init(&fft_,
+ 347              		.loc 1 70 22 view .LVU80
+ 348 0086 4FEA9B03 		lsr	r3, fp, #2
+ 349              	.LBE122:
+ 350              	.LBE163:
+  61:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 351              		.loc 1 61 12 view .LVU81
+ 352 008a 103C     		subs	r4, r4, #16
+ 353              	.LVL11:
+ 354              	.LBB164:
+ 355              	.LBB123:
+  68:dsp/pvoc/phase_vocoder.cpp ****                   num_textures);
+ 356              		.loc 1 68 57 view .LVU82
+ 357 008c A400     		lsls	r4, r4, #2
+ 358              	.LVL12:
+ 359              	.L7:
+  68:dsp/pvoc/phase_vocoder.cpp ****                   num_textures);
+ 360              		.loc 1 68 57 view .LVU83
+ 361              	.LBE123:
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ARM GAS  /tmp/ccg0ahLw.s 			page 11
+
+
+ 362              		.loc 1 62 26 is_stmt 1 discriminator 3 view .LVU84
+ 363 008e D5F86411 		ldr	r1, [r5, #356]
+ 364 0092 B142     		cmp	r1, r6
+ 365 0094 1FDC     		bgt	.L4
+ 366              	.LBE164:
+ 367              	.LBB165:
+ 368              	.LBB166:
+ 369              	.LBB167:
+ 370              	.LBB168:
+  53:./buffer_allocator.h ****         if(size_bytes <= free_)
+ 371              		.loc 2 53 16 is_stmt 0 view .LVU85
+ 372 0096 09FB04F4 		mul	r4, r9, r4
+ 373              	.LBE168:
+ 374              	.LBE167:
+ 375              	.LBE166:
+  71:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+  72:dsp/pvoc/phase_vocoder.cpp ****                       fft_size / hop_ratio,
+  73:dsp/pvoc/phase_vocoder.cpp ****                       fft_buffer,
+  74:dsp/pvoc/phase_vocoder.cpp ****                       ifft_buffer,
+  75:dsp/pvoc/phase_vocoder.cpp ****                       large_window_lut,
+  76:dsp/pvoc/phase_vocoder.cpp ****                       ana_syn_buffer,
+  77:dsp/pvoc/phase_vocoder.cpp ****                       &frame_transformation_[i]);
+  78:dsp/pvoc/phase_vocoder.cpp ****     }
+  79:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 376              		.loc 1 79 17 view .LVU86
+ 377 009a 0026     		movs	r6, #0
+ 378              	.LVL13:
+ 379              	.L5:
+ 380              		.loc 1 79 26 is_stmt 1 discriminator 3 view .LVU87
+ 381 009c D5F86431 		ldr	r3, [r5, #356]
+ 382 00a0 B342     		cmp	r3, r6
+ 383 00a2 49DD     		ble	.L1
+ 384              	.LBB181:
+  80:dsp/pvoc/phase_vocoder.cpp ****     {
+  81:dsp/pvoc/phase_vocoder.cpp ****         float* texture_buffer
+ 385              		.loc 1 81 9 discriminator 2 view .LVU88
+  82:dsp/pvoc/phase_vocoder.cpp ****             = allocator[i]->Allocate<float>(num_textures * texture_size);
+ 386              		.loc 1 82 26 is_stmt 0 discriminator 2 view .LVU89
+ 387 00a4 08AB     		add	r3, sp, #32
+  83:dsp/pvoc/phase_vocoder.cpp ****         frame_transformation_[i].Init(texture_buffer, fft_size, num_textures);
+ 388              		.loc 1 83 38 discriminator 2 view .LVU90
+ 389 00a6 5A46     		mov	r2, fp
+  82:dsp/pvoc/phase_vocoder.cpp ****             = allocator[i]->Allocate<float>(num_textures * texture_size);
+ 390              		.loc 1 82 26 discriminator 2 view .LVU91
+ 391 00a8 53F82630 		ldr	r3, [r3, r6, lsl #2]
+ 392              	.LVL14:
+ 393              	.LBB178:
+ 394              	.LBI167:
+  51:./buffer_allocator.h ****     {
+ 395              		.loc 2 51 15 is_stmt 1 discriminator 2 view .LVU92
+ 396              	.LBB175:
+ 397              	.LBB169:
+  54:./buffer_allocator.h ****         {
+ 398              		.loc 2 54 26 is_stmt 0 discriminator 2 view .LVU93
+ 399 00ac 9868     		ldr	r0, [r3, #8]
+  54:./buffer_allocator.h ****         {
+ 400              		.loc 2 54 9 discriminator 2 view .LVU94
+ARM GAS  /tmp/ccg0ahLw.s 			page 12
+
+
+ 401 00ae 8442     		cmp	r4, r0
+ 402              	.LBB170:
+  56:./buffer_allocator.h ****             next_ += size_bytes;
+ 403              		.loc 2 56 16 discriminator 2 view .LVU95
+ 404 00b0 9BBF     		ittet	ls
+ 405 00b2 1968     		ldrls	r1, [r3]
+ 406              	.LVL15:
+  58:./buffer_allocator.h ****             return start;
+ 407              		.loc 2 58 19 discriminator 2 view .LVU96
+ 408 00b4 001B     		subls	r0, r0, r4
+ 409              	.LBE170:
+  63:./buffer_allocator.h ****         }
+ 410              		.loc 2 63 20 discriminator 2 view .LVU97
+ 411 00b6 0021     		movhi	r1, #0
+ 412              	.LVL16:
+  63:./buffer_allocator.h ****         }
+ 413              		.loc 2 63 20 discriminator 2 view .LVU98
+ 414              	.LBE169:
+ 415              	.LBE175:
+ 416              	.LBE178:
+ 417              		.loc 1 83 9 is_stmt 1 discriminator 2 view .LVU99
+ 418              	.LBB179:
+ 419              	.LBB176:
+ 420              	.LBB173:
+ 421              	.LBB171:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 422              		.loc 2 57 19 is_stmt 0 discriminator 2 view .LVU100
+ 423 00b8 0F19     		addls	r7, r1, r4
+  58:./buffer_allocator.h ****             return start;
+ 424              		.loc 2 58 13 discriminator 2 view .LVU101
+ 425 00ba 98BF     		it	ls
+ 426 00bc 9860     		strls	r0, [r3, #8]
+ 427              	.LBE171:
+ 428              	.LBE173:
+ 429              	.LBE176:
+ 430              	.LBE179:
+ 431              		.loc 1 83 38 discriminator 2 view .LVU102
+ 432 00be 05F1FC00 		add	r0, r5, #252
+ 433              	.LBB180:
+ 434              	.LBB177:
+ 435              	.LBB174:
+ 436              	.LBB172:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 437              		.loc 2 57 13 discriminator 2 view .LVU103
+ 438 00c2 98BF     		it	ls
+ 439 00c4 1F60     		strls	r7, [r3]
+ 440              	.LBE172:
+ 441              	.LBE174:
+ 442              	.LBE177:
+ 443              	.LBE180:
+ 444              		.loc 1 83 38 discriminator 2 view .LVU104
+ 445 00c6 3427     		movs	r7, #52
+ 446 00c8 4B46     		mov	r3, r9
+ 447 00ca 07FB0600 		mla	r0, r7, r6, r0
+ 448              	.LBE181:
+  79:dsp/pvoc/phase_vocoder.cpp ****     {
+ 449              		.loc 1 79 5 discriminator 2 view .LVU105
+ARM GAS  /tmp/ccg0ahLw.s 			page 13
+
+
+ 450 00ce 0136     		adds	r6, r6, #1
+ 451              	.LVL17:
+ 452              	.LBB182:
+ 453              		.loc 1 83 38 discriminator 2 view .LVU106
+ 454 00d0 FFF7FEFF 		bl	_ZN19FrameTransformation4InitEPfll
+ 455              	.LVL18:
+ 456              		.loc 1 83 38 discriminator 2 view .LVU107
+ 457              	.LBE182:
+  79:dsp/pvoc/phase_vocoder.cpp ****     {
+ 458              		.loc 1 79 5 is_stmt 1 discriminator 2 view .LVU108
+  79:dsp/pvoc/phase_vocoder.cpp ****     {
+ 459              		.loc 1 79 5 is_stmt 0 discriminator 2 view .LVU109
+ 460 00d4 E2E7     		b	.L5
+ 461              	.LVL19:
+ 462              	.L4:
+  79:dsp/pvoc/phase_vocoder.cpp ****     {
+ 463              		.loc 1 79 5 discriminator 2 view .LVU110
+ 464              	.LBE165:
+ 465              	.LBB183:
+ 466              	.LBB124:
+  64:dsp/pvoc/phase_vocoder.cpp ****             = allocator[i]->Allocate<short>((fft_size + (fft_size >> 1)) * 2);
+ 467              		.loc 1 64 9 is_stmt 1 discriminator 2 view .LVU111
+  65:dsp/pvoc/phase_vocoder.cpp **** 
+ 468              		.loc 1 65 26 is_stmt 0 discriminator 2 view .LVU112
+ 469 00d6 08A9     		add	r1, sp, #32
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 470              		.loc 1 70 22 discriminator 2 view .LVU113
+ 471 00d8 4FF0500C 		mov	ip, #80
+ 472 00dc 0793     		str	r3, [sp, #28]
+  65:dsp/pvoc/phase_vocoder.cpp **** 
+ 473              		.loc 1 65 26 discriminator 2 view .LVU114
+ 474 00de 51F82610 		ldr	r1, [r1, r6, lsl #2]
+ 475              	.LVL20:
+ 476              	.LBB118:
+ 477              	.LBI107:
+  51:./buffer_allocator.h ****     {
+ 478              		.loc 2 51 15 is_stmt 1 discriminator 2 view .LVU115
+ 479              	.LBB115:
+ 480              	.LBB109:
+  54:./buffer_allocator.h ****         {
+ 481              		.loc 2 54 26 is_stmt 0 discriminator 2 view .LVU116
+ 482 00e2 8868     		ldr	r0, [r1, #8]
+  54:./buffer_allocator.h ****         {
+ 483              		.loc 2 54 9 discriminator 2 view .LVU117
+ 484 00e4 8045     		cmp	r8, r0
+ 485              	.LBB110:
+  56:./buffer_allocator.h ****             next_ += size_bytes;
+ 486              		.loc 2 56 16 discriminator 2 view .LVU118
+ 487 00e6 9BBF     		ittet	ls
+ 488 00e8 0A68     		ldrls	r2, [r1]
+ 489              	.LVL21:
+  58:./buffer_allocator.h ****             return start;
+ 490              		.loc 2 58 19 discriminator 2 view .LVU119
+ 491 00ea A0EB0800 		subls	r0, r0, r8
+ 492              	.LBE110:
+  63:./buffer_allocator.h ****         }
+ 493              		.loc 2 63 20 discriminator 2 view .LVU120
+ARM GAS  /tmp/ccg0ahLw.s 			page 14
+
+
+ 494 00ee 0022     		movhi	r2, #0
+ 495              	.LVL22:
+  63:./buffer_allocator.h ****         }
+ 496              		.loc 2 63 20 discriminator 2 view .LVU121
+ 497              	.LBE109:
+ 498              	.LBE115:
+ 499              	.LBE118:
+  67:dsp/pvoc/phase_vocoder.cpp ****             = min(allocator[i]->free() / (sizeof(float) * texture_size),
+ 500              		.loc 1 67 9 is_stmt 1 discriminator 2 view .LVU122
+  67:dsp/pvoc/phase_vocoder.cpp ****             = min(allocator[i]->free() / (sizeof(float) * texture_size),
+ 501              		.loc 1 67 9 is_stmt 0 discriminator 2 view .LVU123
+ 502              	.LBE124:
+ 503              	.LBE183:
+  71:./buffer_allocator.h ****     }
+  72:./buffer_allocator.h **** 
+  73:./buffer_allocator.h ****     inline size_t free() const { return free_; }
+ 504              		.loc 2 73 34 is_stmt 1 discriminator 2 view .LVU124
+ 505              	.LBB184:
+ 506              	.LBB125:
+ 507              	.LBB119:
+ 508              	.LBB116:
+ 509              	.LBB113:
+ 510              	.LBB111:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 511              		.loc 2 57 19 is_stmt 0 discriminator 2 view .LVU125
+ 512 00f0 02EB080E 		addls	lr, r2, r8
+  58:./buffer_allocator.h ****             return start;
+ 513              		.loc 2 58 13 discriminator 2 view .LVU126
+ 514 00f4 98BF     		it	ls
+ 515 00f6 8860     		strls	r0, [r1, #8]
+ 516              	.LBE111:
+ 517              	.LBE113:
+ 518              	.LBE116:
+ 519              	.LBE119:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 520              		.loc 1 70 22 discriminator 2 view .LVU127
+ 521 00f8 05F15C00 		add	r0, r5, #92
+ 522              	.LBB120:
+ 523              	.LBB117:
+ 524              	.LBB114:
+ 525              	.LBB112:
+  57:./buffer_allocator.h ****             free_ -= size_bytes;
+ 526              		.loc 2 57 13 discriminator 2 view .LVU128
+ 527 00fc 98BF     		it	ls
+ 528 00fe C1F800E0 		strls	lr, [r1]
+ 529              	.LBE112:
+ 530              	.LBE114:
+ 531              	.LBE117:
+ 532              	.LBE120:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 533              		.loc 1 70 22 discriminator 2 view .LVU129
+ 534 0102 4FF0340E 		mov	lr, #52
+  68:dsp/pvoc/phase_vocoder.cpp ****                   num_textures);
+ 535              		.loc 1 68 40 discriminator 2 view .LVU130
+ 536 0106 8968     		ldr	r1, [r1, #8]
+ 537              	.LVL23:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ARM GAS  /tmp/ccg0ahLw.s 			page 15
+
+
+ 538              		.loc 1 70 22 discriminator 2 view .LVU131
+ 539 0108 0CFB0600 		mla	r0, ip, r6, r0
+ 540 010c 0097     		str	r7, [sp]
+ 541              	.LVL24:
+  68:dsp/pvoc/phase_vocoder.cpp ****                   num_textures);
+ 542              		.loc 1 68 40 discriminator 2 view .LVU132
+ 543 010e B1FBF4F1 		udiv	r1, r1, r4
+ 544 0112 8945     		cmp	r9, r1
+ 545 0114 28BF     		it	cs
+ 546 0116 8946     		movcs	r9, r1
+ 547              	.LVL25:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 548              		.loc 1 70 9 is_stmt 1 discriminator 2 view .LVU133
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 549              		.loc 1 70 22 is_stmt 0 discriminator 2 view .LVU134
+ 550 0118 05F1FC01 		add	r1, r5, #252
+ 551 011c 0EFB0611 		mla	r1, lr, r6, r1
+ 552              	.LBE125:
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ 553              		.loc 1 62 5 discriminator 2 view .LVU135
+ 554 0120 0136     		adds	r6, r6, #1
+ 555              	.LVL26:
+ 556              	.LBB126:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 557              		.loc 1 70 22 discriminator 2 view .LVU136
+ 558 0122 CDE90321 		strd	r2, r1, [sp, #12]
+ 559 0126 069A     		ldr	r2, [sp, #24]
+ 560              	.LVL27:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 561              		.loc 1 70 22 discriminator 2 view .LVU137
+ 562 0128 2946     		mov	r1, r5
+ 563 012a CDE901A2 		strd	r10, r2, [sp, #4]
+ 564 012e 5A46     		mov	r2, fp
+ 565 0130 FFF7FEFF 		bl	_ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation
+ 566              	.LVL28:
+  70:dsp/pvoc/phase_vocoder.cpp ****                       fft_size,
+ 567              		.loc 1 70 22 discriminator 2 view .LVU138
+ 568              	.LBE126:
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ 569              		.loc 1 62 5 is_stmt 1 discriminator 2 view .LVU139
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ 570              		.loc 1 62 5 is_stmt 0 discriminator 2 view .LVU140
+ 571 0134 079B     		ldr	r3, [sp, #28]
+ 572 0136 AAE7     		b	.L7
+ 573              	.LVL29:
+ 574              	.L1:
+  62:dsp/pvoc/phase_vocoder.cpp ****     {
+ 575              		.loc 1 62 5 discriminator 2 view .LVU141
+ 576              	.LBE184:
+  84:dsp/pvoc/phase_vocoder.cpp ****     }
+  85:dsp/pvoc/phase_vocoder.cpp **** }
+ 577              		.loc 1 85 1 view .LVU142
+ 578 0138 13B0     		add	sp, sp, #76
+ 579              		.cfi_def_cfa_offset 36
+ 580              		@ sp needed
+ 581 013a BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 582              		.loc 1 85 1 view .LVU143
+ARM GAS  /tmp/ccg0ahLw.s 			page 16
+
+
+ 583              		.cfi_endproc
+ 584              	.LFE4290:
+ 586              		.section	.text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j,"ax",%progbits
+ 587              		.align	1
+ 588              		.global	_ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j
+ 589              		.syntax unified
+ 590              		.thumb
+ 591              		.thumb_func
+ 592              		.fpu fpv5-d16
+ 594              	_ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:
+ 595              	.LVL30:
+ 596              	.LFB4291:
+  86:dsp/pvoc/phase_vocoder.cpp **** 
+  87:dsp/pvoc/phase_vocoder.cpp **** void PhaseVocoder::Process(const Parameters& parameters,
+  88:dsp/pvoc/phase_vocoder.cpp ****                            const FloatFrame* input,
+  89:dsp/pvoc/phase_vocoder.cpp ****                            FloatFrame*       output,
+  90:dsp/pvoc/phase_vocoder.cpp ****                            size_t            size)
+  91:dsp/pvoc/phase_vocoder.cpp **** {
+ 597              		.loc 1 91 1 is_stmt 1 view -0
+ 598              		.cfi_startproc
+ 599              		@ args = 4, pretend = 0, frame = 0
+ 600              		@ frame_needed = 0, uses_anonymous_args = 0
+  92:dsp/pvoc/phase_vocoder.cpp ****     const float* input_samples  = &input[0].l;
+ 601              		.loc 1 92 5 view .LVU145
+  91:dsp/pvoc/phase_vocoder.cpp ****     const float* input_samples  = &input[0].l;
+ 602              		.loc 1 91 1 is_stmt 0 view .LVU146
+ 603 0000 2DE9F743 		push	{r0, r1, r2, r4, r5, r6, r7, r8, r9, lr}
+ 604              		.cfi_def_cfa_offset 40
+ 605              		.cfi_offset 4, -28
+ 606              		.cfi_offset 5, -24
+ 607              		.cfi_offset 6, -20
+ 608              		.cfi_offset 7, -16
+ 609              		.cfi_offset 8, -12
+ 610              		.cfi_offset 9, -8
+ 611              		.cfi_offset 14, -4
+  91:dsp/pvoc/phase_vocoder.cpp ****     const float* input_samples  = &input[0].l;
+ 612              		.loc 1 91 1 view .LVU147
+ 613 0004 0546     		mov	r5, r0
+ 614 0006 0F46     		mov	r7, r1
+ 615 0008 9046     		mov	r8, r2
+ 616              	.LVL31:
+  93:dsp/pvoc/phase_vocoder.cpp ****     float*       output_samples = &output[0].l;
+ 617              		.loc 1 93 5 is_stmt 1 view .LVU148
+  91:dsp/pvoc/phase_vocoder.cpp ****     const float* input_samples  = &input[0].l;
+ 618              		.loc 1 91 1 is_stmt 0 view .LVU149
+ 619 000a 9946     		mov	r9, r3
+ 620              	.LVL32:
+  94:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 621              		.loc 1 94 5 is_stmt 1 view .LVU150
+ 622              		.loc 1 94 5 is_stmt 0 view .LVU151
+ 623 000c 00F15C06 		add	r6, r0, #92
+ 624              	.LBB185:
+ 625              		.loc 1 94 17 view .LVU152
+ 626 0010 0024     		movs	r4, #0
+ 627              	.LVL33:
+ 628              	.L16:
+ 629              		.loc 1 94 26 is_stmt 1 discriminator 3 view .LVU153
+ARM GAS  /tmp/ccg0ahLw.s 			page 17
+
+
+ 630 0012 D5F86431 		ldr	r3, [r5, #356]
+ 631 0016 A342     		cmp	r3, r4
+ 632 0018 0EDD     		ble	.L14
+  95:dsp/pvoc/phase_vocoder.cpp ****     {
+  96:dsp/pvoc/phase_vocoder.cpp ****         stft_[i].Process(
+ 633              		.loc 1 96 9 discriminator 2 view .LVU154
+ 634              		.loc 1 96 25 is_stmt 0 discriminator 2 view .LVU155
+ 635 001a 0223     		movs	r3, #2
+ 636 001c 08EB8402 		add	r2, r8, r4, lsl #2
+ 637 0020 3046     		mov	r0, r6
+ 638 0022 3946     		mov	r1, r7
+ 639 0024 0193     		str	r3, [sp, #4]
+ 640 0026 5036     		adds	r6, r6, #80
+ 641 0028 0A9B     		ldr	r3, [sp, #40]
+ 642 002a 0093     		str	r3, [sp]
+ 643 002c 09EB8403 		add	r3, r9, r4, lsl #2
+ 644 0030 FFF7FEFF 		bl	_ZN4STFT7ProcessERK10ParametersPKfPfjj
+ 645              	.LVL34:
+  94:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 646              		.loc 1 94 5 is_stmt 1 discriminator 2 view .LVU156
+ 647 0034 0134     		adds	r4, r4, #1
+ 648              	.LVL35:
+  94:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 649              		.loc 1 94 5 is_stmt 0 discriminator 2 view .LVU157
+ 650 0036 ECE7     		b	.L16
+ 651              	.L14:
+  94:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 652              		.loc 1 94 5 discriminator 2 view .LVU158
+ 653              	.LBE185:
+  97:dsp/pvoc/phase_vocoder.cpp ****             parameters, input_samples + i, output_samples + i, size, 2);
+  98:dsp/pvoc/phase_vocoder.cpp ****     }
+  99:dsp/pvoc/phase_vocoder.cpp **** }
+ 654              		.loc 1 99 1 view .LVU159
+ 655 0038 03B0     		add	sp, sp, #12
+ 656              		.cfi_def_cfa_offset 28
+ 657              		@ sp needed
+ 658 003a BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 659              		.loc 1 99 1 view .LVU160
+ 660              		.cfi_endproc
+ 661              	.LFE4291:
+ 663              		.section	.text._ZN12PhaseVocoder6BufferEv,"ax",%progbits
+ 664              		.align	1
+ 665              		.global	_ZN12PhaseVocoder6BufferEv
+ 666              		.syntax unified
+ 667              		.thumb
+ 668              		.thumb_func
+ 669              		.fpu fpv5-d16
+ 671              	_ZN12PhaseVocoder6BufferEv:
+ 672              	.LVL36:
+ 673              	.LFB4292:
+ 100:dsp/pvoc/phase_vocoder.cpp **** 
+ 101:dsp/pvoc/phase_vocoder.cpp **** void PhaseVocoder::Buffer()
+ 102:dsp/pvoc/phase_vocoder.cpp **** {
+ 674              		.loc 1 102 1 is_stmt 1 view -0
+ 675              		.cfi_startproc
+ 676              		@ args = 0, pretend = 0, frame = 0
+ 677              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccg0ahLw.s 			page 18
+
+
+ 103:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 678              		.loc 1 103 5 view .LVU162
+ 102:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 679              		.loc 1 102 1 is_stmt 0 view .LVU163
+ 680 0000 70B5     		push	{r4, r5, r6, lr}
+ 681              		.cfi_def_cfa_offset 16
+ 682              		.cfi_offset 4, -16
+ 683              		.cfi_offset 5, -12
+ 684              		.cfi_offset 6, -8
+ 685              		.cfi_offset 14, -4
+ 102:dsp/pvoc/phase_vocoder.cpp ****     for(int32_t i = 0; i < num_channels_; ++i)
+ 686              		.loc 1 102 1 view .LVU164
+ 687 0002 0446     		mov	r4, r0
+ 688 0004 00F15C05 		add	r5, r0, #92
+ 689              	.LBB186:
+ 690              		.loc 1 103 17 view .LVU165
+ 691 0008 0026     		movs	r6, #0
+ 692              	.LVL37:
+ 693              	.L19:
+ 694              		.loc 1 103 26 is_stmt 1 discriminator 3 view .LVU166
+ 695 000a D4F86431 		ldr	r3, [r4, #356]
+ 696 000e B342     		cmp	r3, r6
+ 697 0010 05DD     		ble	.L17
+ 104:dsp/pvoc/phase_vocoder.cpp ****     {
+ 105:dsp/pvoc/phase_vocoder.cpp ****         stft_[i].Buffer();
+ 698              		.loc 1 105 9 discriminator 2 view .LVU167
+ 699              		.loc 1 105 24 is_stmt 0 discriminator 2 view .LVU168
+ 700 0012 2846     		mov	r0, r5
+ 103:dsp/pvoc/phase_vocoder.cpp ****     {
+ 701              		.loc 1 103 5 discriminator 2 view .LVU169
+ 702 0014 0136     		adds	r6, r6, #1
+ 703              	.LVL38:
+ 103:dsp/pvoc/phase_vocoder.cpp ****     {
+ 704              		.loc 1 103 5 discriminator 2 view .LVU170
+ 705 0016 5035     		adds	r5, r5, #80
+ 706              		.loc 1 105 24 discriminator 2 view .LVU171
+ 707 0018 FFF7FEFF 		bl	_ZN4STFT6BufferEv
+ 708              	.LVL39:
+ 103:dsp/pvoc/phase_vocoder.cpp ****     {
+ 709              		.loc 1 103 5 is_stmt 1 discriminator 2 view .LVU172
+ 103:dsp/pvoc/phase_vocoder.cpp ****     {
+ 710              		.loc 1 103 5 is_stmt 0 discriminator 2 view .LVU173
+ 711 001c F5E7     		b	.L19
+ 712              	.L17:
+ 103:dsp/pvoc/phase_vocoder.cpp ****     {
+ 713              		.loc 1 103 5 discriminator 2 view .LVU174
+ 714              	.LBE186:
+ 106:dsp/pvoc/phase_vocoder.cpp ****     }
+ 107:dsp/pvoc/phase_vocoder.cpp **** }
+ 715              		.loc 1 107 1 view .LVU175
+ 716 001e 70BD     		pop	{r4, r5, r6, pc}
+ 717              		.loc 1 107 1 view .LVU176
+ 718              		.cfi_endproc
+ 719              	.LFE4292:
+ 721              		.text
+ 722              	.Letext0:
+ 723              		.file 3 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ARM GAS  /tmp/ccg0ahLw.s 			page 19
+
+
+ 724              		.file 4 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 725              		.file 5 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 726              		.file 6 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 727              		.file 7 "/usr/include/newlib/c++/9.2.1/cmath"
+ 728              		.file 8 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+ 729              		.file 9 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ 730              		.file 10 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 731              		.file 11 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 732              		.file 12 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 733              		.file 13 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 734              		.file 14 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ 735              		.file 15 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 736              		.file 16 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 737              		.file 17 "/usr/include/newlib/c++/9.2.1/new"
+ 738              		.file 18 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 739              		.file 19 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 740              		.file 20 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 741              		.file 21 "/usr/include/newlib/c++/9.2.1/clocale"
+ 742              		.file 22 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 743              		.file 23 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 744              		.file 24 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 745              		.file 25 "/usr/include/newlib/c++/9.2.1/cstring"
+ 746              		.file 26 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ 747              		.file 27 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 748              		.file 28 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 749              		.file 29 "/usr/include/newlib/sys/_types.h"
+ 750              		.file 30 "<built-in>"
+ 751              		.file 31 "/usr/include/newlib/sys/reent.h"
+ 752              		.file 32 "/usr/include/newlib/sys/lock.h"
+ 753              		.file 33 "/usr/include/newlib/math.h"
+ 754              		.file 34 "/usr/include/newlib/stdlib.h"
+ 755              		.file 35 "/usr/include/newlib/c++/9.2.1/math.h"
+ 756              		.file 36 "/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h"
+ 757              		.file 37 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 758              		.file 38 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 759              		.file 39 "dsp/frame.h"
+ 760              		.file 40 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 761              		.file 41 "../../libdaisy/src/per/tim.h"
+ 762              		.file 42 "../../libdaisy/src/util/wav_format.h"
+ 763              		.file 43 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 764              		.file 44 "/usr/include/newlib/stdio.h"
+ 765              		.file 45 "/usr/include/newlib/sys/unistd.h"
+ 766              		.file 46 "../../libdaisy/src/util/oled_fonts.h"
+ 767              		.file 47 "../../libdaisy/src/dev/sr_595.h"
+ 768              		.file 48 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 769              		.file 49 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 770              		.file 50 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 771              		.file 51 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 772              		.file 52 "../../libdaisy/src/util/sd_diskio.h"
+ 773              		.file 53 "../../libdaisy/src/sys/fatfs.h"
+ 774              		.file 54 "../../DaisySP/Source/Control/adenv.h"
+ 775              		.file 55 "../../DaisySP/Source/Utility/dsp.h"
+ 776              		.file 56 "/usr/include/newlib/wchar.h"
+ 777              		.file 57 "/usr/include/newlib/locale.h"
+ 778              		.file 58 "/usr/include/newlib/ctype.h"
+ 779              		.file 59 "/usr/include/newlib/sys/errno.h"
+ 780              		.file 60 "/usr/include/newlib/string.h"
+ARM GAS  /tmp/ccg0ahLw.s 			page 20
+
+
+ 781              		.file 61 "./resources.h"
+ 782              		.file 62 "dsp/pvoc/frame_transformation.h"
+ 783              		.file 63 "dsp/pvoc/stft.h"
+ 784              		.file 64 "./shy_fft.h"
+ 785              		.file 65 "dsp/pvoc/phase_vocoder.h"
+ARM GAS  /tmp/ccg0ahLw.s 			page 21
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 phase_vocoder.cpp
+     /tmp/ccg0ahLw.s:17     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 $t
+     /tmp/ccg0ahLw.s:25     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 _ZN12PhaseVocoder4InitEPPvPjPKfjllf
+     /tmp/ccg0ahLw.s:587    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 $t
+     /tmp/ccg0ahLw.s:594    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 _ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j
+     /tmp/ccg0ahLw.s:664    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 $t
+     /tmp/ccg0ahLw.s:671    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 _ZN12PhaseVocoder6BufferEv
+
+UNDEFINED SYMBOLS
+_ZN19FrameTransformation4InitEPfll
+_ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation
+_ZN4STFT7ProcessERK10ParametersPKfPfjj
+_ZN4STFT6BufferEv

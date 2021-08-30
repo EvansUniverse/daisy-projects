@@ -1,0 +1,3223 @@
+ARM GAS  /tmp/ccb5exhz.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"hihat.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN5daisy9DaisySeedD2Ev,"axG",%progbits,_ZN5daisy9DaisySeedD5Ev,comdat
+  17              		.align	1
+  18              		.p2align 2,,3
+  19              		.weak	_ZN5daisy9DaisySeedD2Ev
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-d16
+  26              	_ZN5daisy9DaisySeedD2Ev:
+  27              	.LVL0:
+  28              	.LFB2037:
+  29              		.file 1 "../../libdaisy/src/daisy_seed.h"
+   1:../../libdaisy/src/daisy_seed.h **** #pragma once
+   2:../../libdaisy/src/daisy_seed.h **** #ifndef DSY_SEED_H
+   3:../../libdaisy/src/daisy_seed.h **** #define DSY_SEED_H
+   4:../../libdaisy/src/daisy_seed.h **** 
+   5:../../libdaisy/src/daisy_seed.h **** #include "daisy.h"
+   6:../../libdaisy/src/daisy_seed.h **** 
+   7:../../libdaisy/src/daisy_seed.h **** //Uncomment this out if you're still using the rev2 hardware
+   8:../../libdaisy/src/daisy_seed.h **** //#define SEED_REV2
+   9:../../libdaisy/src/daisy_seed.h **** 
+  10:../../libdaisy/src/daisy_seed.h **** namespace daisy
+  11:../../libdaisy/src/daisy_seed.h **** {
+  12:../../libdaisy/src/daisy_seed.h **** /**
+  13:../../libdaisy/src/daisy_seed.h ****    @brief This is the higher-level interface for the Daisy board. \n 
+  14:../../libdaisy/src/daisy_seed.h ****     All basic peripheral configuration/initialization is setup here. \n
+  15:../../libdaisy/src/daisy_seed.h **** 
+  16:../../libdaisy/src/daisy_seed.h ****    @ingroup boards
+  17:../../libdaisy/src/daisy_seed.h **** */
+  18:../../libdaisy/src/daisy_seed.h **** class DaisySeed
+  19:../../libdaisy/src/daisy_seed.h **** {
+  20:../../libdaisy/src/daisy_seed.h ****   public:
+  21:../../libdaisy/src/daisy_seed.h ****     DaisySeed() {}
+  22:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+  30              		.loc 1 22 5 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              	.LBB222:
+  36              	.LBI222:
+ARM GAS  /tmp/ccb5exhz.s 			page 2
+
+
+  37              		.file 2 "../../libdaisy/src/sys/system.h"
+   1:../../libdaisy/src/sys/system.h **** #ifndef DSY_SYSTEM_H
+   2:../../libdaisy/src/sys/system.h **** #define DSY_SYSTEM_H
+   3:../../libdaisy/src/sys/system.h **** 
+   4:../../libdaisy/src/sys/system.h **** #ifndef UNIT_TEST // for unit tests, a dummy implementation is provided below
+   5:../../libdaisy/src/sys/system.h **** 
+   6:../../libdaisy/src/sys/system.h **** #include <cstdint>
+   7:../../libdaisy/src/sys/system.h **** #include "per/tim.h"
+   8:../../libdaisy/src/sys/system.h **** 
+   9:../../libdaisy/src/sys/system.h **** namespace daisy
+  10:../../libdaisy/src/sys/system.h **** {
+  11:../../libdaisy/src/sys/system.h **** /** A handle for interacting with the Core System. 
+  12:../../libdaisy/src/sys/system.h ****  ** This includes the Clock tree, MPU, global DMA initialization,
+  13:../../libdaisy/src/sys/system.h ****  ** cache handling, and any other necessary global initiailzation
+  14:../../libdaisy/src/sys/system.h ****  **
+  15:../../libdaisy/src/sys/system.h ****  ** @author shensley
+  16:../../libdaisy/src/sys/system.h ****  ** @addtogroup system
+  17:../../libdaisy/src/sys/system.h ****  */
+  18:../../libdaisy/src/sys/system.h **** class System
+  19:../../libdaisy/src/sys/system.h **** {
+  20:../../libdaisy/src/sys/system.h ****   public:
+  21:../../libdaisy/src/sys/system.h ****     /** Contains settings for initializing the System */
+  22:../../libdaisy/src/sys/system.h ****     struct Config
+  23:../../libdaisy/src/sys/system.h ****     {
+  24:../../libdaisy/src/sys/system.h ****         /** Specifies the system clock frequency that feeds APB/AHB clocks, etc. */
+  25:../../libdaisy/src/sys/system.h ****         enum class SysClkFreq
+  26:../../libdaisy/src/sys/system.h ****         {
+  27:../../libdaisy/src/sys/system.h ****             FREQ_400MHZ,
+  28:../../libdaisy/src/sys/system.h ****             FREQ_480MHZ,
+  29:../../libdaisy/src/sys/system.h ****         };
+  30:../../libdaisy/src/sys/system.h **** 
+  31:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to defaults
+  32:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 400MHz
+  33:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  34:../../libdaisy/src/sys/system.h ****          ** */
+  35:../../libdaisy/src/sys/system.h ****         void Defaults()
+  36:../../libdaisy/src/sys/system.h ****         {
+  37:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_400MHZ;
+  38:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  39:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  40:../../libdaisy/src/sys/system.h ****         }
+  41:../../libdaisy/src/sys/system.h **** 
+  42:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to boost mode:
+  43:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 480MHz
+  44:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  45:../../libdaisy/src/sys/system.h ****          ** */
+  46:../../libdaisy/src/sys/system.h ****         void Boost()
+  47:../../libdaisy/src/sys/system.h ****         {
+  48:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_480MHZ;
+  49:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  50:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  51:../../libdaisy/src/sys/system.h ****         }
+  52:../../libdaisy/src/sys/system.h **** 
+  53:../../libdaisy/src/sys/system.h ****         SysClkFreq cpu_freq;
+  54:../../libdaisy/src/sys/system.h ****         bool       use_dcache;
+  55:../../libdaisy/src/sys/system.h ****         bool       use_icache;
+  56:../../libdaisy/src/sys/system.h ****     };
+ARM GAS  /tmp/ccb5exhz.s 			page 3
+
+
+  57:../../libdaisy/src/sys/system.h **** 
+  58:../../libdaisy/src/sys/system.h ****     System() {}
+  59:../../libdaisy/src/sys/system.h ****     ~System() {}
+  38              		.loc 2 59 5 view .LVU1
+  39              		.loc 2 59 5 is_stmt 0 view .LVU2
+  40              	.LBE222:
+  41              	.LBB223:
+  42              	.LBI223:
+  43              		.file 3 "../../libdaisy/src/hid/usb.h"
+   1:../../libdaisy/src/hid/usb.h **** #pragma once
+   2:../../libdaisy/src/hid/usb.h **** #ifndef DSY_HID_USB_H
+   3:../../libdaisy/src/hid/usb.h **** #define DSY_HID_USB_H
+   4:../../libdaisy/src/hid/usb.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/usb.h **** #include <stdlib.h>
+   6:../../libdaisy/src/hid/usb.h **** 
+   7:../../libdaisy/src/hid/usb.h **** namespace daisy
+   8:../../libdaisy/src/hid/usb.h **** /** @addtogroup externals
+   9:../../libdaisy/src/hid/usb.h ****     @{
+  10:../../libdaisy/src/hid/usb.h **** */
+  11:../../libdaisy/src/hid/usb.h **** 
+  12:../../libdaisy/src/hid/usb.h **** {
+  13:../../libdaisy/src/hid/usb.h **** /** 
+  14:../../libdaisy/src/hid/usb.h ****     @brief Interface for initializing and using the USB Peripherals on the daisy
+  15:../../libdaisy/src/hid/usb.h ****     @author Stephen Hensley
+  16:../../libdaisy/src/hid/usb.h ****     @date December 2019
+  17:../../libdaisy/src/hid/usb.h **** */
+  18:../../libdaisy/src/hid/usb.h **** class UsbHandle
+  19:../../libdaisy/src/hid/usb.h **** {
+  20:../../libdaisy/src/hid/usb.h ****   public:
+  21:../../libdaisy/src/hid/usb.h ****     /** Return values for USBHandle Functions */
+  22:../../libdaisy/src/hid/usb.h ****     enum class Result
+  23:../../libdaisy/src/hid/usb.h ****     {
+  24:../../libdaisy/src/hid/usb.h ****         OK,
+  25:../../libdaisy/src/hid/usb.h ****         ERR,
+  26:../../libdaisy/src/hid/usb.h ****     };
+  27:../../libdaisy/src/hid/usb.h **** 
+  28:../../libdaisy/src/hid/usb.h ****     /** Specified which of the two USB Peripherals to initialize. */
+  29:../../libdaisy/src/hid/usb.h ****     enum UsbPeriph
+  30:../../libdaisy/src/hid/usb.h ****     {
+  31:../../libdaisy/src/hid/usb.h ****         FS_INTERNAL, /**< Internal pin */
+  32:../../libdaisy/src/hid/usb.h ****         FS_EXTERNAL, /**< FS External D+ pin is Pin 38 (GPIO32). FS External D- pin is Pin 37 (GPIO
+  33:../../libdaisy/src/hid/usb.h ****         FS_BOTH,     /**< Both */
+  34:../../libdaisy/src/hid/usb.h ****     };
+  35:../../libdaisy/src/hid/usb.h **** 
+  36:../../libdaisy/src/hid/usb.h **** 
+  37:../../libdaisy/src/hid/usb.h ****     /** Function called upon reception of a buffer */
+  38:../../libdaisy/src/hid/usb.h ****     typedef void (*ReceiveCallback)(uint8_t* buff, uint32_t* len);
+  39:../../libdaisy/src/hid/usb.h **** 
+  40:../../libdaisy/src/hid/usb.h ****     UsbHandle() {}
+  41:../../libdaisy/src/hid/usb.h **** 
+  42:../../libdaisy/src/hid/usb.h ****     ~UsbHandle() {}
+  44              		.loc 3 42 5 is_stmt 1 view .LVU3
+  45              		.loc 3 42 5 is_stmt 0 view .LVU4
+  46              	.LBE223:
+  47              	.LBB224:
+  48              	.LBI224:
+  49              		.file 4 "../../libdaisy/src/per/adc.h"
+ARM GAS  /tmp/ccb5exhz.s 			page 4
+
+
+   1:../../libdaisy/src/per/adc.h **** #pragma once
+   2:../../libdaisy/src/per/adc.h **** #ifndef DSY_ADC_H
+   3:../../libdaisy/src/per/adc.h **** #define DSY_ADC_H /**< Macro */
+   4:../../libdaisy/src/per/adc.h **** #include <stdint.h>
+   5:../../libdaisy/src/per/adc.h **** #include <stdlib.h>
+   6:../../libdaisy/src/per/adc.h **** #include "daisy_core.h"
+   7:../../libdaisy/src/per/adc.h **** #include "per/gpio.h"
+   8:../../libdaisy/src/per/adc.h **** 
+   9:../../libdaisy/src/per/adc.h **** #define DSY_ADC_MAX_CHANNELS 14 /**< Maximum number of ADC channels */
+  10:../../libdaisy/src/per/adc.h **** 
+  11:../../libdaisy/src/per/adc.h **** namespace daisy
+  12:../../libdaisy/src/per/adc.h **** {
+  13:../../libdaisy/src/per/adc.h **** /** @addtogroup analog_digital_conversion
+  14:../../libdaisy/src/per/adc.h ****     @{
+  15:../../libdaisy/src/per/adc.h **** */
+  16:../../libdaisy/src/per/adc.h **** 
+  17:../../libdaisy/src/per/adc.h **** /* While there may not be many configuration options here,
+  18:../../libdaisy/src/per/adc.h **** using a struct like this allows us to add more configuration
+  19:../../libdaisy/src/per/adc.h **** later without breaking existing functionality.
+  20:../../libdaisy/src/per/adc.h **** */
+  21:../../libdaisy/src/per/adc.h **** 
+  22:../../libdaisy/src/per/adc.h **** /** Configuration Structure for a given channel */
+  23:../../libdaisy/src/per/adc.h **** struct AdcChannelConfig
+  24:../../libdaisy/src/per/adc.h **** {
+  25:../../libdaisy/src/per/adc.h ****     /** Which pin to use for multiplexing */
+  26:../../libdaisy/src/per/adc.h ****     enum MuxPin
+  27:../../libdaisy/src/per/adc.h ****     {
+  28:../../libdaisy/src/per/adc.h ****         MUX_SEL_0,    /**< & */
+  29:../../libdaisy/src/per/adc.h ****         MUX_SEL_1,    /**< & */
+  30:../../libdaisy/src/per/adc.h ****         MUX_SEL_2,    /**< & */
+  31:../../libdaisy/src/per/adc.h ****         MUX_SEL_LAST, /**< & */
+  32:../../libdaisy/src/per/adc.h ****     };
+  33:../../libdaisy/src/per/adc.h **** 
+  34:../../libdaisy/src/per/adc.h ****     /** Initializes a single ADC pin as an ADC. 
+  35:../../libdaisy/src/per/adc.h ****     \param pin Pin to init.
+  36:../../libdaisy/src/per/adc.h ****      */
+  37:../../libdaisy/src/per/adc.h ****     void InitSingle(dsy_gpio_pin pin);
+  38:../../libdaisy/src/per/adc.h **** 
+  39:../../libdaisy/src/per/adc.h ****     /** 
+  40:../../libdaisy/src/per/adc.h ****     Initializes a single ADC pin as a Multiplexed ADC.
+  41:../../libdaisy/src/per/adc.h ****     Requires a CD405X Multiplexer connected to the pin.
+  42:../../libdaisy/src/per/adc.h ****     You only need to supply the mux pins that are required,
+  43:../../libdaisy/src/per/adc.h ****     e.g. a 4052 mux would only require mux_0 and mux_1.
+  44:../../libdaisy/src/per/adc.h ****     Internal Callbacks handle the pin addressing.
+  45:../../libdaisy/src/per/adc.h ****     \param mux_channels must be 1-8
+  46:../../libdaisy/src/per/adc.h ****     \param mux_0 First mux pin
+  47:../../libdaisy/src/per/adc.h ****     \param mux_1 Second mux pin
+  48:../../libdaisy/src/per/adc.h ****     \param mux_2 Third mux pin
+  49:../../libdaisy/src/per/adc.h ****     \param adc_pin &
+  50:../../libdaisy/src/per/adc.h ****     */
+  51:../../libdaisy/src/per/adc.h ****     void InitMux(dsy_gpio_pin adc_pin,
+  52:../../libdaisy/src/per/adc.h ****                  size_t       mux_channels,
+  53:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_0,
+  54:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_1 = {DSY_GPIOX, 0},
+  55:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_2 = {DSY_GPIOX, 0});
+  56:../../libdaisy/src/per/adc.h **** 
+  57:../../libdaisy/src/per/adc.h ****     dsy_gpio pin_;                   /**< & */
+ARM GAS  /tmp/ccb5exhz.s 			page 5
+
+
+  58:../../libdaisy/src/per/adc.h ****     dsy_gpio mux_pin_[MUX_SEL_LAST]; /**< & */
+  59:../../libdaisy/src/per/adc.h ****     uint8_t  mux_channels_;          /**< & */
+  60:../../libdaisy/src/per/adc.h **** };
+  61:../../libdaisy/src/per/adc.h **** 
+  62:../../libdaisy/src/per/adc.h **** /**
+  63:../../libdaisy/src/per/adc.h ****    Handler for analog to digital conversion
+  64:../../libdaisy/src/per/adc.h **** */
+  65:../../libdaisy/src/per/adc.h **** class AdcHandle
+  66:../../libdaisy/src/per/adc.h **** {
+  67:../../libdaisy/src/per/adc.h ****   public:
+  68:../../libdaisy/src/per/adc.h ****     /** Supported oversampling amounts */
+  69:../../libdaisy/src/per/adc.h ****     enum OverSampling
+  70:../../libdaisy/src/per/adc.h ****     {
+  71:../../libdaisy/src/per/adc.h ****         OVS_NONE, /**< & */
+  72:../../libdaisy/src/per/adc.h ****         OVS_4,    /**< & */
+  73:../../libdaisy/src/per/adc.h ****         OVS_8,    /**< & */
+  74:../../libdaisy/src/per/adc.h ****         OVS_16,   /**< & */
+  75:../../libdaisy/src/per/adc.h ****         OVS_32,   /**< & */
+  76:../../libdaisy/src/per/adc.h ****         OVS_64,   /**< & */
+  77:../../libdaisy/src/per/adc.h ****         OVS_128,  /**< & */
+  78:../../libdaisy/src/per/adc.h ****         OVS_256,  /**< & */
+  79:../../libdaisy/src/per/adc.h ****         OVS_512,  /**< & */
+  80:../../libdaisy/src/per/adc.h ****         OVS_1024, /**< & */
+  81:../../libdaisy/src/per/adc.h ****         OVS_LAST, /**< & */
+  82:../../libdaisy/src/per/adc.h ****     };
+  83:../../libdaisy/src/per/adc.h **** 
+  84:../../libdaisy/src/per/adc.h ****     AdcHandle() {}
+  85:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+  50              		.loc 4 85 5 is_stmt 1 view .LVU5
+  51              		.loc 4 85 5 is_stmt 0 view .LVU6
+  52              	.LBE224:
+  53              	.LBB225:
+  54              	.LBI225:
+  55              		.file 5 "../../libdaisy/src/hid/audio.h"
+   1:../../libdaisy/src/hid/audio.h **** #ifndef DSY_AUDIO_H
+   2:../../libdaisy/src/hid/audio.h **** #define DSY_AUDIO_H /**< & */
+   3:../../libdaisy/src/hid/audio.h **** 
+   4:../../libdaisy/src/hid/audio.h **** #include "per/sai.h"
+   5:../../libdaisy/src/hid/audio.h **** 
+   6:../../libdaisy/src/hid/audio.h **** namespace daisy
+   7:../../libdaisy/src/hid/audio.h **** {
+   8:../../libdaisy/src/hid/audio.h **** class AudioHandle
+   9:../../libdaisy/src/hid/audio.h **** {
+  10:../../libdaisy/src/hid/audio.h ****   public:
+  11:../../libdaisy/src/hid/audio.h ****     /** Manually configurable details about the Audio Engine */
+  12:../../libdaisy/src/hid/audio.h ****     /** TODO: Figure out how to get samplerate in here. */
+  13:../../libdaisy/src/hid/audio.h ****     struct Config
+  14:../../libdaisy/src/hid/audio.h ****     {
+  15:../../libdaisy/src/hid/audio.h ****         size_t                        blocksize;
+  16:../../libdaisy/src/hid/audio.h ****         SaiHandle::Config::SampleRate samplerate;
+  17:../../libdaisy/src/hid/audio.h ****         float                         postgain;
+  18:../../libdaisy/src/hid/audio.h ****     };
+  19:../../libdaisy/src/hid/audio.h **** 
+  20:../../libdaisy/src/hid/audio.h ****     enum class Result
+  21:../../libdaisy/src/hid/audio.h ****     {
+  22:../../libdaisy/src/hid/audio.h ****         OK,
+  23:../../libdaisy/src/hid/audio.h ****         ERR,
+ARM GAS  /tmp/ccb5exhz.s 			page 6
+
+
+  24:../../libdaisy/src/hid/audio.h ****     };
+  25:../../libdaisy/src/hid/audio.h **** 
+  26:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving input buffer
+  27:../../libdaisy/src/hid/audio.h ****      * Buffer arranged by float[chn][sample] 
+  28:../../libdaisy/src/hid/audio.h ****      * const so that the user can't modify the input
+  29:../../libdaisy/src/hid/audio.h ****     */
+  30:../../libdaisy/src/hid/audio.h ****     typedef const float* const* InputBuffer;
+  31:../../libdaisy/src/hid/audio.h **** 
+  32:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving output buffer
+  33:../../libdaisy/src/hid/audio.h ****      * Arranged by float[chn][sample] 
+  34:../../libdaisy/src/hid/audio.h ****     */
+  35:../../libdaisy/src/hid/audio.h ****     typedef float** OutputBuffer;
+  36:../../libdaisy/src/hid/audio.h **** 
+  37:../../libdaisy/src/hid/audio.h ****     /** Type for a Non-Interleaving audio callback 
+  38:../../libdaisy/src/hid/audio.h ****    * Non-Interleaving audio callbacks in daisy will be of this type
+  39:../../libdaisy/src/hid/audio.h ****   */
+  40:../../libdaisy/src/hid/audio.h ****     typedef void (*AudioCallback)(InputBuffer  in,
+  41:../../libdaisy/src/hid/audio.h ****                                   OutputBuffer out,
+  42:../../libdaisy/src/hid/audio.h ****                                   size_t       size);
+  43:../../libdaisy/src/hid/audio.h **** 
+  44:../../libdaisy/src/hid/audio.h ****     /** Interleaving Input buffer
+  45:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }]
+  46:../../libdaisy/src/hid/audio.h ****      ** this is const, as the user shouldn't modify it
+  47:../../libdaisy/src/hid/audio.h ****     */
+  48:../../libdaisy/src/hid/audio.h ****     typedef const float* InterleavingInputBuffer;
+  49:../../libdaisy/src/hid/audio.h **** 
+  50:../../libdaisy/src/hid/audio.h ****     /** Interleaving Output buffer 
+  51:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }
+  52:../../libdaisy/src/hid/audio.h ****     */
+  53:../../libdaisy/src/hid/audio.h ****     typedef float* InterleavingOutputBuffer;
+  54:../../libdaisy/src/hid/audio.h **** 
+  55:../../libdaisy/src/hid/audio.h ****     /** Interleaving Audio Callback 
+  56:../../libdaisy/src/hid/audio.h ****    * Interleaving audio callbacks in daisy must be of this type
+  57:../../libdaisy/src/hid/audio.h ****   */
+  58:../../libdaisy/src/hid/audio.h ****     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
+  59:../../libdaisy/src/hid/audio.h ****                                               InterleavingOutputBuffer out,
+  60:../../libdaisy/src/hid/audio.h ****                                               size_t                   size);
+  61:../../libdaisy/src/hid/audio.h **** 
+  62:../../libdaisy/src/hid/audio.h ****     AudioHandle() : pimpl_(nullptr) {}
+  63:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+  56              		.loc 5 63 5 is_stmt 1 view .LVU7
+  57              		.loc 5 63 5 is_stmt 0 view .LVU8
+  58              	.LBE225:
+  59              		.loc 1 22 19 view .LVU9
+  60 0000 7047     		bx	lr
+  61              		.cfi_endproc
+  62              	.LFE2037:
+  64              		.weak	_ZN5daisy9DaisySeedD1Ev
+  65              		.thumb_set _ZN5daisy9DaisySeedD1Ev,_ZN5daisy9DaisySeedD2Ev
+  66 0002 00BF     		.section	.text._ZN7daisysp5MetroD2Ev,"axG",%progbits,_ZN7daisysp5MetroD5Ev,comdat
+  67              		.align	1
+  68              		.p2align 2,,3
+  69              		.weak	_ZN7daisysp5MetroD2Ev
+  70              		.syntax unified
+  71              		.thumb
+  72              		.thumb_func
+  73              		.fpu fpv5-d16
+ARM GAS  /tmp/ccb5exhz.s 			page 7
+
+
+  75              	_ZN7daisysp5MetroD2Ev:
+  76              	.LVL1:
+  77              	.LFB4183:
+  78              		.file 6 "../../DaisySP/Source/Utility/metro.h"
+   1:../../DaisySP/Source/Utility/metro.h **** #pragma once
+   2:../../DaisySP/Source/Utility/metro.h **** #ifndef DSY_METRO_H
+   3:../../DaisySP/Source/Utility/metro.h **** #define DSY_METRO_H
+   4:../../DaisySP/Source/Utility/metro.h **** #include <stdint.h>
+   5:../../DaisySP/Source/Utility/metro.h **** #ifdef __cplusplus
+   6:../../DaisySP/Source/Utility/metro.h **** 
+   7:../../DaisySP/Source/Utility/metro.h **** namespace daisysp
+   8:../../DaisySP/Source/Utility/metro.h **** {
+   9:../../DaisySP/Source/Utility/metro.h **** /** Creates a clock signal at a specific frequency.
+  10:../../DaisySP/Source/Utility/metro.h **** */
+  11:../../DaisySP/Source/Utility/metro.h **** class Metro
+  12:../../DaisySP/Source/Utility/metro.h **** {
+  13:../../DaisySP/Source/Utility/metro.h ****   public:
+  14:../../DaisySP/Source/Utility/metro.h ****     Metro() {}
+  15:../../DaisySP/Source/Utility/metro.h ****     ~Metro() {}
+  79              		.loc 6 15 5 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84              		.loc 6 15 15 is_stmt 0 view .LVU11
+  85 0000 7047     		bx	lr
+  86              		.cfi_endproc
+  87              	.LFE4183:
+  89              		.weak	_ZN7daisysp5MetroD1Ev
+  90              		.thumb_set _ZN7daisysp5MetroD1Ev,_ZN7daisysp5MetroD2Ev
+  91 0002 00BF     		.section	.text._ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev,"axG",%progbits,_ZN7dais
+  92              		.align	1
+  93              		.p2align 2,,3
+  94              		.weak	_ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev
+  95              		.syntax unified
+  96              		.thumb
+  97              		.thumb_func
+  98              		.fpu fpv5-d16
+ 100              	_ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev:
+ 101              	.LVL2:
+ 102              	.LFB4772:
+ 103              		.file 7 "../../DaisySP/Source/Drums/hihat.h"
+   1:../../DaisySP/Source/Drums/hihat.h **** #pragma once
+   2:../../DaisySP/Source/Drums/hihat.h **** #ifndef DSY_HIHAT_H
+   3:../../DaisySP/Source/Drums/hihat.h **** #define DSY_HIHAT_H
+   4:../../DaisySP/Source/Drums/hihat.h **** 
+   5:../../DaisySP/Source/Drums/hihat.h **** #include "Filters/svf.h"
+   6:../../DaisySP/Source/Drums/hihat.h **** #include "Synthesis/oscillator.h"
+   7:../../DaisySP/Source/Drums/hihat.h **** 
+   8:../../DaisySP/Source/Drums/hihat.h **** #include <stdint.h>
+   9:../../DaisySP/Source/Drums/hihat.h **** #include <stdlib.h>
+  10:../../DaisySP/Source/Drums/hihat.h **** #ifdef __cplusplus
+  11:../../DaisySP/Source/Drums/hihat.h **** 
+  12:../../DaisySP/Source/Drums/hihat.h **** /** @file hihat.h */
+  13:../../DaisySP/Source/Drums/hihat.h **** 
+  14:../../DaisySP/Source/Drums/hihat.h **** namespace daisysp
+  15:../../DaisySP/Source/Drums/hihat.h **** {
+ARM GAS  /tmp/ccb5exhz.s 			page 8
+
+
+  16:../../DaisySP/Source/Drums/hihat.h **** /**  
+  17:../../DaisySP/Source/Drums/hihat.h ****        @brief 808 style "metallic noise" with 6 square oscillators.
+  18:../../DaisySP/Source/Drums/hihat.h ****        @author Ben Sergentanis
+  19:../../DaisySP/Source/Drums/hihat.h ****        @date Jan 2021
+  20:../../DaisySP/Source/Drums/hihat.h ****        Ported from pichenettes/eurorack/plaits/dsp/drums/hihat.h \n
+  21:../../DaisySP/Source/Drums/hihat.h ****        to an independent module. \n
+  22:../../DaisySP/Source/Drums/hihat.h ****        Original code written by Emilie Gillet in 2016. \n
+  23:../../DaisySP/Source/Drums/hihat.h **** */
+  24:../../DaisySP/Source/Drums/hihat.h **** class SquareNoise
+  25:../../DaisySP/Source/Drums/hihat.h **** {
+  26:../../DaisySP/Source/Drums/hihat.h ****   public:
+  27:../../DaisySP/Source/Drums/hihat.h ****     SquareNoise() {}
+  28:../../DaisySP/Source/Drums/hihat.h ****     ~SquareNoise() {}
+  29:../../DaisySP/Source/Drums/hihat.h **** 
+  30:../../DaisySP/Source/Drums/hihat.h ****     void Init(float sample_rate);
+  31:../../DaisySP/Source/Drums/hihat.h **** 
+  32:../../DaisySP/Source/Drums/hihat.h ****     float Process(float f0);
+  33:../../DaisySP/Source/Drums/hihat.h **** 
+  34:../../DaisySP/Source/Drums/hihat.h ****   private:
+  35:../../DaisySP/Source/Drums/hihat.h ****     uint32_t phase_[6];
+  36:../../DaisySP/Source/Drums/hihat.h **** };
+  37:../../DaisySP/Source/Drums/hihat.h **** 
+  38:../../DaisySP/Source/Drums/hihat.h **** /**  
+  39:../../DaisySP/Source/Drums/hihat.h ****        @brief Ring mod style metallic noise generator.
+  40:../../DaisySP/Source/Drums/hihat.h ****        @author Ben Sergentanis
+  41:../../DaisySP/Source/Drums/hihat.h ****        @date Jan 2021
+  42:../../DaisySP/Source/Drums/hihat.h ****        Ported from pichenettes/eurorack/plaits/dsp/drums/hihat.h \n
+  43:../../DaisySP/Source/Drums/hihat.h ****        to an independent module. \n
+  44:../../DaisySP/Source/Drums/hihat.h ****        Original code written by Emilie Gillet in 2016. \n
+  45:../../DaisySP/Source/Drums/hihat.h **** */
+  46:../../DaisySP/Source/Drums/hihat.h **** class RingModNoise
+  47:../../DaisySP/Source/Drums/hihat.h **** {
+  48:../../DaisySP/Source/Drums/hihat.h ****   public:
+  49:../../DaisySP/Source/Drums/hihat.h ****     RingModNoise() {}
+  50:../../DaisySP/Source/Drums/hihat.h ****     ~RingModNoise() {}
+  51:../../DaisySP/Source/Drums/hihat.h **** 
+  52:../../DaisySP/Source/Drums/hihat.h ****     void Init(float sample_rate);
+  53:../../DaisySP/Source/Drums/hihat.h **** 
+  54:../../DaisySP/Source/Drums/hihat.h ****     float Process(float f0);
+  55:../../DaisySP/Source/Drums/hihat.h **** 
+  56:../../DaisySP/Source/Drums/hihat.h ****   private:
+  57:../../DaisySP/Source/Drums/hihat.h ****     float      ProcessPair(Oscillator* osc, float f1, float f2);
+  58:../../DaisySP/Source/Drums/hihat.h ****     Oscillator oscillator_[6];
+  59:../../DaisySP/Source/Drums/hihat.h **** 
+  60:../../DaisySP/Source/Drums/hihat.h ****     float sample_rate_;
+  61:../../DaisySP/Source/Drums/hihat.h **** };
+  62:../../DaisySP/Source/Drums/hihat.h **** 
+  63:../../DaisySP/Source/Drums/hihat.h **** /**  
+  64:../../DaisySP/Source/Drums/hihat.h ****        @brief Swing type VCA
+  65:../../DaisySP/Source/Drums/hihat.h ****        @author Ben Sergentanis
+  66:../../DaisySP/Source/Drums/hihat.h ****        @date Jan 2021
+  67:../../DaisySP/Source/Drums/hihat.h ****        Ported from pichenettes/eurorack/plaits/dsp/drums/hihat.h \n
+  68:../../DaisySP/Source/Drums/hihat.h ****        to an independent module. \n
+  69:../../DaisySP/Source/Drums/hihat.h ****        Original code written by Emilie Gillet in 2016. \n
+  70:../../DaisySP/Source/Drums/hihat.h **** */
+  71:../../DaisySP/Source/Drums/hihat.h **** class SwingVCA
+  72:../../DaisySP/Source/Drums/hihat.h **** {
+ARM GAS  /tmp/ccb5exhz.s 			page 9
+
+
+  73:../../DaisySP/Source/Drums/hihat.h ****   public:
+  74:../../DaisySP/Source/Drums/hihat.h ****     float operator()(float s, float gain)
+  75:../../DaisySP/Source/Drums/hihat.h ****     {
+  76:../../DaisySP/Source/Drums/hihat.h ****         s *= s > 0.0f ? 10.0f : 0.1f;
+  77:../../DaisySP/Source/Drums/hihat.h ****         s = s / (1.0f + fabsf(s));
+  78:../../DaisySP/Source/Drums/hihat.h ****         return (s + 1.0f) * gain;
+  79:../../DaisySP/Source/Drums/hihat.h ****     }
+  80:../../DaisySP/Source/Drums/hihat.h **** };
+  81:../../DaisySP/Source/Drums/hihat.h **** 
+  82:../../DaisySP/Source/Drums/hihat.h **** /**  
+  83:../../DaisySP/Source/Drums/hihat.h ****        @brief Linear type VCA
+  84:../../DaisySP/Source/Drums/hihat.h ****        @author Ben Sergentanis
+  85:../../DaisySP/Source/Drums/hihat.h ****        @date Jan 2021
+  86:../../DaisySP/Source/Drums/hihat.h ****        Ported from pichenettes/eurorack/plaits/dsp/drums/hihat.h \n
+  87:../../DaisySP/Source/Drums/hihat.h ****        to an independent module. \n
+  88:../../DaisySP/Source/Drums/hihat.h ****        Original code written by Emilie Gillet in 2016. \n
+  89:../../DaisySP/Source/Drums/hihat.h **** */
+  90:../../DaisySP/Source/Drums/hihat.h **** class LinearVCA
+  91:../../DaisySP/Source/Drums/hihat.h **** {
+  92:../../DaisySP/Source/Drums/hihat.h ****   public:
+  93:../../DaisySP/Source/Drums/hihat.h ****     float operator()(float s, float gain) { return s * gain; }
+  94:../../DaisySP/Source/Drums/hihat.h **** };
+  95:../../DaisySP/Source/Drums/hihat.h **** 
+  96:../../DaisySP/Source/Drums/hihat.h **** /**  
+  97:../../DaisySP/Source/Drums/hihat.h ****        @brief 808 HH, with a few extra parameters to push things to the CY territory...
+  98:../../DaisySP/Source/Drums/hihat.h ****        @author Ben Sergentanis
+  99:../../DaisySP/Source/Drums/hihat.h ****        @date Jan 2021
+ 100:../../DaisySP/Source/Drums/hihat.h ****        The template parameter MetallicNoiseSource allows another kind of "metallic \n
+ 101:../../DaisySP/Source/Drums/hihat.h ****        noise" to be used, for results which are more similar to KR-55 or FM hi-hats. \n \n 
+ 102:../../DaisySP/Source/Drums/hihat.h ****        Ported from pichenettes/eurorack/plaits/dsp/drums/hihat.h \n
+ 103:../../DaisySP/Source/Drums/hihat.h ****        to an independent module. \n
+ 104:../../DaisySP/Source/Drums/hihat.h ****        Original code written by Emilie Gillet in 2016. \n
+ 105:../../DaisySP/Source/Drums/hihat.h **** */
+ 106:../../DaisySP/Source/Drums/hihat.h **** template <typename MetallicNoiseSource = SquareNoise,
+ 107:../../DaisySP/Source/Drums/hihat.h ****           typename VCA                 = LinearVCA,
+ 108:../../DaisySP/Source/Drums/hihat.h ****           bool resonance               = true>
+ 109:../../DaisySP/Source/Drums/hihat.h **** class HiHat
+ 110:../../DaisySP/Source/Drums/hihat.h **** {
+ 111:../../DaisySP/Source/Drums/hihat.h ****   public:
+ 112:../../DaisySP/Source/Drums/hihat.h ****     HiHat() {}
+ 113:../../DaisySP/Source/Drums/hihat.h ****     ~HiHat() {}
+ 104              		.loc 7 113 5 is_stmt 1 view -0
+ 105              		.cfi_startproc
+ 106              		@ args = 0, pretend = 0, frame = 0
+ 107              		@ frame_needed = 0, uses_anonymous_args = 0
+ 108              		@ link register save eliminated.
+ 109              	.LBB226:
+ 110              	.LBI226:
+ 111              		.file 8 "../../DaisySP/Source/Filters/svf.h"
+   1:../../DaisySP/Source/Filters/svf.h **** #pragma once
+   2:../../DaisySP/Source/Filters/svf.h **** #ifndef DSY_SVF_H
+   3:../../DaisySP/Source/Filters/svf.h **** #define DSY_SVF_H
+   4:../../DaisySP/Source/Filters/svf.h **** 
+   5:../../DaisySP/Source/Filters/svf.h **** namespace daisysp
+   6:../../DaisySP/Source/Filters/svf.h **** {
+   7:../../DaisySP/Source/Filters/svf.h **** /**      Double Sampled, Stable State Variable Filter
+   8:../../DaisySP/Source/Filters/svf.h **** 
+ARM GAS  /tmp/ccb5exhz.s 			page 10
+
+
+   9:../../DaisySP/Source/Filters/svf.h **** Credit to Andrew Simper from musicdsp.org
+  10:../../DaisySP/Source/Filters/svf.h **** 
+  11:../../DaisySP/Source/Filters/svf.h **** This is his "State Variable Filter (Double Sampled, Stable)"
+  12:../../DaisySP/Source/Filters/svf.h **** 
+  13:../../DaisySP/Source/Filters/svf.h **** Additional thanks to Laurent de Soras for stability limit, and 
+  14:../../DaisySP/Source/Filters/svf.h **** Stefan Diedrichsen for the correct notch output
+  15:../../DaisySP/Source/Filters/svf.h **** 
+  16:../../DaisySP/Source/Filters/svf.h **** Ported by: Stephen Hensley
+  17:../../DaisySP/Source/Filters/svf.h **** */
+  18:../../DaisySP/Source/Filters/svf.h **** class Svf
+  19:../../DaisySP/Source/Filters/svf.h **** {
+  20:../../DaisySP/Source/Filters/svf.h ****   public:
+  21:../../DaisySP/Source/Filters/svf.h ****     Svf() {}
+  22:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+ 112              		.loc 8 22 5 view .LVU13
+ 113              		.loc 8 22 5 is_stmt 0 view .LVU14
+ 114              	.LBE226:
+ 115              	.LBB227:
+ 116              	.LBI227:
+ 117              		.loc 8 22 5 is_stmt 1 view .LVU15
+ 118              		.loc 8 22 5 is_stmt 0 view .LVU16
+ 119              	.LBE227:
+ 120              	.LBB228:
+ 121              	.LBI228:
+  28:../../DaisySP/Source/Drums/hihat.h **** 
+ 122              		.loc 7 28 5 is_stmt 1 view .LVU17
+  28:../../DaisySP/Source/Drums/hihat.h **** 
+ 123              		.loc 7 28 5 is_stmt 0 view .LVU18
+ 124              	.LBE228:
+ 125              		.loc 7 113 15 view .LVU19
+ 126 0000 7047     		bx	lr
+ 127              		.cfi_endproc
+ 128              	.LFE4772:
+ 130              		.weak	_ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED1Ev
+ 131              		.thumb_set _ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED1Ev,_ZN7daisysp5HiHatINS_11Squar
+ 132 0002 00BF     		.section	.text._Z13AudioCallbackPKPKfPPfj,"ax",%progbits
+ 133              		.align	1
+ 134              		.p2align 2,,3
+ 135              		.global	_Z13AudioCallbackPKPKfPPfj
+ 136              		.syntax unified
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.fpu fpv5-d16
+ 141              	_Z13AudioCallbackPKPKfPPfj:
+ 142              	.LVL3:
+ 143              	.LFB4212:
+ 144              		.file 9 "hihat.cpp"
+   1:hihat.cpp     **** #include "daisy_seed.h"
+   2:hihat.cpp     **** #include "daisysp.h"
+   3:hihat.cpp     **** 
+   4:hihat.cpp     **** using namespace daisy;
+   5:hihat.cpp     **** using namespace daisysp;
+   6:hihat.cpp     **** 
+   7:hihat.cpp     **** DaisySeed hw;
+   8:hihat.cpp     **** HiHat<>   hihat;
+   9:hihat.cpp     **** Metro     tick;
+  10:hihat.cpp     **** 
+ARM GAS  /tmp/ccb5exhz.s 			page 11
+
+
+  11:hihat.cpp     **** void AudioCallback(AudioHandle::InputBuffer  in,
+  12:hihat.cpp     ****                    AudioHandle::OutputBuffer out,
+  13:hihat.cpp     ****                    size_t                    size)
+  14:hihat.cpp     **** {
+ 145              		.loc 9 14 1 is_stmt 1 view -0
+ 146              		.cfi_startproc
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+  15:hihat.cpp     ****     for(size_t i = 0; i < size; i++)
+ 149              		.loc 9 15 5 view .LVU21
+ 150              	.LBB271:
+ 151              		.loc 9 15 25 view .LVU22
+ 152 0000 002A     		cmp	r2, #0
+ 153 0002 00F08681 		beq	.L21
+ 154              	.LBE271:
+  14:hihat.cpp     ****     for(size_t i = 0; i < size; i++)
+ 155              		.loc 9 14 1 is_stmt 0 view .LVU23
+ 156 0006 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 157              		.cfi_def_cfa_offset 32
+ 158              		.cfi_offset 3, -32
+ 159              		.cfi_offset 4, -28
+ 160              		.cfi_offset 5, -24
+ 161              		.cfi_offset 6, -20
+ 162              		.cfi_offset 7, -16
+ 163              		.cfi_offset 8, -12
+ 164              		.cfi_offset 9, -8
+ 165              		.cfi_offset 14, -4
+ 166 000a 0F46     		mov	r7, r1
+ 167 000c 9046     		mov	r8, r2
+ 168              	.LBB420:
+ 169              		.loc 9 15 16 view .LVU24
+ 170 000e 0025     		movs	r5, #0
+ 171 0010 C54C     		ldr	r4, .L27+16
+ 172              	.LBE420:
+  14:hihat.cpp     ****     for(size_t i = 0; i < size; i++)
+ 173              		.loc 9 14 1 view .LVU25
+ 174 0012 2DED068B 		vpush.64	{d8, d9, d10}
+ 175              		.cfi_def_cfa_offset 56
+ 176              		.cfi_offset 80, -56
+ 177              		.cfi_offset 81, -52
+ 178              		.cfi_offset 82, -48
+ 179              		.cfi_offset 83, -44
+ 180              		.cfi_offset 84, -40
+ 181              		.cfi_offset 85, -36
+ 182 0016 28E0     		b	.L6
+ 183              	.LVL4:
+ 184              	.L26:
+ 185              	.LBB421:
+ 186              	.LBB272:
+ 187              	.LBB273:
+ 188              	.LBB274:
+ 114:../../DaisySP/Source/Drums/hihat.h **** 
+ 115:../../DaisySP/Source/Drums/hihat.h ****     /** Initialize the module
+ 116:../../DaisySP/Source/Drums/hihat.h ****         \param sample_rate Audio engine sample rate
+ 117:../../DaisySP/Source/Drums/hihat.h ****     */
+ 118:../../DaisySP/Source/Drums/hihat.h ****     void Init(float sample_rate)
+ 119:../../DaisySP/Source/Drums/hihat.h ****     {
+ARM GAS  /tmp/ccb5exhz.s 			page 12
+
+
+ 120:../../DaisySP/Source/Drums/hihat.h ****         sample_rate_ = sample_rate;
+ 121:../../DaisySP/Source/Drums/hihat.h **** 
+ 122:../../DaisySP/Source/Drums/hihat.h ****         trig_ = false;
+ 123:../../DaisySP/Source/Drums/hihat.h **** 
+ 124:../../DaisySP/Source/Drums/hihat.h ****         envelope_     = 0.0f;
+ 125:../../DaisySP/Source/Drums/hihat.h ****         noise_clock_  = 0.0f;
+ 126:../../DaisySP/Source/Drums/hihat.h ****         noise_sample_ = 0.0f;
+ 127:../../DaisySP/Source/Drums/hihat.h ****         sustain_gain_ = 0.0f;
+ 128:../../DaisySP/Source/Drums/hihat.h **** 
+ 129:../../DaisySP/Source/Drums/hihat.h ****         SetFreq(3000.f);
+ 130:../../DaisySP/Source/Drums/hihat.h ****         SetTone(.5f);
+ 131:../../DaisySP/Source/Drums/hihat.h ****         SetDecay(.2f);
+ 132:../../DaisySP/Source/Drums/hihat.h ****         SetNoisiness(.8f);
+ 133:../../DaisySP/Source/Drums/hihat.h ****         SetAccent(.8f);
+ 134:../../DaisySP/Source/Drums/hihat.h ****         SetSustain(false);
+ 135:../../DaisySP/Source/Drums/hihat.h **** 
+ 136:../../DaisySP/Source/Drums/hihat.h ****         metallic_noise_.Init(sample_rate_);
+ 137:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.Init(sample_rate_);
+ 138:../../DaisySP/Source/Drums/hihat.h ****         hpf_.Init(sample_rate_);
+ 139:../../DaisySP/Source/Drums/hihat.h ****     }
+ 140:../../DaisySP/Source/Drums/hihat.h **** 
+ 141:../../DaisySP/Source/Drums/hihat.h ****     /** Get the next sample
+ 142:../../DaisySP/Source/Drums/hihat.h ****         \param trigger Hit the hihat with true. Defaults to false.
+ 143:../../DaisySP/Source/Drums/hihat.h ****     */
+ 144:../../DaisySP/Source/Drums/hihat.h ****     float Process(bool trigger = false)
+ 145:../../DaisySP/Source/Drums/hihat.h ****     {
+ 146:../../DaisySP/Source/Drums/hihat.h ****         const float envelope_decay
+ 189              		.loc 7 146 21 view .LVU26
+ 190 0018 9FEDC46A 		vldr.32	s12, .L27+20
+ 191 001c A9EEC67A 		vfms.f32	s14, s19, s12
+ 192              	.L12:
+ 147:../../DaisySP/Source/Drums/hihat.h ****             = 1.0f - 0.003f * SemitonesToRatio(-decay_ * 84.0f);
+ 148:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 149:../../DaisySP/Source/Drums/hihat.h ****             = 1.0f - 0.0025f * SemitonesToRatio(-decay_ * 36.0f);
+ 150:../../DaisySP/Source/Drums/hihat.h **** 
+ 151:../../DaisySP/Source/Drums/hihat.h ****         if(trigger || trig_)
+ 152:../../DaisySP/Source/Drums/hihat.h ****         {
+ 153:../../DaisySP/Source/Drums/hihat.h ****             trig_ = false;
+ 154:../../DaisySP/Source/Drums/hihat.h **** 
+ 155:../../DaisySP/Source/Drums/hihat.h ****             envelope_
+ 156:../../DaisySP/Source/Drums/hihat.h ****                 = (1.5f + 0.5f * (1.0f - decay_)) * (0.3f + 0.7f * accent_);
+ 157:../../DaisySP/Source/Drums/hihat.h ****         }
+ 158:../../DaisySP/Source/Drums/hihat.h **** 
+ 159:../../DaisySP/Source/Drums/hihat.h ****         // Process the metallic noise.
+ 160:../../DaisySP/Source/Drums/hihat.h ****         float out = metallic_noise_.Process(2.0f * f0_);
+ 161:../../DaisySP/Source/Drums/hihat.h **** 
+ 162:../../DaisySP/Source/Drums/hihat.h ****         // Apply BPF on the metallic noise.
+ 163:../../DaisySP/Source/Drums/hihat.h ****         float cutoff = 150.0f / sample_rate_ * SemitonesToRatio(tone_ * 72.0f);
+ 164:../../DaisySP/Source/Drums/hihat.h **** 
+ 165:../../DaisySP/Source/Drums/hihat.h ****         cutoff = fclamp(cutoff, 0.0f, 16000.0f / sample_rate_);
+ 166:../../DaisySP/Source/Drums/hihat.h **** 
+ 167:../../DaisySP/Source/Drums/hihat.h **** 
+ 168:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.SetFreq(cutoff * sample_rate_);
+ 169:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.SetRes(resonance ? 3.0f + 6.0f * tone_ : 1.0f);
+ 170:../../DaisySP/Source/Drums/hihat.h **** 
+ 171:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.Process(out);
+ 172:../../DaisySP/Source/Drums/hihat.h ****         out = noise_coloration_svf_.Band();
+ARM GAS  /tmp/ccb5exhz.s 			page 13
+
+
+ 173:../../DaisySP/Source/Drums/hihat.h **** 
+ 174:../../DaisySP/Source/Drums/hihat.h ****         // This is not at all part of the 808 circuit! But to add more variety, we
+ 175:../../DaisySP/Source/Drums/hihat.h ****         // add a variable amount of clocked noise to the output of the 6 schmitt
+ 176:../../DaisySP/Source/Drums/hihat.h ****         // trigger oscillators.
+ 177:../../DaisySP/Source/Drums/hihat.h ****         float noise_f = f0_ * (16.0f + 16.0f * (1.0f - noisiness_));
+ 178:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 179:../../DaisySP/Source/Drums/hihat.h **** 
+ 180:../../DaisySP/Source/Drums/hihat.h ****         noise_clock_ += noise_f;
+ 181:../../DaisySP/Source/Drums/hihat.h ****         if(noise_clock_ >= 1.0f)
+ 182:../../DaisySP/Source/Drums/hihat.h ****         {
+ 183:../../DaisySP/Source/Drums/hihat.h ****             noise_clock_ -= 1.0f;
+ 184:../../DaisySP/Source/Drums/hihat.h ****             noise_sample_ = rand() * kRandFrac - 0.5f;
+ 185:../../DaisySP/Source/Drums/hihat.h ****         }
+ 186:../../DaisySP/Source/Drums/hihat.h ****         out += noisiness_ * (noise_sample_ - out);
+ 187:../../DaisySP/Source/Drums/hihat.h **** 
+ 188:../../DaisySP/Source/Drums/hihat.h ****         // Apply VCA.
+ 189:../../DaisySP/Source/Drums/hihat.h ****         sustain_gain_ = accent_ * decay_;
+ 190:../../DaisySP/Source/Drums/hihat.h ****         VCA vca;
+ 191:../../DaisySP/Source/Drums/hihat.h ****         envelope_ *= envelope_ > 0.5f ? envelope_decay : cut_decay;
+ 192:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 193              		.loc 7 192 18 view .LVU27
+ 194 0020 237E     		ldrb	r3, [r4, #24]	@ zero_extendqisi2
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 195              		.loc 7 191 19 view .LVU28
+ 196 0022 26EE877A 		vmul.f32	s14, s13, s14
+ 193:../../DaisySP/Source/Drums/hihat.h **** 
+ 194:../../DaisySP/Source/Drums/hihat.h ****         hpf_.SetFreq(cutoff * sample_rate_);
+ 197              		.loc 7 194 21 view .LVU29
+ 198 0026 94ED000A 		vldr.32	s0, [r4]
+ 199              	.LBE274:
+ 200              	.LBE273:
+ 201              	.LBE272:
+ 202              		.loc 9 15 5 view .LVU30
+ 203 002a 0135     		adds	r5, r5, #1
+ 204              	.LVL5:
+ 205              	.LBB412:
+ 206              	.LBB348:
+ 207              	.LBB336:
+ 192:../../DaisySP/Source/Drums/hihat.h **** 
+ 208              		.loc 7 192 18 view .LVU31
+ 209 002c 002B     		cmp	r3, #0
+ 210              		.loc 7 194 21 view .LVU32
+ 211 002e C048     		ldr	r0, .L27+24
+ 212 0030 28EE000A 		vmul.f32	s0, s16, s0
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 213              		.loc 7 191 9 view .LVU33
+ 214 0034 84ED077A 		vstr.32	s14, [r4, #28]
+ 192:../../DaisySP/Source/Drums/hihat.h **** 
+ 215              		.loc 7 192 18 view .LVU34
+ 216 0038 47FE277A 		vseleq.f32	s15, s14, s15
+ 217              	.LVL6:
+ 218              	.LBB275:
+ 219              	.LBI275:
+  93:../../DaisySP/Source/Drums/hihat.h **** };
+ 220              		.loc 7 93 11 is_stmt 1 view .LVU35
+ 221              	.LBB276:
+  93:../../DaisySP/Source/Drums/hihat.h **** };
+ARM GAS  /tmp/ccb5exhz.s 			page 14
+
+
+ 222              		.loc 7 93 45 view .LVU36
+  93:../../DaisySP/Source/Drums/hihat.h **** };
+ 223              		.loc 7 93 56 is_stmt 0 view .LVU37
+ 224 003c 68EEA78A 		vmul.f32	s17, s17, s15
+ 225              	.LVL7:
+  93:../../DaisySP/Source/Drums/hihat.h **** };
+ 226              		.loc 7 93 56 view .LVU38
+ 227              	.LBE276:
+ 228              	.LBE275:
+ 229              		.loc 7 194 21 view .LVU39
+ 230 0040 FFF7FEFF 		bl	_ZN7daisysp3Svf7SetFreqEf
+ 231              	.LVL8:
+ 195:../../DaisySP/Source/Drums/hihat.h ****         hpf_.SetRes(.5f);
+ 232              		.loc 7 195 20 view .LVU40
+ 233 0044 B6EE000A 		vmov.f32	s0, #5.0e-1
+ 234 0048 B948     		ldr	r0, .L27+24
+ 235 004a FFF7FEFF 		bl	_ZN7daisysp3Svf6SetResEf
+ 236              	.LVL9:
+ 196:../../DaisySP/Source/Drums/hihat.h ****         hpf_.Process(out);
+ 237              		.loc 7 196 21 view .LVU41
+ 238 004e B848     		ldr	r0, .L27+24
+ 239 0050 B0EE680A 		vmov.f32	s0, s17
+ 240 0054 FFF7FEFF 		bl	_ZN7daisysp3Svf7ProcessEf
+ 241              	.LVL10:
+ 242              	.LBE336:
+ 243              	.LBE348:
+  16:hihat.cpp     ****     {
+  17:hihat.cpp     ****         bool t = tick.Process();
+  18:hihat.cpp     ****         if(t)
+  19:hihat.cpp     ****         {
+  20:hihat.cpp     ****             hihat.SetDecay(random() / (float)RAND_MAX);
+  21:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+  22:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+  23:hihat.cpp     ****             hihat.SetNoisiness(random() / (float)RAND_MAX);
+  24:hihat.cpp     ****         }
+  25:hihat.cpp     ****         out[0][i] = out[1][i] = hihat.Process(t);
+ 244              		.loc 9 25 19 view .LVU42
+ 245 0058 3B68     		ldr	r3, [r7]
+ 246              	.LBB349:
+ 247              	.LBB337:
+ 197:../../DaisySP/Source/Drums/hihat.h ****         out = hpf_.High();
+ 248              		.loc 7 197 24 view .LVU43
+ 249 005a D4F8C400 		ldr	r0, [r4, #196]	@ float
+ 250              	.LVL11:
+ 251              		.loc 7 197 24 view .LVU44
+ 252              	.LBE337:
+ 253              	.LBE349:
+ 254              	.LBE412:
+ 255              	.LBE421:
+  23:../../DaisySP/Source/Filters/svf.h ****     /** Initializes the filter
+  24:../../DaisySP/Source/Filters/svf.h ****         float sample_rate - sample rate of the audio engine being run, and the frequency that the P
+  25:../../DaisySP/Source/Filters/svf.h ****     */
+  26:../../DaisySP/Source/Filters/svf.h ****     void Init(float sample_rate);
+  27:../../DaisySP/Source/Filters/svf.h **** 
+  28:../../DaisySP/Source/Filters/svf.h **** 
+  29:../../DaisySP/Source/Filters/svf.h ****     /** 
+  30:../../DaisySP/Source/Filters/svf.h ****         Process the input signal, updating all of the outputs.
+ARM GAS  /tmp/ccb5exhz.s 			page 15
+
+
+  31:../../DaisySP/Source/Filters/svf.h ****     */
+  32:../../DaisySP/Source/Filters/svf.h ****     void Process(float in);
+  33:../../DaisySP/Source/Filters/svf.h **** 
+  34:../../DaisySP/Source/Filters/svf.h **** 
+  35:../../DaisySP/Source/Filters/svf.h ****     /** sets the frequency of the cutoff frequency. 
+  36:../../DaisySP/Source/Filters/svf.h ****         f must be between 0.0 and sample_rate / 3
+  37:../../DaisySP/Source/Filters/svf.h ****     */
+  38:../../DaisySP/Source/Filters/svf.h ****     void SetFreq(float f);
+  39:../../DaisySP/Source/Filters/svf.h **** 
+  40:../../DaisySP/Source/Filters/svf.h ****     /** sets the resonance of the filter.
+  41:../../DaisySP/Source/Filters/svf.h ****         Must be between 0.0 and 1.0 to ensure stability.
+  42:../../DaisySP/Source/Filters/svf.h ****     */
+  43:../../DaisySP/Source/Filters/svf.h ****     void SetRes(float r);
+  44:../../DaisySP/Source/Filters/svf.h **** 
+  45:../../DaisySP/Source/Filters/svf.h ****     /** sets the drive of the filter 
+  46:../../DaisySP/Source/Filters/svf.h ****         affects the response of the resonance of the filter
+  47:../../DaisySP/Source/Filters/svf.h ****     */
+  48:../../DaisySP/Source/Filters/svf.h ****     void SetDrive(float d);
+  49:../../DaisySP/Source/Filters/svf.h ****     /** lowpass output
+  50:../../DaisySP/Source/Filters/svf.h ****         \return low pass output of the filter
+  51:../../DaisySP/Source/Filters/svf.h ****     */
+  52:../../DaisySP/Source/Filters/svf.h ****     inline float Low() { return out_low_; }
+  53:../../DaisySP/Source/Filters/svf.h ****     /** highpass output
+  54:../../DaisySP/Source/Filters/svf.h ****         \return high pass output of the filter
+  55:../../DaisySP/Source/Filters/svf.h ****     */
+  56:../../DaisySP/Source/Filters/svf.h ****     inline float High() { return out_high_; }
+ 256              		.loc 8 56 27 is_stmt 1 view .LVU45
+ 257              	.LBB422:
+  15:hihat.cpp     ****     {
+ 258              		.loc 9 15 25 is_stmt 0 view .LVU46
+ 259 005e A845     		cmp	r8, r5
+ 260              	.LBB413:
+ 261              		.loc 9 25 19 view .LVU47
+ 262 0060 4B44     		add	r3, r3, r9
+ 263              		.loc 9 25 31 view .LVU48
+ 264 0062 3060     		str	r0, [r6]	@ float
+ 265              		.loc 9 25 19 view .LVU49
+ 266 0064 1860     		str	r0, [r3]	@ float
+ 267              	.LBE413:
+  15:hihat.cpp     ****     {
+ 268              		.loc 9 15 5 is_stmt 1 view .LVU50
+ 269              	.LVL12:
+  15:hihat.cpp     ****     {
+ 270              		.loc 9 15 25 view .LVU51
+ 271 0066 00F05081 		beq	.L24
+ 272              	.LVL13:
+ 273              	.L6:
+ 274              	.LBB414:
+  17:hihat.cpp     ****         if(t)
+ 275              		.loc 9 17 9 view .LVU52
+  17:hihat.cpp     ****         if(t)
+ 276              		.loc 9 17 30 is_stmt 0 view .LVU53
+ 277 006a B248     		ldr	r0, .L27+28
+ 278 006c FFF7FEFF 		bl	_ZN7daisysp5Metro7ProcessEv
+ 279              	.LVL14:
+  18:hihat.cpp     ****         {
+ 280              		.loc 9 18 9 is_stmt 1 view .LVU54
+ARM GAS  /tmp/ccb5exhz.s 			page 16
+
+
+ 281 0070 0028     		cmp	r0, #0
+ 282 0072 40F0D480 		bne	.L25
+ 283              		.loc 9 25 9 view .LVU55
+ 284              	.LBB350:
+ 285              	.LBB338:
+ 147:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 286              		.loc 7 147 29 is_stmt 0 view .LVU56
+ 287 0076 DFEDB07A 		vldr.32	s15, .L27+32
+ 288              	.LBB277:
+ 289              	.LBB278:
+ 198:../../DaisySP/Source/Drums/hihat.h **** 
+ 199:../../DaisySP/Source/Drums/hihat.h ****         return out;
+ 200:../../DaisySP/Source/Drums/hihat.h ****     }
+ 201:../../DaisySP/Source/Drums/hihat.h **** 
+ 202:../../DaisySP/Source/Drums/hihat.h ****     /** Trigger the hihat */
+ 203:../../DaisySP/Source/Drums/hihat.h ****     void Trig() { trig_ = true; }
+ 204:../../DaisySP/Source/Drums/hihat.h **** 
+ 205:../../DaisySP/Source/Drums/hihat.h ****     /** Make the hihat ring out infinitely.
+ 206:../../DaisySP/Source/Drums/hihat.h ****         \param sustain True = infinite sustain.
+ 207:../../DaisySP/Source/Drums/hihat.h ****     */
+ 208:../../DaisySP/Source/Drums/hihat.h ****     void SetSustain(bool sustain) { sustain_ = sustain; }
+ 209:../../DaisySP/Source/Drums/hihat.h **** 
+ 210:../../DaisySP/Source/Drums/hihat.h ****     /** Set how much accent to use
+ 211:../../DaisySP/Source/Drums/hihat.h ****         \param accent Works 0-1.
+ 212:../../DaisySP/Source/Drums/hihat.h ****     */
+ 213:../../DaisySP/Source/Drums/hihat.h ****     void SetAccent(float accent) { accent_ = fclamp(accent, 0.f, 1.f); }
+ 214:../../DaisySP/Source/Drums/hihat.h **** 
+ 215:../../DaisySP/Source/Drums/hihat.h ****     /** Set the hihat tone's root frequency
+ 216:../../DaisySP/Source/Drums/hihat.h ****         \param f0 Freq in Hz
+ 217:../../DaisySP/Source/Drums/hihat.h ****     */
+ 218:../../DaisySP/Source/Drums/hihat.h ****     void SetFreq(float f0)
+ 219:../../DaisySP/Source/Drums/hihat.h ****     {
+ 220:../../DaisySP/Source/Drums/hihat.h ****         f0 /= sample_rate_;
+ 221:../../DaisySP/Source/Drums/hihat.h ****         f0_ = fclamp(f0, 0.f, 1.f);
+ 222:../../DaisySP/Source/Drums/hihat.h ****     }
+ 223:../../DaisySP/Source/Drums/hihat.h **** 
+ 224:../../DaisySP/Source/Drums/hihat.h ****     /** Set the overall brightness / darkness of the hihat.
+ 225:../../DaisySP/Source/Drums/hihat.h ****         \param tone Works from 0-1.
+ 226:../../DaisySP/Source/Drums/hihat.h ****     */
+ 227:../../DaisySP/Source/Drums/hihat.h ****     void SetTone(float tone) { tone_ = fclamp(tone, 0.f, 1.f); }
+ 228:../../DaisySP/Source/Drums/hihat.h **** 
+ 229:../../DaisySP/Source/Drums/hihat.h ****     /** Set the length of the hihat decay
+ 230:../../DaisySP/Source/Drums/hihat.h ****         \param decay Works > 0. Tuned for 0-1.
+ 231:../../DaisySP/Source/Drums/hihat.h ****     */
+ 232:../../DaisySP/Source/Drums/hihat.h ****     void SetDecay(float decay)
+ 233:../../DaisySP/Source/Drums/hihat.h ****     {
+ 234:../../DaisySP/Source/Drums/hihat.h ****         decay_ = fmax(decay, 0.f);
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ *= 1.7;
+ 236:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 237:../../DaisySP/Source/Drums/hihat.h ****     }
+ 238:../../DaisySP/Source/Drums/hihat.h **** 
+ 239:../../DaisySP/Source/Drums/hihat.h ****     /** Sets the mix between tone and noise
+ 240:../../DaisySP/Source/Drums/hihat.h ****         \param snappy 1 = just noise. 0 = just tone.
+ 241:../../DaisySP/Source/Drums/hihat.h ****     */
+ 242:../../DaisySP/Source/Drums/hihat.h ****     void SetNoisiness(float noisiness)
+ 243:../../DaisySP/Source/Drums/hihat.h ****     {
+ 244:../../DaisySP/Source/Drums/hihat.h ****         noisiness_ = fclamp(noisiness, 0.f, 1.f);
+ARM GAS  /tmp/ccb5exhz.s 			page 17
+
+
+ 245:../../DaisySP/Source/Drums/hihat.h ****         noisiness_ *= noisiness_;
+ 246:../../DaisySP/Source/Drums/hihat.h ****     }
+ 247:../../DaisySP/Source/Drums/hihat.h **** 
+ 248:../../DaisySP/Source/Drums/hihat.h **** 
+ 249:../../DaisySP/Source/Drums/hihat.h ****   private:
+ 250:../../DaisySP/Source/Drums/hihat.h ****     float sample_rate_;
+ 251:../../DaisySP/Source/Drums/hihat.h **** 
+ 252:../../DaisySP/Source/Drums/hihat.h ****     float accent_, f0_, tone_, decay_, noisiness_;
+ 253:../../DaisySP/Source/Drums/hihat.h ****     bool  sustain_;
+ 254:../../DaisySP/Source/Drums/hihat.h ****     bool  trig_;
+ 255:../../DaisySP/Source/Drums/hihat.h **** 
+ 256:../../DaisySP/Source/Drums/hihat.h ****     float SemitonesToRatio(float in) { return powf(2.f, in * kOneTwelfth); }
+ 290              		.loc 7 256 51 view .LVU57
+ 291 007a B0EE000A 		vmov.f32	s0, #2.0e+0
+ 292              	.LBE278:
+ 293              	.LBE277:
+ 147:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 294              		.loc 7 147 29 view .LVU58
+ 295 007e D4ED040A 		vldr.32	s1, [r4, #16]
+ 296 0082 4FEA8509 		lsl	r9, r5, #2
+ 297              	.LBB287:
+ 298              	.LBB279:
+ 299              		.loc 7 256 51 view .LVU59
+ 300 0086 9FEDAD8A 		vldr.32	s16, .L27+36
+ 301              	.LBE279:
+ 302              	.LBE287:
+ 147:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 303              		.loc 7 147 29 view .LVU60
+ 304 008a 60EEE70A 		vnmul.f32	s1, s1, s15
+ 305              	.LBE338:
+ 306              	.LBE350:
+ 307              		.loc 9 25 29 view .LVU61
+ 308 008e 7E68     		ldr	r6, [r7, #4]
+ 309 0090 06EB8506 		add	r6, r6, r5, lsl #2
+ 310              	.LVL15:
+ 311              	.LBB351:
+ 312              	.LBI273:
+ 144:../../DaisySP/Source/Drums/hihat.h ****     {
+ 313              		.loc 7 144 11 is_stmt 1 view .LVU62
+ 314              	.LBB339:
+ 315              	.LBB288:
+ 316              	.LBI277:
+ 317              		.loc 7 256 11 view .LVU63
+ 318              	.LBB280:
+ 319              		.loc 7 256 51 is_stmt 0 view .LVU64
+ 320 0094 60EE880A 		vmul.f32	s1, s1, s16
+ 321 0098 FFF7FEFF 		bl	powf
+ 322              	.LVL16:
+ 323              		.loc 7 256 51 view .LVU65
+ 324              	.LBE280:
+ 325              	.LBE288:
+ 149:../../DaisySP/Source/Drums/hihat.h **** 
+ 326              		.loc 7 149 30 view .LVU66
+ 327 009c D4ED040A 		vldr.32	s1, [r4, #16]
+ 328 00a0 DFEDA77A 		vldr.32	s15, .L27+40
+ 329              	.LBB289:
+ 330              	.LBB281:
+ARM GAS  /tmp/ccb5exhz.s 			page 18
+
+
+ 331              		.loc 7 256 51 view .LVU67
+ 332 00a4 F0EE409A 		vmov.f32	s19, s0
+ 333              	.LVL17:
+ 334              		.loc 7 256 51 view .LVU68
+ 335              	.LBE281:
+ 336              	.LBE289:
+ 337              	.LBB290:
+ 338              	.LBI290:
+ 339              		.loc 7 256 11 is_stmt 1 view .LVU69
+ 340              	.LBB291:
+ 341              		.loc 7 256 51 is_stmt 0 view .LVU70
+ 342 00a8 B0EE000A 		vmov.f32	s0, #2.0e+0
+ 343              	.LVL18:
+ 344              		.loc 7 256 51 view .LVU71
+ 345              	.LBE291:
+ 346              	.LBE290:
+ 149:../../DaisySP/Source/Drums/hihat.h **** 
+ 347              		.loc 7 149 30 view .LVU72
+ 348 00ac 60EEE70A 		vnmul.f32	s1, s1, s15
+ 349              	.LVL19:
+ 350              	.LBB296:
+ 351              	.LBB292:
+ 352              		.loc 7 256 51 view .LVU73
+ 353 00b0 60EE880A 		vmul.f32	s1, s1, s16
+ 354 00b4 FFF7FEFF 		bl	powf
+ 355              	.LVL20:
+ 356              		.loc 7 256 51 view .LVU74
+ 357              	.LBE292:
+ 358              	.LBE296:
+ 151:../../DaisySP/Source/Drums/hihat.h ****         {
+ 359              		.loc 7 151 20 view .LVU75
+ 360 00b8 637E     		ldrb	r3, [r4, #25]	@ zero_extendqisi2
+ 361              	.LBB297:
+ 362              	.LBB293:
+ 363              		.loc 7 256 51 view .LVU76
+ 364 00ba B0EE409A 		vmov.f32	s18, s0
+ 365              	.LVL21:
+ 366              		.loc 7 256 51 view .LVU77
+ 367              	.LBE293:
+ 368              	.LBE297:
+ 151:../../DaisySP/Source/Drums/hihat.h ****         {
+ 369              		.loc 7 151 20 view .LVU78
+ 370 00be CBB1     		cbz	r3, .L16
+ 371              	.LVL22:
+ 372              	.L15:
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 373              		.loc 7 156 40 view .LVU79
+ 374 00c0 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 375 00c4 94ED047A 		vldr.32	s14, [r4, #16]
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 376              		.loc 7 156 25 view .LVU80
+ 377 00c8 B6EE006A 		vmov.f32	s12, #5.0e-1
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 378              		.loc 7 156 59 view .LVU81
+ 379 00cc 94ED015A 		vldr.32	s10, [r4, #4]
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 380              		.loc 7 156 25 view .LVU82
+ARM GAS  /tmp/ccb5exhz.s 			page 19
+
+
+ 381 00d0 F7EE087A 		vmov.f32	s15, #1.5e+0
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 382              		.loc 7 156 59 view .LVU83
+ 383 00d4 DFED9B5A 		vldr.32	s11, .L27+44
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 384              		.loc 7 156 40 view .LVU84
+ 385 00d8 76EEC76A 		vsub.f32	s13, s13, s14
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 386              		.loc 7 156 59 view .LVU85
+ 387 00dc 9FED9A7A 		vldr.32	s14, .L27+48
+ 153:../../DaisySP/Source/Drums/hihat.h **** 
+ 388              		.loc 7 153 13 view .LVU86
+ 389 00e0 0023     		movs	r3, #0
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 390              		.loc 7 156 59 view .LVU87
+ 391 00e2 A5EE257A 		vfma.f32	s14, s10, s11
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 392              		.loc 7 156 25 view .LVU88
+ 393 00e6 E6EE867A 		vfma.f32	s15, s13, s12
+ 153:../../DaisySP/Source/Drums/hihat.h **** 
+ 394              		.loc 7 153 13 view .LVU89
+ 395 00ea 6376     		strb	r3, [r4, #25]
+ 156:../../DaisySP/Source/Drums/hihat.h ****         }
+ 396              		.loc 7 156 51 view .LVU90
+ 397 00ec 67EE877A 		vmul.f32	s15, s15, s14
+ 155:../../DaisySP/Source/Drums/hihat.h ****                 = (1.5f + 0.5f * (1.0f - decay_)) * (0.3f + 0.7f * accent_);
+ 398              		.loc 7 155 13 view .LVU91
+ 399 00f0 C4ED077A 		vstr.32	s15, [r4, #28]
+ 400              	.L16:
+ 160:../../DaisySP/Source/Drums/hihat.h **** 
+ 401              		.loc 7 160 15 view .LVU92
+ 402 00f4 94ED020A 		vldr.32	s0, [r4, #8]
+ 403 00f8 9448     		ldr	r0, .L27+52
+ 404 00fa 30EE000A 		vadd.f32	s0, s0, s0
+ 405              	.LBB298:
+ 406              	.LBB299:
+ 407              	.LBB300:
+ 408              		.file 10 "../../DaisySP/Source/Utility/dsp.h"
+   1:../../DaisySP/Source/Utility/dsp.h **** /** Helpful defines, functions, and other utilities for use in/with daisysp modules.
+   2:../../DaisySP/Source/Utility/dsp.h **** */
+   3:../../DaisySP/Source/Utility/dsp.h **** #pragma once
+   4:../../DaisySP/Source/Utility/dsp.h **** #ifndef DSY_CORE_DSP
+   5:../../DaisySP/Source/Utility/dsp.h **** #define DSY_CORE_DSP
+   6:../../DaisySP/Source/Utility/dsp.h **** #include <cassert>
+   7:../../DaisySP/Source/Utility/dsp.h **** #include <cstdint>
+   8:../../DaisySP/Source/Utility/dsp.h **** #include <random>
+   9:../../DaisySP/Source/Utility/dsp.h **** #include <cmath>
+  10:../../DaisySP/Source/Utility/dsp.h **** 
+  11:../../DaisySP/Source/Utility/dsp.h **** /** PIs
+  12:../../DaisySP/Source/Utility/dsp.h **** */
+  13:../../DaisySP/Source/Utility/dsp.h **** #define PI_F 3.1415927410125732421875f
+  14:../../DaisySP/Source/Utility/dsp.h **** #define TWOPI_F (2.0f * PI_F)
+  15:../../DaisySP/Source/Utility/dsp.h **** #define HALFPI_F (PI_F * 0.5f)
+  16:../../DaisySP/Source/Utility/dsp.h **** #define DSY_MIN(in, mn) (in < mn ? in : mn)
+  17:../../DaisySP/Source/Utility/dsp.h **** #define DSY_MAX(in, mx) (in > mx ? in : mx)
+  18:../../DaisySP/Source/Utility/dsp.h **** #define DSY_CLAMP(in, mn, mx) (DSY_MIN(DSY_MAX(in, mn), mx))
+  19:../../DaisySP/Source/Utility/dsp.h **** #define DSY_COUNTOF(_arr) (sizeof(_arr) / sizeof(_arr[0]))
+ARM GAS  /tmp/ccb5exhz.s 			page 20
+
+
+  20:../../DaisySP/Source/Utility/dsp.h **** 
+  21:../../DaisySP/Source/Utility/dsp.h **** namespace daisysp
+  22:../../DaisySP/Source/Utility/dsp.h **** {
+  23:../../DaisySP/Source/Utility/dsp.h **** //Avoids division for random floats. e.g. rand() * kRandFrac
+  24:../../DaisySP/Source/Utility/dsp.h **** static constexpr float kRandFrac = 1.f / (float)RAND_MAX;
+  25:../../DaisySP/Source/Utility/dsp.h **** 
+  26:../../DaisySP/Source/Utility/dsp.h **** //Convert from semitones to other units. e.g. 2 ^ (kOneTwelfth * x)
+  27:../../DaisySP/Source/Utility/dsp.h **** static constexpr float kOneTwelfth = 1.f / 12.f;
+  28:../../DaisySP/Source/Utility/dsp.h **** 
+  29:../../DaisySP/Source/Utility/dsp.h **** /** efficient floating point min/max
+  30:../../DaisySP/Source/Utility/dsp.h **** c/o stephen mccaul
+  31:../../DaisySP/Source/Utility/dsp.h **** */
+  32:../../DaisySP/Source/Utility/dsp.h **** inline float fmax(float a, float b)
+  33:../../DaisySP/Source/Utility/dsp.h **** {
+  34:../../DaisySP/Source/Utility/dsp.h ****     float r;
+  35:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+  36:../../DaisySP/Source/Utility/dsp.h ****     asm("vmaxnm.f32 %[d], %[n], %[m]" : [d] "=t"(r) : [n] "t"(a), [m] "t"(b) :);
+ 409              		.loc 10 36 80 view .LVU93
+ 410 00fe DFED94AA 		vldr.32	s21, .L27+56
+ 411              	.LBE300:
+ 412              	.LBE299:
+ 413              	.LBE298:
+ 160:../../DaisySP/Source/Drums/hihat.h **** 
+ 414              		.loc 7 160 15 view .LVU94
+ 415 0102 FFF7FEFF 		bl	_ZN7daisysp11SquareNoise7ProcessEf
+ 416              	.LVL23:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 417              		.loc 7 163 31 view .LVU95
+ 418 0106 DFED936A 		vldr.32	s13, .L27+60
+ 419 010a 94ED007A 		vldr.32	s14, [r4]
+ 160:../../DaisySP/Source/Drums/hihat.h **** 
+ 420              		.loc 7 160 15 view .LVU96
+ 421 010e B0EE40AA 		vmov.f32	s20, s0
+ 422              	.LVL24:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 423              		.loc 7 163 46 view .LVU97
+ 424 0112 D4ED037A 		vldr.32	s15, [r4, #12]
+ 425              	.LBB307:
+ 426              	.LBB308:
+ 427              		.loc 7 256 51 view .LVU98
+ 428 0116 B0EE000A 		vmov.f32	s0, #2.0e+0
+ 429              	.LVL25:
+ 430              		.loc 7 256 51 view .LVU99
+ 431              	.LBE308:
+ 432              	.LBE307:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 433              		.loc 7 163 31 view .LVU100
+ 434 011a 86EE878A 		vdiv.f32	s16, s13, s14
+ 435              	.LVL26:
+ 436              	.LBB311:
+ 437              	.LBI307:
+ 438              		.loc 7 256 11 is_stmt 1 view .LVU101
+ 439              		.loc 7 256 11 is_stmt 0 view .LVU102
+ 440              	.LBE311:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 441              		.loc 7 163 46 view .LVU103
+ 442 011e 9FED8E7A 		vldr.32	s14, .L27+64
+ARM GAS  /tmp/ccb5exhz.s 			page 21
+
+
+ 443              	.LBB312:
+ 444              	.LBB309:
+ 445              		.loc 7 256 51 view .LVU104
+ 446 0122 DFED860A 		vldr.32	s1, .L27+36
+ 447              	.LBE309:
+ 448              	.LBE312:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 449              		.loc 7 163 46 view .LVU105
+ 450 0126 67EE877A 		vmul.f32	s15, s15, s14
+ 451              	.LVL27:
+ 452              	.LBB313:
+ 453              	.LBB310:
+ 454              		.loc 7 256 51 view .LVU106
+ 455 012a 67EEA00A 		vmul.f32	s1, s15, s1
+ 456 012e FFF7FEFF 		bl	powf
+ 457              	.LVL28:
+ 458              		.loc 7 256 51 view .LVU107
+ 459              	.LBE310:
+ 460              	.LBE313:
+ 165:../../DaisySP/Source/Drums/hihat.h **** 
+ 461              		.loc 7 165 24 view .LVU108
+ 462 0132 DFED8A6A 		vldr.32	s13, .L27+68
+ 165:../../DaisySP/Source/Drums/hihat.h **** 
+ 463              		.loc 7 165 50 view .LVU109
+ 464 0136 D4ED007A 		vldr.32	s15, [r4]
+ 465              	.LVL29:
+ 466              	.LBB314:
+ 467              	.LBI298:
+  37:../../DaisySP/Source/Utility/dsp.h **** #else
+  38:../../DaisySP/Source/Utility/dsp.h ****     r = (a > b) ? a : b;
+  39:../../DaisySP/Source/Utility/dsp.h **** #endif // __arm__
+  40:../../DaisySP/Source/Utility/dsp.h ****     return r;
+  41:../../DaisySP/Source/Utility/dsp.h **** }
+  42:../../DaisySP/Source/Utility/dsp.h **** 
+  43:../../DaisySP/Source/Utility/dsp.h **** inline float fmin(float a, float b)
+  44:../../DaisySP/Source/Utility/dsp.h **** {
+  45:../../DaisySP/Source/Utility/dsp.h ****     float r;
+  46:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+  47:../../DaisySP/Source/Utility/dsp.h ****     asm("vminnm.f32 %[d], %[n], %[m]" : [d] "=t"(r) : [n] "t"(a), [m] "t"(b) :);
+  48:../../DaisySP/Source/Utility/dsp.h **** #else
+  49:../../DaisySP/Source/Utility/dsp.h ****     r = (a < b) ? a : b;
+  50:../../DaisySP/Source/Utility/dsp.h **** #endif // __arm__
+  51:../../DaisySP/Source/Utility/dsp.h ****     return r;
+  52:../../DaisySP/Source/Utility/dsp.h **** }
+  53:../../DaisySP/Source/Utility/dsp.h **** 
+  54:../../DaisySP/Source/Utility/dsp.h **** /** quick fp clamp
+  55:../../DaisySP/Source/Utility/dsp.h **** */
+  56:../../DaisySP/Source/Utility/dsp.h **** inline float fclamp(float in, float min, float max)
+ 468              		.loc 10 56 14 is_stmt 1 view .LVU110
+ 469              	.LBE314:
+ 470              	.LBE339:
+ 471              	.LBE351:
+ 472              	.LBE414:
+ 473              	.LBE422:
+  57:../../DaisySP/Source/Utility/dsp.h **** {
+  58:../../DaisySP/Source/Utility/dsp.h ****     return fmin(fmax(in, min), max);
+ 474              		.loc 10 58 5 view .LVU111
+ARM GAS  /tmp/ccb5exhz.s 			page 22
+
+
+ 475              	.LBB423:
+ 476              	.LBB415:
+ 477              	.LBB352:
+ 478              	.LBB340:
+ 479              	.LBB315:
+ 480              	.LBB303:
+ 481              	.LBI299:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 482              		.loc 10 32 14 view .LVU112
+ 483              	.LBB301:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 484              		.loc 10 34 5 view .LVU113
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 485              		.loc 10 36 5 view .LVU114
+ 486              	.LBE301:
+ 487              	.LBE303:
+ 488              	.LBE315:
+ 168:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.SetRes(resonance ? 3.0f + 6.0f * tone_ : 1.0f);
+ 489              		.loc 7 168 38 is_stmt 0 view .LVU115
+ 490 013a 8948     		ldr	r0, .L27+72
+ 165:../../DaisySP/Source/Drums/hihat.h **** 
+ 491              		.loc 7 165 24 view .LVU116
+ 492 013c 86EEA77A 		vdiv.f32	s14, s13, s15
+ 493              	.LVL30:
+ 163:../../DaisySP/Source/Drums/hihat.h **** 
+ 494              		.loc 7 163 15 view .LVU117
+ 495 0140 28EE008A 		vmul.f32	s16, s16, s0
+ 496              	.LVL31:
+ 497              	.LBB316:
+ 498              	.LBB304:
+ 499              	.LBB302:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 500              		.loc 10 36 80 view .LVU118
+ 501              		.syntax unified
+ 502              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 503 0144 88FE2A8A 		vmaxnm.f32 s16, s16, s21
+ 504              	@ 0 "" 2
+ 505              	.LVL32:
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 506              		.loc 10 40 5 is_stmt 1 view .LVU119
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 507              		.loc 10 40 5 is_stmt 0 view .LVU120
+ 508              		.thumb
+ 509              		.syntax unified
+ 510              	.LBE302:
+ 511              	.LBE304:
+ 512              	.LBB305:
+ 513              	.LBI305:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 514              		.loc 10 43 14 is_stmt 1 view .LVU121
+ 515              	.LBB306:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 516              		.loc 10 45 5 view .LVU122
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 517              		.loc 10 47 5 view .LVU123
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 518              		.loc 10 47 80 is_stmt 0 view .LVU124
+ARM GAS  /tmp/ccb5exhz.s 			page 23
+
+
+ 519              		.syntax unified
+ 520              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 521 0148 88FE478A 		vminnm.f32 s16, s16, s14
+ 522              	@ 0 "" 2
+ 523              	.LVL33:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 524              		.loc 10 51 5 is_stmt 1 view .LVU125
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 525              		.loc 10 51 5 is_stmt 0 view .LVU126
+ 526              		.thumb
+ 527              		.syntax unified
+ 528              	.LBE306:
+ 529              	.LBE305:
+ 530              	.LBE316:
+ 168:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.SetRes(resonance ? 3.0f + 6.0f * tone_ : 1.0f);
+ 531              		.loc 7 168 38 view .LVU127
+ 532 014c 27EE880A 		vmul.f32	s0, s15, s16
+ 533 0150 FFF7FEFF 		bl	_ZN7daisysp3Svf7SetFreqEf
+ 534              	.LVL34:
+ 169:../../DaisySP/Source/Drums/hihat.h **** 
+ 535              		.loc 7 169 37 view .LVU128
+ 536 0154 F1EE087A 		vmov.f32	s15, #6.0e+0
+ 537 0158 B0EE080A 		vmov.f32	s0, #3.0e+0
+ 538 015c 94ED037A 		vldr.32	s14, [r4, #12]
+ 539 0160 7F48     		ldr	r0, .L27+72
+ 540 0162 A7EE270A 		vfma.f32	s0, s14, s15
+ 541 0166 FFF7FEFF 		bl	_ZN7daisysp3Svf6SetResEf
+ 542              	.LVL35:
+ 171:../../DaisySP/Source/Drums/hihat.h ****         out = noise_coloration_svf_.Band();
+ 543              		.loc 7 171 38 view .LVU129
+ 544 016a B0EE4A0A 		vmov.f32	s0, s20
+ 545 016e 7C48     		ldr	r0, .L27+72
+ 546 0170 FFF7FEFF 		bl	_ZN7daisysp3Svf7ProcessEf
+ 547              	.LVL36:
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 548              		.loc 7 177 54 view .LVU130
+ 549 0174 F7EE006A 		vmov.f32	s13, #1.0e+0
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 550              		.loc 7 177 56 view .LVU131
+ 551 0178 94ED056A 		vldr.32	s12, [r4, #20]
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 552              		.loc 7 177 38 view .LVU132
+ 553 017c F3EE007A 		vmov.f32	s15, #1.6e+1
+ 180:../../DaisySP/Source/Drums/hihat.h ****         if(noise_clock_ >= 1.0f)
+ 554              		.loc 7 180 22 view .LVU133
+ 555 0180 D4ED085A 		vldr.32	s11, [r4, #32]
+ 556              	.LBB317:
+ 557              	.LBB318:
+ 558              	.LBB319:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 559              		.loc 10 47 80 view .LVU134
+ 560 0184 B6EE005A 		vmov.f32	s10, #5.0e-1
+ 561              	.LBE319:
+ 562              	.LBE318:
+ 563              	.LBE317:
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 564              		.loc 7 177 54 view .LVU135
+ARM GAS  /tmp/ccb5exhz.s 			page 24
+
+
+ 565 0188 76EEC64A 		vsub.f32	s9, s13, s12
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 566              		.loc 7 177 25 view .LVU136
+ 567 018c 94ED027A 		vldr.32	s14, [r4, #8]
+ 172:../../DaisySP/Source/Drums/hihat.h **** 
+ 568              		.loc 7 172 41 view .LVU137
+ 569 0190 D4ED1F8A 		vldr.32	s17, [r4, #124]
+ 570              	.LVL37:
+ 172:../../DaisySP/Source/Drums/hihat.h **** 
+ 571              		.loc 7 172 41 view .LVU138
+ 572              	.LBE340:
+ 573              	.LBE352:
+ 574              	.LBE415:
+ 575              	.LBE423:
+  57:../../DaisySP/Source/Filters/svf.h ****     /** bandpass output
+  58:../../DaisySP/Source/Filters/svf.h ****         \return band pass output of the filter
+  59:../../DaisySP/Source/Filters/svf.h ****     */
+  60:../../DaisySP/Source/Filters/svf.h ****     inline float Band() { return out_band_; }
+ 576              		.loc 8 60 27 is_stmt 1 view .LVU139
+ 577              	.LBB424:
+ 578              	.LBB416:
+ 579              	.LBB353:
+ 580              	.LBB341:
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 581              		.loc 7 177 38 is_stmt 0 view .LVU140
+ 582 0194 E4EEA77A 		vfma.f32	s15, s9, s15
+ 583              	.LVL38:
+ 584              	.LBB326:
+ 585              	.LBI317:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 586              		.loc 10 56 14 is_stmt 1 view .LVU141
+ 587              	.LBE326:
+ 588              	.LBE341:
+ 589              	.LBE353:
+ 590              	.LBE416:
+ 591              	.LBE424:
+ 592              		.loc 10 58 5 view .LVU142
+ 593              	.LBB425:
+ 594              	.LBB417:
+ 595              	.LBB354:
+ 596              	.LBB342:
+ 597              	.LBB327:
+ 598              	.LBB321:
+ 599              	.LBI321:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 600              		.loc 10 32 14 view .LVU143
+ 601              	.LBB322:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 602              		.loc 10 34 5 view .LVU144
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 603              		.loc 10 36 5 view .LVU145
+ 604              	.LBE322:
+ 605              	.LBE321:
+ 606              	.LBE327:
+ 177:../../DaisySP/Source/Drums/hihat.h ****         noise_f       = fclamp(noise_f, 0.0f, 0.5f);
+ 607              		.loc 7 177 15 is_stmt 0 view .LVU146
+ 608 0198 67EE277A 		vmul.f32	s15, s14, s15
+ARM GAS  /tmp/ccb5exhz.s 			page 25
+
+
+ 609              	.LVL39:
+ 610              	.LBB328:
+ 611              	.LBB324:
+ 612              	.LBB323:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 613              		.loc 10 36 80 view .LVU147
+ 614              		.syntax unified
+ 615              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 616 019c C7FEAA7A 		vmaxnm.f32 s15, s15, s21
+ 617              	@ 0 "" 2
+ 618              	.LVL40:
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 619              		.loc 10 40 5 is_stmt 1 view .LVU148
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 620              		.loc 10 40 5 is_stmt 0 view .LVU149
+ 621              		.thumb
+ 622              		.syntax unified
+ 623              	.LBE323:
+ 624              	.LBE324:
+ 625              	.LBB325:
+ 626              	.LBI318:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 627              		.loc 10 43 14 is_stmt 1 view .LVU150
+ 628              	.LBB320:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 629              		.loc 10 45 5 view .LVU151
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 630              		.loc 10 47 5 view .LVU152
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 631              		.loc 10 47 80 is_stmt 0 view .LVU153
+ 632              		.syntax unified
+ 633              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 634 01a0 C7FEC57A 		vminnm.f32 s15, s15, s10
+ 635              	@ 0 "" 2
+ 636              	.LVL41:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 637              		.loc 10 51 5 is_stmt 1 view .LVU154
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 638              		.loc 10 51 5 is_stmt 0 view .LVU155
+ 639              		.thumb
+ 640              		.syntax unified
+ 641              	.LBE320:
+ 642              	.LBE325:
+ 643              	.LBE328:
+ 180:../../DaisySP/Source/Drums/hihat.h ****         if(noise_clock_ >= 1.0f)
+ 644              		.loc 7 180 22 view .LVU156
+ 645 01a4 77EEA57A 		vadd.f32	s15, s15, s11
+ 646              	.LVL42:
+ 181:../../DaisySP/Source/Drums/hihat.h ****         {
+ 647              		.loc 7 181 9 view .LVU157
+ 648 01a8 F4EEE67A 		vcmpe.f32	s15, s13
+ 180:../../DaisySP/Source/Drums/hihat.h ****         if(noise_clock_ >= 1.0f)
+ 649              		.loc 7 180 9 view .LVU158
+ 650 01ac C4ED087A 		vstr.32	s15, [r4, #32]
+ 181:../../DaisySP/Source/Drums/hihat.h ****         {
+ 651              		.loc 7 181 9 view .LVU159
+ 652 01b0 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ARM GAS  /tmp/ccb5exhz.s 			page 26
+
+
+ 653 01b4 1EDA     		bge	.L8
+ 654 01b6 94ED097A 		vldr.32	s14, [r4, #36]
+ 655              	.L9:
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 656              		.loc 7 191 19 view .LVU160
+ 657 01ba F6EE005A 		vmov.f32	s11, #5.0e-1
+ 658 01be D4ED076A 		vldr.32	s13, [r4, #28]
+ 189:../../DaisySP/Source/Drums/hihat.h ****         VCA vca;
+ 659              		.loc 7 189 33 view .LVU161
+ 660 01c2 D4ED017A 		vldr.32	s15, [r4, #4]
+ 186:../../DaisySP/Source/Drums/hihat.h **** 
+ 661              		.loc 7 186 44 view .LVU162
+ 662 01c6 37EE687A 		vsub.f32	s14, s14, s17
+ 189:../../DaisySP/Source/Drums/hihat.h ****         VCA vca;
+ 663              		.loc 7 189 33 view .LVU163
+ 664 01ca 94ED045A 		vldr.32	s10, [r4, #16]
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 665              		.loc 7 191 19 view .LVU164
+ 666 01ce F4EEE56A 		vcmpe.f32	s13, s11
+ 189:../../DaisySP/Source/Drums/hihat.h ****         VCA vca;
+ 667              		.loc 7 189 33 view .LVU165
+ 668 01d2 67EE857A 		vmul.f32	s15, s15, s10
+ 186:../../DaisySP/Source/Drums/hihat.h **** 
+ 669              		.loc 7 186 9 view .LVU166
+ 670 01d6 E7EE068A 		vfma.f32	s17, s14, s12
+ 671              	.LVL43:
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 672              		.loc 7 191 19 view .LVU167
+ 673 01da F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 146:../../DaisySP/Source/Drums/hihat.h ****             = 1.0f - 0.003f * SemitonesToRatio(-decay_ * 84.0f);
+ 674              		.loc 7 146 21 view .LVU168
+ 675 01de B7EE007A 		vmov.f32	s14, #1.0e+0
+ 189:../../DaisySP/Source/Drums/hihat.h ****         VCA vca;
+ 676              		.loc 7 189 9 view .LVU169
+ 677 01e2 C4ED0A7A 		vstr.32	s15, [r4, #40]
+ 191:../../DaisySP/Source/Drums/hihat.h ****         out = vca(out, sustain_ ? sustain_gain_ : envelope_);
+ 678              		.loc 7 191 19 view .LVU170
+ 679 01e6 3FF717AF 		bgt	.L26
+ 148:../../DaisySP/Source/Drums/hihat.h ****             = 1.0f - 0.0025f * SemitonesToRatio(-decay_ * 36.0f);
+ 680              		.loc 7 148 21 view .LVU171
+ 681 01ea 9FED5E6A 		vldr.32	s12, .L27+76
+ 682 01ee A9EE467A 		vfms.f32	s14, s18, s12
+ 683 01f2 15E7     		b	.L12
+ 684              	.L8:
+ 183:../../DaisySP/Source/Drums/hihat.h ****             noise_sample_ = rand() * kRandFrac - 0.5f;
+ 685              		.loc 7 183 26 view .LVU172
+ 686 01f4 77EEE67A 		vsub.f32	s15, s15, s13
+ 183:../../DaisySP/Source/Drums/hihat.h ****             noise_sample_ = rand() * kRandFrac - 0.5f;
+ 687              		.loc 7 183 13 view .LVU173
+ 688 01f8 C4ED087A 		vstr.32	s15, [r4, #32]
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 689              		.loc 7 184 33 view .LVU174
+ 690 01fc FFF7FEFF 		bl	rand
+ 691              	.LVL44:
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 692              		.loc 7 184 36 view .LVU175
+ 693 0200 07EE900A 		vmov	s15, r0	@ int
+ARM GAS  /tmp/ccb5exhz.s 			page 27
+
+
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 694              		.loc 7 184 48 view .LVU176
+ 695 0204 BEEE007A 		vmov.f32	s14, #-5.0e-1
+ 696 0208 DFED576A 		vldr.32	s13, .L27+80
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 697              		.loc 7 184 36 view .LVU177
+ 698 020c F8EEE77A 		vcvt.f32.s32	s15, s15
+ 699 0210 94ED056A 		vldr.32	s12, [r4, #20]
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 700              		.loc 7 184 48 view .LVU178
+ 701 0214 A7EEA67A 		vfma.f32	s14, s15, s13
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 702              		.loc 7 184 13 view .LVU179
+ 703 0218 84ED097A 		vstr.32	s14, [r4, #36]
+ 704 021c CDE7     		b	.L9
+ 705              	.LVL45:
+ 706              	.L25:
+ 184:../../DaisySP/Source/Drums/hihat.h ****         }
+ 707              		.loc 7 184 13 view .LVU180
+ 708              	.LBE342:
+ 709              	.LBE354:
+  20:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+ 710              		.loc 9 20 13 is_stmt 1 view .LVU181
+  20:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+ 711              		.loc 9 20 34 is_stmt 0 view .LVU182
+ 712 021e FFF7FEFF 		bl	random
+ 713              	.LVL46:
+ 714              	.LBB355:
+ 715              	.LBI355:
+ 232:../../DaisySP/Source/Drums/hihat.h ****     {
+ 716              		.loc 7 232 10 is_stmt 1 view .LVU183
+ 717              	.LBB356:
+ 718              	.LBB357:
+ 719              	.LBI357:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 720              		.loc 10 32 14 view .LVU184
+ 721              	.LBB358:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 722              		.loc 10 34 5 view .LVU185
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 723              		.loc 10 36 5 view .LVU186
+ 724              	.LBE358:
+ 725              	.LBE357:
+ 726              	.LBE356:
+ 727              	.LBE355:
+  20:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+ 728              		.loc 9 20 27 is_stmt 0 view .LVU187
+ 729 0222 07EE900A 		vmov	s15, r0	@ int
+ 730 0226 9FED508A 		vldr.32	s16, .L27+80
+ 731              	.LBB366:
+ 732              	.LBB367:
+ 733              	.LBB368:
+ 734              	.LBB369:
+ 735              	.LBB370:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 736              		.loc 10 47 80 view .LVU188
+ 737 022a F7EE008A 		vmov.f32	s17, #1.0e+0
+ARM GAS  /tmp/ccb5exhz.s 			page 28
+
+
+ 738              	.LBE370:
+ 739              	.LBE369:
+ 740              	.LBE368:
+ 741              	.LBE367:
+ 742              	.LBE366:
+  20:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+ 743              		.loc 9 20 27 view .LVU189
+ 744 022e B8EEE77A 		vcvt.f32.s32	s14, s15
+ 745              	.LBB383:
+ 746              	.LBB363:
+ 747              	.LBB361:
+ 748              	.LBB359:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 749              		.loc 10 36 80 view .LVU190
+ 750 0232 DFED479A 		vldr.32	s19, .L27+56
+ 751              	.LBE359:
+ 752              	.LBE361:
+ 753              	.LBE363:
+ 754              	.LBE383:
+ 755              	.LBB384:
+ 756              	.LBB343:
+ 757              	.LBB329:
+ 758              	.LBB282:
+ 759              		.loc 7 256 51 view .LVU191
+ 760 0236 9FED419A 		vldr.32	s18, .L27+36
+ 761 023a 4FEA8509 		lsl	r9, r5, #2
+ 762              	.LBE282:
+ 763              	.LBE329:
+ 764              	.LBE343:
+ 765              	.LBE384:
+ 766              	.LBB385:
+ 767              	.LBB364:
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 768              		.loc 7 235 16 view .LVU192
+ 769 023e 9FED365B 		vldr.64	d5, .L27
+ 770              	.LBE364:
+ 771              	.LBE385:
+  20:hihat.cpp     ****             hihat.SetSustain((random() / (float)RAND_MAX) > .8f);
+ 772              		.loc 9 20 27 view .LVU193
+ 773 0242 27EE087A 		vmul.f32	s14, s14, s16
+ 774              	.LVL47:
+ 775              	.LBB386:
+ 776              	.LBB365:
+ 777              	.LBB362:
+ 778              	.LBB360:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 779              		.loc 10 36 80 view .LVU194
+ 780              		.syntax unified
+ 781              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 782 0246 87FE297A 		vmaxnm.f32 s14, s14, s19
+ 783              	@ 0 "" 2
+ 784              	.LVL48:
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 785              		.loc 10 40 5 is_stmt 1 view .LVU195
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 786              		.loc 10 40 5 is_stmt 0 view .LVU196
+ 787              		.thumb
+ARM GAS  /tmp/ccb5exhz.s 			page 29
+
+
+ 788              		.syntax unified
+ 789              	.LBE360:
+ 790              	.LBE362:
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 791              		.loc 7 235 16 view .LVU197
+ 792 024a B7EEC77A 		vcvt.f64.f32	d7, s14
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 793              		.loc 7 236 16 view .LVU198
+ 794 024e 9FED346B 		vldr.64	d6, .L27+8
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 795              		.loc 7 235 16 view .LVU199
+ 796 0252 27EE057B 		vmul.f64	d7, d7, d5
+ 797 0256 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 798              		.loc 7 236 16 view .LVU200
+ 799 025a B7EEC77A 		vcvt.f64.f32	d7, s14
+ 800 025e 37EE467B 		vsub.f64	d7, d7, d6
+ 801 0262 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 802 0266 84ED047A 		vstr.32	s14, [r4, #16]
+ 803              	.LVL49:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 804              		.loc 7 236 16 view .LVU201
+ 805              	.LBE365:
+ 806              	.LBE386:
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 807              		.loc 9 21 13 is_stmt 1 view .LVU202
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 808              		.loc 9 21 37 is_stmt 0 view .LVU203
+ 809 026a FFF7FEFF 		bl	random
+ 810              	.LVL50:
+ 811              	.LBB387:
+ 812              	.LBI387:
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 813              		.loc 7 208 10 is_stmt 1 view .LVU204
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 814              		.loc 7 208 10 is_stmt 0 view .LVU205
+ 815              	.LBE387:
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 816              		.loc 9 21 40 view .LVU206
+ 817 026e 07EE900A 		vmov	s15, r0	@ int
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 818              		.loc 9 21 29 view .LVU207
+ 819 0272 9FED3E7A 		vldr.32	s14, .L27+84
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 820              		.loc 9 21 40 view .LVU208
+ 821 0276 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 822 027a 67EE887A 		vmul.f32	s15, s15, s16
+  21:hihat.cpp     ****             hihat.SetTone(random() / (float)RAND_MAX);
+ 823              		.loc 9 21 29 view .LVU209
+ 824 027e F4EEC77A 		vcmpe.f32	s15, s14
+ 825 0282 F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 826 0286 CCBF     		ite	gt
+ 827 0288 0123     		movgt	r3, #1
+ 828 028a 0023     		movle	r3, #0
+ 829 028c 2376     		strb	r3, [r4, #24]
+ 830              	.LVL51:
+  22:hihat.cpp     ****             hihat.SetNoisiness(random() / (float)RAND_MAX);
+ARM GAS  /tmp/ccb5exhz.s 			page 30
+
+
+ 831              		.loc 9 22 13 is_stmt 1 view .LVU210
+  22:hihat.cpp     ****             hihat.SetNoisiness(random() / (float)RAND_MAX);
+ 832              		.loc 9 22 33 is_stmt 0 view .LVU211
+ 833 028e FFF7FEFF 		bl	random
+ 834              	.LVL52:
+ 835              	.LBB388:
+ 836              	.LBI366:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 837              		.loc 7 227 10 is_stmt 1 view .LVU212
+ 838              	.LBB380:
+ 839              	.LBB377:
+ 840              	.LBI368:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 841              		.loc 10 56 14 view .LVU213
+ 842              	.LBE377:
+ 843              	.LBE380:
+ 844              	.LBE388:
+ 845              	.LBE417:
+ 846              	.LBE425:
+ 847              		.loc 10 58 5 view .LVU214
+ 848              	.LBB426:
+ 849              	.LBB418:
+ 850              	.LBB389:
+ 851              	.LBB381:
+ 852              	.LBB378:
+ 853              	.LBB372:
+ 854              	.LBI372:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 855              		.loc 10 32 14 view .LVU215
+ 856              	.LBB373:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 857              		.loc 10 34 5 view .LVU216
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 858              		.loc 10 36 5 view .LVU217
+ 859              	.LBE373:
+ 860              	.LBE372:
+ 861              	.LBE378:
+ 862              	.LBE381:
+ 863              	.LBE389:
+  22:hihat.cpp     ****             hihat.SetNoisiness(random() / (float)RAND_MAX);
+ 864              		.loc 9 22 26 is_stmt 0 view .LVU218
+ 865 0292 07EE900A 		vmov	s15, r0	@ int
+ 866 0296 F8EEE77A 		vcvt.f32.s32	s15, s15
+ 867 029a 67EE887A 		vmul.f32	s15, s15, s16
+ 868              	.LVL53:
+ 869              	.LBB390:
+ 870              	.LBB382:
+ 871              	.LBB379:
+ 872              	.LBB375:
+ 873              	.LBB374:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 874              		.loc 10 36 80 view .LVU219
+ 875              		.syntax unified
+ 876              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 877 029e C7FEA97A 		vmaxnm.f32 s15, s15, s19
+ 878              	@ 0 "" 2
+ 879              	.LVL54:
+ARM GAS  /tmp/ccb5exhz.s 			page 31
+
+
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 880              		.loc 10 40 5 is_stmt 1 view .LVU220
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 881              		.loc 10 40 5 is_stmt 0 view .LVU221
+ 882              		.thumb
+ 883              		.syntax unified
+ 884              	.LBE374:
+ 885              	.LBE375:
+ 886              	.LBB376:
+ 887              	.LBI369:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 888              		.loc 10 43 14 is_stmt 1 view .LVU222
+ 889              	.LBB371:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 890              		.loc 10 45 5 view .LVU223
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 891              		.loc 10 47 5 view .LVU224
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 892              		.loc 10 47 80 is_stmt 0 view .LVU225
+ 893              		.syntax unified
+ 894              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 895 02a2 C7FEE87A 		vminnm.f32 s15, s15, s17
+ 896              	@ 0 "" 2
+ 897              	.LVL55:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 898              		.loc 10 51 5 is_stmt 1 view .LVU226
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 899              		.loc 10 51 5 is_stmt 0 view .LVU227
+ 900              		.thumb
+ 901              		.syntax unified
+ 902              	.LBE371:
+ 903              	.LBE376:
+ 904              	.LBE379:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 905              		.loc 7 227 32 view .LVU228
+ 906 02a6 C4ED037A 		vstr.32	s15, [r4, #12]
+ 907              	.LVL56:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 908              		.loc 7 227 32 view .LVU229
+ 909              	.LBE382:
+ 910              	.LBE390:
+  23:hihat.cpp     ****         }
+ 911              		.loc 9 23 13 is_stmt 1 view .LVU230
+  23:hihat.cpp     ****         }
+ 912              		.loc 9 23 38 is_stmt 0 view .LVU231
+ 913 02aa FFF7FEFF 		bl	random
+ 914              	.LVL57:
+ 915              	.LBB391:
+ 916              	.LBI391:
+ 242:../../DaisySP/Source/Drums/hihat.h ****     {
+ 917              		.loc 7 242 10 is_stmt 1 view .LVU232
+ 918              	.LBB392:
+ 919              	.LBB393:
+ 920              	.LBI393:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 921              		.loc 10 56 14 view .LVU233
+ 922              	.LBE393:
+ARM GAS  /tmp/ccb5exhz.s 			page 32
+
+
+ 923              	.LBE392:
+ 924              	.LBE391:
+ 925              	.LBE418:
+ 926              	.LBE426:
+ 927              		.loc 10 58 5 view .LVU234
+ 928              	.LBB427:
+ 929              	.LBB419:
+ 930              	.LBB405:
+ 931              	.LBB402:
+ 932              	.LBB400:
+ 933              	.LBB394:
+ 934              	.LBI394:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 935              		.loc 10 32 14 view .LVU235
+ 936              	.LBB395:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 937              		.loc 10 34 5 view .LVU236
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 938              		.loc 10 36 5 view .LVU237
+ 939              	.LBE395:
+ 940              	.LBE394:
+ 941              	.LBE400:
+ 942              	.LBE402:
+ 943              	.LBE405:
+  23:hihat.cpp     ****         }
+ 944              		.loc 9 23 31 is_stmt 0 view .LVU238
+ 945 02ae 07EE900A 		vmov	s15, r0	@ int
+ 946              	.LBB406:
+ 947              	.LBB344:
+ 147:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 948              		.loc 7 147 29 view .LVU239
+ 949 02b2 9FED217A 		vldr.32	s14, .L27+32
+ 950 02b6 D4ED040A 		vldr.32	s1, [r4, #16]
+ 951              	.LBB330:
+ 952              	.LBB283:
+ 953              		.loc 7 256 51 view .LVU240
+ 954 02ba B0EE000A 		vmov.f32	s0, #2.0e+0
+ 955              	.LBE283:
+ 956              	.LBE330:
+ 957              	.LBE344:
+ 958              	.LBE406:
+  23:hihat.cpp     ****         }
+ 959              		.loc 9 23 31 view .LVU241
+ 960 02be F8EEE77A 		vcvt.f32.s32	s15, s15
+ 961              		.loc 9 25 29 view .LVU242
+ 962 02c2 7E68     		ldr	r6, [r7, #4]
+ 963              	.LBB407:
+ 964              	.LBB345:
+ 147:../../DaisySP/Source/Drums/hihat.h ****         const float cut_decay
+ 965              		.loc 7 147 29 view .LVU243
+ 966 02c4 60EEC70A 		vnmul.f32	s1, s1, s14
+ 967              	.LBE345:
+ 968              	.LBE407:
+ 969              		.loc 9 25 29 view .LVU244
+ 970 02c8 06EB8506 		add	r6, r6, r5, lsl #2
+  23:hihat.cpp     ****         }
+ 971              		.loc 9 23 31 view .LVU245
+ARM GAS  /tmp/ccb5exhz.s 			page 33
+
+
+ 972 02cc 27EE888A 		vmul.f32	s16, s15, s16
+ 973              	.LVL58:
+ 974              	.LBB408:
+ 975              	.LBB403:
+ 976              	.LBB401:
+ 977              	.LBB397:
+ 978              	.LBB396:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 979              		.loc 10 36 80 view .LVU246
+ 980              		.syntax unified
+ 981              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 982 02d0 88FE298A 		vmaxnm.f32 s16, s16, s19
+ 983              	@ 0 "" 2
+ 984              	.LVL59:
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 985              		.loc 10 40 5 is_stmt 1 view .LVU247
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 986              		.loc 10 40 5 is_stmt 0 view .LVU248
+ 987              		.thumb
+ 988              		.syntax unified
+ 989              	.LBE396:
+ 990              	.LBE397:
+ 991              	.LBB398:
+ 992              	.LBI398:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 993              		.loc 10 43 14 is_stmt 1 view .LVU249
+ 994              	.LBB399:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 995              		.loc 10 45 5 view .LVU250
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 996              		.loc 10 47 5 view .LVU251
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 997              		.loc 10 47 80 is_stmt 0 view .LVU252
+ 998              		.syntax unified
+ 999              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1000 02d4 C8FE688A 		vminnm.f32 s17, s16, s17
+ 1001              	@ 0 "" 2
+ 1002              	.LVL60:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1003              		.loc 10 51 5 is_stmt 1 view .LVU253
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1004              		.loc 10 51 5 is_stmt 0 view .LVU254
+ 1005              		.thumb
+ 1006              		.syntax unified
+ 1007              	.LBE399:
+ 1008              	.LBE398:
+ 1009              	.LBE401:
+ 245:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1010              		.loc 7 245 20 view .LVU255
+ 1011 02d8 68EEA88A 		vmul.f32	s17, s17, s17
+ 1012              	.LBE403:
+ 1013              	.LBE408:
+ 1014              	.LBB409:
+ 1015              	.LBB346:
+ 1016              	.LBB331:
+ 1017              	.LBB284:
+ 1018              		.loc 7 256 51 view .LVU256
+ARM GAS  /tmp/ccb5exhz.s 			page 34
+
+
+ 1019 02dc 60EE890A 		vmul.f32	s1, s1, s18
+ 1020              	.LBE284:
+ 1021              	.LBE331:
+ 1022              	.LBE346:
+ 1023              	.LBE409:
+ 1024              	.LBB410:
+ 1025              	.LBB404:
+ 245:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1026              		.loc 7 245 9 view .LVU257
+ 1027 02e0 C4ED058A 		vstr.32	s17, [r4, #20]
+ 1028              	.LVL61:
+ 245:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1029              		.loc 7 245 9 view .LVU258
+ 1030              	.LBE404:
+ 1031              	.LBE410:
+ 1032              		.loc 9 25 9 is_stmt 1 view .LVU259
+ 1033              	.LBB411:
+ 144:../../DaisySP/Source/Drums/hihat.h ****     {
+ 1034              		.loc 7 144 11 view .LVU260
+ 1035              	.LBB347:
+ 1036              	.LBB332:
+ 1037              		.loc 7 256 11 view .LVU261
+ 1038              	.LBB285:
+ 1039              		.loc 7 256 51 is_stmt 0 view .LVU262
+ 1040 02e4 FFF7FEFF 		bl	powf
+ 1041              	.LVL62:
+ 1042              		.loc 7 256 51 view .LVU263
+ 1043              	.LBE285:
+ 1044              	.LBE332:
+ 149:../../DaisySP/Source/Drums/hihat.h **** 
+ 1045              		.loc 7 149 30 view .LVU264
+ 1046 02e8 D4ED040A 		vldr.32	s1, [r4, #16]
+ 1047              	.LBB333:
+ 1048              	.LBB286:
+ 1049              		.loc 7 256 51 view .LVU265
+ 1050 02ec F0EE409A 		vmov.f32	s19, s0
+ 1051              	.LBE286:
+ 1052              	.LBE333:
+ 149:../../DaisySP/Source/Drums/hihat.h **** 
+ 1053              		.loc 7 149 30 view .LVU266
+ 1054 02f0 DFED137A 		vldr.32	s15, .L27+40
+ 1055              	.LBB334:
+ 1056              	.LBB294:
+ 1057              		.loc 7 256 51 view .LVU267
+ 1058 02f4 B0EE000A 		vmov.f32	s0, #2.0e+0
+ 1059              	.LVL63:
+ 1060              		.loc 7 256 51 view .LVU268
+ 1061              	.LBE294:
+ 1062              		.loc 7 256 11 is_stmt 1 view .LVU269
+ 1063              		.loc 7 256 11 is_stmt 0 view .LVU270
+ 1064              	.LBE334:
+ 149:../../DaisySP/Source/Drums/hihat.h **** 
+ 1065              		.loc 7 149 30 view .LVU271
+ 1066 02f8 60EEE70A 		vnmul.f32	s1, s1, s15
+ 1067              	.LVL64:
+ 1068              	.LBB335:
+ 1069              	.LBB295:
+ARM GAS  /tmp/ccb5exhz.s 			page 35
+
+
+ 1070              		.loc 7 256 51 view .LVU272
+ 1071 02fc 60EE890A 		vmul.f32	s1, s1, s18
+ 1072 0300 FFF7FEFF 		bl	powf
+ 1073              	.LVL65:
+ 1074              		.loc 7 256 51 view .LVU273
+ 1075 0304 B0EE409A 		vmov.f32	s18, s0
+ 1076              	.LVL66:
+ 1077              		.loc 7 256 51 view .LVU274
+ 1078 0308 DAE6     		b	.L15
+ 1079              	.LVL67:
+ 1080              	.L24:
+ 1081              		.loc 7 256 51 view .LVU275
+ 1082              	.LBE295:
+ 1083              	.LBE335:
+ 1084              	.LBE347:
+ 1085              	.LBE411:
+ 1086              	.LBE419:
+ 1087              	.LBE427:
+  26:hihat.cpp     ****     }
+  27:hihat.cpp     **** }
+ 1088              		.loc 9 27 1 view .LVU276
+ 1089 030a BDEC068B 		vldm	sp!, {d8-d10}
+ 1090              		.cfi_restore 84
+ 1091              		.cfi_restore 85
+ 1092              		.cfi_restore 82
+ 1093              		.cfi_restore 83
+ 1094              		.cfi_restore 80
+ 1095              		.cfi_restore 81
+ 1096              		.cfi_def_cfa_offset 32
+ 1097 030e BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 1098              	.LVL68:
+ 1099              	.L21:
+ 1100              		.cfi_def_cfa_offset 0
+ 1101              		.cfi_restore 3
+ 1102              		.cfi_restore 4
+ 1103              		.cfi_restore 5
+ 1104              		.cfi_restore 6
+ 1105              		.cfi_restore 7
+ 1106              		.cfi_restore 8
+ 1107              		.cfi_restore 9
+ 1108              		.cfi_restore 14
+ 1109              		.loc 9 27 1 view .LVU277
+ 1110 0312 7047     		bx	lr
+ 1111              	.L28:
+ 1112 0314 AFF30080 		.align	3
+ 1113              	.L27:
+ 1114 0318 33333333 		.word	858993459
+ 1115 031c 3333FB3F 		.word	1073427251
+ 1116 0320 33333333 		.word	858993459
+ 1117 0324 3333F33F 		.word	1072902963
+ 1118 0328 00000000 		.word	.LANCHOR1
+ 1119 032c A69B443B 		.word	994352038
+ 1120 0330 90000000 		.word	.LANCHOR1+144
+ 1121 0334 00000000 		.word	.LANCHOR0
+ 1122 0338 0000A842 		.word	1118306304
+ 1123 033c ABAAAA3D 		.word	1034594987
+ 1124 0340 00001042 		.word	1108344832
+ARM GAS  /tmp/ccb5exhz.s 			page 36
+
+
+ 1125 0344 3333333F 		.word	1060320051
+ 1126 0348 9A99993E 		.word	1050253722
+ 1127 034c 2C000000 		.word	.LANCHOR1+44
+ 1128 0350 00000000 		.word	0
+ 1129 0354 00001643 		.word	1125515264
+ 1130 0358 00009042 		.word	1116733440
+ 1131 035c 00007A46 		.word	1182400512
+ 1132 0360 44000000 		.word	.LANCHOR1+68
+ 1133 0364 0AD7233B 		.word	992204554
+ 1134 0368 00000030 		.word	805306368
+ 1135 036c CDCC4C3F 		.word	1061997773
+ 1136              		.cfi_endproc
+ 1137              	.LFE4212:
+ 1139              		.section	.text.startup.main,"ax",%progbits
+ 1140              		.align	1
+ 1141              		.p2align 2,,3
+ 1142              		.global	main
+ 1143              		.syntax unified
+ 1144              		.thumb
+ 1145              		.thumb_func
+ 1146              		.fpu fpv5-d16
+ 1148              	main:
+ 1149              	.LFB4213:
+  28:hihat.cpp     **** 
+  29:hihat.cpp     **** int main(void)
+  30:hihat.cpp     **** {
+ 1150              		.loc 9 30 1 is_stmt 1 view -0
+ 1151              		.cfi_startproc
+ 1152              		@ args = 0, pretend = 0, frame = 0
+ 1153              		@ frame_needed = 0, uses_anonymous_args = 0
+  31:hihat.cpp     ****     hw.Configure();
+ 1154              		.loc 9 31 5 view .LVU279
+  30:hihat.cpp     ****     hw.Configure();
+ 1155              		.loc 9 30 1 is_stmt 0 view .LVU280
+ 1156 0000 10B5     		push	{r4, lr}
+ 1157              		.cfi_def_cfa_offset 8
+ 1158              		.cfi_offset 4, -8
+ 1159              		.cfi_offset 14, -4
+ 1160              		.loc 9 31 17 view .LVU281
+ 1161 0002 3B48     		ldr	r0, .L32+16
+ 1162              	.LBB464:
+ 1163              	.LBB465:
+ 120:../../DaisySP/Source/Drums/hihat.h **** 
+ 1164              		.loc 7 120 9 view .LVU282
+ 1165 0004 3B4C     		ldr	r4, .L32+20
+ 1166              	.LBE465:
+ 1167              	.LBE464:
+  30:hihat.cpp     ****     hw.Configure();
+ 1168              		.loc 9 30 1 view .LVU283
+ 1169 0006 2DED028B 		vpush.64	{d8}
+ 1170              		.cfi_def_cfa_offset 16
+ 1171              		.cfi_offset 80, -16
+ 1172              		.cfi_offset 81, -12
+ 1173              		.loc 9 31 17 view .LVU284
+ 1174 000a FFF7FEFF 		bl	_ZN5daisy9DaisySeed9ConfigureEv
+ 1175              	.LVL69:
+  32:hihat.cpp     ****     hw.Init();
+ARM GAS  /tmp/ccb5exhz.s 			page 37
+
+
+ 1176              		.loc 9 32 5 is_stmt 1 view .LVU285
+ 1177              		.loc 9 32 12 is_stmt 0 view .LVU286
+ 1178 000e 0021     		movs	r1, #0
+ 1179 0010 3748     		ldr	r0, .L32+16
+ 1180 0012 FFF7FEFF 		bl	_ZN5daisy9DaisySeed4InitEb
+ 1181              	.LVL70:
+  33:hihat.cpp     ****     float sample_rate = hw.AudioSampleRate();
+ 1182              		.loc 9 33 5 is_stmt 1 view .LVU287
+ 1183              		.loc 9 33 43 is_stmt 0 view .LVU288
+ 1184 0016 3648     		ldr	r0, .L32+16
+ 1185 0018 FFF7FEFF 		bl	_ZN5daisy9DaisySeed15AudioSampleRateEv
+ 1186              	.LVL71:
+ 1187              	.LBB576:
+ 1188              	.LBB570:
+ 124:../../DaisySP/Source/Drums/hihat.h ****         noise_clock_  = 0.0f;
+ 1189              		.loc 7 124 9 view .LVU289
+ 1190 001c DFED366A 		vldr.32	s13, .L32+24
+ 1191              	.LBB466:
+ 1192              	.LBB467:
+ 1193              	.LBB468:
+ 1194              	.LBB469:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1195              		.loc 10 36 80 view .LVU290
+ 1196 0020 DFED367A 		vldr.32	s15, .L32+28
+ 1197              	.LBE469:
+ 1198              	.LBE468:
+ 1199              	.LBE467:
+ 1200              	.LBE466:
+ 1201              	.LBB480:
+ 1202              	.LBB481:
+ 1203              	.LBB482:
+ 1204              	.LBB483:
+ 1205              	.LBB484:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1206              		.loc 10 47 80 view .LVU291
+ 1207 0024 B7EE005A 		vmov.f32	s10, #1.0e+0
+ 1208              	.LBE484:
+ 1209              	.LBE483:
+ 1210              	.LBE482:
+ 1211              	.LBE481:
+ 1212              	.LBE480:
+ 1213              	.LBB504:
+ 1214              	.LBB474:
+ 1215              	.LBB472:
+ 1216              	.LBB470:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1217              		.loc 10 36 80 view .LVU292
+ 1218              		.syntax unified
+ 1219              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1220 0028 87FEA67A 		vmaxnm.f32 s14, s15, s13
+ 1221              	@ 0 "" 2
+ 1222              		.thumb
+ 1223              		.syntax unified
+ 1224              	.LBE470:
+ 1225              	.LBE472:
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 1226              		.loc 7 235 16 view .LVU293
+ARM GAS  /tmp/ccb5exhz.s 			page 38
+
+
+ 1227 002c 9FED2C4B 		vldr.64	d4, .L32
+ 1228 0030 B7EEC77A 		vcvt.f64.f32	d7, s14
+ 1229              	.LBE474:
+ 1230              	.LBE504:
+ 1231              	.LBB505:
+ 1232              	.LBB506:
+ 1233              	.LBB507:
+ 1234              	.LBB508:
+ 1235              	.LBB509:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1236              		.loc 10 36 80 view .LVU294
+ 1237 0034 9FED326A 		vldr.32	s12, .L32+32
+ 1238              		.syntax unified
+ 1239              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1240 0038 86FE266A 		vmaxnm.f32 s12, s12, s13
+ 1241              	@ 0 "" 2
+ 1242              		.thumb
+ 1243              		.syntax unified
+ 1244              	.LBE509:
+ 1245              	.LBE508:
+ 1246              	.LBB511:
+ 1247              	.LBB512:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1248              		.loc 10 47 80 view .LVU295
+ 1249              		.syntax unified
+ 1250              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1251 003c 86FE456A 		vminnm.f32 s12, s12, s10
+ 1252              	@ 0 "" 2
+ 1253              		.thumb
+ 1254              		.syntax unified
+ 1255              	.LBE512:
+ 1256              	.LBE511:
+ 1257              	.LBE507:
+ 1258              	.LBE506:
+ 1259              	.LBE505:
+ 1260              	.LBB522:
+ 1261              	.LBB475:
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 1262              		.loc 7 235 16 view .LVU296
+ 1263 0040 27EE047B 		vmul.f64	d7, d7, d4
+ 1264              	.LBE475:
+ 1265              	.LBE522:
+ 1266              	.LBB523:
+ 1267              	.LBB497:
+ 220:../../DaisySP/Source/Drums/hihat.h ****         f0_ = fclamp(f0, 0.f, 1.f);
+ 1268              		.loc 7 220 9 view .LVU297
+ 1269 0044 9FED2F4A 		vldr.32	s8, .L32+36
+ 1270              	.LBE497:
+ 1271              	.LBE523:
+ 1272              	.LBB524:
+ 1273              	.LBB525:
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 1274              		.loc 7 208 37 view .LVU298
+ 1275 0048 0023     		movs	r3, #0
+ 1276              	.LBE525:
+ 1277              	.LBE524:
+ 136:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.Init(sample_rate_);
+ARM GAS  /tmp/ccb5exhz.s 			page 39
+
+
+ 1278              		.loc 7 136 9 view .LVU299
+ 1279 004a 04F12C00 		add	r0, r4, #44
+ 124:../../DaisySP/Source/Drums/hihat.h ****         noise_clock_  = 0.0f;
+ 1280              		.loc 7 124 9 view .LVU300
+ 1281 004e C4ED076A 		vstr.32	s13, [r4, #28]
+ 1282              	.LBB527:
+ 1283              	.LBB518:
+ 245:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1284              		.loc 7 245 20 view .LVU301
+ 1285 0052 66EE064A 		vmul.f32	s9, s12, s12
+ 1286              	.LBE518:
+ 1287              	.LBE527:
+ 1288              	.LBB528:
+ 1289              	.LBB526:
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 1290              		.loc 7 208 37 view .LVU302
+ 1291 0056 2383     		strh	r3, [r4, #24]	@ movhi
+ 1292              	.LBE526:
+ 1293              	.LBE528:
+ 1294              	.LBB529:
+ 1295              	.LBB498:
+ 220:../../DaisySP/Source/Drums/hihat.h ****         f0_ = fclamp(f0, 0.f, 1.f);
+ 1296              		.loc 7 220 9 view .LVU303
+ 1297 0058 C4EE005A 		vdiv.f32	s11, s8, s0
+ 1298              	.LBE498:
+ 1299              	.LBE529:
+ 125:../../DaisySP/Source/Drums/hihat.h ****         noise_sample_ = 0.0f;
+ 1300              		.loc 7 125 9 view .LVU304
+ 1301 005c C4ED086A 		vstr.32	s13, [r4, #32]
+ 1302              	.LBB530:
+ 1303              	.LBB499:
+ 1304              	.LBB493:
+ 1305              	.LBB487:
+ 1306              	.LBB488:
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1307              		.loc 10 36 80 view .LVU305
+ 1308              		.syntax unified
+ 1309              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1310 0060 C5FEA65A 		vmaxnm.f32 s11, s11, s13
+ 1311              	@ 0 "" 2
+ 1312              		.thumb
+ 1313              		.syntax unified
+ 1314              	.LBE488:
+ 1315              	.LBE487:
+ 1316              	.LBE493:
+ 1317              	.LBE499:
+ 1318              	.LBE530:
+ 1319              	.LBB531:
+ 1320              	.LBB519:
+ 245:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1321              		.loc 7 245 9 view .LVU306
+ 1322 0064 C4ED054A 		vstr.32	s9, [r4, #20]
+ 1323              	.LBE519:
+ 1324              	.LBE531:
+ 126:../../DaisySP/Source/Drums/hihat.h ****         sustain_gain_ = 0.0f;
+ 1325              		.loc 7 126 9 view .LVU307
+ 1326 0068 C4ED096A 		vstr.32	s13, [r4, #36]
+ARM GAS  /tmp/ccb5exhz.s 			page 40
+
+
+ 127:../../DaisySP/Source/Drums/hihat.h **** 
+ 1327              		.loc 7 127 9 view .LVU308
+ 1328 006c C4ED0A6A 		vstr.32	s13, [r4, #40]
+ 1329              	.LBB532:
+ 1330              	.LBB476:
+ 235:../../DaisySP/Source/Drums/hihat.h ****         decay_ -= 1.2;
+ 1331              		.loc 7 235 16 view .LVU309
+ 1332 0070 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 1333              	.LBE476:
+ 1334              	.LBE532:
+ 120:../../DaisySP/Source/Drums/hihat.h **** 
+ 1335              		.loc 7 120 9 view .LVU310
+ 1336 0074 84ED000A 		vstr.32	s0, [r4]
+ 1337              	.LBE570:
+ 1338              	.LBE576:
+ 1339              		.loc 9 33 43 view .LVU311
+ 1340 0078 B0EE408A 		vmov.f32	s16, s0
+ 1341              	.LVL72:
+  34:hihat.cpp     **** 
+  35:hihat.cpp     ****     hihat.Init(sample_rate);
+ 1342              		.loc 9 35 5 is_stmt 1 view .LVU312
+ 1343              	.LBB577:
+ 1344              	.LBI464:
+ 118:../../DaisySP/Source/Drums/hihat.h ****     {
+ 1345              		.loc 7 118 10 view .LVU313
+ 1346              	.LBB571:
+ 1347              	.LBB533:
+ 1348              	.LBI480:
+ 218:../../DaisySP/Source/Drums/hihat.h ****     {
+ 1349              		.loc 7 218 10 view .LVU314
+ 1350              	.LBB500:
+ 1351              	.LBB494:
+ 1352              	.LBI482:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 1353              		.loc 10 56 14 view .LVU315
+ 1354              	.LBE494:
+ 1355              	.LBE500:
+ 1356              	.LBE533:
+ 1357              	.LBE571:
+ 1358              	.LBE577:
+ 1359              		.loc 10 58 5 view .LVU316
+ 1360              	.LBB578:
+ 1361              	.LBB572:
+ 1362              	.LBB534:
+ 1363              	.LBB501:
+ 1364              	.LBB495:
+ 1365              	.LBB490:
+ 1366              	.LBI487:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 1367              		.loc 10 32 14 view .LVU317
+ 1368              	.LBB489:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1369              		.loc 10 34 5 view .LVU318
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1370              		.loc 10 36 5 view .LVU319
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1371              		.loc 10 40 5 view .LVU320
+ARM GAS  /tmp/ccb5exhz.s 			page 41
+
+
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1372              		.loc 10 40 5 is_stmt 0 view .LVU321
+ 1373              	.LBE489:
+ 1374              	.LBE490:
+ 1375              	.LBB491:
+ 1376              	.LBI483:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 1377              		.loc 10 43 14 is_stmt 1 view .LVU322
+ 1378              	.LBB485:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1379              		.loc 10 45 5 view .LVU323
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1380              		.loc 10 47 5 view .LVU324
+ 1381              	.LBE485:
+ 1382              	.LBE491:
+ 1383              	.LBE495:
+ 1384              	.LBE501:
+ 1385              	.LBE534:
+ 1386              	.LBB535:
+ 1387              	.LBB536:
+ 213:../../DaisySP/Source/Drums/hihat.h **** 
+ 1388              		.loc 7 213 36 is_stmt 0 view .LVU325
+ 1389 007c 84ED016A 		vstr.32	s12, [r4, #4]
+ 1390              	.LBE536:
+ 1391              	.LBE535:
+ 1392              	.LBB545:
+ 1393              	.LBB502:
+ 1394              	.LBB496:
+ 1395              	.LBB492:
+ 1396              	.LBB486:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1397              		.loc 10 47 80 view .LVU326
+ 1398              		.syntax unified
+ 1399              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1400 0080 85FEC56A 		vminnm.f32 s12, s11, s10
+ 1401              	@ 0 "" 2
+ 1402              	.LVL73:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1403              		.loc 10 51 5 is_stmt 1 view .LVU327
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1404              		.loc 10 51 5 is_stmt 0 view .LVU328
+ 1405              		.thumb
+ 1406              		.syntax unified
+ 1407              	.LBE486:
+ 1408              	.LBE492:
+ 1409              	.LBE496:
+ 1410              	.LBE502:
+ 1411              	.LBE545:
+ 1412              	.LBB546:
+ 1413              	.LBB477:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1414              		.loc 7 236 16 view .LVU329
+ 1415 0084 9FED184B 		vldr.64	d4, .L32+8
+ 1416              	.LVL74:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1417              		.loc 7 236 16 view .LVU330
+ 1418 0088 B7EEC77A 		vcvt.f64.f32	d7, s14
+ARM GAS  /tmp/ccb5exhz.s 			page 42
+
+
+ 1419              	.LBE477:
+ 1420              	.LBE546:
+ 1421              	.LBB547:
+ 1422              	.LBB503:
+ 221:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1423              		.loc 7 221 9 view .LVU331
+ 1424 008c 84ED026A 		vstr.32	s12, [r4, #8]
+ 1425              	.LVL75:
+ 221:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1426              		.loc 7 221 9 view .LVU332
+ 1427              	.LBE503:
+ 1428              	.LBE547:
+ 1429              	.LBB548:
+ 1430              	.LBI548:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 1431              		.loc 7 227 10 is_stmt 1 view .LVU333
+ 1432              	.LBB549:
+ 1433              	.LBB550:
+ 1434              	.LBI550:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 1435              		.loc 10 56 14 view .LVU334
+ 1436              	.LBE550:
+ 1437              	.LBE549:
+ 1438              	.LBE548:
+ 1439              	.LBE572:
+ 1440              	.LBE578:
+ 1441              		.loc 10 58 5 view .LVU335
+ 1442              	.LBB579:
+ 1443              	.LBB573:
+ 1444              	.LBB561:
+ 1445              	.LBB559:
+ 1446              	.LBB557:
+ 1447              	.LBB551:
+ 1448              	.LBI551:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 1449              		.loc 10 32 14 view .LVU336
+ 1450              	.LBB552:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1451              		.loc 10 34 5 view .LVU337
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1452              		.loc 10 36 5 view .LVU338
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1453              		.loc 10 36 80 is_stmt 0 view .LVU339
+ 1454 0090 B6EE006A 		vmov.f32	s12, #5.0e-1
+ 1455              		.syntax unified
+ 1456              	@ 36 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1457 0094 C6FE266A 		vmaxnm.f32 s13, s12, s13
+ 1458              	@ 0 "" 2
+ 1459              	.LVL76:
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1460              		.loc 10 40 5 is_stmt 1 view .LVU340
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1461              		.loc 10 40 5 is_stmt 0 view .LVU341
+ 1462              		.thumb
+ 1463              		.syntax unified
+ 1464              	.LBE552:
+ 1465              	.LBE551:
+ARM GAS  /tmp/ccb5exhz.s 			page 43
+
+
+ 1466              	.LBB553:
+ 1467              	.LBI553:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 1468              		.loc 10 43 14 is_stmt 1 view .LVU342
+ 1469              	.LBB554:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1470              		.loc 10 45 5 view .LVU343
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1471              		.loc 10 47 5 view .LVU344
+ 1472              	.LBE554:
+ 1473              	.LBE553:
+ 1474              	.LBE557:
+ 1475              	.LBE559:
+ 1476              	.LBE561:
+ 1477              	.LBB562:
+ 1478              	.LBB478:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1479              		.loc 7 236 16 is_stmt 0 view .LVU345
+ 1480 0098 37EE447B 		vsub.f64	d7, d7, d4
+ 1481              	.LBE478:
+ 1482              	.LBE562:
+ 1483              	.LBB563:
+ 1484              	.LBB560:
+ 1485              	.LBB558:
+ 1486              	.LBB556:
+ 1487              	.LBB555:
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1488              		.loc 10 47 80 view .LVU346
+ 1489              		.syntax unified
+ 1490              	@ 47 "../../DaisySP/Source/Utility/dsp.h" 1
+ 1491 009c C6FEC56A 		vminnm.f32 s13, s13, s10
+ 1492              	@ 0 "" 2
+ 1493              	.LVL77:
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1494              		.loc 10 51 5 is_stmt 1 view .LVU347
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1495              		.loc 10 51 5 is_stmt 0 view .LVU348
+ 1496              		.thumb
+ 1497              		.syntax unified
+ 1498              	.LBE555:
+ 1499              	.LBE556:
+ 1500              	.LBE558:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 1501              		.loc 7 227 32 view .LVU349
+ 1502 00a0 C4ED036A 		vstr.32	s13, [r4, #12]
+ 1503              	.LVL78:
+ 227:../../DaisySP/Source/Drums/hihat.h **** 
+ 1504              		.loc 7 227 32 view .LVU350
+ 1505              	.LBE560:
+ 1506              	.LBE563:
+ 1507              	.LBB564:
+ 1508              	.LBI466:
+ 232:../../DaisySP/Source/Drums/hihat.h ****     {
+ 1509              		.loc 7 232 10 is_stmt 1 view .LVU351
+ 1510              	.LBB479:
+ 1511              	.LBB473:
+ 1512              	.LBI468:
+ARM GAS  /tmp/ccb5exhz.s 			page 44
+
+
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 1513              		.loc 10 32 14 view .LVU352
+ 1514              	.LBB471:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1515              		.loc 10 34 5 view .LVU353
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1516              		.loc 10 36 5 view .LVU354
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1517              		.loc 10 40 5 view .LVU355
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1518              		.loc 10 40 5 is_stmt 0 view .LVU356
+ 1519              	.LBE471:
+ 1520              	.LBE473:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1521              		.loc 7 236 16 view .LVU357
+ 1522 00a4 B7EEC77B 		vcvt.f32.f64	s14, d7
+ 1523 00a8 84ED047A 		vstr.32	s14, [r4, #16]
+ 1524              	.LVL79:
+ 236:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1525              		.loc 7 236 16 view .LVU358
+ 1526              	.LBE479:
+ 1527              	.LBE564:
+ 1528              	.LBB565:
+ 1529              	.LBI505:
+ 242:../../DaisySP/Source/Drums/hihat.h ****     {
+ 1530              		.loc 7 242 10 is_stmt 1 view .LVU359
+ 1531              	.LBB520:
+ 1532              	.LBB516:
+ 1533              	.LBI507:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 1534              		.loc 10 56 14 view .LVU360
+ 1535              	.LBE516:
+ 1536              	.LBE520:
+ 1537              	.LBE565:
+ 1538              	.LBE573:
+ 1539              	.LBE579:
+ 1540              		.loc 10 58 5 view .LVU361
+ 1541              	.LBB580:
+ 1542              	.LBB574:
+ 1543              	.LBB566:
+ 1544              	.LBB521:
+ 1545              	.LBB517:
+ 1546              	.LBB514:
+ 1547              	.LBI508:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 1548              		.loc 10 32 14 view .LVU362
+ 1549              	.LBB510:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1550              		.loc 10 34 5 view .LVU363
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1551              		.loc 10 36 5 view .LVU364
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1552              		.loc 10 40 5 view .LVU365
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1553              		.loc 10 40 5 is_stmt 0 view .LVU366
+ 1554              	.LBE510:
+ 1555              	.LBE514:
+ARM GAS  /tmp/ccb5exhz.s 			page 45
+
+
+ 1556              	.LBB515:
+ 1557              	.LBI511:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 1558              		.loc 10 43 14 is_stmt 1 view .LVU367
+ 1559              	.LBB513:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1560              		.loc 10 45 5 view .LVU368
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1561              		.loc 10 47 5 view .LVU369
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1562              		.loc 10 51 5 view .LVU370
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1563              		.loc 10 51 5 is_stmt 0 view .LVU371
+ 1564              	.LBE513:
+ 1565              	.LBE515:
+ 1566              	.LBE517:
+ 1567              	.LBE521:
+ 1568              	.LBE566:
+ 1569              	.LBB567:
+ 1570              	.LBI535:
+ 213:../../DaisySP/Source/Drums/hihat.h **** 
+ 1571              		.loc 7 213 10 is_stmt 1 view .LVU372
+ 1572              	.LBB543:
+ 1573              	.LBB537:
+ 1574              	.LBI537:
+  56:../../DaisySP/Source/Utility/dsp.h **** {
+ 1575              		.loc 10 56 14 view .LVU373
+ 1576              	.LBE537:
+ 1577              	.LBE543:
+ 1578              	.LBE567:
+ 1579              	.LBE574:
+ 1580              	.LBE580:
+ 1581              		.loc 10 58 5 view .LVU374
+ 1582              	.LBB581:
+ 1583              	.LBB575:
+ 1584              	.LBB568:
+ 1585              	.LBB544:
+ 1586              	.LBB542:
+ 1587              	.LBB538:
+ 1588              	.LBI538:
+  32:../../DaisySP/Source/Utility/dsp.h **** {
+ 1589              		.loc 10 32 14 view .LVU375
+ 1590              	.LBB539:
+  34:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1591              		.loc 10 34 5 view .LVU376
+  36:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1592              		.loc 10 36 5 view .LVU377
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1593              		.loc 10 40 5 view .LVU378
+  40:../../DaisySP/Source/Utility/dsp.h **** }
+ 1594              		.loc 10 40 5 is_stmt 0 view .LVU379
+ 1595              	.LBE539:
+ 1596              	.LBE538:
+ 1597              	.LBB540:
+ 1598              	.LBI540:
+  43:../../DaisySP/Source/Utility/dsp.h **** {
+ 1599              		.loc 10 43 14 is_stmt 1 view .LVU380
+ARM GAS  /tmp/ccb5exhz.s 			page 46
+
+
+ 1600              	.LBB541:
+  45:../../DaisySP/Source/Utility/dsp.h **** #ifdef __arm__
+ 1601              		.loc 10 45 5 view .LVU381
+  47:../../DaisySP/Source/Utility/dsp.h **** #else
+ 1602              		.loc 10 47 5 view .LVU382
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1603              		.loc 10 51 5 view .LVU383
+  51:../../DaisySP/Source/Utility/dsp.h **** }
+ 1604              		.loc 10 51 5 is_stmt 0 view .LVU384
+ 1605              	.LBE541:
+ 1606              	.LBE540:
+ 1607              	.LBE542:
+ 1608              	.LBE544:
+ 1609              	.LBE568:
+ 1610              	.LBB569:
+ 1611              	.LBI524:
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 1612              		.loc 7 208 10 is_stmt 1 view .LVU385
+ 208:../../DaisySP/Source/Drums/hihat.h **** 
+ 1613              		.loc 7 208 10 is_stmt 0 view .LVU386
+ 1614              	.LBE569:
+ 136:../../DaisySP/Source/Drums/hihat.h ****         noise_coloration_svf_.Init(sample_rate_);
+ 1615              		.loc 7 136 9 view .LVU387
+ 1616 00ac FFF7FEFF 		bl	_ZN7daisysp11SquareNoise4InitEf
+ 1617              	.LVL80:
+ 137:../../DaisySP/Source/Drums/hihat.h ****         hpf_.Init(sample_rate_);
+ 1618              		.loc 7 137 35 view .LVU388
+ 1619 00b0 2046     		mov	r0, r4
+ 1620 00b2 94ED000A 		vldr.32	s0, [r4]
+ 1621 00b6 4430     		adds	r0, r0, #68
+ 1622 00b8 FFF7FEFF 		bl	_ZN7daisysp3Svf4InitEf
+ 1623              	.LVL81:
+ 138:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1624              		.loc 7 138 18 view .LVU389
+ 1625 00bc 2046     		mov	r0, r4
+ 1626 00be 94ED000A 		vldr.32	s0, [r4]
+ 1627 00c2 9030     		adds	r0, r0, #144
+ 1628 00c4 FFF7FEFF 		bl	_ZN7daisysp3Svf4InitEf
+ 1629              	.LVL82:
+ 138:../../DaisySP/Source/Drums/hihat.h ****     }
+ 1630              		.loc 7 138 18 view .LVU390
+ 1631              	.LBE575:
+ 1632              	.LBE581:
+  36:hihat.cpp     **** 
+  37:hihat.cpp     ****     tick.Init(8.f, sample_rate);
+ 1633              		.loc 9 37 5 is_stmt 1 view .LVU391
+ 1634              		.loc 9 37 14 is_stmt 0 view .LVU392
+ 1635 00c8 0F48     		ldr	r0, .L32+40
+ 1636 00ca F0EE480A 		vmov.f32	s1, s16
+ 1637 00ce B2EE000A 		vmov.f32	s0, #8.0e+0
+ 1638 00d2 FFF7FEFF 		bl	_ZN7daisysp5Metro4InitEff
+ 1639              	.LVL83:
+  38:hihat.cpp     **** 
+  39:hihat.cpp     ****     hw.StartAudio(AudioCallback);
+ 1640              		.loc 9 39 5 is_stmt 1 view .LVU393
+ 1641              		.loc 9 39 18 is_stmt 0 view .LVU394
+ 1642 00d6 0D49     		ldr	r1, .L32+44
+ARM GAS  /tmp/ccb5exhz.s 			page 47
+
+
+ 1643 00d8 0548     		ldr	r0, .L32+16
+ 1644 00da FFF7FEFF 		bl	_ZN5daisy9DaisySeed10StartAudioEPFvPKPKfPPfjE
+ 1645              	.LVL84:
+ 1646              	.L30:
+  40:hihat.cpp     ****     while(1) {}
+ 1647              		.loc 9 40 5 is_stmt 1 discriminator 1 view .LVU395
+ 1648              		.loc 9 40 5 discriminator 1 view .LVU396
+ 1649              		.loc 9 40 5 discriminator 1 view .LVU397
+ 1650              		.loc 9 40 5 discriminator 1 view .LVU398
+ 1651 00de FEE7     		b	.L30
+ 1652              	.L33:
+ 1653              		.align	3
+ 1654              	.L32:
+ 1655 00e0 33333333 		.word	858993459
+ 1656 00e4 3333FB3F 		.word	1073427251
+ 1657 00e8 33333333 		.word	858993459
+ 1658 00ec 3333F33F 		.word	1072902963
+ 1659 00f0 00000000 		.word	.LANCHOR2
+ 1660 00f4 00000000 		.word	.LANCHOR1
+ 1661 00f8 00000000 		.word	0
+ 1662 00fc CDCC4C3E 		.word	1045220557
+ 1663 0100 CDCC4C3F 		.word	1061997773
+ 1664 0104 00803B45 		.word	1161527296
+ 1665 0108 00000000 		.word	.LANCHOR0
+ 1666 010c 00000000 		.word	_Z13AudioCallbackPKPKfPPfj
+ 1667              		.cfi_endproc
+ 1668              	.LFE4213:
+ 1670              		.section	.text.startup._GLOBAL__sub_I_hw,"ax",%progbits
+ 1671              		.align	1
+ 1672              		.p2align 2,,3
+ 1673              		.syntax unified
+ 1674              		.thumb
+ 1675              		.thumb_func
+ 1676              		.fpu fpv5-d16
+ 1678              	_GLOBAL__sub_I_hw:
+ 1679              	.LFB4774:
+  41:hihat.cpp     **** }
+ 1680              		.loc 9 41 1 view -0
+ 1681              		.cfi_startproc
+ 1682              		@ args = 0, pretend = 0, frame = 0
+ 1683              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1684              	.LBB607:
+ 1685              	.LBI607:
+ 1686              		.loc 9 41 1 view .LVU400
+ 1687              	.LVL85:
+ 1688              	.LBB608:
+ 1689              	.LBB609:
+ 1690              	.LBI609:
+  21:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ 1691              		.loc 1 21 5 view .LVU401
+ 1692              	.LBB610:
+ 1693              	.LBB611:
+ 1694              	.LBI611:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1695              		.loc 5 62 5 view .LVU402
+ 1696              	.LBE611:
+ 1697              	.LBE610:
+ARM GAS  /tmp/ccb5exhz.s 			page 48
+
+
+ 1698              	.LBE609:
+ 1699              	.LBE608:
+ 1700              	.LBE607:
+ 1701              		.loc 9 41 1 is_stmt 0 view .LVU403
+ 1702 0000 08B5     		push	{r3, lr}
+ 1703              		.cfi_def_cfa_offset 8
+ 1704              		.cfi_offset 3, -8
+ 1705              		.cfi_offset 14, -4
+ 1706              	.LBB636:
+ 1707              	.LBB634:
+ 1708              	.LBB626:
+ 1709              	.LBB624:
+ 1710              	.LBB616:
+ 1711              	.LBB612:
+ 1712              	.LBB613:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1713              		.loc 5 62 35 view .LVU404
+ 1714 0002 0A48     		ldr	r0, .L36
+ 1715 0004 0023     		movs	r3, #0
+ 1716              	.LBE613:
+ 1717              	.LBE612:
+ 1718              	.LBE616:
+ 1719              	.LBE624:
+ 1720              	.LBE626:
+   7:hihat.cpp     **** HiHat<>   hihat;
+ 1721              		.loc 9 7 11 view .LVU405
+ 1722 0006 0A4A     		ldr	r2, .L36+4
+ 1723              	.LBB627:
+ 1724              	.LBB625:
+ 1725              	.LBB617:
+ 1726              	.LBB615:
+ 1727              	.LBB614:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1728              		.loc 5 62 35 view .LVU406
+ 1729 0008 4361     		str	r3, [r0, #20]
+ 1730              	.LVL86:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1731              		.loc 5 62 35 view .LVU407
+ 1732              	.LBE614:
+ 1733              	.LBE615:
+ 1734              	.LBE617:
+ 1735              	.LBB618:
+ 1736              	.LBI618:
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1737              		.loc 4 84 5 is_stmt 1 view .LVU408
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1738              		.loc 4 84 5 is_stmt 0 view .LVU409
+ 1739              	.LBE618:
+ 1740              	.LBB619:
+ 1741              	.LBI619:
+ 1742              		.file 11 "../../libdaisy/src/per/dac.h"
+   1:../../libdaisy/src/per/dac.h **** #pragma once
+   2:../../libdaisy/src/per/dac.h **** #ifndef DSY_DAC_H
+   3:../../libdaisy/src/per/dac.h **** #define DSY_DAC_H
+   4:../../libdaisy/src/per/dac.h **** 
+   5:../../libdaisy/src/per/dac.h **** #include "daisy_core.h"
+   6:../../libdaisy/src/per/dac.h **** 
+ARM GAS  /tmp/ccb5exhz.s 			page 49
+
+
+   7:../../libdaisy/src/per/dac.h **** namespace daisy
+   8:../../libdaisy/src/per/dac.h **** {
+   9:../../libdaisy/src/per/dac.h **** /** DAC handle for Built-in DAC Peripheral 
+  10:../../libdaisy/src/per/dac.h ****  ** 
+  11:../../libdaisy/src/per/dac.h ****  ** For now only Normal Mode is supported,
+  12:../../libdaisy/src/per/dac.h ****  ** Sample and hold mode provides reduced power consumption, but requires a bit more setup.
+  13:../../libdaisy/src/per/dac.h ****  **
+  14:../../libdaisy/src/per/dac.h ****  ** For now connecting the DAC through other internal periphearls is also not supported.
+  15:../../libdaisy/src/per/dac.h ****  **
+  16:../../libdaisy/src/per/dac.h ****  ** Since the DAC channels have dedicated pins we don't need to pass in a pin config like with
+  17:../../libdaisy/src/per/dac.h ****  ** other modules. However, it is still important to not try to use the DAC pins for anything else.
+  18:../../libdaisy/src/per/dac.h ****  ** DAC Channel 1 is on PA4, and DAC Channel 2 is on PA5
+  19:../../libdaisy/src/per/dac.h ****  ***/
+  20:../../libdaisy/src/per/dac.h **** class DacHandle
+  21:../../libdaisy/src/per/dac.h **** {
+  22:../../libdaisy/src/per/dac.h ****   public:
+  23:../../libdaisy/src/per/dac.h ****     /** Return Values for the DacHandle class */
+  24:../../libdaisy/src/per/dac.h ****     enum class Result
+  25:../../libdaisy/src/per/dac.h ****     {
+  26:../../libdaisy/src/per/dac.h ****         OK,
+  27:../../libdaisy/src/per/dac.h ****         ERR,
+  28:../../libdaisy/src/per/dac.h ****     };
+  29:../../libdaisy/src/per/dac.h **** 
+  30:../../libdaisy/src/per/dac.h ****     /** Selects which channel(s) will be configured for use. */
+  31:../../libdaisy/src/per/dac.h ****     enum class Channel
+  32:../../libdaisy/src/per/dac.h ****     {
+  33:../../libdaisy/src/per/dac.h ****         ONE,
+  34:../../libdaisy/src/per/dac.h ****         TWO,
+  35:../../libdaisy/src/per/dac.h ****         BOTH,
+  36:../../libdaisy/src/per/dac.h ****     };
+  37:../../libdaisy/src/per/dac.h **** 
+  38:../../libdaisy/src/per/dac.h ****     /** Sets the Mode for the DAC channels.
+  39:../../libdaisy/src/per/dac.h ****      **
+  40:../../libdaisy/src/per/dac.h ****      ** Polling mode uses the blocking mode to transmit a single value at a time.
+  41:../../libdaisy/src/per/dac.h ****      **
+  42:../../libdaisy/src/per/dac.h ****      ** DMA mode uses a buffer, and periodically transmits it triggering a 
+  43:../../libdaisy/src/per/dac.h ****      ** callback to fill the buffer when it is ready for more samples.
+  44:../../libdaisy/src/per/dac.h ****      ***/
+  45:../../libdaisy/src/per/dac.h ****     enum class Mode
+  46:../../libdaisy/src/per/dac.h ****     {
+  47:../../libdaisy/src/per/dac.h ****         POLLING,
+  48:../../libdaisy/src/per/dac.h ****         DMA,
+  49:../../libdaisy/src/per/dac.h ****     };
+  50:../../libdaisy/src/per/dac.h **** 
+  51:../../libdaisy/src/per/dac.h ****     /** Sets the number of bits per sample transmitted out of the DAC.
+  52:../../libdaisy/src/per/dac.h ****      ** The output range will be: 0V - VDDA
+  53:../../libdaisy/src/per/dac.h ****      ** The resolution will be roughly: bitdepth / (VDDA - 0V) 
+  54:../../libdaisy/src/per/dac.h ****      ***/
+  55:../../libdaisy/src/per/dac.h ****     enum class BitDepth
+  56:../../libdaisy/src/per/dac.h ****     {
+  57:../../libdaisy/src/per/dac.h ****         BITS_8,
+  58:../../libdaisy/src/per/dac.h ****         BITS_12
+  59:../../libdaisy/src/per/dac.h ****     };
+  60:../../libdaisy/src/per/dac.h **** 
+  61:../../libdaisy/src/per/dac.h ****     /** Sets whether the DAC output is buffered for higher drive ability. */
+  62:../../libdaisy/src/per/dac.h ****     enum class BufferState
+  63:../../libdaisy/src/per/dac.h ****     {
+ARM GAS  /tmp/ccb5exhz.s 			page 50
+
+
+  64:../../libdaisy/src/per/dac.h ****         ENABLED,
+  65:../../libdaisy/src/per/dac.h ****         DISABLED,
+  66:../../libdaisy/src/per/dac.h ****     };
+  67:../../libdaisy/src/per/dac.h **** 
+  68:../../libdaisy/src/per/dac.h ****     /** Configuration structure for initializing the DAC structure. */
+  69:../../libdaisy/src/per/dac.h ****     struct Config
+  70:../../libdaisy/src/per/dac.h ****     {
+  71:../../libdaisy/src/per/dac.h ****         /** Target Samplerate in Hz used to configure the internal 
+  72:../../libdaisy/src/per/dac.h ****          ** timebase for DMA mode. Does nothing in POLLING mode.
+  73:../../libdaisy/src/per/dac.h ****          ** If the value is 0 at Init time this will default to 48000Hz 
+  74:../../libdaisy/src/per/dac.h ****          ** otherwise the driver will attempt meet the target.*/
+  75:../../libdaisy/src/per/dac.h ****         uint32_t target_samplerate;
+  76:../../libdaisy/src/per/dac.h **** 
+  77:../../libdaisy/src/per/dac.h ****         Channel     chn;
+  78:../../libdaisy/src/per/dac.h ****         Mode        mode;
+  79:../../libdaisy/src/per/dac.h ****         BitDepth    bitdepth;
+  80:../../libdaisy/src/per/dac.h ****         BufferState buff_state;
+  81:../../libdaisy/src/per/dac.h ****     };
+  82:../../libdaisy/src/per/dac.h **** 
+  83:../../libdaisy/src/per/dac.h ****     DacHandle() : pimpl_(nullptr) {}
+ 1743              		.loc 11 83 5 is_stmt 1 view .LVU410
+ 1744              	.LBB620:
+ 1745              	.LBB621:
+ 1746              		.loc 11 83 33 is_stmt 0 view .LVU411
+ 1747 000a 0362     		str	r3, [r0, #32]
+ 1748              	.LVL87:
+ 1749              		.loc 11 83 33 view .LVU412
+ 1750              	.LBE621:
+ 1751              	.LBE620:
+ 1752              	.LBE619:
+ 1753              	.LBB622:
+ 1754              	.LBI622:
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1755              		.loc 3 40 5 is_stmt 1 view .LVU413
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1756              		.loc 3 40 5 is_stmt 0 view .LVU414
+ 1757              	.LBE622:
+ 1758              	.LBB623:
+ 1759              	.LBI623:
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1760              		.loc 2 58 5 is_stmt 1 view .LVU415
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1761              		.loc 2 58 5 is_stmt 0 view .LVU416
+ 1762              	.LBE623:
+ 1763              	.LBE625:
+ 1764              	.LBE627:
+   7:hihat.cpp     **** HiHat<>   hihat;
+ 1765              		.loc 9 7 11 view .LVU417
+ 1766 000c 0949     		ldr	r1, .L36+8
+ 1767 000e FFF7FEFF 		bl	__aeabi_atexit
+ 1768              	.LVL88:
+ 1769              	.LBB628:
+ 1770              	.LBI628:
+ 112:../../DaisySP/Source/Drums/hihat.h ****     ~HiHat() {}
+ 1771              		.loc 7 112 5 is_stmt 1 view .LVU418
+ 1772              	.LBB629:
+ 1773              	.LBB630:
+ARM GAS  /tmp/ccb5exhz.s 			page 51
+
+
+ 1774              	.LBI630:
+  27:../../DaisySP/Source/Drums/hihat.h ****     ~SquareNoise() {}
+ 1775              		.loc 7 27 5 view .LVU419
+  27:../../DaisySP/Source/Drums/hihat.h ****     ~SquareNoise() {}
+ 1776              		.loc 7 27 5 is_stmt 0 view .LVU420
+ 1777              	.LBE630:
+ 1778              	.LBB631:
+ 1779              	.LBI631:
+  21:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+ 1780              		.loc 8 21 5 is_stmt 1 view .LVU421
+  21:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+ 1781              		.loc 8 21 5 is_stmt 0 view .LVU422
+ 1782              	.LBE631:
+ 1783              	.LBB632:
+ 1784              	.LBI632:
+  21:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+ 1785              		.loc 8 21 5 is_stmt 1 view .LVU423
+  21:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+ 1786              		.loc 8 21 5 is_stmt 0 view .LVU424
+ 1787              	.LBE632:
+ 1788              	.LBE629:
+ 1789              	.LBE628:
+   8:hihat.cpp     **** Metro     tick;
+ 1790              		.loc 9 8 11 view .LVU425
+ 1791 0012 074A     		ldr	r2, .L36+4
+ 1792 0014 0849     		ldr	r1, .L36+12
+ 1793 0016 0948     		ldr	r0, .L36+16
+ 1794 0018 FFF7FEFF 		bl	__aeabi_atexit
+ 1795              	.LVL89:
+ 1796              	.LBB633:
+ 1797              	.LBI633:
+  14:../../DaisySP/Source/Utility/metro.h ****     ~Metro() {}
+ 1798              		.loc 6 14 5 is_stmt 1 view .LVU426
+  14:../../DaisySP/Source/Utility/metro.h ****     ~Metro() {}
+ 1799              		.loc 6 14 5 is_stmt 0 view .LVU427
+ 1800              	.LBE633:
+   9:hihat.cpp     **** 
+ 1801              		.loc 9 9 11 view .LVU428
+ 1802 001c 044A     		ldr	r2, .L36+4
+ 1803 001e 0849     		ldr	r1, .L36+20
+ 1804 0020 0848     		ldr	r0, .L36+24
+ 1805              	.LBE634:
+ 1806              	.LBE636:
+ 1807              		.loc 9 41 1 view .LVU429
+ 1808 0022 BDE80840 		pop	{r3, lr}
+ 1809              		.cfi_restore 14
+ 1810              		.cfi_restore 3
+ 1811              		.cfi_def_cfa_offset 0
+ 1812              	.LBB637:
+ 1813              	.LBB635:
+   9:hihat.cpp     **** 
+ 1814              		.loc 9 9 11 view .LVU430
+ 1815 0026 FFF7FEBF 		b	__aeabi_atexit
+ 1816              	.LVL90:
+ 1817              	.L37:
+ 1818 002a 00BF     		.align	2
+ 1819              	.L36:
+ARM GAS  /tmp/ccb5exhz.s 			page 52
+
+
+ 1820 002c 00000000 		.word	.LANCHOR2
+ 1821 0030 00000000 		.word	__dso_handle
+ 1822 0034 00000000 		.word	_ZN5daisy9DaisySeedD1Ev
+ 1823 0038 00000000 		.word	_ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED1Ev
+ 1824 003c 00000000 		.word	.LANCHOR1
+ 1825 0040 00000000 		.word	_ZN7daisysp5MetroD1Ev
+ 1826 0044 00000000 		.word	.LANCHOR0
+ 1827              	.LBE635:
+ 1828              	.LBE637:
+ 1829              		.cfi_endproc
+ 1830              	.LFE4774:
+ 1832              		.section	.init_array,"aw",%init_array
+ 1833              		.align	2
+ 1834 0000 00000000 		.word	_GLOBAL__sub_I_hw(target1)
+ 1835              		.global	tick
+ 1836              		.global	hihat
+ 1837              		.global	hw
+ 1838              		.section	.bss.hihat,"aw",%nobits
+ 1839              		.align	2
+ 1840              		.set	.LANCHOR1,. + 0
+ 1843              	hihat:
+ 1844 0000 00000000 		.space	220
+ 1844      00000000 
+ 1844      00000000 
+ 1844      00000000 
+ 1844      00000000 
+ 1845              		.section	.bss.hw,"aw",%nobits
+ 1846              		.align	2
+ 1847              		.set	.LANCHOR2,. + 0
+ 1850              	hw:
+ 1851 0000 00000000 		.space	60
+ 1851      00000000 
+ 1851      00000000 
+ 1851      00000000 
+ 1851      00000000 
+ 1852              		.section	.bss.tick,"aw",%nobits
+ 1853              		.align	2
+ 1854              		.set	.LANCHOR0,. + 0
+ 1857              	tick:
+ 1858 0000 00000000 		.space	16
+ 1858      00000000 
+ 1858      00000000 
+ 1858      00000000 
+ 1859              		.text
+ 1860              	.Letext0:
+ 1861              		.file 12 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 1862              		.file 13 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 1863              		.file 14 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 1864              		.file 15 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1865              		.file 16 "/usr/include/newlib/c++/9.2.1/cmath"
+ 1866              		.file 17 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+ 1867              		.file 18 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ 1868              		.file 19 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 1869              		.file 20 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 1870              		.file 21 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 1871              		.file 22 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 1872              		.file 23 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ARM GAS  /tmp/ccb5exhz.s 			page 53
+
+
+ 1873              		.file 24 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 1874              		.file 25 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 1875              		.file 26 "/usr/include/newlib/c++/9.2.1/new"
+ 1876              		.file 27 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 1877              		.file 28 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 1878              		.file 29 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 1879              		.file 30 "/usr/include/newlib/c++/9.2.1/clocale"
+ 1880              		.file 31 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 1881              		.file 32 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 1882              		.file 33 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 1883              		.file 34 "/usr/include/newlib/c++/9.2.1/cstring"
+ 1884              		.file 35 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ 1885              		.file 36 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 1886              		.file 37 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 1887              		.file 38 "/usr/include/newlib/sys/_types.h"
+ 1888              		.file 39 "<built-in>"
+ 1889              		.file 40 "/usr/include/newlib/sys/reent.h"
+ 1890              		.file 41 "/usr/include/newlib/sys/lock.h"
+ 1891              		.file 42 "/usr/include/newlib/math.h"
+ 1892              		.file 43 "/usr/include/newlib/stdlib.h"
+ 1893              		.file 44 "/usr/include/newlib/c++/9.2.1/math.h"
+ 1894              		.file 45 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1895              		.file 46 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 1896              		.file 47 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 1897              		.file 48 "../../libdaisy/src/daisy_core.h"
+ 1898              		.file 49 "../../libdaisy/src/per/tim.h"
+ 1899              		.file 50 "../../libdaisy/src/per/sai.h"
+ 1900              		.file 51 "../../libdaisy/src/util/wav_format.h"
+ 1901              		.file 52 "../../libdaisy/src/per/qspi.h"
+ 1902              		.file 53 "../../libdaisy/src/per/gpio.h"
+ 1903              		.file 54 "../../libdaisy/src/dev/sdram.h"
+ 1904              		.file 55 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 1905              		.file 56 "/usr/include/newlib/stdio.h"
+ 1906              		.file 57 "/usr/include/newlib/sys/unistd.h"
+ 1907              		.file 58 "../../libdaisy/src/util/oled_fonts.h"
+ 1908              		.file 59 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 1909              		.file 60 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 1910              		.file 61 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 1911              		.file 62 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 1912              		.file 63 "../../libdaisy/src/util/sd_diskio.h"
+ 1913              		.file 64 "../../libdaisy/src/sys/fatfs.h"
+ 1914              		.file 65 "../../DaisySP/Source/Control/adenv.h"
+ 1915              		.file 66 "/usr/include/newlib/wchar.h"
+ 1916              		.file 67 "/usr/include/newlib/locale.h"
+ 1917              		.file 68 "/usr/include/newlib/ctype.h"
+ 1918              		.file 69 "/usr/include/newlib/sys/errno.h"
+ 1919              		.file 70 "/usr/include/newlib/string.h"
+ 1920              		.file 71 "../../libdaisy/src/dev/sr_595.h"
+ARM GAS  /tmp/ccb5exhz.s 			page 54
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 hihat.cpp
+     /tmp/ccb5exhz.s:17     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 $t
+     /tmp/ccb5exhz.s:26     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 _ZN5daisy9DaisySeedD2Ev
+     /tmp/ccb5exhz.s:26     .text._ZN5daisy9DaisySeedD2Ev:0000000000000000 _ZN5daisy9DaisySeedD1Ev
+     /tmp/ccb5exhz.s:67     .text._ZN7daisysp5MetroD2Ev:0000000000000000 $t
+     /tmp/ccb5exhz.s:75     .text._ZN7daisysp5MetroD2Ev:0000000000000000 _ZN7daisysp5MetroD2Ev
+     /tmp/ccb5exhz.s:75     .text._ZN7daisysp5MetroD2Ev:0000000000000000 _ZN7daisysp5MetroD1Ev
+     /tmp/ccb5exhz.s:92     .text._ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev:0000000000000000 $t
+     /tmp/ccb5exhz.s:100    .text._ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev:0000000000000000 _ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev
+     /tmp/ccb5exhz.s:100    .text._ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED2Ev:0000000000000000 _ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED1Ev
+     /tmp/ccb5exhz.s:133    .text._Z13AudioCallbackPKPKfPPfj:0000000000000000 $t
+     /tmp/ccb5exhz.s:141    .text._Z13AudioCallbackPKPKfPPfj:0000000000000000 _Z13AudioCallbackPKPKfPPfj
+     /tmp/ccb5exhz.s:1114   .text._Z13AudioCallbackPKPKfPPfj:0000000000000318 $d
+     /tmp/ccb5exhz.s:1140   .text.startup.main:0000000000000000 $t
+     /tmp/ccb5exhz.s:1148   .text.startup.main:0000000000000000 main
+     /tmp/ccb5exhz.s:1655   .text.startup.main:00000000000000e0 $d
+     /tmp/ccb5exhz.s:1671   .text.startup._GLOBAL__sub_I_hw:0000000000000000 $t
+     /tmp/ccb5exhz.s:1678   .text.startup._GLOBAL__sub_I_hw:0000000000000000 _GLOBAL__sub_I_hw
+     /tmp/ccb5exhz.s:1820   .text.startup._GLOBAL__sub_I_hw:000000000000002c $d
+     /tmp/ccb5exhz.s:1833   .init_array:0000000000000000 $d
+     /tmp/ccb5exhz.s:1857   .bss.tick:0000000000000000 tick
+     /tmp/ccb5exhz.s:1843   .bss.hihat:0000000000000000 hihat
+     /tmp/ccb5exhz.s:1850   .bss.hw:0000000000000000 hw
+     /tmp/ccb5exhz.s:1839   .bss.hihat:0000000000000000 $d
+     /tmp/ccb5exhz.s:1846   .bss.hw:0000000000000000 $d
+     /tmp/ccb5exhz.s:1853   .bss.tick:0000000000000000 $d
+                           .group:0000000000000000 _ZN5daisy9DaisySeedD5Ev
+                           .group:0000000000000000 _ZN7daisysp5MetroD5Ev
+                           .group:0000000000000000 _ZN7daisysp5HiHatINS_11SquareNoiseENS_9LinearVCAELb1EED5Ev
+
+UNDEFINED SYMBOLS
+_ZN7daisysp3Svf7SetFreqEf
+_ZN7daisysp3Svf6SetResEf
+_ZN7daisysp3Svf7ProcessEf
+_ZN7daisysp5Metro7ProcessEv
+powf
+_ZN7daisysp11SquareNoise7ProcessEf
+rand
+random
+_ZN5daisy9DaisySeed9ConfigureEv
+_ZN5daisy9DaisySeed4InitEb
+_ZN5daisy9DaisySeed15AudioSampleRateEv
+_ZN7daisysp11SquareNoise4InitEf
+_ZN7daisysp3Svf4InitEf
+_ZN7daisysp5Metro4InitEff
+_ZN5daisy9DaisySeed10StartAudioEPFvPKPKfPPfjE
+__aeabi_atexit
+__dso_handle

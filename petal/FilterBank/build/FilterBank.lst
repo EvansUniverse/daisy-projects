@@ -1,0 +1,3047 @@
+ARM GAS  /tmp/ccJNPitZ.s 			page 1
+
+
+   1              		.cpu cortex-m7
+   2              		.eabi_attribute 28, 1
+   3              		.eabi_attribute 20, 1
+   4              		.eabi_attribute 21, 1
+   5              		.eabi_attribute 23, 3
+   6              		.eabi_attribute 24, 1
+   7              		.eabi_attribute 25, 1
+   8              		.eabi_attribute 26, 1
+   9              		.eabi_attribute 30, 2
+  10              		.eabi_attribute 34, 1
+  11              		.eabi_attribute 18, 4
+  12              		.file	"FilterBank.cpp"
+  13              		.text
+  14              	.Ltext0:
+  15              		.cfi_sections	.debug_frame
+  16              		.section	.text._ZN5daisy10DaisyPetalD2Ev,"axG",%progbits,_ZN5daisy10DaisyPetalD5Ev,comdat
+  17              		.align	1
+  18              		.p2align 2,,3
+  19              		.weak	_ZN5daisy10DaisyPetalD2Ev
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv5-d16
+  26              	_ZN5daisy10DaisyPetalD2Ev:
+  27              	.LVL0:
+  28              	.LFB4219:
+  29              		.file 1 "../../libdaisy/src/daisy_petal.h"
+   1:../../libdaisy/src/daisy_petal.h **** #pragma once
+   2:../../libdaisy/src/daisy_petal.h **** #ifndef DSY_PETAL_H
+   3:../../libdaisy/src/daisy_petal.h **** #define DSY_PETAL_H /**< & */
+   4:../../libdaisy/src/daisy_petal.h **** 
+   5:../../libdaisy/src/daisy_petal.h **** #include "daisy_seed.h"
+   6:../../libdaisy/src/daisy_petal.h **** 
+   7:../../libdaisy/src/daisy_petal.h **** namespace daisy
+   8:../../libdaisy/src/daisy_petal.h **** {
+   9:../../libdaisy/src/daisy_petal.h **** /**
+  10:../../libdaisy/src/daisy_petal.h ****    @brief Helpers and hardware definitions for daisy petal.
+  11:../../libdaisy/src/daisy_petal.h ****    @ingroup boards
+  12:../../libdaisy/src/daisy_petal.h **** */
+  13:../../libdaisy/src/daisy_petal.h **** class DaisyPetal
+  14:../../libdaisy/src/daisy_petal.h **** {
+  15:../../libdaisy/src/daisy_petal.h ****   public:
+  16:../../libdaisy/src/daisy_petal.h ****     /** Switches */
+  17:../../libdaisy/src/daisy_petal.h ****     enum Sw
+  18:../../libdaisy/src/daisy_petal.h ****     {
+  19:../../libdaisy/src/daisy_petal.h ****         SW_1,    /**< Footswitch */
+  20:../../libdaisy/src/daisy_petal.h ****         SW_2,    /**< Footswitch */
+  21:../../libdaisy/src/daisy_petal.h ****         SW_3,    /**< Footswitch */
+  22:../../libdaisy/src/daisy_petal.h ****         SW_4,    /**< Footswitch */
+  23:../../libdaisy/src/daisy_petal.h ****         SW_5,    /**< Toggle */
+  24:../../libdaisy/src/daisy_petal.h ****         SW_6,    /**< Toggle */
+  25:../../libdaisy/src/daisy_petal.h ****         SW_7,    /**< Toggle */
+  26:../../libdaisy/src/daisy_petal.h ****         SW_LAST, /**< Last enum item */
+  27:../../libdaisy/src/daisy_petal.h ****     };
+  28:../../libdaisy/src/daisy_petal.h **** 
+  29:../../libdaisy/src/daisy_petal.h ****     /** Knobs */
+ARM GAS  /tmp/ccJNPitZ.s 			page 2
+
+
+  30:../../libdaisy/src/daisy_petal.h ****     enum Knob
+  31:../../libdaisy/src/daisy_petal.h ****     {
+  32:../../libdaisy/src/daisy_petal.h ****         KNOB_1,    /**< & */
+  33:../../libdaisy/src/daisy_petal.h ****         KNOB_2,    /**< & */
+  34:../../libdaisy/src/daisy_petal.h ****         KNOB_3,    /**< & */
+  35:../../libdaisy/src/daisy_petal.h ****         KNOB_4,    /**< & */
+  36:../../libdaisy/src/daisy_petal.h ****         KNOB_5,    /**< & */
+  37:../../libdaisy/src/daisy_petal.h ****         KNOB_6,    /**< & */
+  38:../../libdaisy/src/daisy_petal.h ****         KNOB_LAST, /**< & */
+  39:../../libdaisy/src/daisy_petal.h ****     };
+  40:../../libdaisy/src/daisy_petal.h **** 
+  41:../../libdaisy/src/daisy_petal.h ****     /** Leds in ringled */
+  42:../../libdaisy/src/daisy_petal.h ****     enum RingLed
+  43:../../libdaisy/src/daisy_petal.h ****     {
+  44:../../libdaisy/src/daisy_petal.h ****         RING_LED_1,   /**< & */
+  45:../../libdaisy/src/daisy_petal.h ****         RING_LED_2,   /**< & */
+  46:../../libdaisy/src/daisy_petal.h ****         RING_LED_3,   /**< & */
+  47:../../libdaisy/src/daisy_petal.h ****         RING_LED_4,   /**< & */
+  48:../../libdaisy/src/daisy_petal.h ****         RING_LED_5,   /**< & */
+  49:../../libdaisy/src/daisy_petal.h ****         RING_LED_6,   /**< & */
+  50:../../libdaisy/src/daisy_petal.h ****         RING_LED_7,   /**< & */
+  51:../../libdaisy/src/daisy_petal.h ****         RING_LED_8,   /**< & */
+  52:../../libdaisy/src/daisy_petal.h ****         RING_LED_LAST /**< & */
+  53:../../libdaisy/src/daisy_petal.h ****     };
+  54:../../libdaisy/src/daisy_petal.h **** 
+  55:../../libdaisy/src/daisy_petal.h ****     /** footswitch leds */
+  56:../../libdaisy/src/daisy_petal.h ****     enum FootswitchLed
+  57:../../libdaisy/src/daisy_petal.h ****     {
+  58:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_1,    /**< & */
+  59:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_2,    /**< & */
+  60:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_3,    /**< & */
+  61:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_4,    /**< & */
+  62:../../libdaisy/src/daisy_petal.h ****         FOOTSWITCH_LED_LAST, /**< & */
+  63:../../libdaisy/src/daisy_petal.h ****     };
+  64:../../libdaisy/src/daisy_petal.h **** 
+  65:../../libdaisy/src/daisy_petal.h ****     /** Constructor */
+  66:../../libdaisy/src/daisy_petal.h ****     DaisyPetal() {}
+  67:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+  68:../../libdaisy/src/daisy_petal.h ****     ~DaisyPetal() {}
+  30              		.loc 1 68 5 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+  35              	.LBB240:
+  36              	.LBI240:
+  37              		.file 2 "../../libdaisy/src/hid/ctrl.h"
+   1:../../libdaisy/src/hid/ctrl.h **** #pragma once
+   2:../../libdaisy/src/hid/ctrl.h **** #ifndef DSY_KNOB_H
+   3:../../libdaisy/src/hid/ctrl.h **** #define DSY_KNOB_H /**< & */
+   4:../../libdaisy/src/hid/ctrl.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/ctrl.h **** 
+   6:../../libdaisy/src/hid/ctrl.h **** #ifdef __cplusplus
+   7:../../libdaisy/src/hid/ctrl.h **** namespace daisy
+   8:../../libdaisy/src/hid/ctrl.h **** {
+   9:../../libdaisy/src/hid/ctrl.h **** /**
+  10:../../libdaisy/src/hid/ctrl.h ****     @brief Hardware Interface for control inputs \n 
+ARM GAS  /tmp/ccJNPitZ.s 			page 3
+
+
+  11:../../libdaisy/src/hid/ctrl.h ****     Primarily designed for ADC input controls such as \n 
+  12:../../libdaisy/src/hid/ctrl.h ****     potentiometers, and control voltage. \n 
+  13:../../libdaisy/src/hid/ctrl.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/ctrl.h ****     @date November 2019
+  15:../../libdaisy/src/hid/ctrl.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/ctrl.h **** */
+  17:../../libdaisy/src/hid/ctrl.h **** class AnalogControl
+  18:../../libdaisy/src/hid/ctrl.h **** {
+  19:../../libdaisy/src/hid/ctrl.h ****   public:
+  20:../../libdaisy/src/hid/ctrl.h ****     /** Constructor */
+  21:../../libdaisy/src/hid/ctrl.h ****     AnalogControl() {}
+  22:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+  23:../../libdaisy/src/hid/ctrl.h ****     ~AnalogControl() {}
+  38              		.loc 2 23 5 view .LVU1
+  39              		.loc 2 23 5 is_stmt 0 view .LVU2
+  40              	.LBE240:
+  41              	.LBB241:
+  42              	.LBI241:
+  43              		.file 3 "../../libdaisy/src/hid/encoder.h"
+   1:../../libdaisy/src/hid/encoder.h **** #pragma once
+   2:../../libdaisy/src/hid/encoder.h **** #ifndef DSY_ENCODER_H
+   3:../../libdaisy/src/hid/encoder.h **** #define DSY_ENCODER_H
+   4:../../libdaisy/src/hid/encoder.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/encoder.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/encoder.h **** #include "hid/switch.h"
+   7:../../libdaisy/src/hid/encoder.h **** 
+   8:../../libdaisy/src/hid/encoder.h **** namespace daisy
+   9:../../libdaisy/src/hid/encoder.h **** {
+  10:../../libdaisy/src/hid/encoder.h **** /** 
+  11:../../libdaisy/src/hid/encoder.h ****     @brief Generic Class for handling Quadrature Encoders \n 
+  12:../../libdaisy/src/hid/encoder.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Encoder classes
+  13:../../libdaisy/src/hid/encoder.h ****     @author Stephen Hensley
+  14:../../libdaisy/src/hid/encoder.h ****     @date December 2019
+  15:../../libdaisy/src/hid/encoder.h ****     @ingroup controls
+  16:../../libdaisy/src/hid/encoder.h **** */
+  17:../../libdaisy/src/hid/encoder.h **** class Encoder
+  18:../../libdaisy/src/hid/encoder.h **** {
+  19:../../libdaisy/src/hid/encoder.h ****   public:
+  20:../../libdaisy/src/hid/encoder.h ****     Encoder() {}
+  21:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+  44              		.loc 3 21 5 is_stmt 1 view .LVU3
+  45              	.LBB242:
+  46              	.LBI242:
+  47              		.file 4 "../../libdaisy/src/hid/switch.h"
+   1:../../libdaisy/src/hid/switch.h **** #pragma once
+   2:../../libdaisy/src/hid/switch.h **** #ifndef DSY_SWITCH_H
+   3:../../libdaisy/src/hid/switch.h **** #define DSY_SWITCH_H
+   4:../../libdaisy/src/hid/switch.h **** #include "daisy_core.h"
+   5:../../libdaisy/src/hid/switch.h **** #include "per/gpio.h"
+   6:../../libdaisy/src/hid/switch.h **** 
+   7:../../libdaisy/src/hid/switch.h **** namespace daisy
+   8:../../libdaisy/src/hid/switch.h **** {
+   9:../../libdaisy/src/hid/switch.h **** /** 
+  10:../../libdaisy/src/hid/switch.h ****     Generic Class for handling momentary/latching switches \n 
+  11:../../libdaisy/src/hid/switch.h ****     Inspired/influenced by Mutable Instruments (pichenettes) Switch classes
+  12:../../libdaisy/src/hid/switch.h ****     @author Stephen Hensley
+  13:../../libdaisy/src/hid/switch.h ****     @date December 2019
+ARM GAS  /tmp/ccJNPitZ.s 			page 4
+
+
+  14:../../libdaisy/src/hid/switch.h ****     @ingroup controls
+  15:../../libdaisy/src/hid/switch.h **** */
+  16:../../libdaisy/src/hid/switch.h **** class Switch
+  17:../../libdaisy/src/hid/switch.h **** {
+  18:../../libdaisy/src/hid/switch.h ****   public:
+  19:../../libdaisy/src/hid/switch.h ****     /** Specifies the expected behavior of the switch */
+  20:../../libdaisy/src/hid/switch.h ****     enum Type
+  21:../../libdaisy/src/hid/switch.h ****     {
+  22:../../libdaisy/src/hid/switch.h ****         TYPE_TOGGLE,    /**< & */
+  23:../../libdaisy/src/hid/switch.h ****         TYPE_MOMENTARY, /**< & */
+  24:../../libdaisy/src/hid/switch.h ****     };
+  25:../../libdaisy/src/hid/switch.h ****     /** Specifies whether the pressed is HIGH or LOW. */
+  26:../../libdaisy/src/hid/switch.h ****     enum Polarity
+  27:../../libdaisy/src/hid/switch.h ****     {
+  28:../../libdaisy/src/hid/switch.h ****         POLARITY_NORMAL,   /**< & */
+  29:../../libdaisy/src/hid/switch.h ****         POLARITY_INVERTED, /**< & */
+  30:../../libdaisy/src/hid/switch.h ****     };
+  31:../../libdaisy/src/hid/switch.h **** 
+  32:../../libdaisy/src/hid/switch.h ****     /** Specifies whether to use built-in Pull Up/Down resistors to hold button at a given state wh
+  33:../../libdaisy/src/hid/switch.h ****     enum Pull
+  34:../../libdaisy/src/hid/switch.h ****     {
+  35:../../libdaisy/src/hid/switch.h ****         PULL_UP,   /**< & */
+  36:../../libdaisy/src/hid/switch.h ****         PULL_DOWN, /**< & */
+  37:../../libdaisy/src/hid/switch.h ****         PULL_NONE, /**< & */
+  38:../../libdaisy/src/hid/switch.h ****     };
+  39:../../libdaisy/src/hid/switch.h **** 
+  40:../../libdaisy/src/hid/switch.h ****     Switch() {}
+  41:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+  48              		.loc 4 41 5 view .LVU4
+  49              		.loc 4 41 5 is_stmt 0 view .LVU5
+  50              	.LBE242:
+  51              	.LBE241:
+  52              	.LBB243:
+  53              	.LBI243:
+  54              		.file 5 "../../libdaisy/src/daisy_seed.h"
+   1:../../libdaisy/src/daisy_seed.h **** #pragma once
+   2:../../libdaisy/src/daisy_seed.h **** #ifndef DSY_SEED_H
+   3:../../libdaisy/src/daisy_seed.h **** #define DSY_SEED_H
+   4:../../libdaisy/src/daisy_seed.h **** 
+   5:../../libdaisy/src/daisy_seed.h **** #include "daisy.h"
+   6:../../libdaisy/src/daisy_seed.h **** 
+   7:../../libdaisy/src/daisy_seed.h **** //Uncomment this out if you're still using the rev2 hardware
+   8:../../libdaisy/src/daisy_seed.h **** //#define SEED_REV2
+   9:../../libdaisy/src/daisy_seed.h **** 
+  10:../../libdaisy/src/daisy_seed.h **** namespace daisy
+  11:../../libdaisy/src/daisy_seed.h **** {
+  12:../../libdaisy/src/daisy_seed.h **** /**
+  13:../../libdaisy/src/daisy_seed.h ****    @brief This is the higher-level interface for the Daisy board. \n 
+  14:../../libdaisy/src/daisy_seed.h ****     All basic peripheral configuration/initialization is setup here. \n
+  15:../../libdaisy/src/daisy_seed.h **** 
+  16:../../libdaisy/src/daisy_seed.h ****    @ingroup boards
+  17:../../libdaisy/src/daisy_seed.h **** */
+  18:../../libdaisy/src/daisy_seed.h **** class DaisySeed
+  19:../../libdaisy/src/daisy_seed.h **** {
+  20:../../libdaisy/src/daisy_seed.h ****   public:
+  21:../../libdaisy/src/daisy_seed.h ****     DaisySeed() {}
+  22:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ARM GAS  /tmp/ccJNPitZ.s 			page 5
+
+
+  55              		.loc 5 22 5 is_stmt 1 view .LVU6
+  56              	.LBB244:
+  57              	.LBI244:
+  58              		.file 6 "../../libdaisy/src/sys/system.h"
+   1:../../libdaisy/src/sys/system.h **** #ifndef DSY_SYSTEM_H
+   2:../../libdaisy/src/sys/system.h **** #define DSY_SYSTEM_H
+   3:../../libdaisy/src/sys/system.h **** 
+   4:../../libdaisy/src/sys/system.h **** #ifndef UNIT_TEST // for unit tests, a dummy implementation is provided below
+   5:../../libdaisy/src/sys/system.h **** 
+   6:../../libdaisy/src/sys/system.h **** #include <cstdint>
+   7:../../libdaisy/src/sys/system.h **** #include "per/tim.h"
+   8:../../libdaisy/src/sys/system.h **** 
+   9:../../libdaisy/src/sys/system.h **** namespace daisy
+  10:../../libdaisy/src/sys/system.h **** {
+  11:../../libdaisy/src/sys/system.h **** /** A handle for interacting with the Core System. 
+  12:../../libdaisy/src/sys/system.h ****  ** This includes the Clock tree, MPU, global DMA initialization,
+  13:../../libdaisy/src/sys/system.h ****  ** cache handling, and any other necessary global initiailzation
+  14:../../libdaisy/src/sys/system.h ****  **
+  15:../../libdaisy/src/sys/system.h ****  ** @author shensley
+  16:../../libdaisy/src/sys/system.h ****  ** @addtogroup system
+  17:../../libdaisy/src/sys/system.h ****  */
+  18:../../libdaisy/src/sys/system.h **** class System
+  19:../../libdaisy/src/sys/system.h **** {
+  20:../../libdaisy/src/sys/system.h ****   public:
+  21:../../libdaisy/src/sys/system.h ****     /** Contains settings for initializing the System */
+  22:../../libdaisy/src/sys/system.h ****     struct Config
+  23:../../libdaisy/src/sys/system.h ****     {
+  24:../../libdaisy/src/sys/system.h ****         /** Specifies the system clock frequency that feeds APB/AHB clocks, etc. */
+  25:../../libdaisy/src/sys/system.h ****         enum class SysClkFreq
+  26:../../libdaisy/src/sys/system.h ****         {
+  27:../../libdaisy/src/sys/system.h ****             FREQ_400MHZ,
+  28:../../libdaisy/src/sys/system.h ****             FREQ_480MHZ,
+  29:../../libdaisy/src/sys/system.h ****         };
+  30:../../libdaisy/src/sys/system.h **** 
+  31:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to defaults
+  32:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 400MHz
+  33:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  34:../../libdaisy/src/sys/system.h ****          ** */
+  35:../../libdaisy/src/sys/system.h ****         void Defaults()
+  36:../../libdaisy/src/sys/system.h ****         {
+  37:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_400MHZ;
+  38:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  39:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  40:../../libdaisy/src/sys/system.h ****         }
+  41:../../libdaisy/src/sys/system.h **** 
+  42:../../libdaisy/src/sys/system.h ****         /** Method to call on the struct to set to boost mode:
+  43:../../libdaisy/src/sys/system.h ****          ** CPU Freq set to 480MHz
+  44:../../libdaisy/src/sys/system.h ****          ** Cache Enabled 
+  45:../../libdaisy/src/sys/system.h ****          ** */
+  46:../../libdaisy/src/sys/system.h ****         void Boost()
+  47:../../libdaisy/src/sys/system.h ****         {
+  48:../../libdaisy/src/sys/system.h ****             cpu_freq   = SysClkFreq::FREQ_480MHZ;
+  49:../../libdaisy/src/sys/system.h ****             use_dcache = true;
+  50:../../libdaisy/src/sys/system.h ****             use_icache = true;
+  51:../../libdaisy/src/sys/system.h ****         }
+  52:../../libdaisy/src/sys/system.h **** 
+  53:../../libdaisy/src/sys/system.h ****         SysClkFreq cpu_freq;
+ARM GAS  /tmp/ccJNPitZ.s 			page 6
+
+
+  54:../../libdaisy/src/sys/system.h ****         bool       use_dcache;
+  55:../../libdaisy/src/sys/system.h ****         bool       use_icache;
+  56:../../libdaisy/src/sys/system.h ****     };
+  57:../../libdaisy/src/sys/system.h **** 
+  58:../../libdaisy/src/sys/system.h ****     System() {}
+  59:../../libdaisy/src/sys/system.h ****     ~System() {}
+  59              		.loc 6 59 5 view .LVU7
+  60              		.loc 6 59 5 is_stmt 0 view .LVU8
+  61              	.LBE244:
+  62              	.LBB245:
+  63              	.LBI245:
+  64              		.file 7 "../../libdaisy/src/hid/usb.h"
+   1:../../libdaisy/src/hid/usb.h **** #pragma once
+   2:../../libdaisy/src/hid/usb.h **** #ifndef DSY_HID_USB_H
+   3:../../libdaisy/src/hid/usb.h **** #define DSY_HID_USB_H
+   4:../../libdaisy/src/hid/usb.h **** #include <stdint.h>
+   5:../../libdaisy/src/hid/usb.h **** #include <stdlib.h>
+   6:../../libdaisy/src/hid/usb.h **** 
+   7:../../libdaisy/src/hid/usb.h **** namespace daisy
+   8:../../libdaisy/src/hid/usb.h **** /** @addtogroup externals
+   9:../../libdaisy/src/hid/usb.h ****     @{
+  10:../../libdaisy/src/hid/usb.h **** */
+  11:../../libdaisy/src/hid/usb.h **** 
+  12:../../libdaisy/src/hid/usb.h **** {
+  13:../../libdaisy/src/hid/usb.h **** /** 
+  14:../../libdaisy/src/hid/usb.h ****     @brief Interface for initializing and using the USB Peripherals on the daisy
+  15:../../libdaisy/src/hid/usb.h ****     @author Stephen Hensley
+  16:../../libdaisy/src/hid/usb.h ****     @date December 2019
+  17:../../libdaisy/src/hid/usb.h **** */
+  18:../../libdaisy/src/hid/usb.h **** class UsbHandle
+  19:../../libdaisy/src/hid/usb.h **** {
+  20:../../libdaisy/src/hid/usb.h ****   public:
+  21:../../libdaisy/src/hid/usb.h ****     /** Return values for USBHandle Functions */
+  22:../../libdaisy/src/hid/usb.h ****     enum class Result
+  23:../../libdaisy/src/hid/usb.h ****     {
+  24:../../libdaisy/src/hid/usb.h ****         OK,
+  25:../../libdaisy/src/hid/usb.h ****         ERR,
+  26:../../libdaisy/src/hid/usb.h ****     };
+  27:../../libdaisy/src/hid/usb.h **** 
+  28:../../libdaisy/src/hid/usb.h ****     /** Specified which of the two USB Peripherals to initialize. */
+  29:../../libdaisy/src/hid/usb.h ****     enum UsbPeriph
+  30:../../libdaisy/src/hid/usb.h ****     {
+  31:../../libdaisy/src/hid/usb.h ****         FS_INTERNAL, /**< Internal pin */
+  32:../../libdaisy/src/hid/usb.h ****         FS_EXTERNAL, /**< FS External D+ pin is Pin 38 (GPIO32). FS External D- pin is Pin 37 (GPIO
+  33:../../libdaisy/src/hid/usb.h ****         FS_BOTH,     /**< Both */
+  34:../../libdaisy/src/hid/usb.h ****     };
+  35:../../libdaisy/src/hid/usb.h **** 
+  36:../../libdaisy/src/hid/usb.h **** 
+  37:../../libdaisy/src/hid/usb.h ****     /** Function called upon reception of a buffer */
+  38:../../libdaisy/src/hid/usb.h ****     typedef void (*ReceiveCallback)(uint8_t* buff, uint32_t* len);
+  39:../../libdaisy/src/hid/usb.h **** 
+  40:../../libdaisy/src/hid/usb.h ****     UsbHandle() {}
+  41:../../libdaisy/src/hid/usb.h **** 
+  42:../../libdaisy/src/hid/usb.h ****     ~UsbHandle() {}
+  65              		.loc 7 42 5 is_stmt 1 view .LVU9
+  66              		.loc 7 42 5 is_stmt 0 view .LVU10
+  67              	.LBE245:
+ARM GAS  /tmp/ccJNPitZ.s 			page 7
+
+
+  68              	.LBB246:
+  69              	.LBI246:
+  70              		.file 8 "../../libdaisy/src/per/adc.h"
+   1:../../libdaisy/src/per/adc.h **** #pragma once
+   2:../../libdaisy/src/per/adc.h **** #ifndef DSY_ADC_H
+   3:../../libdaisy/src/per/adc.h **** #define DSY_ADC_H /**< Macro */
+   4:../../libdaisy/src/per/adc.h **** #include <stdint.h>
+   5:../../libdaisy/src/per/adc.h **** #include <stdlib.h>
+   6:../../libdaisy/src/per/adc.h **** #include "daisy_core.h"
+   7:../../libdaisy/src/per/adc.h **** #include "per/gpio.h"
+   8:../../libdaisy/src/per/adc.h **** 
+   9:../../libdaisy/src/per/adc.h **** #define DSY_ADC_MAX_CHANNELS 14 /**< Maximum number of ADC channels */
+  10:../../libdaisy/src/per/adc.h **** 
+  11:../../libdaisy/src/per/adc.h **** namespace daisy
+  12:../../libdaisy/src/per/adc.h **** {
+  13:../../libdaisy/src/per/adc.h **** /** @addtogroup analog_digital_conversion
+  14:../../libdaisy/src/per/adc.h ****     @{
+  15:../../libdaisy/src/per/adc.h **** */
+  16:../../libdaisy/src/per/adc.h **** 
+  17:../../libdaisy/src/per/adc.h **** /* While there may not be many configuration options here,
+  18:../../libdaisy/src/per/adc.h **** using a struct like this allows us to add more configuration
+  19:../../libdaisy/src/per/adc.h **** later without breaking existing functionality.
+  20:../../libdaisy/src/per/adc.h **** */
+  21:../../libdaisy/src/per/adc.h **** 
+  22:../../libdaisy/src/per/adc.h **** /** Configuration Structure for a given channel */
+  23:../../libdaisy/src/per/adc.h **** struct AdcChannelConfig
+  24:../../libdaisy/src/per/adc.h **** {
+  25:../../libdaisy/src/per/adc.h ****     /** Which pin to use for multiplexing */
+  26:../../libdaisy/src/per/adc.h ****     enum MuxPin
+  27:../../libdaisy/src/per/adc.h ****     {
+  28:../../libdaisy/src/per/adc.h ****         MUX_SEL_0,    /**< & */
+  29:../../libdaisy/src/per/adc.h ****         MUX_SEL_1,    /**< & */
+  30:../../libdaisy/src/per/adc.h ****         MUX_SEL_2,    /**< & */
+  31:../../libdaisy/src/per/adc.h ****         MUX_SEL_LAST, /**< & */
+  32:../../libdaisy/src/per/adc.h ****     };
+  33:../../libdaisy/src/per/adc.h **** 
+  34:../../libdaisy/src/per/adc.h ****     /** Initializes a single ADC pin as an ADC. 
+  35:../../libdaisy/src/per/adc.h ****     \param pin Pin to init.
+  36:../../libdaisy/src/per/adc.h ****      */
+  37:../../libdaisy/src/per/adc.h ****     void InitSingle(dsy_gpio_pin pin);
+  38:../../libdaisy/src/per/adc.h **** 
+  39:../../libdaisy/src/per/adc.h ****     /** 
+  40:../../libdaisy/src/per/adc.h ****     Initializes a single ADC pin as a Multiplexed ADC.
+  41:../../libdaisy/src/per/adc.h ****     Requires a CD405X Multiplexer connected to the pin.
+  42:../../libdaisy/src/per/adc.h ****     You only need to supply the mux pins that are required,
+  43:../../libdaisy/src/per/adc.h ****     e.g. a 4052 mux would only require mux_0 and mux_1.
+  44:../../libdaisy/src/per/adc.h ****     Internal Callbacks handle the pin addressing.
+  45:../../libdaisy/src/per/adc.h ****     \param mux_channels must be 1-8
+  46:../../libdaisy/src/per/adc.h ****     \param mux_0 First mux pin
+  47:../../libdaisy/src/per/adc.h ****     \param mux_1 Second mux pin
+  48:../../libdaisy/src/per/adc.h ****     \param mux_2 Third mux pin
+  49:../../libdaisy/src/per/adc.h ****     \param adc_pin &
+  50:../../libdaisy/src/per/adc.h ****     */
+  51:../../libdaisy/src/per/adc.h ****     void InitMux(dsy_gpio_pin adc_pin,
+  52:../../libdaisy/src/per/adc.h ****                  size_t       mux_channels,
+  53:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_0,
+  54:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_1 = {DSY_GPIOX, 0},
+ARM GAS  /tmp/ccJNPitZ.s 			page 8
+
+
+  55:../../libdaisy/src/per/adc.h ****                  dsy_gpio_pin mux_2 = {DSY_GPIOX, 0});
+  56:../../libdaisy/src/per/adc.h **** 
+  57:../../libdaisy/src/per/adc.h ****     dsy_gpio pin_;                   /**< & */
+  58:../../libdaisy/src/per/adc.h ****     dsy_gpio mux_pin_[MUX_SEL_LAST]; /**< & */
+  59:../../libdaisy/src/per/adc.h ****     uint8_t  mux_channels_;          /**< & */
+  60:../../libdaisy/src/per/adc.h **** };
+  61:../../libdaisy/src/per/adc.h **** 
+  62:../../libdaisy/src/per/adc.h **** /**
+  63:../../libdaisy/src/per/adc.h ****    Handler for analog to digital conversion
+  64:../../libdaisy/src/per/adc.h **** */
+  65:../../libdaisy/src/per/adc.h **** class AdcHandle
+  66:../../libdaisy/src/per/adc.h **** {
+  67:../../libdaisy/src/per/adc.h ****   public:
+  68:../../libdaisy/src/per/adc.h ****     /** Supported oversampling amounts */
+  69:../../libdaisy/src/per/adc.h ****     enum OverSampling
+  70:../../libdaisy/src/per/adc.h ****     {
+  71:../../libdaisy/src/per/adc.h ****         OVS_NONE, /**< & */
+  72:../../libdaisy/src/per/adc.h ****         OVS_4,    /**< & */
+  73:../../libdaisy/src/per/adc.h ****         OVS_8,    /**< & */
+  74:../../libdaisy/src/per/adc.h ****         OVS_16,   /**< & */
+  75:../../libdaisy/src/per/adc.h ****         OVS_32,   /**< & */
+  76:../../libdaisy/src/per/adc.h ****         OVS_64,   /**< & */
+  77:../../libdaisy/src/per/adc.h ****         OVS_128,  /**< & */
+  78:../../libdaisy/src/per/adc.h ****         OVS_256,  /**< & */
+  79:../../libdaisy/src/per/adc.h ****         OVS_512,  /**< & */
+  80:../../libdaisy/src/per/adc.h ****         OVS_1024, /**< & */
+  81:../../libdaisy/src/per/adc.h ****         OVS_LAST, /**< & */
+  82:../../libdaisy/src/per/adc.h ****     };
+  83:../../libdaisy/src/per/adc.h **** 
+  84:../../libdaisy/src/per/adc.h ****     AdcHandle() {}
+  85:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+  71              		.loc 8 85 5 is_stmt 1 view .LVU11
+  72              		.loc 8 85 5 is_stmt 0 view .LVU12
+  73              	.LBE246:
+  74              	.LBB247:
+  75              	.LBI247:
+  76              		.file 9 "../../libdaisy/src/hid/audio.h"
+   1:../../libdaisy/src/hid/audio.h **** #ifndef DSY_AUDIO_H
+   2:../../libdaisy/src/hid/audio.h **** #define DSY_AUDIO_H /**< & */
+   3:../../libdaisy/src/hid/audio.h **** 
+   4:../../libdaisy/src/hid/audio.h **** #include "per/sai.h"
+   5:../../libdaisy/src/hid/audio.h **** 
+   6:../../libdaisy/src/hid/audio.h **** namespace daisy
+   7:../../libdaisy/src/hid/audio.h **** {
+   8:../../libdaisy/src/hid/audio.h **** class AudioHandle
+   9:../../libdaisy/src/hid/audio.h **** {
+  10:../../libdaisy/src/hid/audio.h ****   public:
+  11:../../libdaisy/src/hid/audio.h ****     /** Manually configurable details about the Audio Engine */
+  12:../../libdaisy/src/hid/audio.h ****     /** TODO: Figure out how to get samplerate in here. */
+  13:../../libdaisy/src/hid/audio.h ****     struct Config
+  14:../../libdaisy/src/hid/audio.h ****     {
+  15:../../libdaisy/src/hid/audio.h ****         size_t                        blocksize;
+  16:../../libdaisy/src/hid/audio.h ****         SaiHandle::Config::SampleRate samplerate;
+  17:../../libdaisy/src/hid/audio.h ****         float                         postgain;
+  18:../../libdaisy/src/hid/audio.h ****     };
+  19:../../libdaisy/src/hid/audio.h **** 
+  20:../../libdaisy/src/hid/audio.h ****     enum class Result
+ARM GAS  /tmp/ccJNPitZ.s 			page 9
+
+
+  21:../../libdaisy/src/hid/audio.h ****     {
+  22:../../libdaisy/src/hid/audio.h ****         OK,
+  23:../../libdaisy/src/hid/audio.h ****         ERR,
+  24:../../libdaisy/src/hid/audio.h ****     };
+  25:../../libdaisy/src/hid/audio.h **** 
+  26:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving input buffer
+  27:../../libdaisy/src/hid/audio.h ****      * Buffer arranged by float[chn][sample] 
+  28:../../libdaisy/src/hid/audio.h ****      * const so that the user can't modify the input
+  29:../../libdaisy/src/hid/audio.h ****     */
+  30:../../libdaisy/src/hid/audio.h ****     typedef const float* const* InputBuffer;
+  31:../../libdaisy/src/hid/audio.h **** 
+  32:../../libdaisy/src/hid/audio.h ****     /** Non-Interleaving output buffer
+  33:../../libdaisy/src/hid/audio.h ****      * Arranged by float[chn][sample] 
+  34:../../libdaisy/src/hid/audio.h ****     */
+  35:../../libdaisy/src/hid/audio.h ****     typedef float** OutputBuffer;
+  36:../../libdaisy/src/hid/audio.h **** 
+  37:../../libdaisy/src/hid/audio.h ****     /** Type for a Non-Interleaving audio callback 
+  38:../../libdaisy/src/hid/audio.h ****    * Non-Interleaving audio callbacks in daisy will be of this type
+  39:../../libdaisy/src/hid/audio.h ****   */
+  40:../../libdaisy/src/hid/audio.h ****     typedef void (*AudioCallback)(InputBuffer  in,
+  41:../../libdaisy/src/hid/audio.h ****                                   OutputBuffer out,
+  42:../../libdaisy/src/hid/audio.h ****                                   size_t       size);
+  43:../../libdaisy/src/hid/audio.h **** 
+  44:../../libdaisy/src/hid/audio.h ****     /** Interleaving Input buffer
+  45:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }]
+  46:../../libdaisy/src/hid/audio.h ****      ** this is const, as the user shouldn't modify it
+  47:../../libdaisy/src/hid/audio.h ****     */
+  48:../../libdaisy/src/hid/audio.h ****     typedef const float* InterleavingInputBuffer;
+  49:../../libdaisy/src/hid/audio.h **** 
+  50:../../libdaisy/src/hid/audio.h ****     /** Interleaving Output buffer 
+  51:../../libdaisy/src/hid/audio.h ****      ** audio is prepared as { L0, R0, L1, R1, . . . LN, RN }
+  52:../../libdaisy/src/hid/audio.h ****     */
+  53:../../libdaisy/src/hid/audio.h ****     typedef float* InterleavingOutputBuffer;
+  54:../../libdaisy/src/hid/audio.h **** 
+  55:../../libdaisy/src/hid/audio.h ****     /** Interleaving Audio Callback 
+  56:../../libdaisy/src/hid/audio.h ****    * Interleaving audio callbacks in daisy must be of this type
+  57:../../libdaisy/src/hid/audio.h ****   */
+  58:../../libdaisy/src/hid/audio.h ****     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
+  59:../../libdaisy/src/hid/audio.h ****                                               InterleavingOutputBuffer out,
+  60:../../libdaisy/src/hid/audio.h ****                                               size_t                   size);
+  61:../../libdaisy/src/hid/audio.h **** 
+  62:../../libdaisy/src/hid/audio.h ****     AudioHandle() : pimpl_(nullptr) {}
+  63:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+  77              		.loc 9 63 5 is_stmt 1 view .LVU13
+  78              		.loc 9 63 5 is_stmt 0 view .LVU14
+  79              	.LBE247:
+  80              	.LBE243:
+  81              		.loc 1 68 20 view .LVU15
+  82 0000 7047     		bx	lr
+  83              		.cfi_endproc
+  84              	.LFE4219:
+  86              		.weak	_ZN5daisy10DaisyPetalD1Ev
+  87              		.thumb_set _ZN5daisy10DaisyPetalD1Ev,_ZN5daisy10DaisyPetalD2Ev
+  88 0002 00BF     		.section	.text.__tcf_0,"ax",%progbits
+  89              		.align	1
+  90              		.p2align 2,,3
+  91              		.syntax unified
+ARM GAS  /tmp/ccJNPitZ.s 			page 10
+
+
+  92              		.thumb
+  93              		.thumb_func
+  94              		.fpu fpv5-d16
+  96              	__tcf_0:
+  97              	.LFB4786:
+  98              		.file 10 "FilterBank.cpp"
+   1:FilterBank.cpp **** #include "daisysp.h"
+   2:FilterBank.cpp **** #include "daisy_petal.h"
+   3:FilterBank.cpp **** #include <string>
+   4:FilterBank.cpp **** 
+   5:FilterBank.cpp **** using namespace daisy;
+   6:FilterBank.cpp **** using namespace daisysp;
+   7:FilterBank.cpp **** 
+   8:FilterBank.cpp **** DaisyPetal petal;
+   9:FilterBank.cpp **** int        freqs[8];
+  10:FilterBank.cpp **** 
+  11:FilterBank.cpp **** int bank;
+  12:FilterBank.cpp **** 
+  13:FilterBank.cpp **** struct ConditionalUpdate
+  14:FilterBank.cpp **** {
+  15:FilterBank.cpp ****     float oldVal = 0;
+  16:FilterBank.cpp **** 
+  17:FilterBank.cpp ****     bool Process(float newVal)
+  18:FilterBank.cpp ****     {
+  19:FilterBank.cpp ****         if(abs(newVal - oldVal) > .04)
+  20:FilterBank.cpp ****         {
+  21:FilterBank.cpp ****             oldVal = newVal;
+  22:FilterBank.cpp ****             return true;
+  23:FilterBank.cpp ****         }
+  24:FilterBank.cpp **** 
+  25:FilterBank.cpp ****         return false;
+  26:FilterBank.cpp ****     }
+  27:FilterBank.cpp **** };
+  28:FilterBank.cpp **** 
+  29:FilterBank.cpp **** ConditionalUpdate condUpdates[4];
+  30:FilterBank.cpp **** 
+  31:FilterBank.cpp **** struct Filter
+  32:FilterBank.cpp **** {
+  33:FilterBank.cpp ****     Svf   filt;
+  34:FilterBank.cpp ****     float amp;
+  35:FilterBank.cpp **** 
+  36:FilterBank.cpp ****     void Init(float samplerate, float freq)
+  37:FilterBank.cpp ****     {
+  38:FilterBank.cpp ****         filt.Init(samplerate);
+  39:FilterBank.cpp ****         filt.SetRes(1);
+  40:FilterBank.cpp ****         filt.SetDrive(.002);
+  41:FilterBank.cpp ****         filt.SetFreq(freq);
+  42:FilterBank.cpp ****         amp = .5f;
+  43:FilterBank.cpp ****     }
+  44:FilterBank.cpp **** 
+  45:FilterBank.cpp ****     float Process(float in)
+  46:FilterBank.cpp ****     {
+  47:FilterBank.cpp ****         filt.Process(in);
+  48:FilterBank.cpp ****         return filt.Peak() * amp;
+  49:FilterBank.cpp ****     }
+  50:FilterBank.cpp **** };
+  51:FilterBank.cpp **** 
+ARM GAS  /tmp/ccJNPitZ.s 			page 11
+
+
+  52:FilterBank.cpp **** Filter filters[8];
+  99              		.loc 10 52 8 is_stmt 1 view -0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103              		@ link register save eliminated.
+ 104              		.loc 10 52 8 is_stmt 0 view .LVU17
+ 105 0000 7047     		bx	lr
+ 106              		.cfi_endproc
+ 107              	.LFE4786:
+ 109 0002 00BF     		.section	.text._Z9InitFreqsv,"ax",%progbits
+ 110              		.align	1
+ 111              		.p2align 2,,3
+ 112              		.global	_Z9InitFreqsv
+ 113              		.syntax unified
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.fpu fpv5-d16
+ 118              	_Z9InitFreqsv:
+ 119              	.LFB4233:
+  53:FilterBank.cpp **** bool   passthru;
+  54:FilterBank.cpp **** void   UpdateControls();
+  55:FilterBank.cpp **** 
+  56:FilterBank.cpp **** static void AudioCallback(AudioHandle::InputBuffer  in,
+  57:FilterBank.cpp ****                           AudioHandle::OutputBuffer out,
+  58:FilterBank.cpp ****                           size_t                    size)
+  59:FilterBank.cpp **** {
+  60:FilterBank.cpp ****     UpdateControls();
+  61:FilterBank.cpp **** 
+  62:FilterBank.cpp **** 
+  63:FilterBank.cpp ****     for(size_t i = 0; i < size; i++)
+  64:FilterBank.cpp ****     {
+  65:FilterBank.cpp ****         float sig = 0.f;
+  66:FilterBank.cpp ****         for(int j = 0; j < 8; j++)
+  67:FilterBank.cpp ****         {
+  68:FilterBank.cpp ****             sig += filters[j].Process(in[0][i]);
+  69:FilterBank.cpp ****         }
+  70:FilterBank.cpp ****         sig *= .06;
+  71:FilterBank.cpp **** 
+  72:FilterBank.cpp ****         if(!passthru)
+  73:FilterBank.cpp ****         {
+  74:FilterBank.cpp ****             out[0][i] = out[1][i] = sig;
+  75:FilterBank.cpp ****         }
+  76:FilterBank.cpp ****         else
+  77:FilterBank.cpp ****         {
+  78:FilterBank.cpp ****             out[0][i] = in[0][i];
+  79:FilterBank.cpp ****             out[1][i] = in[1][i];
+  80:FilterBank.cpp ****         }
+  81:FilterBank.cpp ****     }
+  82:FilterBank.cpp **** }
+  83:FilterBank.cpp **** 
+  84:FilterBank.cpp **** void InitFreqs()
+  85:FilterBank.cpp **** {
+ 120              		.loc 10 85 1 is_stmt 1 view -0
+ 121              		.cfi_startproc
+ 122              		@ args = 0, pretend = 0, frame = 0
+ 123              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccJNPitZ.s 			page 12
+
+
+ 124              		@ link register save eliminated.
+  86:FilterBank.cpp ****     freqs[0] = 350;
+ 125              		.loc 10 86 5 view .LVU19
+ 126              		.loc 10 86 14 is_stmt 0 view .LVU20
+ 127 0000 0D4B     		ldr	r3, .L6
+ 128 0002 4FF4AF70 		mov	r0, #350
+  87:FilterBank.cpp ****     freqs[1] = 500;
+ 129              		.loc 10 87 14 view .LVU21
+ 130 0006 4FF4FA71 		mov	r1, #500
+  88:FilterBank.cpp ****     freqs[2] = 750;
+ 131              		.loc 10 88 14 view .LVU22
+ 132 000a 40F2EE22 		movw	r2, #750
+  85:FilterBank.cpp ****     freqs[0] = 350;
+ 133              		.loc 10 85 1 view .LVU23
+ 134 000e 30B4     		push	{r4, r5}
+ 135              		.cfi_def_cfa_offset 8
+ 136              		.cfi_offset 4, -8
+ 137              		.cfi_offset 5, -4
+  89:FilterBank.cpp ****     freqs[3] = 1100;
+ 138              		.loc 10 89 14 view .LVU24
+ 139 0010 40F24C45 		movw	r5, #1100
+  90:FilterBank.cpp ****     freqs[4] = 2200;
+ 140              		.loc 10 90 14 view .LVU25
+ 141 0014 40F69804 		movw	r4, #2200
+  86:FilterBank.cpp ****     freqs[1] = 500;
+ 142              		.loc 10 86 14 view .LVU26
+ 143 0018 1860     		str	r0, [r3]
+  87:FilterBank.cpp ****     freqs[2] = 750;
+ 144              		.loc 10 87 5 is_stmt 1 view .LVU27
+  91:FilterBank.cpp ****     freqs[5] = 3600;
+ 145              		.loc 10 91 14 is_stmt 0 view .LVU28
+ 146 001a 4FF46160 		mov	r0, #3600
+  87:FilterBank.cpp ****     freqs[2] = 750;
+ 147              		.loc 10 87 14 view .LVU29
+ 148 001e 5960     		str	r1, [r3, #4]
+  88:FilterBank.cpp ****     freqs[3] = 1100;
+ 149              		.loc 10 88 5 is_stmt 1 view .LVU30
+  92:FilterBank.cpp ****     freqs[6] = 5200;
+ 150              		.loc 10 92 14 is_stmt 0 view .LVU31
+ 151 0020 41F25041 		movw	r1, #5200
+  88:FilterBank.cpp ****     freqs[3] = 1100;
+ 152              		.loc 10 88 14 view .LVU32
+ 153 0024 9A60     		str	r2, [r3, #8]
+  89:FilterBank.cpp ****     freqs[4] = 2200;
+ 154              		.loc 10 89 5 is_stmt 1 view .LVU33
+  93:FilterBank.cpp ****     freqs[7] = 7500;
+ 155              		.loc 10 93 14 is_stmt 0 view .LVU34
+ 156 0026 41F64C52 		movw	r2, #7500
+  90:FilterBank.cpp ****     freqs[5] = 3600;
+ 157              		.loc 10 90 14 view .LVU35
+ 158 002a C3E90354 		strd	r5, r4, [r3, #12]
+  91:FilterBank.cpp ****     freqs[6] = 5200;
+ 159              		.loc 10 91 5 is_stmt 1 view .LVU36
+  92:FilterBank.cpp ****     freqs[7] = 7500;
+ 160              		.loc 10 92 14 is_stmt 0 view .LVU37
+ 161 002e C3E90501 		strd	r0, r1, [r3, #20]
+ 162              		.loc 10 93 5 is_stmt 1 view .LVU38
+ARM GAS  /tmp/ccJNPitZ.s 			page 13
+
+
+  94:FilterBank.cpp **** }
+ 163              		.loc 10 94 1 is_stmt 0 view .LVU39
+ 164 0032 30BC     		pop	{r4, r5}
+ 165              		.cfi_restore 5
+ 166              		.cfi_restore 4
+ 167              		.cfi_def_cfa_offset 0
+  93:FilterBank.cpp **** }
+ 168              		.loc 10 93 14 view .LVU40
+ 169 0034 DA61     		str	r2, [r3, #28]
+ 170              		.loc 10 94 1 view .LVU41
+ 171 0036 7047     		bx	lr
+ 172              	.L7:
+ 173              		.align	2
+ 174              	.L6:
+ 175 0038 00000000 		.word	.LANCHOR0
+ 176              		.cfi_endproc
+ 177              	.LFE4233:
+ 179              		.section	.text._Z11InitFiltersf,"ax",%progbits
+ 180              		.align	1
+ 181              		.p2align 2,,3
+ 182              		.global	_Z11InitFiltersf
+ 183              		.syntax unified
+ 184              		.thumb
+ 185              		.thumb_func
+ 186              		.fpu fpv5-d16
+ 188              	_Z11InitFiltersf:
+ 189              	.LVL1:
+ 190              	.LFB4234:
+  95:FilterBank.cpp **** 
+  96:FilterBank.cpp **** void InitFilters(float samplerate)
+  97:FilterBank.cpp **** {
+ 191              		.loc 10 97 1 is_stmt 1 view -0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+  98:FilterBank.cpp ****     for(int i = 0; i < 8; i++)
+ 195              		.loc 10 98 5 view .LVU43
+ 196              	.LBB251:
+ 197              		.loc 10 98 22 view .LVU44
+ 198              	.LBE251:
+  97:FilterBank.cpp ****     for(int i = 0; i < 8; i++)
+ 199              		.loc 10 97 1 is_stmt 0 view .LVU45
+ 200 0000 70B5     		push	{r4, r5, r6, lr}
+ 201              		.cfi_def_cfa_offset 16
+ 202              		.cfi_offset 4, -16
+ 203              		.cfi_offset 5, -12
+ 204              		.cfi_offset 6, -8
+ 205              		.cfi_offset 14, -4
+ 206 0002 154D     		ldr	r5, .L12
+ 207 0004 154C     		ldr	r4, .L12+4
+ 208 0006 05F12006 		add	r6, r5, #32
+ 209 000a 2DED028B 		vpush.64	{d8}
+ 210              		.cfi_def_cfa_offset 24
+ 211              		.cfi_offset 80, -24
+ 212              		.cfi_offset 81, -20
+  97:FilterBank.cpp ****     for(int i = 0; i < 8; i++)
+ 213              		.loc 10 97 1 view .LVU46
+ARM GAS  /tmp/ccJNPitZ.s 			page 14
+
+
+ 214 000e F0EE408A 		vmov.f32	s17, s0
+ 215              	.LVL2:
+ 216              	.L9:
+ 217              	.LBB258:
+  99:FilterBank.cpp ****     {
+ 100:FilterBank.cpp ****         filters[i].Init(samplerate, freqs[i]);
+ 218              		.loc 10 100 9 is_stmt 1 discriminator 2 view .LVU47
+ 219              		.loc 10 100 24 is_stmt 0 discriminator 2 view .LVU48
+ 220 0012 95ED018A 		vldr.32	s16, [r5, #4]	@ int
+ 221              	.LBB252:
+ 222              	.LBB253:
+  38:FilterBank.cpp ****         filt.SetRes(1);
+ 223              		.loc 10 38 18 discriminator 2 view .LVU49
+ 224 0016 2046     		mov	r0, r4
+ 225 0018 B0EE680A 		vmov.f32	s0, s17
+ 226              	.LBE253:
+ 227              	.LBE252:
+ 228              		.loc 10 100 24 discriminator 2 view .LVU50
+ 229 001c 0435     		adds	r5, r5, #4
+ 230 001e B8EEC88A 		vcvt.f32.s32	s16, s16
+ 231              	.LVL3:
+ 232              	.LBB256:
+ 233              	.LBI252:
+  36:FilterBank.cpp ****     {
+ 234              		.loc 10 36 10 is_stmt 1 discriminator 2 view .LVU51
+ 235              	.LBB254:
+  38:FilterBank.cpp ****         filt.SetRes(1);
+ 236              		.loc 10 38 9 discriminator 2 view .LVU52
+  38:FilterBank.cpp ****         filt.SetRes(1);
+ 237              		.loc 10 38 18 is_stmt 0 discriminator 2 view .LVU53
+ 238 0022 FFF7FEFF 		bl	_ZN7daisysp3Svf4InitEf
+ 239              	.LVL4:
+  39:FilterBank.cpp ****         filt.SetDrive(.002);
+ 240              		.loc 10 39 9 is_stmt 1 discriminator 2 view .LVU54
+  39:FilterBank.cpp ****         filt.SetDrive(.002);
+ 241              		.loc 10 39 20 is_stmt 0 discriminator 2 view .LVU55
+ 242 0026 2046     		mov	r0, r4
+ 243 0028 B7EE000A 		vmov.f32	s0, #1.0e+0
+ 244 002c FFF7FEFF 		bl	_ZN7daisysp3Svf6SetResEf
+ 245              	.LVL5:
+  40:FilterBank.cpp ****         filt.SetFreq(freq);
+ 246              		.loc 10 40 9 is_stmt 1 discriminator 2 view .LVU56
+  40:FilterBank.cpp ****         filt.SetFreq(freq);
+ 247              		.loc 10 40 22 is_stmt 0 discriminator 2 view .LVU57
+ 248 0030 2046     		mov	r0, r4
+ 249 0032 9FED0B0A 		vldr.32	s0, .L12+8
+ 250 0036 FFF7FEFF 		bl	_ZN7daisysp3Svf8SetDriveEf
+ 251              	.LVL6:
+  41:FilterBank.cpp ****         amp = .5f;
+ 252              		.loc 10 41 9 is_stmt 1 discriminator 2 view .LVU58
+  41:FilterBank.cpp ****         amp = .5f;
+ 253              		.loc 10 41 21 is_stmt 0 discriminator 2 view .LVU59
+ 254 003a 2046     		mov	r0, r4
+ 255 003c B0EE480A 		vmov.f32	s0, s16
+ 256 0040 5034     		adds	r4, r4, #80
+ 257              	.LVL7:
+  41:FilterBank.cpp ****         amp = .5f;
+ARM GAS  /tmp/ccJNPitZ.s 			page 15
+
+
+ 258              		.loc 10 41 21 discriminator 2 view .LVU60
+ 259 0042 FFF7FEFF 		bl	_ZN7daisysp3Svf7SetFreqEf
+ 260              	.LVL8:
+  42:FilterBank.cpp ****     }
+ 261              		.loc 10 42 9 is_stmt 1 discriminator 2 view .LVU61
+  42:FilterBank.cpp ****     }
+ 262              		.loc 10 42 13 is_stmt 0 discriminator 2 view .LVU62
+ 263 0046 4FF07C53 		mov	r3, #1056964608
+ 264              	.LBE254:
+ 265              	.LBE256:
+  98:FilterBank.cpp ****     {
+ 266              		.loc 10 98 22 discriminator 2 view .LVU63
+ 267 004a B542     		cmp	r5, r6
+ 268              	.LBB257:
+ 269              	.LBB255:
+  42:FilterBank.cpp ****     }
+ 270              		.loc 10 42 13 discriminator 2 view .LVU64
+ 271 004c 44F8043C 		str	r3, [r4, #-4]	@ float
+ 272              	.LVL9:
+  42:FilterBank.cpp ****     }
+ 273              		.loc 10 42 13 discriminator 2 view .LVU65
+ 274              	.LBE255:
+ 275              	.LBE257:
+  98:FilterBank.cpp ****     {
+ 276              		.loc 10 98 5 is_stmt 1 discriminator 2 view .LVU66
+  98:FilterBank.cpp ****     {
+ 277              		.loc 10 98 22 discriminator 2 view .LVU67
+ 278 0050 DFD1     		bne	.L9
+ 279              	.LBE258:
+ 101:FilterBank.cpp ****     }
+ 102:FilterBank.cpp **** }
+ 280              		.loc 10 102 1 is_stmt 0 view .LVU68
+ 281 0052 BDEC028B 		vldm	sp!, {d8}
+ 282              		.cfi_restore 80
+ 283              		.cfi_restore 81
+ 284              		.cfi_def_cfa_offset 16
+ 285 0056 70BD     		pop	{r4, r5, r6, pc}
+ 286              	.L13:
+ 287              		.align	2
+ 288              	.L12:
+ 289 0058 FCFFFFFF 		.word	.LANCHOR0-4
+ 290 005c 00000000 		.word	.LANCHOR1
+ 291 0060 6F12033B 		.word	990057071
+ 292              		.cfi_endproc
+ 293              	.LFE4234:
+ 295              		.section	.text._Z14UpdateControlsv,"ax",%progbits
+ 296              		.align	1
+ 297              		.p2align 2,,3
+ 298              		.global	_Z14UpdateControlsv
+ 299              		.syntax unified
+ 300              		.thumb
+ 301              		.thumb_func
+ 302              		.fpu fpv5-d16
+ 304              	_Z14UpdateControlsv:
+ 305              	.LFB4236:
+ 103:FilterBank.cpp **** 
+ 104:FilterBank.cpp **** 
+ARM GAS  /tmp/ccJNPitZ.s 			page 16
+
+
+ 105:FilterBank.cpp **** void UpdateLeds();
+ 106:FilterBank.cpp **** 
+ 107:FilterBank.cpp **** int main(void)
+ 108:FilterBank.cpp **** {
+ 109:FilterBank.cpp ****     float samplerate;
+ 110:FilterBank.cpp ****     petal.Init(); // Initialize hardware (daisy seed, and petal)
+ 111:FilterBank.cpp ****     samplerate = petal.AudioSampleRate();
+ 112:FilterBank.cpp **** 
+ 113:FilterBank.cpp ****     InitFreqs();
+ 114:FilterBank.cpp ****     InitFilters(samplerate);
+ 115:FilterBank.cpp ****     bank     = 0;
+ 116:FilterBank.cpp ****     passthru = false;
+ 117:FilterBank.cpp **** 
+ 118:FilterBank.cpp ****     petal.StartAdc();
+ 119:FilterBank.cpp ****     petal.StartAudio(AudioCallback);
+ 120:FilterBank.cpp ****     while(1)
+ 121:FilterBank.cpp ****     {
+ 122:FilterBank.cpp ****         UpdateLeds();
+ 123:FilterBank.cpp ****         System::Delay(6);
+ 124:FilterBank.cpp ****     }
+ 125:FilterBank.cpp **** }
+ 126:FilterBank.cpp **** 
+ 127:FilterBank.cpp **** void UpdateControls()
+ 128:FilterBank.cpp **** {
+ 306              		.loc 10 128 1 is_stmt 1 view -0
+ 307              		.cfi_startproc
+ 308              		@ args = 0, pretend = 0, frame = 0
+ 309              		@ frame_needed = 0, uses_anonymous_args = 0
+ 129:FilterBank.cpp ****     petal.ProcessAnalogControls();
+ 310              		.loc 10 129 5 view .LVU70
+ 128:FilterBank.cpp ****     petal.ProcessAnalogControls();
+ 311              		.loc 10 128 1 is_stmt 0 view .LVU71
+ 312 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 313              		.cfi_def_cfa_offset 24
+ 314              		.cfi_offset 3, -24
+ 315              		.cfi_offset 4, -20
+ 316              		.cfi_offset 5, -16
+ 317              		.cfi_offset 6, -12
+ 318              		.cfi_offset 7, -8
+ 319              		.cfi_offset 14, -4
+ 320              		.loc 10 129 32 view .LVU72
+ 321 0002 234C     		ldr	r4, .L24+8
+ 130:FilterBank.cpp ****     petal.ProcessDigitalControls();
+ 131:FilterBank.cpp **** 
+ 132:FilterBank.cpp ****     //encoder
+ 133:FilterBank.cpp ****     bank += petal.encoder.Increment();
+ 322              		.loc 10 133 10 view .LVU73
+ 323 0004 234F     		ldr	r7, .L24+12
+ 129:FilterBank.cpp ****     petal.ProcessDigitalControls();
+ 324              		.loc 10 129 32 view .LVU74
+ 325 0006 2046     		mov	r0, r4
+ 326 0008 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+ 327              	.LVL10:
+ 130:FilterBank.cpp ****     petal.ProcessDigitalControls();
+ 328              		.loc 10 130 5 is_stmt 1 view .LVU75
+ 130:FilterBank.cpp ****     petal.ProcessDigitalControls();
+ 329              		.loc 10 130 33 is_stmt 0 view .LVU76
+ARM GAS  /tmp/ccJNPitZ.s 			page 17
+
+
+ 330 000c 2046     		mov	r0, r4
+ 331 000e FFF7FEFF 		bl	_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+ 332              	.LVL11:
+ 333              		.loc 10 133 5 is_stmt 1 view .LVU77
+ 134:FilterBank.cpp ****     bank = (bank % 2 + 2) % 2;
+ 135:FilterBank.cpp **** 
+ 136:FilterBank.cpp ****     bank = petal.encoder.RisingEdge() ? 0 : bank;
+ 334              		.loc 10 136 39 is_stmt 0 view .LVU78
+ 335 0012 94F84110 		ldrb	r1, [r4, #65]	@ zero_extendqisi2
+ 133:FilterBank.cpp ****     bank = (bank % 2 + 2) % 2;
+ 336              		.loc 10 133 36 view .LVU79
+ 337 0016 A26D     		ldr	r2, [r4, #88]
+ 338              	.LVL12:
+  22:../../libdaisy/src/hid/encoder.h **** 
+  23:../../libdaisy/src/hid/encoder.h ****     /** Initializes the encoder with the specified hardware pins.
+  24:../../libdaisy/src/hid/encoder.h **** */
+  25:../../libdaisy/src/hid/encoder.h ****     //
+  26:../../libdaisy/src/hid/encoder.h ****     /** Update rate should be the rate at which Debounce() gets called
+  27:../../libdaisy/src/hid/encoder.h **** in Hertz.
+  28:../../libdaisy/src/hid/encoder.h **** */
+  29:../../libdaisy/src/hid/encoder.h ****     //
+  30:../../libdaisy/src/hid/encoder.h ****     void
+  31:../../libdaisy/src/hid/encoder.h ****     Init(dsy_gpio_pin a, dsy_gpio_pin b, dsy_gpio_pin click, float update_rate);
+  32:../../libdaisy/src/hid/encoder.h ****     /** Called at update_rate to debounce and handle timing for the switch.
+  33:../../libdaisy/src/hid/encoder.h **** */
+  34:../../libdaisy/src/hid/encoder.h ****     //
+  35:../../libdaisy/src/hid/encoder.h ****     /** In order for events not to be missed, its important that the Edge/Pressed checks
+  36:../../libdaisy/src/hid/encoder.h **** be made at the same rate as the debounce function is being called.
+  37:../../libdaisy/src/hid/encoder.h **** */
+  38:../../libdaisy/src/hid/encoder.h ****     void Debounce();
+  39:../../libdaisy/src/hid/encoder.h ****     /** Returns +1 if the encoder was turned clockwise, -1 if it was turned counter-clockwise, or 0
+  40:../../libdaisy/src/hid/encoder.h **** */
+  41:../../libdaisy/src/hid/encoder.h ****     inline int32_t Increment() const { return inc_; }
+ 339              		.loc 3 41 40 is_stmt 1 view .LVU80
+ 340              		.loc 10 136 39 is_stmt 0 view .LVU81
+ 341 0018 7F29     		cmp	r1, #127
+ 133:FilterBank.cpp ****     bank = (bank % 2 + 2) % 2;
+ 342              		.loc 10 133 10 view .LVU82
+ 343 001a 3B68     		ldr	r3, [r7]
+ 134:FilterBank.cpp **** 
+ 344              		.loc 10 134 5 is_stmt 1 view .LVU83
+ 345              		.loc 10 136 5 view .LVU84
+ 346              	.LVL13:
+ 347              	.LBB259:
+ 348              	.LBI259:
+  42:../../libdaisy/src/hid/encoder.h ****     /** Returns true if the encoder was just pressed.
+  43:../../libdaisy/src/hid/encoder.h **** */
+  44:../../libdaisy/src/hid/encoder.h ****     inline bool RisingEdge() const { return sw_.RisingEdge(); }
+ 349              		.loc 3 44 17 view .LVU85
+ 350              	.LBB260:
+ 351              		.loc 3 44 38 view .LVU86
+ 352              		.loc 3 44 38 is_stmt 0 view .LVU87
+ 353              	.LBE260:
+ 354              	.LBE259:
+  42:../../libdaisy/src/hid/switch.h **** 
+  43:../../libdaisy/src/hid/switch.h ****     /** 
+  44:../../libdaisy/src/hid/switch.h ****     Initializes the switch object with a given port/pin combo.
+ARM GAS  /tmp/ccJNPitZ.s 			page 18
+
+
+  45:../../libdaisy/src/hid/switch.h ****     \param pin port/pin object to tell the switch which hardware pin to use.
+  46:../../libdaisy/src/hid/switch.h ****     \param update_rate the rate at which the Debounce() function will be called. (used for timing).
+  47:../../libdaisy/src/hid/switch.h ****     \param t switch type -- Default: TYPE_MOMENTARY
+  48:../../libdaisy/src/hid/switch.h ****     \param pol switch polarity -- Default: POLARITY_INVERTED
+  49:../../libdaisy/src/hid/switch.h ****     \param pu switch pull up/down -- Default: PULL_UP
+  50:../../libdaisy/src/hid/switch.h ****     */
+  51:../../libdaisy/src/hid/switch.h ****     void
+  52:../../libdaisy/src/hid/switch.h ****     Init(dsy_gpio_pin pin, float update_rate, Type t, Polarity pol, Pull pu);
+  53:../../libdaisy/src/hid/switch.h **** 
+  54:../../libdaisy/src/hid/switch.h ****     /**
+  55:../../libdaisy/src/hid/switch.h ****        Simplified Init.
+  56:../../libdaisy/src/hid/switch.h ****        \param pin port/pin object to tell the switch which hardware pin to use.
+  57:../../libdaisy/src/hid/switch.h ****        \param update_rate the rate at which the Debounce() function will be called. (used for timin
+  58:../../libdaisy/src/hid/switch.h ****     */
+  59:../../libdaisy/src/hid/switch.h ****     void Init(dsy_gpio_pin pin, float update_rate);
+  60:../../libdaisy/src/hid/switch.h **** 
+  61:../../libdaisy/src/hid/switch.h ****     /** 
+  62:../../libdaisy/src/hid/switch.h ****     Called at update_rate to debounce and handle timing for the switch.
+  63:../../libdaisy/src/hid/switch.h ****     In order for events not to be missed, its important that the Edge/Pressed checks
+  64:../../libdaisy/src/hid/switch.h ****     be made at the same rate as the debounce function is being called.
+  65:../../libdaisy/src/hid/switch.h ****     */
+  66:../../libdaisy/src/hid/switch.h ****     void Debounce();
+  67:../../libdaisy/src/hid/switch.h **** 
+  68:../../libdaisy/src/hid/switch.h ****     /** \return true if a button was just pressed. */
+  69:../../libdaisy/src/hid/switch.h ****     inline bool RisingEdge() const { return state_ == 0x7f; }
+ 355              		.loc 4 69 38 is_stmt 1 view .LVU88
+ 356              		.loc 10 136 39 is_stmt 0 view .LVU89
+ 357 001c 32D0     		beq	.L20
+ 134:FilterBank.cpp **** 
+ 358              		.loc 10 134 18 discriminator 2 view .LVU90
+ 359 001e 9B18     		adds	r3, r3, r2
+ 360 0020 03F00103 		and	r3, r3, #1
+ 361              	.L15:
+ 137:FilterBank.cpp **** 
+ 138:FilterBank.cpp ****     // Toggle Pass thru
+ 139:FilterBank.cpp ****     if(petal.switches[petal.SW_1].RisingEdge())
+ 362              		.loc 10 139 5 discriminator 4 view .LVU91
+ 363 0024 94F84121 		ldrb	r2, [r4, #321]	@ zero_extendqisi2
+ 136:FilterBank.cpp **** 
+ 364              		.loc 10 136 10 discriminator 4 view .LVU92
+ 365 0028 3B60     		str	r3, [r7]
+ 366              		.loc 10 139 5 is_stmt 1 discriminator 4 view .LVU93
+ 367              	.LVL14:
+ 368              		.loc 4 69 38 discriminator 4 view .LVU94
+ 369              		.loc 10 139 5 is_stmt 0 discriminator 4 view .LVU95
+ 370 002a 7F2A     		cmp	r2, #127
+ 371 002c 04D1     		bne	.L16
+ 140:FilterBank.cpp ****         passthru = !passthru;
+ 372              		.loc 10 140 9 is_stmt 1 view .LVU96
+ 373              		.loc 10 140 18 is_stmt 0 view .LVU97
+ 374 002e 1A4A     		ldr	r2, .L24+16
+ 375              		.loc 10 140 20 view .LVU98
+ 376 0030 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 377 0032 83F00103 		eor	r3, r3, #1
+ 378              		.loc 10 140 18 view .LVU99
+ 379 0036 1370     		strb	r3, [r2]
+ 380              	.L16:
+ARM GAS  /tmp/ccJNPitZ.s 			page 19
+
+
+ 381 0038 184D     		ldr	r5, .L24+20
+ 382 003a 0024     		movs	r4, #0
+ 383 003c 184E     		ldr	r6, .L24+24
+ 384              	.L19:
+ 385              	.LVL15:
+ 386              	.LBB261:
+ 387              	.LBB262:
+ 141:FilterBank.cpp **** 
+ 142:FilterBank.cpp ****     //controls
+ 143:FilterBank.cpp ****     for(int i = 0; i < 4; i++)
+ 144:FilterBank.cpp ****     {
+ 145:FilterBank.cpp ****         float val = petal.knob[i + 2].Process();
+ 388              		.loc 10 145 9 is_stmt 1 view .LVU100
+ 389              		.loc 10 145 46 is_stmt 0 view .LVU101
+ 390 003e 2846     		mov	r0, r5
+ 391 0040 2035     		adds	r5, r5, #32
+ 392 0042 FFF7FEFF 		bl	_ZN5daisy13AnalogControl7ProcessEv
+ 393              	.LVL16:
+ 394              	.LBE262:
+ 143:FilterBank.cpp ****     {
+ 395              		.loc 10 143 5 is_stmt 1 view .LVU102
+ 396              	.LBB273:
+ 397              	.LBB263:
+ 398              	.LBB264:
+  19:FilterBank.cpp ****         {
+ 399              		.loc 10 19 25 is_stmt 0 view .LVU103
+ 400 0046 B6EC017A 		vldmia.32	r6!, {s14}
+ 401              	.LVL17:
+  19:FilterBank.cpp ****         {
+ 402              		.loc 10 19 25 view .LVU104
+ 403              	.LBE264:
+ 404              	.LBE263:
+ 146:FilterBank.cpp ****         if(condUpdates[i].Process(val))
+ 405              		.loc 10 146 9 is_stmt 1 view .LVU105
+ 406              	.LBB271:
+ 407              	.LBI263:
+  17:FilterBank.cpp ****     {
+ 408              		.loc 10 17 10 view .LVU106
+ 409              	.LBB269:
+  19:FilterBank.cpp ****         {
+ 410              		.loc 10 19 9 view .LVU107
+ 411              	.LBB265:
+ 412              	.LBI265:
+ 413              		.file 11 "/usr/include/newlib/c++/9.2.1/bits/std_abs.h"
+   1:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // -*- C++ -*- C library enhancements header.
+   2:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+   3:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // Copyright (C) 2016-2019 Free Software Foundation, Inc.
+   4:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** //
+   5:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // This file is part of the GNU ISO C++ Library.  This library is free
+   6:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // software; you can redistribute it and/or modify it under the
+   7:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // terms of the GNU General Public License as published by the
+   8:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // Free Software Foundation; either version 3, or (at your option)
+   9:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // any later version.
+  10:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  11:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // This library is distributed in the hope that it will be useful,
+  12:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // but WITHOUT ANY WARRANTY; without even the implied warranty of
+  13:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ARM GAS  /tmp/ccJNPitZ.s 			page 20
+
+
+  14:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // GNU General Public License for more details.
+  15:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  16:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // Under Section 7 of GPL version 3, you are granted additional
+  17:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // permissions described in the GCC Runtime Library Exception, version
+  18:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // 3.1, as published by the Free Software Foundation.
+  19:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  20:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // You should have received a copy of the GNU General Public License and
+  21:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // a copy of the GCC Runtime Library Exception along with this program;
+  22:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  23:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // <http://www.gnu.org/licenses/>.
+  24:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  25:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** /** @file include/bits/std_abs.h
+  26:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****  *  This is an internal header file, included by other library headers.
+  27:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****  *  Do not attempt to use it directly. @headername{cmath, cstdlib}
+  28:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****  */
+  29:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  30:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #ifndef _GLIBCXX_BITS_STD_ABS_H
+  31:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #define _GLIBCXX_BITS_STD_ABS_H
+  32:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  33:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #pragma GCC system_header
+  34:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  35:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #include <bits/c++config.h>
+  36:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  37:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #define _GLIBCXX_INCLUDE_NEXT_C_HEADERS
+  38:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #include_next <stdlib.h>
+  39:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #ifdef __CORRECT_ISO_CPP_MATH_H_PROTO
+  40:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** # include_next <math.h>
+  41:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #endif
+  42:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #undef _GLIBCXX_INCLUDE_NEXT_C_HEADERS
+  43:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  44:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #undef abs
+  45:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  46:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** extern "C++"
+  47:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** {
+  48:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** namespace std _GLIBCXX_VISIBILITY(default)
+  49:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** {
+  50:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** _GLIBCXX_BEGIN_NAMESPACE_VERSION
+  51:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  52:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   using ::abs;
+  53:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  54:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #ifndef __CORRECT_ISO_CPP_STDLIB_H_PROTO
+  55:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   inline long
+  56:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   abs(long __i) { return __builtin_labs(__i); }
+  57:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #endif
+  58:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  59:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #ifdef _GLIBCXX_USE_LONG_LONG
+  60:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   inline long long
+  61:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   abs(long long __x) { return __builtin_llabs (__x); }
+  62:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #endif
+  63:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  64:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // _GLIBCXX_RESOLVE_LIB_DEFECTS
+  65:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // 2192. Validity and return type of std::abs(0u) is unclear
+  66:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // 2294. <cstdlib> should declare abs(double)
+  67:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** // 2735. std::abs(short), std::abs(signed char) and others should return int
+  68:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  69:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
+  70:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   inline _GLIBCXX_CONSTEXPR double
+ARM GAS  /tmp/ccJNPitZ.s 			page 21
+
+
+  71:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   abs(double __x)
+  72:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   { return __builtin_fabs(__x); }
+  73:/usr/include/newlib/c++/9.2.1/bits/std_abs.h **** 
+  74:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   inline _GLIBCXX_CONSTEXPR float
+  75:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   abs(float __x)
+ 414              		.loc 11 75 3 view .LVU108
+ 415              	.LBB266:
+  76:/usr/include/newlib/c++/9.2.1/bits/std_abs.h ****   { return __builtin_fabsf(__x); }
+ 416              		.loc 11 76 5 view .LVU109
+ 417              		.loc 11 76 5 is_stmt 0 view .LVU110
+ 418              	.LBE266:
+ 419              	.LBE265:
+  19:FilterBank.cpp ****         {
+ 420              		.loc 10 19 15 view .LVU111
+ 421 004a 30EE477A 		vsub.f32	s14, s0, s14
+  19:FilterBank.cpp ****         {
+ 422              		.loc 10 19 9 view .LVU112
+ 423 004e 9FED0E6B 		vldr.64	d6, .L24
+ 424              	.LBB268:
+ 425              	.LBB267:
+ 426              		.loc 11 76 31 view .LVU113
+ 427 0052 B0EEC77A 		vabs.f32	s14, s14
+ 428              	.LBE267:
+ 429              	.LBE268:
+  19:FilterBank.cpp ****         {
+ 430              		.loc 10 19 15 view .LVU114
+ 431 0056 B7EEC77A 		vcvt.f64.f32	d7, s14
+  19:FilterBank.cpp ****         {
+ 432              		.loc 10 19 9 view .LVU115
+ 433 005a B4EEC67B 		vcmpe.f64	d7, d6
+ 434 005e F1EE10FA 		vmrs	APSR_nzcv, FPSCR
+ 435 0062 0BDD     		ble	.L17
+  21:FilterBank.cpp ****             return true;
+ 436              		.loc 10 21 13 is_stmt 1 view .LVU116
+ 437              	.LBE269:
+ 438              	.LBE271:
+ 147:FilterBank.cpp ****         {
+ 148:FilterBank.cpp ****             filters[i + bank * 4].amp = val;
+ 439              		.loc 10 148 30 is_stmt 0 view .LVU117
+ 440 0064 3B68     		ldr	r3, [r7]
+ 441              		.loc 10 148 39 view .LVU118
+ 442 0066 0F4A     		ldr	r2, .L24+28
+ 443 0068 04EB8303 		add	r3, r4, r3, lsl #2
+ 444              	.LBB272:
+ 445              	.LBB270:
+  21:FilterBank.cpp ****             return true;
+ 446              		.loc 10 21 20 view .LVU119
+ 447 006c 06ED010A 		vstr.32	s0, [r6, #-4]
+  22:FilterBank.cpp ****         }
+ 448              		.loc 10 22 13 is_stmt 1 view .LVU120
+ 449              	.LVL18:
+  22:FilterBank.cpp ****         }
+ 450              		.loc 10 22 13 is_stmt 0 view .LVU121
+ 451              	.LBE270:
+ 452              	.LBE272:
+ 453              		.loc 10 148 13 is_stmt 1 view .LVU122
+ 454              		.loc 10 148 39 is_stmt 0 view .LVU123
+ARM GAS  /tmp/ccJNPitZ.s 			page 22
+
+
+ 455 0070 03EB8303 		add	r3, r3, r3, lsl #2
+ 456 0074 02EB0313 		add	r3, r2, r3, lsl #4
+ 457 0078 83ED130A 		vstr.32	s0, [r3, #76]
+ 458              	.L17:
+ 459              		.loc 10 148 39 view .LVU124
+ 460              	.LBE273:
+ 143:FilterBank.cpp ****     {
+ 461              		.loc 10 143 5 discriminator 2 view .LVU125
+ 462 007c 0134     		adds	r4, r4, #1
+ 463              	.LVL19:
+ 143:FilterBank.cpp ****     {
+ 464              		.loc 10 143 22 is_stmt 1 discriminator 2 view .LVU126
+ 465 007e 042C     		cmp	r4, #4
+ 466 0080 DDD1     		bne	.L19
+ 467              	.LBE261:
+ 149:FilterBank.cpp ****         }
+ 150:FilterBank.cpp ****     }
+ 151:FilterBank.cpp **** }
+ 468              		.loc 10 151 1 is_stmt 0 view .LVU127
+ 469 0082 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 470              	.LVL20:
+ 471              	.L20:
+ 472              		.loc 10 151 1 view .LVU128
+ 473 0084 0023     		movs	r3, #0
+ 474 0086 CDE7     		b	.L15
+ 475              	.L25:
+ 476              		.align	3
+ 477              	.L24:
+ 478 0088 7B14AE47 		.word	1202590843
+ 479 008c E17AA43F 		.word	1067743969
+ 480 0090 00000000 		.word	.LANCHOR2
+ 481 0094 00000000 		.word	.LANCHOR3
+ 482 0098 00000000 		.word	.LANCHOR4
+ 483 009c 9C000000 		.word	.LANCHOR2+156
+ 484 00a0 00000000 		.word	.LANCHOR5
+ 485 00a4 00000000 		.word	.LANCHOR1
+ 486              		.cfi_endproc
+ 487              	.LFE4236:
+ 489              		.section	.text._ZL13AudioCallbackPKPKfPPfj,"ax",%progbits
+ 490              		.align	1
+ 491              		.p2align 2,,3
+ 492              		.syntax unified
+ 493              		.thumb
+ 494              		.thumb_func
+ 495              		.fpu fpv5-d16
+ 497              	_ZL13AudioCallbackPKPKfPPfj:
+ 498              	.LVL21:
+ 499              	.LFB4232:
+  59:FilterBank.cpp ****     UpdateControls();
+ 500              		.loc 10 59 1 is_stmt 1 view -0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 0
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+  60:FilterBank.cpp **** 
+ 504              		.loc 10 60 5 view .LVU130
+  59:FilterBank.cpp ****     UpdateControls();
+ 505              		.loc 10 59 1 is_stmt 0 view .LVU131
+ARM GAS  /tmp/ccJNPitZ.s 			page 23
+
+
+ 506 0000 2DE9F84F 		push	{r3, r4, r5, r6, r7, r8, r9, r10, fp, lr}
+ 507              		.cfi_def_cfa_offset 40
+ 508              		.cfi_offset 3, -40
+ 509              		.cfi_offset 4, -36
+ 510              		.cfi_offset 5, -32
+ 511              		.cfi_offset 6, -28
+ 512              		.cfi_offset 7, -24
+ 513              		.cfi_offset 8, -20
+ 514              		.cfi_offset 9, -16
+ 515              		.cfi_offset 10, -12
+ 516              		.cfi_offset 11, -8
+ 517              		.cfi_offset 14, -4
+ 518 0004 9146     		mov	r9, r2
+ 519 0006 8346     		mov	fp, r0
+ 520 0008 8846     		mov	r8, r1
+ 521 000a 2DED028B 		vpush.64	{d8}
+ 522              		.cfi_def_cfa_offset 48
+ 523              		.cfi_offset 80, -48
+ 524              		.cfi_offset 81, -44
+  60:FilterBank.cpp **** 
+ 525              		.loc 10 60 19 view .LVU132
+ 526 000e FFF7FEFF 		bl	_Z14UpdateControlsv
+ 527              	.LVL22:
+  63:FilterBank.cpp ****     {
+ 528              		.loc 10 63 5 is_stmt 1 view .LVU133
+ 529              	.LBB274:
+  63:FilterBank.cpp ****     {
+ 530              		.loc 10 63 25 view .LVU134
+ 531 0012 B9F1000F 		cmp	r9, #0
+ 532 0016 2ED0     		beq	.L26
+  63:FilterBank.cpp ****     {
+ 533              		.loc 10 63 16 is_stmt 0 view .LVU135
+ 534 0018 0027     		movs	r7, #0
+ 535 001a 234E     		ldr	r6, .L38+8
+ 536 001c DFF894A0 		ldr	r10, .L38+20
+ 537              	.LVL23:
+ 538              	.L31:
+  63:FilterBank.cpp ****     {
+ 539              		.loc 10 63 16 view .LVU136
+ 540 0020 BD00     		lsls	r5, r7, #2
+ 541 0022 224C     		ldr	r4, .L38+12
+ 542              	.LBB275:
+  65:FilterBank.cpp ****         for(int j = 0; j < 8; j++)
+ 543              		.loc 10 65 15 view .LVU137
+ 544 0024 9FED228A 		vldr.32	s16, .L38+16
+ 545              	.L28:
+ 546              	.LVL24:
+ 547              	.LBB276:
+  68:FilterBank.cpp ****         }
+ 548              		.loc 10 68 13 is_stmt 1 discriminator 2 view .LVU138
+ 549              	.LBB277:
+ 550              	.LBI277:
+  45:FilterBank.cpp ****     {
+ 551              		.loc 10 45 11 discriminator 2 view .LVU139
+ 552              	.LBB278:
+  47:FilterBank.cpp ****         return filt.Peak() * amp;
+ 553              		.loc 10 47 9 discriminator 2 view .LVU140
+ARM GAS  /tmp/ccJNPitZ.s 			page 24
+
+
+ 554              	.LBE278:
+ 555              	.LBE277:
+  68:FilterBank.cpp ****         }
+ 556              		.loc 10 68 38 is_stmt 0 discriminator 2 view .LVU141
+ 557 0028 DBF80030 		ldr	r3, [fp]
+ 558              	.LBB281:
+ 559              	.LBB279:
+  47:FilterBank.cpp ****         return filt.Peak() * amp;
+ 560              		.loc 10 47 21 discriminator 2 view .LVU142
+ 561 002c 2046     		mov	r0, r4
+ 562 002e 5034     		adds	r4, r4, #80
+ 563              	.LVL25:
+  47:FilterBank.cpp ****         return filt.Peak() * amp;
+ 564              		.loc 10 47 21 discriminator 2 view .LVU143
+ 565              	.LBE279:
+ 566              	.LBE281:
+  68:FilterBank.cpp ****         }
+ 567              		.loc 10 68 38 discriminator 2 view .LVU144
+ 568 0030 2B44     		add	r3, r3, r5
+ 569              	.LVL26:
+ 570              	.LBB282:
+ 571              	.LBB280:
+  47:FilterBank.cpp ****         return filt.Peak() * amp;
+ 572              		.loc 10 47 21 discriminator 2 view .LVU145
+ 573 0032 93ED000A 		vldr.32	s0, [r3]
+ 574 0036 FFF7FEFF 		bl	_ZN7daisysp3Svf7ProcessEf
+ 575              	.LVL27:
+  48:FilterBank.cpp ****     }
+ 576              		.loc 10 48 9 is_stmt 1 discriminator 2 view .LVU146
+  48:FilterBank.cpp ****     }
+ 577              		.loc 10 48 9 is_stmt 0 discriminator 2 view .LVU147
+ 578              	.LBE280:
+ 579              	.LBE282:
+ 580              	.LBE276:
+ 581              	.LBE275:
+ 582              	.LBE274:
+ 583              		.file 12 "../../DaisySP/Source/Filters/svf.h"
+   1:../../DaisySP/Source/Filters/svf.h **** #pragma once
+   2:../../DaisySP/Source/Filters/svf.h **** #ifndef DSY_SVF_H
+   3:../../DaisySP/Source/Filters/svf.h **** #define DSY_SVF_H
+   4:../../DaisySP/Source/Filters/svf.h **** 
+   5:../../DaisySP/Source/Filters/svf.h **** namespace daisysp
+   6:../../DaisySP/Source/Filters/svf.h **** {
+   7:../../DaisySP/Source/Filters/svf.h **** /**      Double Sampled, Stable State Variable Filter
+   8:../../DaisySP/Source/Filters/svf.h **** 
+   9:../../DaisySP/Source/Filters/svf.h **** Credit to Andrew Simper from musicdsp.org
+  10:../../DaisySP/Source/Filters/svf.h **** 
+  11:../../DaisySP/Source/Filters/svf.h **** This is his "State Variable Filter (Double Sampled, Stable)"
+  12:../../DaisySP/Source/Filters/svf.h **** 
+  13:../../DaisySP/Source/Filters/svf.h **** Additional thanks to Laurent de Soras for stability limit, and 
+  14:../../DaisySP/Source/Filters/svf.h **** Stefan Diedrichsen for the correct notch output
+  15:../../DaisySP/Source/Filters/svf.h **** 
+  16:../../DaisySP/Source/Filters/svf.h **** Ported by: Stephen Hensley
+  17:../../DaisySP/Source/Filters/svf.h **** */
+  18:../../DaisySP/Source/Filters/svf.h **** class Svf
+  19:../../DaisySP/Source/Filters/svf.h **** {
+  20:../../DaisySP/Source/Filters/svf.h ****   public:
+ARM GAS  /tmp/ccJNPitZ.s 			page 25
+
+
+  21:../../DaisySP/Source/Filters/svf.h ****     Svf() {}
+  22:../../DaisySP/Source/Filters/svf.h ****     ~Svf() {}
+  23:../../DaisySP/Source/Filters/svf.h ****     /** Initializes the filter
+  24:../../DaisySP/Source/Filters/svf.h ****         float sample_rate - sample rate of the audio engine being run, and the frequency that the P
+  25:../../DaisySP/Source/Filters/svf.h ****     */
+  26:../../DaisySP/Source/Filters/svf.h ****     void Init(float sample_rate);
+  27:../../DaisySP/Source/Filters/svf.h **** 
+  28:../../DaisySP/Source/Filters/svf.h **** 
+  29:../../DaisySP/Source/Filters/svf.h ****     /** 
+  30:../../DaisySP/Source/Filters/svf.h ****         Process the input signal, updating all of the outputs.
+  31:../../DaisySP/Source/Filters/svf.h ****     */
+  32:../../DaisySP/Source/Filters/svf.h ****     void Process(float in);
+  33:../../DaisySP/Source/Filters/svf.h **** 
+  34:../../DaisySP/Source/Filters/svf.h **** 
+  35:../../DaisySP/Source/Filters/svf.h ****     /** sets the frequency of the cutoff frequency. 
+  36:../../DaisySP/Source/Filters/svf.h ****         f must be between 0.0 and sample_rate / 3
+  37:../../DaisySP/Source/Filters/svf.h ****     */
+  38:../../DaisySP/Source/Filters/svf.h ****     void SetFreq(float f);
+  39:../../DaisySP/Source/Filters/svf.h **** 
+  40:../../DaisySP/Source/Filters/svf.h ****     /** sets the resonance of the filter.
+  41:../../DaisySP/Source/Filters/svf.h ****         Must be between 0.0 and 1.0 to ensure stability.
+  42:../../DaisySP/Source/Filters/svf.h ****     */
+  43:../../DaisySP/Source/Filters/svf.h ****     void SetRes(float r);
+  44:../../DaisySP/Source/Filters/svf.h **** 
+  45:../../DaisySP/Source/Filters/svf.h ****     /** sets the drive of the filter 
+  46:../../DaisySP/Source/Filters/svf.h ****         affects the response of the resonance of the filter
+  47:../../DaisySP/Source/Filters/svf.h ****     */
+  48:../../DaisySP/Source/Filters/svf.h ****     void SetDrive(float d);
+  49:../../DaisySP/Source/Filters/svf.h ****     /** lowpass output
+  50:../../DaisySP/Source/Filters/svf.h ****         \return low pass output of the filter
+  51:../../DaisySP/Source/Filters/svf.h ****     */
+  52:../../DaisySP/Source/Filters/svf.h ****     inline float Low() { return out_low_; }
+  53:../../DaisySP/Source/Filters/svf.h ****     /** highpass output
+  54:../../DaisySP/Source/Filters/svf.h ****         \return high pass output of the filter
+  55:../../DaisySP/Source/Filters/svf.h ****     */
+  56:../../DaisySP/Source/Filters/svf.h ****     inline float High() { return out_high_; }
+  57:../../DaisySP/Source/Filters/svf.h ****     /** bandpass output
+  58:../../DaisySP/Source/Filters/svf.h ****         \return band pass output of the filter
+  59:../../DaisySP/Source/Filters/svf.h ****     */
+  60:../../DaisySP/Source/Filters/svf.h ****     inline float Band() { return out_band_; }
+  61:../../DaisySP/Source/Filters/svf.h ****     /** notchpass output
+  62:../../DaisySP/Source/Filters/svf.h ****         \return notch pass output of the filter
+  63:../../DaisySP/Source/Filters/svf.h ****     */
+  64:../../DaisySP/Source/Filters/svf.h ****     inline float Notch() { return out_notch_; }
+  65:../../DaisySP/Source/Filters/svf.h ****     /** peak output
+  66:../../DaisySP/Source/Filters/svf.h ****         \return peak output of the filter
+  67:../../DaisySP/Source/Filters/svf.h ****     */
+  68:../../DaisySP/Source/Filters/svf.h ****     inline float Peak() { return out_peak_; }
+ 584              		.loc 12 68 27 is_stmt 1 discriminator 2 view .LVU148
+ 585              	.LBB286:
+ 586              	.LBB284:
+ 587              	.LBB283:
+  68:FilterBank.cpp ****         }
+ 588              		.loc 10 68 17 is_stmt 0 discriminator 2 view .LVU149
+ 589 003a 14ED057A 		vldr.32	s14, [r4, #-20]
+ 590 003e 54ED017A 		vldr.32	s15, [r4, #-4]
+  66:FilterBank.cpp ****         {
+ARM GAS  /tmp/ccJNPitZ.s 			page 26
+
+
+ 591              		.loc 10 66 26 discriminator 2 view .LVU150
+ 592 0042 A642     		cmp	r6, r4
+  68:FilterBank.cpp ****         }
+ 593              		.loc 10 68 17 discriminator 2 view .LVU151
+ 594 0044 A7EE278A 		vfma.f32	s16, s14, s15
+ 595              	.LVL28:
+  66:FilterBank.cpp ****         {
+ 596              		.loc 10 66 9 is_stmt 1 discriminator 2 view .LVU152
+  66:FilterBank.cpp ****         {
+ 597              		.loc 10 66 26 discriminator 2 view .LVU153
+ 598 0048 EED1     		bne	.L28
+ 599              	.LBE283:
+  70:FilterBank.cpp **** 
+ 600              		.loc 10 70 9 view .LVU154
+ 601              	.LVL29:
+  72:FilterBank.cpp ****         {
+ 602              		.loc 10 72 9 view .LVU155
+ 603 004a 9AF80030 		ldrb	r3, [r10]	@ zero_extendqisi2
+ 604 004e B3B9     		cbnz	r3, .L29
+  70:FilterBank.cpp **** 
+ 605              		.loc 10 70 13 is_stmt 0 view .LVU156
+ 606 0050 B7EEC87A 		vcvt.f64.f32	d7, s16
+ 607              	.LVL30:
+  70:FilterBank.cpp **** 
+ 608              		.loc 10 70 13 view .LVU157
+ 609 0054 9FED126B 		vldr.64	d6, .L38
+  74:FilterBank.cpp ****         }
+ 610              		.loc 10 74 23 view .LVU158
+ 611 0058 D8E90032 		ldrd	r3, r2, [r8]
+  70:FilterBank.cpp **** 
+ 612              		.loc 10 70 13 view .LVU159
+ 613 005c 27EE067B 		vmul.f64	d7, d7, d6
+ 614              	.LVL31:
+  74:FilterBank.cpp ****         }
+ 615              		.loc 10 74 35 view .LVU160
+ 616 0060 2A44     		add	r2, r2, r5
+  74:FilterBank.cpp ****         }
+ 617              		.loc 10 74 23 view .LVU161
+ 618 0062 1D44     		add	r5, r5, r3
+  70:FilterBank.cpp **** 
+ 619              		.loc 10 70 13 view .LVU162
+ 620 0064 B7EEC77B 		vcvt.f32.f64	s14, d7
+  74:FilterBank.cpp ****         }
+ 621              		.loc 10 74 13 is_stmt 1 view .LVU163
+  74:FilterBank.cpp ****         }
+ 622              		.loc 10 74 35 is_stmt 0 view .LVU164
+ 623 0068 82ED007A 		vstr.32	s14, [r2]
+  74:FilterBank.cpp ****         }
+ 624              		.loc 10 74 23 view .LVU165
+ 625 006c 85ED007A 		vstr.32	s14, [r5]
+ 626              	.L30:
+  74:FilterBank.cpp ****         }
+ 627              		.loc 10 74 23 view .LVU166
+ 628              	.LBE284:
+  63:FilterBank.cpp ****     {
+ 629              		.loc 10 63 5 is_stmt 1 discriminator 2 view .LVU167
+ 630 0070 0137     		adds	r7, r7, #1
+ARM GAS  /tmp/ccJNPitZ.s 			page 27
+
+
+ 631              	.LVL32:
+  63:FilterBank.cpp ****     {
+ 632              		.loc 10 63 25 discriminator 2 view .LVU168
+ 633 0072 B945     		cmp	r9, r7
+ 634 0074 D4D1     		bne	.L31
+ 635              	.LVL33:
+ 636              	.L26:
+  63:FilterBank.cpp ****     {
+ 637              		.loc 10 63 25 is_stmt 0 discriminator 2 view .LVU169
+ 638              	.LBE286:
+  82:FilterBank.cpp **** 
+ 639              		.loc 10 82 1 view .LVU170
+ 640 0076 BDEC028B 		vldm	sp!, {d8}
+ 641              		.cfi_remember_state
+ 642              		.cfi_restore 80
+ 643              		.cfi_restore 81
+ 644              		.cfi_def_cfa_offset 40
+ 645 007a BDE8F88F 		pop	{r3, r4, r5, r6, r7, r8, r9, r10, fp, pc}
+ 646              	.LVL34:
+ 647              	.L29:
+ 648              		.cfi_restore_state
+ 649              	.LBB287:
+ 650              	.LBB285:
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 651              		.loc 10 78 13 is_stmt 1 view .LVU171
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 652              		.loc 10 78 32 is_stmt 0 view .LVU172
+ 653 007e DBF80020 		ldr	r2, [fp]
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 654              		.loc 10 78 23 view .LVU173
+ 655 0082 D8F80030 		ldr	r3, [r8]
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 656              		.loc 10 78 32 view .LVU174
+ 657 0086 5019     		adds	r0, r2, r5
+  79:FilterBank.cpp ****         }
+ 658              		.loc 10 79 32 view .LVU175
+ 659 0088 DBF80420 		ldr	r2, [fp, #4]
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 660              		.loc 10 78 23 view .LVU176
+ 661 008c 5919     		adds	r1, r3, r5
+  79:FilterBank.cpp ****         }
+ 662              		.loc 10 79 23 view .LVU177
+ 663 008e D8F80430 		ldr	r3, [r8, #4]
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 664              		.loc 10 78 32 view .LVU178
+ 665 0092 0068     		ldr	r0, [r0]	@ float
+  79:FilterBank.cpp ****         }
+ 666              		.loc 10 79 32 view .LVU179
+ 667 0094 2A44     		add	r2, r2, r5
+  79:FilterBank.cpp ****         }
+ 668              		.loc 10 79 23 view .LVU180
+ 669 0096 1D44     		add	r5, r5, r3
+  78:FilterBank.cpp ****             out[1][i] = in[1][i];
+ 670              		.loc 10 78 23 view .LVU181
+ 671 0098 0860     		str	r0, [r1]	@ float
+  79:FilterBank.cpp ****         }
+ 672              		.loc 10 79 13 is_stmt 1 view .LVU182
+ARM GAS  /tmp/ccJNPitZ.s 			page 28
+
+
+  79:FilterBank.cpp ****         }
+ 673              		.loc 10 79 32 is_stmt 0 view .LVU183
+ 674 009a 1368     		ldr	r3, [r2]	@ float
+  79:FilterBank.cpp ****         }
+ 675              		.loc 10 79 23 view .LVU184
+ 676 009c 2B60     		str	r3, [r5]	@ float
+ 677 009e E7E7     		b	.L30
+ 678              	.L39:
+ 679              		.align	3
+ 680              	.L38:
+ 681 00a0 B81E85EB 		.word	3951369912
+ 682 00a4 51B8AE3F 		.word	1068415057
+ 683 00a8 80020000 		.word	.LANCHOR1+640
+ 684 00ac 00000000 		.word	.LANCHOR1
+ 685 00b0 00000000 		.word	0
+ 686 00b4 00000000 		.word	.LANCHOR4
+ 687              	.LBE285:
+ 688              	.LBE287:
+ 689              		.cfi_endproc
+ 690              	.LFE4232:
+ 692              		.section	.text._Z10UpdateLedsv,"ax",%progbits
+ 693              		.align	1
+ 694              		.p2align 2,,3
+ 695              		.global	_Z10UpdateLedsv
+ 696              		.syntax unified
+ 697              		.thumb
+ 698              		.thumb_func
+ 699              		.fpu fpv5-d16
+ 701              	_Z10UpdateLedsv:
+ 702              	.LFB4237:
+ 152:FilterBank.cpp **** 
+ 153:FilterBank.cpp **** void UpdateLeds()
+ 154:FilterBank.cpp **** {
+ 703              		.loc 10 154 1 is_stmt 1 view -0
+ 704              		.cfi_startproc
+ 705              		@ args = 0, pretend = 0, frame = 0
+ 706              		@ frame_needed = 0, uses_anonymous_args = 0
+ 155:FilterBank.cpp ****     for(int i = 0; i < 4; i++)
+ 707              		.loc 10 155 5 view .LVU186
+ 708              	.LVL35:
+ 709              	.LBB288:
+ 710              		.loc 10 155 22 view .LVU187
+ 711              	.LBE288:
+ 154:FilterBank.cpp ****     for(int i = 0; i < 4; i++)
+ 712              		.loc 10 154 1 is_stmt 0 view .LVU188
+ 713 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 714              		.cfi_def_cfa_offset 24
+ 715              		.cfi_offset 3, -24
+ 716              		.cfi_offset 4, -20
+ 717              		.cfi_offset 5, -16
+ 718              		.cfi_offset 6, -12
+ 719              		.cfi_offset 7, -8
+ 720              		.cfi_offset 14, -4
+ 721 0002 204D     		ldr	r5, .L50
+ 722              	.LBB289:
+ 723              		.loc 10 155 13 view .LVU189
+ 724 0004 0024     		movs	r4, #0
+ARM GAS  /tmp/ccJNPitZ.s 			page 29
+
+
+ 725 0006 204F     		ldr	r7, .L50+4
+ 726              	.LBE289:
+ 154:FilterBank.cpp ****     for(int i = 0; i < 4; i++)
+ 727              		.loc 10 154 1 view .LVU190
+ 728 0008 2E46     		mov	r6, r5
+ 729              	.LVL36:
+ 730              	.L42:
+ 731              	.LBB290:
+ 156:FilterBank.cpp ****     {
+ 157:FilterBank.cpp ****         petal.SetRingLed((DaisyPetal::RingLed)i,
+ 732              		.loc 10 157 9 is_stmt 1 view .LVU191
+ 733              		.loc 10 157 25 is_stmt 0 view .LVU192
+ 734 000a 3B68     		ldr	r3, [r7]
+ 735 000c E1B2     		uxtb	r1, r4
+ 736 000e DFED1F0A 		vldr.32	s1, .L50+8
+ 737 0012 96ED131A 		vldr.32	s2, [r6, #76]
+ 738 0016 93B3     		cbz	r3, .L45
+ 739 0018 61EE200A 		vmul.f32	s1, s2, s1
+ 740              	.L41:
+ 155:FilterBank.cpp ****     {
+ 741              		.loc 10 155 5 discriminator 2 view .LVU193
+ 742 001c 0134     		adds	r4, r4, #1
+ 743              	.LVL37:
+ 744              		.loc 10 157 25 discriminator 2 view .LVU194
+ 745 001e B0EE410A 		vmov.f32	s0, s2
+ 746 0022 1B48     		ldr	r0, .L50+12
+ 747 0024 5036     		adds	r6, r6, #80
+ 748 0026 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+ 749              	.LVL38:
+ 155:FilterBank.cpp ****     {
+ 750              		.loc 10 155 5 is_stmt 1 discriminator 2 view .LVU195
+ 155:FilterBank.cpp ****     {
+ 751              		.loc 10 155 22 discriminator 2 view .LVU196
+ 752 002a 042C     		cmp	r4, #4
+ 753 002c EDD1     		bne	.L42
+ 754              	.LVL39:
+ 755              	.L44:
+ 155:FilterBank.cpp ****     {
+ 756              		.loc 10 155 22 is_stmt 0 discriminator 2 view .LVU197
+ 757              	.LBE290:
+ 758              	.LBB291:
+ 158:FilterBank.cpp ****                          filters[i].amp,
+ 159:FilterBank.cpp ****                          (bank == 0) * filters[i].amp,
+ 160:FilterBank.cpp ****                          filters[i].amp);
+ 161:FilterBank.cpp ****     }
+ 162:FilterBank.cpp ****     for(int i = 4; i < 8; i++)
+ 163:FilterBank.cpp ****     {
+ 164:FilterBank.cpp ****         petal.SetRingLed((DaisyPetal::RingLed)i,
+ 759              		.loc 10 164 9 is_stmt 1 view .LVU198
+ 760              		.loc 10 164 25 is_stmt 0 view .LVU199
+ 761 002e 3B68     		ldr	r3, [r7]
+ 762 0030 E1B2     		uxtb	r1, r4
+ 763 0032 95ED631A 		vldr.32	s2, [r5, #396]
+ 162:FilterBank.cpp ****     {
+ 764              		.loc 10 162 5 view .LVU200
+ 765 0036 0134     		adds	r4, r4, #1
+ 766              	.LVL40:
+ARM GAS  /tmp/ccJNPitZ.s 			page 30
+
+
+ 767              		.loc 10 164 25 view .LVU201
+ 768 0038 012B     		cmp	r3, #1
+ 769 003a DFED140A 		vldr.32	s1, .L50+8
+ 770 003e B0EE410A 		vmov.f32	s0, s2
+ 771 0042 1348     		ldr	r0, .L50+12
+ 772 0044 18BF     		it	ne
+ 773 0046 61EE200A 		vmulne.f32	s1, s2, s1
+ 774 004a 05F15005 		add	r5, r5, #80
+ 775 004e 08BF     		it	eq
+ 776 0050 F0EE410A 		vmoveq.f32	s1, s2
+ 777 0054 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+ 778              	.LVL41:
+ 162:FilterBank.cpp ****     {
+ 779              		.loc 10 162 5 is_stmt 1 view .LVU202
+ 162:FilterBank.cpp ****     {
+ 780              		.loc 10 162 22 view .LVU203
+ 781 0058 082C     		cmp	r4, #8
+ 782 005a E8D1     		bne	.L44
+ 783              	.LBE291:
+ 165:FilterBank.cpp ****                          filters[i].amp,
+ 166:FilterBank.cpp ****                          (bank == 1) * filters[i].amp,
+ 167:FilterBank.cpp ****                          filters[i].amp);
+ 168:FilterBank.cpp ****     }
+ 169:FilterBank.cpp **** 
+ 170:FilterBank.cpp ****     petal.SetFootswitchLed(DaisyPetal::FOOTSWITCH_LED_1, !passthru);
+ 784              		.loc 10 170 5 view .LVU204
+ 785              		.loc 10 170 58 is_stmt 0 view .LVU205
+ 786 005c 0D4B     		ldr	r3, .L50+16
+ 787              		.loc 10 170 27 view .LVU206
+ 788 005e 0021     		movs	r1, #0
+ 789 0060 0B48     		ldr	r0, .L50+12
+ 790              		.loc 10 170 58 view .LVU207
+ 791 0062 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 792              		.loc 10 170 27 view .LVU208
+ 793 0064 83F00103 		eor	r3, r3, #1
+ 794 0068 00EE103A 		vmov	s0, r3	@ int
+ 795 006c B8EE400A 		vcvt.f32.u32	s0, s0
+ 796 0070 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+ 797              	.LVL42:
+ 171:FilterBank.cpp **** 
+ 172:FilterBank.cpp ****     petal.UpdateLeds();
+ 798              		.loc 10 172 5 is_stmt 1 view .LVU209
+ 799              		.loc 10 172 21 is_stmt 0 view .LVU210
+ 800 0074 0648     		ldr	r0, .L50+12
+ 173:FilterBank.cpp **** }
+ 801              		.loc 10 173 1 view .LVU211
+ 802 0076 BDE8F840 		pop	{r3, r4, r5, r6, r7, lr}
+ 803              		.cfi_remember_state
+ 804              		.cfi_restore 14
+ 805              		.cfi_restore 7
+ 806              		.cfi_restore 6
+ 807              		.cfi_restore 5
+ 808              		.cfi_restore 4
+ 809              		.cfi_restore 3
+ 810              		.cfi_def_cfa_offset 0
+ 811              	.LVL43:
+ 172:FilterBank.cpp **** }
+ARM GAS  /tmp/ccJNPitZ.s 			page 31
+
+
+ 812              		.loc 10 172 21 view .LVU212
+ 813 007a FFF7FEBF 		b	_ZN5daisy10DaisyPetal10UpdateLedsEv
+ 814              	.LVL44:
+ 815              	.L45:
+ 816              		.cfi_restore_state
+ 817              	.LBB292:
+ 172:FilterBank.cpp **** }
+ 818              		.loc 10 172 21 view .LVU213
+ 819 007e F0EE410A 		vmov.f32	s1, s2
+ 820 0082 CBE7     		b	.L41
+ 821              	.L51:
+ 822              		.align	2
+ 823              	.L50:
+ 824 0084 00000000 		.word	.LANCHOR1
+ 825 0088 00000000 		.word	.LANCHOR3
+ 826 008c 00000000 		.word	0
+ 827 0090 00000000 		.word	.LANCHOR2
+ 828 0094 00000000 		.word	.LANCHOR4
+ 829              	.LBE292:
+ 830              		.cfi_endproc
+ 831              	.LFE4237:
+ 833              		.section	.text.startup.main,"ax",%progbits
+ 834              		.align	1
+ 835              		.p2align 2,,3
+ 836              		.global	main
+ 837              		.syntax unified
+ 838              		.thumb
+ 839              		.thumb_func
+ 840              		.fpu fpv5-d16
+ 842              	main:
+ 843              	.LFB4235:
+ 108:FilterBank.cpp ****     float samplerate;
+ 844              		.loc 10 108 1 is_stmt 1 view -0
+ 845              		.cfi_startproc
+ 846              		@ args = 0, pretend = 0, frame = 0
+ 847              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109:FilterBank.cpp ****     petal.Init(); // Initialize hardware (daisy seed, and petal)
+ 848              		.loc 10 109 5 view .LVU215
+ 110:FilterBank.cpp ****     samplerate = petal.AudioSampleRate();
+ 849              		.loc 10 110 5 view .LVU216
+ 108:FilterBank.cpp ****     float samplerate;
+ 850              		.loc 10 108 1 is_stmt 0 view .LVU217
+ 851 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 852              		.cfi_def_cfa_offset 24
+ 853              		.cfi_offset 3, -24
+ 854              		.cfi_offset 4, -20
+ 855              		.cfi_offset 5, -16
+ 856              		.cfi_offset 6, -12
+ 857              		.cfi_offset 7, -8
+ 858              		.cfi_offset 14, -4
+ 110:FilterBank.cpp ****     samplerate = petal.AudioSampleRate();
+ 859              		.loc 10 110 15 view .LVU218
+ 860 0002 0021     		movs	r1, #0
+ 861 0004 2C48     		ldr	r0, .L58
+ 862              	.LBB299:
+ 863              	.LBB300:
+  87:FilterBank.cpp ****     freqs[2] = 750;
+ARM GAS  /tmp/ccJNPitZ.s 			page 32
+
+
+ 864              		.loc 10 87 14 view .LVU219
+ 865 0006 4FF4FA76 		mov	r6, #500
+  86:FilterBank.cpp ****     freqs[1] = 500;
+ 866              		.loc 10 86 14 view .LVU220
+ 867 000a 4FF4AF75 		mov	r5, #350
+ 868 000e 2B4C     		ldr	r4, .L58+4
+ 869              	.LBE300:
+ 870              	.LBE299:
+ 108:FilterBank.cpp ****     float samplerate;
+ 871              		.loc 10 108 1 view .LVU221
+ 872 0010 2DED028B 		vpush.64	{d8}
+ 873              		.cfi_def_cfa_offset 32
+ 874              		.cfi_offset 80, -32
+ 875              		.cfi_offset 81, -28
+ 110:FilterBank.cpp ****     samplerate = petal.AudioSampleRate();
+ 876              		.loc 10 110 15 view .LVU222
+ 877 0014 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal4InitEb
+ 878              	.LVL45:
+ 111:FilterBank.cpp **** 
+ 879              		.loc 10 111 5 is_stmt 1 view .LVU223
+ 111:FilterBank.cpp **** 
+ 880              		.loc 10 111 39 is_stmt 0 view .LVU224
+ 881 0018 2748     		ldr	r0, .L58
+ 882 001a FFF7FEFF 		bl	_ZN5daisy10DaisyPetal15AudioSampleRateEv
+ 883              	.LVL46:
+ 884              	.LBB303:
+ 885              	.LBB301:
+  86:FilterBank.cpp ****     freqs[1] = 500;
+ 886              		.loc 10 86 14 view .LVU225
+ 887 001e 284B     		ldr	r3, .L58+8
+  88:FilterBank.cpp ****     freqs[3] = 1100;
+ 888              		.loc 10 88 14 view .LVU226
+ 889 0020 40F2EE21 		movw	r1, #750
+  91:FilterBank.cpp ****     freqs[6] = 5200;
+ 890              		.loc 10 91 14 view .LVU227
+ 891 0024 4FF46162 		mov	r2, #3600
+  89:FilterBank.cpp ****     freqs[4] = 2200;
+ 892              		.loc 10 89 14 view .LVU228
+ 893 0028 40F24C40 		movw	r0, #1100
+ 894              	.LBE301:
+ 895              	.LBE303:
+ 111:FilterBank.cpp **** 
+ 896              		.loc 10 111 39 view .LVU229
+ 897 002c B0EE408A 		vmov.f32	s16, s0
+ 898              	.LVL47:
+ 113:FilterBank.cpp ****     InitFilters(samplerate);
+ 899              		.loc 10 113 5 is_stmt 1 view .LVU230
+ 900              	.LBB304:
+ 901              	.LBI299:
+  84:FilterBank.cpp **** {
+ 902              		.loc 10 84 6 view .LVU231
+ 903              	.LBB302:
+  86:FilterBank.cpp ****     freqs[1] = 500;
+ 904              		.loc 10 86 5 view .LVU232
+  88:FilterBank.cpp ****     freqs[3] = 1100;
+ 905              		.loc 10 88 14 is_stmt 0 view .LVU233
+ 906 0030 9960     		str	r1, [r3, #8]
+ARM GAS  /tmp/ccJNPitZ.s 			page 33
+
+
+  90:FilterBank.cpp ****     freqs[5] = 3600;
+ 907              		.loc 10 90 14 view .LVU234
+ 908 0032 40F69801 		movw	r1, #2200
+  91:FilterBank.cpp ****     freqs[6] = 5200;
+ 909              		.loc 10 91 14 view .LVU235
+ 910 0036 5A61     		str	r2, [r3, #20]
+  93:FilterBank.cpp **** }
+ 911              		.loc 10 93 14 view .LVU236
+ 912 0038 41F64C52 		movw	r2, #7500
+  90:FilterBank.cpp ****     freqs[5] = 3600;
+ 913              		.loc 10 90 14 view .LVU237
+ 914 003c 1961     		str	r1, [r3, #16]
+  92:FilterBank.cpp ****     freqs[7] = 7500;
+ 915              		.loc 10 92 14 view .LVU238
+ 916 003e 41F25041 		movw	r1, #5200
+ 917 0042 04F52077 		add	r7, r4, #640
+  89:FilterBank.cpp ****     freqs[4] = 2200;
+ 918              		.loc 10 89 14 view .LVU239
+ 919 0046 D860     		str	r0, [r3, #12]
+  92:FilterBank.cpp ****     freqs[7] = 7500;
+ 920              		.loc 10 92 14 view .LVU240
+ 921 0048 9961     		str	r1, [r3, #24]
+  93:FilterBank.cpp **** }
+ 922              		.loc 10 93 14 view .LVU241
+ 923 004a DA61     		str	r2, [r3, #28]
+  87:FilterBank.cpp ****     freqs[2] = 750;
+ 924              		.loc 10 87 14 view .LVU242
+ 925 004c C3E90056 		strd	r5, r6, [r3]
+  88:FilterBank.cpp ****     freqs[3] = 1100;
+ 926              		.loc 10 88 5 is_stmt 1 view .LVU243
+  89:FilterBank.cpp ****     freqs[4] = 2200;
+ 927              		.loc 10 89 5 view .LVU244
+  90:FilterBank.cpp ****     freqs[5] = 3600;
+ 928              		.loc 10 90 5 view .LVU245
+  91:FilterBank.cpp ****     freqs[6] = 5200;
+ 929              		.loc 10 91 5 view .LVU246
+  92:FilterBank.cpp ****     freqs[7] = 7500;
+ 930              		.loc 10 92 5 view .LVU247
+  93:FilterBank.cpp **** }
+ 931              		.loc 10 93 5 view .LVU248
+ 932              	.LVL48:
+  93:FilterBank.cpp **** }
+ 933              		.loc 10 93 5 is_stmt 0 view .LVU249
+ 934              	.LBE302:
+ 935              	.LBE304:
+ 936              	.LBB305:
+ 937              	.LBB306:
+  98:FilterBank.cpp ****     {
+ 938              		.loc 10 98 22 is_stmt 1 view .LVU250
+ 939 0050 1E1D     		adds	r6, r3, #4
+ 940 0052 01E0     		b	.L54
+ 941              	.LVL49:
+ 942              	.L57:
+  98:FilterBank.cpp ****     {
+ 943              		.loc 10 98 22 is_stmt 0 view .LVU251
+ 944 0054 56F8045B 		ldr	r5, [r6], #4
+ 945              	.L54:
+ARM GAS  /tmp/ccJNPitZ.s 			page 34
+
+
+ 100:FilterBank.cpp ****     }
+ 946              		.loc 10 100 9 is_stmt 1 view .LVU252
+ 947              	.LVL50:
+ 948              	.LBB307:
+ 949              	.LBI307:
+  36:FilterBank.cpp ****     {
+ 950              		.loc 10 36 10 view .LVU253
+ 951              	.LBB308:
+  38:FilterBank.cpp ****         filt.SetRes(1);
+ 952              		.loc 10 38 9 view .LVU254
+  38:FilterBank.cpp ****         filt.SetRes(1);
+ 953              		.loc 10 38 18 is_stmt 0 view .LVU255
+ 954 0058 2046     		mov	r0, r4
+ 955 005a B0EE480A 		vmov.f32	s0, s16
+ 956 005e FFF7FEFF 		bl	_ZN7daisysp3Svf4InitEf
+ 957              	.LVL51:
+  39:FilterBank.cpp ****         filt.SetDrive(.002);
+ 958              		.loc 10 39 9 is_stmt 1 view .LVU256
+  39:FilterBank.cpp ****         filt.SetDrive(.002);
+ 959              		.loc 10 39 20 is_stmt 0 view .LVU257
+ 960 0062 2046     		mov	r0, r4
+ 961 0064 B7EE000A 		vmov.f32	s0, #1.0e+0
+ 962 0068 FFF7FEFF 		bl	_ZN7daisysp3Svf6SetResEf
+ 963              	.LVL52:
+  40:FilterBank.cpp ****         filt.SetFreq(freq);
+ 964              		.loc 10 40 9 is_stmt 1 view .LVU258
+  40:FilterBank.cpp ****         filt.SetFreq(freq);
+ 965              		.loc 10 40 22 is_stmt 0 view .LVU259
+ 966 006c 2046     		mov	r0, r4
+ 967 006e 9FED150A 		vldr.32	s0, .L58+12
+ 968 0072 FFF7FEFF 		bl	_ZN7daisysp3Svf8SetDriveEf
+ 969              	.LVL53:
+  41:FilterBank.cpp ****         amp = .5f;
+ 970              		.loc 10 41 9 is_stmt 1 view .LVU260
+  41:FilterBank.cpp ****         amp = .5f;
+ 971              		.loc 10 41 21 is_stmt 0 view .LVU261
+ 972 0076 07EE905A 		vmov	s15, r5	@ int
+ 973 007a 2046     		mov	r0, r4
+ 974 007c 5034     		adds	r4, r4, #80
+ 975              	.LVL54:
+  41:FilterBank.cpp ****         amp = .5f;
+ 976              		.loc 10 41 21 view .LVU262
+ 977 007e B8EEE70A 		vcvt.f32.s32	s0, s15
+ 978              	.LVL55:
+  41:FilterBank.cpp ****         amp = .5f;
+ 979              		.loc 10 41 21 view .LVU263
+ 980 0082 FFF7FEFF 		bl	_ZN7daisysp3Svf7SetFreqEf
+ 981              	.LVL56:
+  42:FilterBank.cpp ****     }
+ 982              		.loc 10 42 9 is_stmt 1 view .LVU264
+  42:FilterBank.cpp ****     }
+ 983              		.loc 10 42 13 is_stmt 0 view .LVU265
+ 984 0086 4FF07C53 		mov	r3, #1056964608
+ 985 008a 44F8043C 		str	r3, [r4, #-4]	@ float
+ 986              	.LVL57:
+  42:FilterBank.cpp ****     }
+ 987              		.loc 10 42 13 view .LVU266
+ARM GAS  /tmp/ccJNPitZ.s 			page 35
+
+
+ 988              	.LBE308:
+ 989              	.LBE307:
+  98:FilterBank.cpp ****     {
+ 990              		.loc 10 98 5 is_stmt 1 view .LVU267
+  98:FilterBank.cpp ****     {
+ 991              		.loc 10 98 22 view .LVU268
+ 992 008e BC42     		cmp	r4, r7
+ 993 0090 E0D1     		bne	.L57
+ 994              	.LBE306:
+ 995              	.LBE305:
+ 115:FilterBank.cpp ****     passthru = false;
+ 996              		.loc 10 115 5 view .LVU269
+ 115:FilterBank.cpp ****     passthru = false;
+ 997              		.loc 10 115 14 is_stmt 0 view .LVU270
+ 998 0092 0D49     		ldr	r1, .L58+16
+ 999 0094 0023     		movs	r3, #0
+ 116:FilterBank.cpp **** 
+ 1000              		.loc 10 116 14 view .LVU271
+ 1001 0096 0D4A     		ldr	r2, .L58+20
+ 118:FilterBank.cpp ****     petal.StartAudio(AudioCallback);
+ 1002              		.loc 10 118 19 view .LVU272
+ 1003 0098 0748     		ldr	r0, .L58
+ 115:FilterBank.cpp ****     passthru = false;
+ 1004              		.loc 10 115 14 view .LVU273
+ 1005 009a 0B60     		str	r3, [r1]
+ 116:FilterBank.cpp **** 
+ 1006              		.loc 10 116 5 is_stmt 1 view .LVU274
+ 116:FilterBank.cpp **** 
+ 1007              		.loc 10 116 14 is_stmt 0 view .LVU275
+ 1008 009c 1370     		strb	r3, [r2]
+ 118:FilterBank.cpp ****     petal.StartAudio(AudioCallback);
+ 1009              		.loc 10 118 5 is_stmt 1 view .LVU276
+ 118:FilterBank.cpp ****     petal.StartAudio(AudioCallback);
+ 1010              		.loc 10 118 19 is_stmt 0 view .LVU277
+ 1011 009e FFF7FEFF 		bl	_ZN5daisy10DaisyPetal8StartAdcEv
+ 1012              	.LVL58:
+ 119:FilterBank.cpp ****     while(1)
+ 1013              		.loc 10 119 5 is_stmt 1 view .LVU278
+ 119:FilterBank.cpp ****     while(1)
+ 1014              		.loc 10 119 21 is_stmt 0 view .LVU279
+ 1015 00a2 0B49     		ldr	r1, .L58+24
+ 1016 00a4 0448     		ldr	r0, .L58
+ 1017 00a6 FFF7FEFF 		bl	_ZN5daisy10DaisyPetal10StartAudioEPFvPKPKfPPfjE
+ 1018              	.LVL59:
+ 1019              	.L55:
+ 120:FilterBank.cpp ****     {
+ 1020              		.loc 10 120 5 is_stmt 1 discriminator 1 view .LVU280
+ 122:FilterBank.cpp ****         System::Delay(6);
+ 1021              		.loc 10 122 9 discriminator 1 view .LVU281
+ 122:FilterBank.cpp ****         System::Delay(6);
+ 1022              		.loc 10 122 19 is_stmt 0 discriminator 1 view .LVU282
+ 1023 00aa FFF7FEFF 		bl	_Z10UpdateLedsv
+ 1024              	.LVL60:
+ 123:FilterBank.cpp ****     }
+ 1025              		.loc 10 123 9 is_stmt 1 discriminator 1 view .LVU283
+ 123:FilterBank.cpp ****     }
+ 1026              		.loc 10 123 22 is_stmt 0 discriminator 1 view .LVU284
+ARM GAS  /tmp/ccJNPitZ.s 			page 36
+
+
+ 1027 00ae 0620     		movs	r0, #6
+ 1028 00b0 FFF7FEFF 		bl	_ZN5daisy6System5DelayEm
+ 1029              	.LVL61:
+ 120:FilterBank.cpp ****     {
+ 1030              		.loc 10 120 5 is_stmt 1 discriminator 1 view .LVU285
+ 1031 00b4 F9E7     		b	.L55
+ 1032              	.L59:
+ 1033 00b6 00BF     		.align	2
+ 1034              	.L58:
+ 1035 00b8 00000000 		.word	.LANCHOR2
+ 1036 00bc 00000000 		.word	.LANCHOR1
+ 1037 00c0 00000000 		.word	.LANCHOR0
+ 1038 00c4 6F12033B 		.word	990057071
+ 1039 00c8 00000000 		.word	.LANCHOR3
+ 1040 00cc 00000000 		.word	.LANCHOR4
+ 1041 00d0 00000000 		.word	_ZL13AudioCallbackPKPKfPPfj
+ 1042              		.cfi_endproc
+ 1043              	.LFE4235:
+ 1045              		.section	.text.startup._GLOBAL__sub_I_petal,"ax",%progbits
+ 1046              		.align	1
+ 1047              		.p2align 2,,3
+ 1048              		.syntax unified
+ 1049              		.thumb
+ 1050              		.thumb_func
+ 1051              		.fpu fpv5-d16
+ 1053              	_GLOBAL__sub_I_petal:
+ 1054              	.LFB4787:
+ 1055              		.loc 10 173 1 view -0
+ 1056              		.cfi_startproc
+ 1057              		@ args = 0, pretend = 0, frame = 0
+ 1058              		@ frame_needed = 0, uses_anonymous_args = 0
+ 1059              	.LBB346:
+ 1060              	.LBI346:
+ 1061              		.loc 10 173 1 view .LVU287
+ 1062              	.LVL62:
+ 1063              	.LBB347:
+ 1064              	.LBB348:
+ 1065              	.LBI348:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1066              		.loc 1 66 5 view .LVU288
+ 1067              	.LBB349:
+ 1068              	.LBB350:
+ 1069              	.LBI350:
+  21:../../libdaisy/src/daisy_seed.h ****     ~DaisySeed() {}
+ 1070              		.loc 5 21 5 view .LVU289
+ 1071              	.LBB351:
+ 1072              	.LBB352:
+ 1073              	.LBI352:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1074              		.loc 9 62 5 view .LVU290
+ 1075              	.LBE352:
+ 1076              	.LBE351:
+ 1077              	.LBE350:
+ 1078              	.LBE349:
+ 1079              	.LBE348:
+ 1080              	.LBE347:
+ 1081              	.LBE346:
+ARM GAS  /tmp/ccJNPitZ.s 			page 37
+
+
+ 1082              		.loc 10 173 1 is_stmt 0 view .LVU291
+ 1083 0000 70B5     		push	{r4, r5, r6, lr}
+ 1084              		.cfi_def_cfa_offset 16
+ 1085              		.cfi_offset 4, -16
+ 1086              		.cfi_offset 5, -12
+ 1087              		.cfi_offset 6, -8
+ 1088              		.cfi_offset 14, -4
+ 1089              	.LBB392:
+ 1090              	.LBB388:
+ 1091              	.LBB384:
+ 1092              	.LBB380:
+ 1093              	.LBB367:
+ 1094              	.LBB365:
+ 1095              	.LBB357:
+ 1096              	.LBB353:
+ 1097              	.LBB354:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1098              		.loc 9 62 35 view .LVU292
+ 1099 0002 0D4C     		ldr	r4, .L62
+ 1100 0004 0025     		movs	r5, #0
+ 1101              	.LBE354:
+ 1102              	.LBE353:
+ 1103              	.LBE357:
+ 1104              	.LBE365:
+ 1105              	.LBE367:
+ 1106              	.LBE380:
+ 1107              	.LBE384:
+   8:FilterBank.cpp **** int        freqs[8];
+ 1108              		.loc 10 8 12 view .LVU293
+ 1109 0006 0D4E     		ldr	r6, .L62+4
+ 1110              	.LBB385:
+ 1111              	.LBB381:
+ 1112              	.LBB368:
+ 1113              	.LBB369:
+ 1114              		.file 13 "../../libdaisy/src/dev/leddriver.h"
+   1:../../libdaisy/src/dev/leddriver.h **** #pragma once
+   2:../../libdaisy/src/dev/leddriver.h **** #ifndef SA_LED_DRIVER_H
+   3:../../libdaisy/src/dev/leddriver.h **** #define SA_LED_DRIVER_H /**< & */
+   4:../../libdaisy/src/dev/leddriver.h **** 
+   5:../../libdaisy/src/dev/leddriver.h **** #ifdef __cplusplus
+   6:../../libdaisy/src/dev/leddriver.h **** 
+   7:../../libdaisy/src/dev/leddriver.h **** #include <stdint.h>
+   8:../../libdaisy/src/dev/leddriver.h **** #include "per/i2c.h"
+   9:../../libdaisy/src/dev/leddriver.h **** #include "per/gpio.h"
+  10:../../libdaisy/src/dev/leddriver.h **** 
+  11:../../libdaisy/src/dev/leddriver.h **** namespace daisy
+  12:../../libdaisy/src/dev/leddriver.h **** {
+  13:../../libdaisy/src/dev/leddriver.h **** /** LED driver for one or multiple PCA9685 12bit PWM chips connected to
+  14:../../libdaisy/src/dev/leddriver.h ****  * a single I2C peripheral.
+  15:../../libdaisy/src/dev/leddriver.h ****  * It includes gamma correction from 8bit brightness values but it 
+  16:../../libdaisy/src/dev/leddriver.h ****  * can also be supplied with raw 12bit values.
+  17:../../libdaisy/src/dev/leddriver.h ****  * This driver uses two buffers - one for drawing, one for transmitting.
+  18:../../libdaisy/src/dev/leddriver.h ****  * Multiple LedDriverPca9685 instances can be used at the same time.
+  19:../../libdaisy/src/dev/leddriver.h ****  * \param numDrivers    The number of PCA9685 driver attached to the I2C
+  20:../../libdaisy/src/dev/leddriver.h ****  *                      peripheral.
+  21:../../libdaisy/src/dev/leddriver.h ****  * \param persistentBufferContents If set to true, the current draw buffer 
+  22:../../libdaisy/src/dev/leddriver.h ****  *                      contents will be copied to the next draw buffer 
+ARM GAS  /tmp/ccJNPitZ.s 			page 38
+
+
+  23:../../libdaisy/src/dev/leddriver.h ****  *                      during SwapBuffersAndTransmit(). Use this, if you plan
+  24:../../libdaisy/src/dev/leddriver.h ****  *                      to write single leds at a time. 
+  25:../../libdaisy/src/dev/leddriver.h ****  *                      If you will alway update all leds before calling 
+  26:../../libdaisy/src/dev/leddriver.h ****  *                      SwapBuffersAndTransmit(), you can set this to false
+  27:../../libdaisy/src/dev/leddriver.h ****  *                      and safe some cycles.
+  28:../../libdaisy/src/dev/leddriver.h ****  */
+  29:../../libdaisy/src/dev/leddriver.h **** template <int numDrivers, bool persistentBufferContents = true>
+  30:../../libdaisy/src/dev/leddriver.h **** class LedDriverPca9685
+ 1115              		.loc 13 30 7 view .LVU294
+ 1116 0008 4FF40072 		mov	r2, #512
+ 1117 000c 04F2D240 		addw	r0, r4, #1234
+ 1118 0010 0B49     		ldr	r1, .L62+8
+ 1119              	.LBE369:
+ 1120              	.LBE368:
+ 1121              	.LBB374:
+ 1122              	.LBB366:
+ 1123              	.LBB358:
+ 1124              	.LBB356:
+ 1125              	.LBB355:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1126              		.loc 9 62 35 view .LVU295
+ 1127 0012 6561     		str	r5, [r4, #20]
+ 1128              	.LVL63:
+  62:../../libdaisy/src/hid/audio.h ****     ~AudioHandle() {}
+ 1129              		.loc 9 62 35 view .LVU296
+ 1130              	.LBE355:
+ 1131              	.LBE356:
+ 1132              	.LBE358:
+ 1133              	.LBB359:
+ 1134              	.LBI359:
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1135              		.loc 8 84 5 is_stmt 1 view .LVU297
+  84:../../libdaisy/src/per/adc.h ****     ~AdcHandle() {}
+ 1136              		.loc 8 84 5 is_stmt 0 view .LVU298
+ 1137              	.LBE359:
+ 1138              	.LBB360:
+ 1139              	.LBI360:
+ 1140              		.file 14 "../../libdaisy/src/per/dac.h"
+   1:../../libdaisy/src/per/dac.h **** #pragma once
+   2:../../libdaisy/src/per/dac.h **** #ifndef DSY_DAC_H
+   3:../../libdaisy/src/per/dac.h **** #define DSY_DAC_H
+   4:../../libdaisy/src/per/dac.h **** 
+   5:../../libdaisy/src/per/dac.h **** #include "daisy_core.h"
+   6:../../libdaisy/src/per/dac.h **** 
+   7:../../libdaisy/src/per/dac.h **** namespace daisy
+   8:../../libdaisy/src/per/dac.h **** {
+   9:../../libdaisy/src/per/dac.h **** /** DAC handle for Built-in DAC Peripheral 
+  10:../../libdaisy/src/per/dac.h ****  ** 
+  11:../../libdaisy/src/per/dac.h ****  ** For now only Normal Mode is supported,
+  12:../../libdaisy/src/per/dac.h ****  ** Sample and hold mode provides reduced power consumption, but requires a bit more setup.
+  13:../../libdaisy/src/per/dac.h ****  **
+  14:../../libdaisy/src/per/dac.h ****  ** For now connecting the DAC through other internal periphearls is also not supported.
+  15:../../libdaisy/src/per/dac.h ****  **
+  16:../../libdaisy/src/per/dac.h ****  ** Since the DAC channels have dedicated pins we don't need to pass in a pin config like with
+  17:../../libdaisy/src/per/dac.h ****  ** other modules. However, it is still important to not try to use the DAC pins for anything else.
+  18:../../libdaisy/src/per/dac.h ****  ** DAC Channel 1 is on PA4, and DAC Channel 2 is on PA5
+  19:../../libdaisy/src/per/dac.h ****  ***/
+ARM GAS  /tmp/ccJNPitZ.s 			page 39
+
+
+  20:../../libdaisy/src/per/dac.h **** class DacHandle
+  21:../../libdaisy/src/per/dac.h **** {
+  22:../../libdaisy/src/per/dac.h ****   public:
+  23:../../libdaisy/src/per/dac.h ****     /** Return Values for the DacHandle class */
+  24:../../libdaisy/src/per/dac.h ****     enum class Result
+  25:../../libdaisy/src/per/dac.h ****     {
+  26:../../libdaisy/src/per/dac.h ****         OK,
+  27:../../libdaisy/src/per/dac.h ****         ERR,
+  28:../../libdaisy/src/per/dac.h ****     };
+  29:../../libdaisy/src/per/dac.h **** 
+  30:../../libdaisy/src/per/dac.h ****     /** Selects which channel(s) will be configured for use. */
+  31:../../libdaisy/src/per/dac.h ****     enum class Channel
+  32:../../libdaisy/src/per/dac.h ****     {
+  33:../../libdaisy/src/per/dac.h ****         ONE,
+  34:../../libdaisy/src/per/dac.h ****         TWO,
+  35:../../libdaisy/src/per/dac.h ****         BOTH,
+  36:../../libdaisy/src/per/dac.h ****     };
+  37:../../libdaisy/src/per/dac.h **** 
+  38:../../libdaisy/src/per/dac.h ****     /** Sets the Mode for the DAC channels.
+  39:../../libdaisy/src/per/dac.h ****      **
+  40:../../libdaisy/src/per/dac.h ****      ** Polling mode uses the blocking mode to transmit a single value at a time.
+  41:../../libdaisy/src/per/dac.h ****      **
+  42:../../libdaisy/src/per/dac.h ****      ** DMA mode uses a buffer, and periodically transmits it triggering a 
+  43:../../libdaisy/src/per/dac.h ****      ** callback to fill the buffer when it is ready for more samples.
+  44:../../libdaisy/src/per/dac.h ****      ***/
+  45:../../libdaisy/src/per/dac.h ****     enum class Mode
+  46:../../libdaisy/src/per/dac.h ****     {
+  47:../../libdaisy/src/per/dac.h ****         POLLING,
+  48:../../libdaisy/src/per/dac.h ****         DMA,
+  49:../../libdaisy/src/per/dac.h ****     };
+  50:../../libdaisy/src/per/dac.h **** 
+  51:../../libdaisy/src/per/dac.h ****     /** Sets the number of bits per sample transmitted out of the DAC.
+  52:../../libdaisy/src/per/dac.h ****      ** The output range will be: 0V - VDDA
+  53:../../libdaisy/src/per/dac.h ****      ** The resolution will be roughly: bitdepth / (VDDA - 0V) 
+  54:../../libdaisy/src/per/dac.h ****      ***/
+  55:../../libdaisy/src/per/dac.h ****     enum class BitDepth
+  56:../../libdaisy/src/per/dac.h ****     {
+  57:../../libdaisy/src/per/dac.h ****         BITS_8,
+  58:../../libdaisy/src/per/dac.h ****         BITS_12
+  59:../../libdaisy/src/per/dac.h ****     };
+  60:../../libdaisy/src/per/dac.h **** 
+  61:../../libdaisy/src/per/dac.h ****     /** Sets whether the DAC output is buffered for higher drive ability. */
+  62:../../libdaisy/src/per/dac.h ****     enum class BufferState
+  63:../../libdaisy/src/per/dac.h ****     {
+  64:../../libdaisy/src/per/dac.h ****         ENABLED,
+  65:../../libdaisy/src/per/dac.h ****         DISABLED,
+  66:../../libdaisy/src/per/dac.h ****     };
+  67:../../libdaisy/src/per/dac.h **** 
+  68:../../libdaisy/src/per/dac.h ****     /** Configuration structure for initializing the DAC structure. */
+  69:../../libdaisy/src/per/dac.h ****     struct Config
+  70:../../libdaisy/src/per/dac.h ****     {
+  71:../../libdaisy/src/per/dac.h ****         /** Target Samplerate in Hz used to configure the internal 
+  72:../../libdaisy/src/per/dac.h ****          ** timebase for DMA mode. Does nothing in POLLING mode.
+  73:../../libdaisy/src/per/dac.h ****          ** If the value is 0 at Init time this will default to 48000Hz 
+  74:../../libdaisy/src/per/dac.h ****          ** otherwise the driver will attempt meet the target.*/
+  75:../../libdaisy/src/per/dac.h ****         uint32_t target_samplerate;
+  76:../../libdaisy/src/per/dac.h **** 
+ARM GAS  /tmp/ccJNPitZ.s 			page 40
+
+
+  77:../../libdaisy/src/per/dac.h ****         Channel     chn;
+  78:../../libdaisy/src/per/dac.h ****         Mode        mode;
+  79:../../libdaisy/src/per/dac.h ****         BitDepth    bitdepth;
+  80:../../libdaisy/src/per/dac.h ****         BufferState buff_state;
+  81:../../libdaisy/src/per/dac.h ****     };
+  82:../../libdaisy/src/per/dac.h **** 
+  83:../../libdaisy/src/per/dac.h ****     DacHandle() : pimpl_(nullptr) {}
+ 1141              		.loc 14 83 5 is_stmt 1 view .LVU299
+ 1142              	.LBB361:
+ 1143              	.LBB362:
+ 1144              		.loc 14 83 33 is_stmt 0 view .LVU300
+ 1145 0014 2562     		str	r5, [r4, #32]
+ 1146              	.LVL64:
+ 1147              		.loc 14 83 33 view .LVU301
+ 1148              	.LBE362:
+ 1149              	.LBE361:
+ 1150              	.LBE360:
+ 1151              	.LBB363:
+ 1152              	.LBI363:
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1153              		.loc 7 40 5 is_stmt 1 view .LVU302
+  40:../../libdaisy/src/hid/usb.h **** 
+ 1154              		.loc 7 40 5 is_stmt 0 view .LVU303
+ 1155              	.LBE363:
+ 1156              	.LBB364:
+ 1157              	.LBI364:
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1158              		.loc 6 58 5 is_stmt 1 view .LVU304
+  58:../../libdaisy/src/sys/system.h ****     ~System() {}
+ 1159              		.loc 6 58 5 is_stmt 0 view .LVU305
+ 1160              	.LBE364:
+ 1161              	.LBE366:
+ 1162              	.LBE374:
+ 1163              	.LBB375:
+ 1164              	.LBI375:
+  20:../../libdaisy/src/hid/encoder.h ****     ~Encoder() {}
+ 1165              		.loc 3 20 5 is_stmt 1 view .LVU306
+ 1166              	.LBB376:
+ 1167              	.LBB377:
+ 1168              	.LBI377:
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 1169              		.loc 4 40 5 view .LVU307
+  40:../../libdaisy/src/hid/switch.h ****     ~Switch() {}
+ 1170              		.loc 4 40 5 is_stmt 0 view .LVU308
+ 1171              	.LBE377:
+ 1172              	.LBE376:
+ 1173              	.LBE375:
+ 1174              	.LBE381:
+ 1175              	.LBE385:
+ 1176              	.LBE388:
+ 1177              	.LBE392:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1178              		.loc 1 66 18 is_stmt 1 view .LVU309
+ 1179              	.LBB393:
+ 1180              	.LBB389:
+ 1181              	.LBB386:
+ 1182              	.LBB382:
+ARM GAS  /tmp/ccJNPitZ.s 			page 41
+
+
+ 1183              	.LBB378:
+ 1184              	.LBI378:
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 1185              		.loc 2 21 5 view .LVU310
+  21:../../libdaisy/src/hid/ctrl.h ****     /** destructor */
+ 1186              		.loc 2 21 5 is_stmt 0 view .LVU311
+ 1187              	.LBE378:
+ 1188              	.LBE382:
+ 1189              	.LBE386:
+ 1190              	.LBE389:
+ 1191              	.LBE393:
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1192              		.loc 1 66 18 is_stmt 1 view .LVU312
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1193              		.loc 1 66 18 view .LVU313
+  66:../../libdaisy/src/daisy_petal.h ****     /** Destructor */
+ 1194              		.loc 1 66 18 view .LVU314
+ 1195              	.LBB394:
+ 1196              	.LBB390:
+ 1197              	.LBB387:
+ 1198              	.LBB383:
+ 1199              	.LBB379:
+ 1200              	.LBI368:
+ 1201              		.loc 13 30 7 view .LVU315
+ 1202              	.LBB373:
+ 1203              	.LBB370:
+ 1204              	.LBI370:
+ 1205              		.file 15 "../../libdaisy/src/per/i2c.h"
+   1:../../libdaisy/src/per/i2c.h **** #pragma once
+   2:../../libdaisy/src/per/i2c.h **** #include "daisy_core.h"
+   3:../../libdaisy/src/per/i2c.h **** 
+   4:../../libdaisy/src/per/i2c.h **** namespace daisy
+   5:../../libdaisy/src/per/i2c.h **** {
+   6:../../libdaisy/src/per/i2c.h **** /** A handle for interacting with an I2C peripheral. This is a dumb
+   7:../../libdaisy/src/per/i2c.h ****  *  gateway that internally points to one of the four I2C peripherals
+   8:../../libdaisy/src/per/i2c.h ****  *  after it was initialised. It can then be copied and passed around.
+   9:../../libdaisy/src/per/i2c.h ****  *  Use an I2CHandle like this:
+  10:../../libdaisy/src/per/i2c.h ****  *  
+  11:../../libdaisy/src/per/i2c.h ****  *      // setup the configuration
+  12:../../libdaisy/src/per/i2c.h ****  *      I2CHandle::Config i2c_conf;
+  13:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.periph = I2CHandle::Config::Peripheral::I2C_1;
+  14:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.speed  = I2CHandle::Config::Speed::I2C_400KHZ;
+  15:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.mode   = I2CHandle::Config::Mode::Master;
+  16:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.scl  = {DSY_GPIOB, 8};
+  17:../../libdaisy/src/per/i2c.h ****  *      i2c_conf.pin_config.sda  = {DSY_GPIOB, 9};
+  18:../../libdaisy/src/per/i2c.h ****  *      // initialise the peripheral
+  19:../../libdaisy/src/per/i2c.h ****  *      I2CHandle i2c;
+  20:../../libdaisy/src/per/i2c.h ****  *      i2c.Init(i2c_conf);
+  21:../../libdaisy/src/per/i2c.h ****  *      // now i2c points to the corresponding peripheral and can be used.
+  22:../../libdaisy/src/per/i2c.h ****  *      i2c.TransmitBlocking( ... );
+  23:../../libdaisy/src/per/i2c.h ****  */
+  24:../../libdaisy/src/per/i2c.h **** class I2CHandle
+  25:../../libdaisy/src/per/i2c.h **** {
+  26:../../libdaisy/src/per/i2c.h ****   public:
+  27:../../libdaisy/src/per/i2c.h ****     /** Contains settings for initialising an I2C interface. */
+  28:../../libdaisy/src/per/i2c.h ****     struct Config
+  29:../../libdaisy/src/per/i2c.h ****     {
+ARM GAS  /tmp/ccJNPitZ.s 			page 42
+
+
+  30:../../libdaisy/src/per/i2c.h ****         /** Specifies whether the interface will operate in master or slave mode. */
+  31:../../libdaisy/src/per/i2c.h ****         enum class Mode
+  32:../../libdaisy/src/per/i2c.h ****         {
+  33:../../libdaisy/src/per/i2c.h ****             I2C_MASTER,
+  34:../../libdaisy/src/per/i2c.h ****             I2C_SLAVE,
+  35:../../libdaisy/src/per/i2c.h ****         };
+  36:../../libdaisy/src/per/i2c.h **** 
+  37:../../libdaisy/src/per/i2c.h ****         /** Specifices the internal peripheral to use (these are mapped to different pins on the ha
+  38:../../libdaisy/src/per/i2c.h ****         enum class Peripheral
+  39:../../libdaisy/src/per/i2c.h ****         {
+  40:../../libdaisy/src/per/i2c.h ****             I2C_1 = 0, /**< & */
+  41:../../libdaisy/src/per/i2c.h ****             I2C_2,     /**< & */
+  42:../../libdaisy/src/per/i2c.h ****             I2C_3,     /**< & */
+  43:../../libdaisy/src/per/i2c.h ****             I2C_4,     /**< & */
+  44:../../libdaisy/src/per/i2c.h ****         };
+  45:../../libdaisy/src/per/i2c.h **** 
+  46:../../libdaisy/src/per/i2c.h ****         /** Rate at which the clock/data will be sent/received. The device being used will have max
+  47:../../libdaisy/src/per/i2c.h ****          *  1MHZ Mode is currently 886kHz
+  48:../../libdaisy/src/per/i2c.h ****          */
+  49:../../libdaisy/src/per/i2c.h ****         enum class Speed
+  50:../../libdaisy/src/per/i2c.h ****         {
+  51:../../libdaisy/src/per/i2c.h ****             I2C_100KHZ, /**< & */
+  52:../../libdaisy/src/per/i2c.h ****             I2C_400KHZ, /**< & */
+  53:../../libdaisy/src/per/i2c.h ****             I2C_1MHZ,   /**< & */
+  54:../../libdaisy/src/per/i2c.h ****         };
+  55:../../libdaisy/src/per/i2c.h **** 
+  56:../../libdaisy/src/per/i2c.h ****         Peripheral periph; /**< & */
+  57:../../libdaisy/src/per/i2c.h ****         struct
+  58:../../libdaisy/src/per/i2c.h ****         {
+  59:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin scl; /**< & */
+  60:../../libdaisy/src/per/i2c.h ****             dsy_gpio_pin sda; /**< & */
+  61:../../libdaisy/src/per/i2c.h ****         } pin_config;         /**< & */
+  62:../../libdaisy/src/per/i2c.h **** 
+  63:../../libdaisy/src/per/i2c.h ****         Speed speed; /**< & */
+  64:../../libdaisy/src/per/i2c.h ****         Mode  mode;  /**< & */
+  65:../../libdaisy/src/per/i2c.h ****         // 0x10 is chosen as a default to avoid conflicts with reserved addresses
+  66:../../libdaisy/src/per/i2c.h ****         uint8_t address = 0x10; /**< & */
+  67:../../libdaisy/src/per/i2c.h ****     };
+  68:../../libdaisy/src/per/i2c.h **** 
+  69:../../libdaisy/src/per/i2c.h ****     /** Return values for I2C functions. */
+  70:../../libdaisy/src/per/i2c.h ****     enum class Result
+  71:../../libdaisy/src/per/i2c.h ****     {
+  72:../../libdaisy/src/per/i2c.h ****         OK, /**< & */
+  73:../../libdaisy/src/per/i2c.h ****         ERR /**< & */
+  74:../../libdaisy/src/per/i2c.h ****     };
+  75:../../libdaisy/src/per/i2c.h **** 
+  76:../../libdaisy/src/per/i2c.h ****     enum class Direction
+  77:../../libdaisy/src/per/i2c.h ****     {
+  78:../../libdaisy/src/per/i2c.h ****         TRANSMIT, /**< & */
+  79:../../libdaisy/src/per/i2c.h ****         RECEIVE,  /**< & */
+  80:../../libdaisy/src/per/i2c.h ****     };
+  81:../../libdaisy/src/per/i2c.h **** 
+  82:../../libdaisy/src/per/i2c.h ****     I2CHandle() : pimpl_(nullptr) {}
+ 1206              		.loc 15 82 5 view .LVU316
+ 1207              	.LBB371:
+ 1208              	.LBB372:
+ 1209              		.loc 15 82 33 is_stmt 0 view .LVU317
+ARM GAS  /tmp/ccJNPitZ.s 			page 43
+
+
+ 1210 0016 C4F8BC54 		str	r5, [r4, #1212]
+ 1211              	.LVL65:
+ 1212              		.loc 15 82 33 view .LVU318
+ 1213              	.LBE372:
+ 1214              	.LBE371:
+ 1215              	.LBE370:
+ 1216              		.loc 13 30 7 view .LVU319
+ 1217 001a FFF7FEFF 		bl	memcpy
+ 1218              	.LVL66:
+ 1219              		.loc 13 30 7 view .LVU320
+ 1220              	.LBE373:
+ 1221              	.LBE379:
+ 1222              	.LBE383:
+ 1223              	.LBE387:
+   8:FilterBank.cpp **** int        freqs[8];
+ 1224              		.loc 10 8 12 view .LVU321
+ 1225 001e 3246     		mov	r2, r6
+ 1226 0020 2046     		mov	r0, r4
+ 1227 0022 0849     		ldr	r1, .L62+12
+ 1228 0024 FFF7FEFF 		bl	__aeabi_atexit
+ 1229              	.LVL67:
+  52:FilterBank.cpp **** bool   passthru;
+ 1230              		.loc 10 52 17 is_stmt 1 view .LVU322
+  52:FilterBank.cpp **** bool   passthru;
+ 1231              		.loc 10 52 8 is_stmt 0 view .LVU323
+ 1232 0028 3246     		mov	r2, r6
+ 1233 002a 2846     		mov	r0, r5
+ 1234 002c 0649     		ldr	r1, .L62+16
+ 1235              	.LBE390:
+ 1236              	.LBE394:
+ 1237              		.loc 10 173 1 view .LVU324
+ 1238 002e BDE87040 		pop	{r4, r5, r6, lr}
+ 1239              		.cfi_restore 14
+ 1240              		.cfi_restore 6
+ 1241              		.cfi_restore 5
+ 1242              		.cfi_restore 4
+ 1243              		.cfi_def_cfa_offset 0
+ 1244              	.LBB395:
+ 1245              	.LBB391:
+  52:FilterBank.cpp **** bool   passthru;
+ 1246              		.loc 10 52 8 view .LVU325
+ 1247 0032 FFF7FEBF 		b	__aeabi_atexit
+ 1248              	.LVL68:
+ 1249              	.L63:
+ 1250 0036 00BF     		.align	2
+ 1251              	.L62:
+ 1252 0038 00000000 		.word	.LANCHOR2
+ 1253 003c 00000000 		.word	__dso_handle
+ 1254 0040 00000000 		.word	.LANCHOR6
+ 1255 0044 00000000 		.word	_ZN5daisy10DaisyPetalD1Ev
+ 1256 0048 00000000 		.word	__tcf_0
+ 1257              	.LBE391:
+ 1258              	.LBE395:
+ 1259              		.cfi_endproc
+ 1260              	.LFE4787:
+ 1262              		.section	.init_array,"aw",%init_array
+ 1263              		.align	2
+ARM GAS  /tmp/ccJNPitZ.s 			page 44
+
+
+ 1264 0000 00000000 		.word	_GLOBAL__sub_I_petal(target1)
+ 1265              		.global	passthru
+ 1266              		.global	filters
+ 1267              		.global	condUpdates
+ 1268              		.global	bank
+ 1269              		.global	freqs
+ 1270              		.global	petal
+ 1271              		.section	.rodata
+ 1272              		.align	2
+ 1273              		.set	.LANCHOR6,. + 0
+ 1274              	.LC0:
+ 1275 0000 0000     		.short	0
+ 1276 0002 0100     		.short	1
+ 1277 0004 0100     		.short	1
+ 1278 0006 0100     		.short	1
+ 1279 0008 0100     		.short	1
+ 1280 000a 0100     		.short	1
+ 1281 000c 0100     		.short	1
+ 1282 000e 0100     		.short	1
+ 1283 0010 0100     		.short	1
+ 1284 0012 0100     		.short	1
+ 1285 0014 0100     		.short	1
+ 1286 0016 0100     		.short	1
+ 1287 0018 0200     		.short	2
+ 1288 001a 0200     		.short	2
+ 1289 001c 0200     		.short	2
+ 1290 001e 0200     		.short	2
+ 1291 0020 0200     		.short	2
+ 1292 0022 0200     		.short	2
+ 1293 0024 0200     		.short	2
+ 1294 0026 0300     		.short	3
+ 1295 0028 0300     		.short	3
+ 1296 002a 0400     		.short	4
+ 1297 002c 0400     		.short	4
+ 1298 002e 0500     		.short	5
+ 1299 0030 0500     		.short	5
+ 1300 0032 0600     		.short	6
+ 1301 0034 0700     		.short	7
+ 1302 0036 0800     		.short	8
+ 1303 0038 0800     		.short	8
+ 1304 003a 0900     		.short	9
+ 1305 003c 0A00     		.short	10
+ 1306 003e 0B00     		.short	11
+ 1307 0040 0C00     		.short	12
+ 1308 0042 0D00     		.short	13
+ 1309 0044 0F00     		.short	15
+ 1310 0046 1000     		.short	16
+ 1311 0048 1100     		.short	17
+ 1312 004a 1200     		.short	18
+ 1313 004c 1400     		.short	20
+ 1314 004e 1500     		.short	21
+ 1315 0050 1700     		.short	23
+ 1316 0052 1900     		.short	25
+ 1317 0054 1A00     		.short	26
+ 1318 0056 1C00     		.short	28
+ 1319 0058 1E00     		.short	30
+ 1320 005a 2000     		.short	32
+ARM GAS  /tmp/ccJNPitZ.s 			page 45
+
+
+ 1321 005c 2200     		.short	34
+ 1322 005e 2400     		.short	36
+ 1323 0060 2600     		.short	38
+ 1324 0062 2800     		.short	40
+ 1325 0064 2B00     		.short	43
+ 1326 0066 2D00     		.short	45
+ 1327 0068 3000     		.short	48
+ 1328 006a 3200     		.short	50
+ 1329 006c 3500     		.short	53
+ 1330 006e 3800     		.short	56
+ 1331 0070 3B00     		.short	59
+ 1332 0072 3E00     		.short	62
+ 1333 0074 4100     		.short	65
+ 1334 0076 4400     		.short	68
+ 1335 0078 4700     		.short	71
+ 1336 007a 4B00     		.short	75
+ 1337 007c 4E00     		.short	78
+ 1338 007e 5200     		.short	82
+ 1339 0080 5500     		.short	85
+ 1340 0082 5900     		.short	89
+ 1341 0084 5D00     		.short	93
+ 1342 0086 6100     		.short	97
+ 1343 0088 6500     		.short	101
+ 1344 008a 6900     		.short	105
+ 1345 008c 6E00     		.short	110
+ 1346 008e 7200     		.short	114
+ 1347 0090 7700     		.short	119
+ 1348 0092 7B00     		.short	123
+ 1349 0094 8000     		.short	128
+ 1350 0096 8500     		.short	133
+ 1351 0098 8A00     		.short	138
+ 1352 009a 8F00     		.short	143
+ 1353 009c 9500     		.short	149
+ 1354 009e 9A00     		.short	154
+ 1355 00a0 9F00     		.short	159
+ 1356 00a2 A500     		.short	165
+ 1357 00a4 AB00     		.short	171
+ 1358 00a6 B100     		.short	177
+ 1359 00a8 B700     		.short	183
+ 1360 00aa BD00     		.short	189
+ 1361 00ac C300     		.short	195
+ 1362 00ae CA00     		.short	202
+ 1363 00b0 D000     		.short	208
+ 1364 00b2 D700     		.short	215
+ 1365 00b4 DE00     		.short	222
+ 1366 00b6 E500     		.short	229
+ 1367 00b8 EC00     		.short	236
+ 1368 00ba F300     		.short	243
+ 1369 00bc FA00     		.short	250
+ 1370 00be 0201     		.short	258
+ 1371 00c0 0A01     		.short	266
+ 1372 00c2 1101     		.short	273
+ 1373 00c4 1901     		.short	281
+ 1374 00c6 2201     		.short	290
+ 1375 00c8 2A01     		.short	298
+ 1376 00ca 3201     		.short	306
+ 1377 00cc 3B01     		.short	315
+ARM GAS  /tmp/ccJNPitZ.s 			page 46
+
+
+ 1378 00ce 4401     		.short	324
+ 1379 00d0 4C01     		.short	332
+ 1380 00d2 5501     		.short	341
+ 1381 00d4 5F01     		.short	351
+ 1382 00d6 6801     		.short	360
+ 1383 00d8 7101     		.short	369
+ 1384 00da 7B01     		.short	379
+ 1385 00dc 8501     		.short	389
+ 1386 00de 8F01     		.short	399
+ 1387 00e0 9901     		.short	409
+ 1388 00e2 A301     		.short	419
+ 1389 00e4 AE01     		.short	430
+ 1390 00e6 B801     		.short	440
+ 1391 00e8 C301     		.short	451
+ 1392 00ea CE01     		.short	462
+ 1393 00ec D901     		.short	473
+ 1394 00ee E501     		.short	485
+ 1395 00f0 F001     		.short	496
+ 1396 00f2 FC01     		.short	508
+ 1397 00f4 0802     		.short	520
+ 1398 00f6 1402     		.short	532
+ 1399 00f8 2002     		.short	544
+ 1400 00fa 2C02     		.short	556
+ 1401 00fc 3902     		.short	569
+ 1402 00fe 4602     		.short	582
+ 1403 0100 5202     		.short	594
+ 1404 0102 6002     		.short	608
+ 1405 0104 6D02     		.short	621
+ 1406 0106 7A02     		.short	634
+ 1407 0108 8802     		.short	648
+ 1408 010a 9602     		.short	662
+ 1409 010c A402     		.short	676
+ 1410 010e B202     		.short	690
+ 1411 0110 C002     		.short	704
+ 1412 0112 CF02     		.short	719
+ 1413 0114 DE02     		.short	734
+ 1414 0116 ED02     		.short	749
+ 1415 0118 FC02     		.short	764
+ 1416 011a 0B03     		.short	779
+ 1417 011c 1B03     		.short	795
+ 1418 011e 2B03     		.short	811
+ 1419 0120 3B03     		.short	827
+ 1420 0122 4B03     		.short	843
+ 1421 0124 5B03     		.short	859
+ 1422 0126 6C03     		.short	876
+ 1423 0128 7D03     		.short	893
+ 1424 012a 8E03     		.short	910
+ 1425 012c 9F03     		.short	927
+ 1426 012e B003     		.short	944
+ 1427 0130 C203     		.short	962
+ 1428 0132 D403     		.short	980
+ 1429 0134 E603     		.short	998
+ 1430 0136 F803     		.short	1016
+ 1431 0138 0A04     		.short	1034
+ 1432 013a 1D04     		.short	1053
+ 1433 013c 3004     		.short	1072
+ 1434 013e 4304     		.short	1091
+ARM GAS  /tmp/ccJNPitZ.s 			page 47
+
+
+ 1435 0140 5604     		.short	1110
+ 1436 0142 6A04     		.short	1130
+ 1437 0144 7E04     		.short	1150
+ 1438 0146 9204     		.short	1170
+ 1439 0148 A604     		.short	1190
+ 1440 014a BA04     		.short	1210
+ 1441 014c CF04     		.short	1231
+ 1442 014e E404     		.short	1252
+ 1443 0150 F904     		.short	1273
+ 1444 0152 0E05     		.short	1294
+ 1445 0154 2405     		.short	1316
+ 1446 0156 3A05     		.short	1338
+ 1447 0158 5005     		.short	1360
+ 1448 015a 6605     		.short	1382
+ 1449 015c 7C05     		.short	1404
+ 1450 015e 9305     		.short	1427
+ 1451 0160 AA05     		.short	1450
+ 1452 0162 C105     		.short	1473
+ 1453 0164 D905     		.short	1497
+ 1454 0166 F005     		.short	1520
+ 1455 0168 0806     		.short	1544
+ 1456 016a 2006     		.short	1568
+ 1457 016c 3906     		.short	1593
+ 1458 016e 5106     		.short	1617
+ 1459 0170 6A06     		.short	1642
+ 1460 0172 8306     		.short	1667
+ 1461 0174 9D06     		.short	1693
+ 1462 0176 B606     		.short	1718
+ 1463 0178 D006     		.short	1744
+ 1464 017a EA06     		.short	1770
+ 1465 017c 0507     		.short	1797
+ 1466 017e 1F07     		.short	1823
+ 1467 0180 3A07     		.short	1850
+ 1468 0182 5507     		.short	1877
+ 1469 0184 7107     		.short	1905
+ 1470 0186 8C07     		.short	1932
+ 1471 0188 A807     		.short	1960
+ 1472 018a C407     		.short	1988
+ 1473 018c E107     		.short	2017
+ 1474 018e FD07     		.short	2045
+ 1475 0190 1A08     		.short	2074
+ 1476 0192 3708     		.short	2103
+ 1477 0194 5508     		.short	2133
+ 1478 0196 7208     		.short	2162
+ 1479 0198 9008     		.short	2192
+ 1480 019a AF08     		.short	2223
+ 1481 019c CD08     		.short	2253
+ 1482 019e EC08     		.short	2284
+ 1483 01a0 0B09     		.short	2315
+ 1484 01a2 2A09     		.short	2346
+ 1485 01a4 4A09     		.short	2378
+ 1486 01a6 6A09     		.short	2410
+ 1487 01a8 8A09     		.short	2442
+ 1488 01aa AA09     		.short	2474
+ 1489 01ac CB09     		.short	2507
+ 1490 01ae EC09     		.short	2540
+ 1491 01b0 0D0A     		.short	2573
+ARM GAS  /tmp/ccJNPitZ.s 			page 48
+
+
+ 1492 01b2 2E0A     		.short	2606
+ 1493 01b4 500A     		.short	2640
+ 1494 01b6 720A     		.short	2674
+ 1495 01b8 940A     		.short	2708
+ 1496 01ba B70A     		.short	2743
+ 1497 01bc DA0A     		.short	2778
+ 1498 01be FD0A     		.short	2813
+ 1499 01c0 210B     		.short	2849
+ 1500 01c2 440B     		.short	2884
+ 1501 01c4 680B     		.short	2920
+ 1502 01c6 8D0B     		.short	2957
+ 1503 01c8 B10B     		.short	2993
+ 1504 01ca D60B     		.short	3030
+ 1505 01cc FB0B     		.short	3067
+ 1506 01ce 210C     		.short	3105
+ 1507 01d0 470C     		.short	3143
+ 1508 01d2 6D0C     		.short	3181
+ 1509 01d4 930C     		.short	3219
+ 1510 01d6 BA0C     		.short	3258
+ 1511 01d8 E10C     		.short	3297
+ 1512 01da 080D     		.short	3336
+ 1513 01dc 300D     		.short	3376
+ 1514 01de 580D     		.short	3416
+ 1515 01e0 800D     		.short	3456
+ 1516 01e2 A80D     		.short	3496
+ 1517 01e4 D10D     		.short	3537
+ 1518 01e6 FA0D     		.short	3578
+ 1519 01e8 230E     		.short	3619
+ 1520 01ea 4D0E     		.short	3661
+ 1521 01ec 770E     		.short	3703
+ 1522 01ee A10E     		.short	3745
+ 1523 01f0 CC0E     		.short	3788
+ 1524 01f2 F70E     		.short	3831
+ 1525 01f4 220F     		.short	3874
+ 1526 01f6 4E0F     		.short	3918
+ 1527 01f8 7A0F     		.short	3962
+ 1528 01fa A60F     		.short	4006
+ 1529 01fc D20F     		.short	4050
+ 1530 01fe FF0F     		.short	4095
+ 1531              		.section	.bss.bank,"aw",%nobits
+ 1532              		.align	2
+ 1533              		.set	.LANCHOR3,. + 0
+ 1536              	bank:
+ 1537 0000 00000000 		.space	4
+ 1538              		.section	.bss.condUpdates,"aw",%nobits
+ 1539              		.align	2
+ 1540              		.set	.LANCHOR5,. + 0
+ 1543              	condUpdates:
+ 1544 0000 00000000 		.space	16
+ 1544      00000000 
+ 1544      00000000 
+ 1544      00000000 
+ 1545              		.section	.bss.filters,"aw",%nobits
+ 1546              		.align	2
+ 1547              		.set	.LANCHOR1,. + 0
+ 1550              	filters:
+ 1551 0000 00000000 		.space	640
+ARM GAS  /tmp/ccJNPitZ.s 			page 49
+
+
+ 1551      00000000 
+ 1551      00000000 
+ 1551      00000000 
+ 1551      00000000 
+ 1552              		.section	.bss.freqs,"aw",%nobits
+ 1553              		.align	2
+ 1554              		.set	.LANCHOR0,. + 0
+ 1557              	freqs:
+ 1558 0000 00000000 		.space	32
+ 1558      00000000 
+ 1558      00000000 
+ 1558      00000000 
+ 1558      00000000 
+ 1559              		.section	.bss.passthru,"aw",%nobits
+ 1560              		.set	.LANCHOR4,. + 0
+ 1563              	passthru:
+ 1564 0000 00       		.space	1
+ 1565              		.section	.bss.petal,"aw",%nobits
+ 1566              		.align	2
+ 1567              		.set	.LANCHOR2,. + 0
+ 1570              	petal:
+ 1571 0000 00000000 		.space	1748
+ 1571      00000000 
+ 1571      00000000 
+ 1571      00000000 
+ 1571      00000000 
+ 1572              		.text
+ 1573              	.Letext0:
+ 1574              		.file 16 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdint.h"
+ 1575              		.file 17 "../../libdaisy/Drivers/CMSIS/Include/core_cm7.h"
+ 1576              		.file 18 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
+ 1577              		.file 19 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
+ 1578              		.file 20 "/usr/include/newlib/c++/9.2.1/cmath"
+ 1579              		.file 21 "/usr/include/newlib/c++/9.2.1/cstdint"
+ 1580              		.file 22 "/usr/include/newlib/c++/9.2.1/cstdlib"
+ 1581              		.file 23 "/usr/include/newlib/c++/9.2.1/type_traits"
+ 1582              		.file 24 "/usr/include/newlib/c++/9.2.1/arm-none-eabi/thumb/v7e-m+dp/hard/bits/c++config.h"
+ 1583              		.file 25 "/usr/include/newlib/c++/9.2.1/bits/stl_pair.h"
+ 1584              		.file 26 "/usr/include/newlib/c++/9.2.1/debug/debug.h"
+ 1585              		.file 27 "/usr/include/newlib/c++/9.2.1/cwchar"
+ 1586              		.file 28 "/usr/include/newlib/c++/9.2.1/bits/exception_ptr.h"
+ 1587              		.file 29 "/usr/include/newlib/c++/9.2.1/new"
+ 1588              		.file 30 "/usr/include/newlib/c++/9.2.1/clocale"
+ 1589              		.file 31 "/usr/include/newlib/c++/9.2.1/cstdio"
+ 1590              		.file 32 "/usr/include/newlib/c++/9.2.1/bits/basic_string.h"
+ 1591              		.file 33 "/usr/include/newlib/c++/9.2.1/bits/uniform_int_dist.h"
+ 1592              		.file 34 "/usr/include/newlib/c++/9.2.1/bits/random.h"
+ 1593              		.file 35 "/usr/include/newlib/c++/9.2.1/cstring"
+ 1594              		.file 36 "/usr/include/newlib/c++/9.2.1/bits/algorithmfwd.h"
+ 1595              		.file 37 "/usr/include/newlib/c++/9.2.1/cstdarg"
+ 1596              		.file 38 "/usr/include/newlib/c++/9.2.1/bits/predefined_ops.h"
+ 1597              		.file 39 "/usr/include/newlib/c++/9.2.1/ext/new_allocator.h"
+ 1598              		.file 40 "/usr/include/newlib/c++/9.2.1/ext/numeric_traits.h"
+ 1599              		.file 41 "/usr/include/newlib/sys/_types.h"
+ 1600              		.file 42 "<built-in>"
+ 1601              		.file 43 "/usr/include/newlib/sys/reent.h"
+ 1602              		.file 44 "/usr/include/newlib/sys/lock.h"
+ARM GAS  /tmp/ccJNPitZ.s 			page 50
+
+
+ 1603              		.file 45 "/usr/include/newlib/math.h"
+ 1604              		.file 46 "/usr/include/newlib/stdlib.h"
+ 1605              		.file 47 "/usr/include/newlib/c++/9.2.1/math.h"
+ 1606              		.file 48 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_def.h"
+ 1607              		.file 49 "../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_flash.h"
+ 1608              		.file 50 "../../DaisySP/Source/Control/adenv.h"
+ 1609              		.file 51 "../../DaisySP/Source/Utility/dsp.h"
+ 1610              		.file 52 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stdarg.h"
+ 1611              		.file 53 "/usr/include/newlib/wchar.h"
+ 1612              		.file 54 "/usr/include/newlib/locale.h"
+ 1613              		.file 55 "/usr/include/newlib/ctype.h"
+ 1614              		.file 56 "/usr/include/newlib/stdio.h"
+ 1615              		.file 57 "/usr/include/newlib/sys/errno.h"
+ 1616              		.file 58 "/usr/include/newlib/c++/9.2.1/stdlib.h"
+ 1617              		.file 59 "/usr/include/newlib/string.h"
+ 1618              		.file 60 "../../libdaisy/src/daisy_core.h"
+ 1619              		.file 61 "../../libdaisy/src/per/tim.h"
+ 1620              		.file 62 "../../libdaisy/src/per/sai.h"
+ 1621              		.file 63 "../../libdaisy/src/util/wav_format.h"
+ 1622              		.file 64 "../../libdaisy/src/hid/led.h"
+ 1623              		.file 65 "../../libdaisy/src/util/color.h"
+ 1624              		.file 66 "../../libdaisy/src/hid/rgb_led.h"
+ 1625              		.file 67 "../../libdaisy/src/per/qspi.h"
+ 1626              		.file 68 "../../libdaisy/src/per/gpio.h"
+ 1627              		.file 69 "../../libdaisy/src/dev/sdram.h"
+ 1628              		.file 70 "/usr/include/newlib/sys/unistd.h"
+ 1629              		.file 71 "../../libdaisy/src/util/oled_fonts.h"
+ 1630              		.file 72 "../../libdaisy/Middlewares/Third_Party/FatFs/src/integer.h"
+ 1631              		.file 73 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h"
+ 1632              		.file 74 "../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h"
+ 1633              		.file 75 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
+ 1634              		.file 76 "../../libdaisy/src/util/sd_diskio.h"
+ 1635              		.file 77 "../../libdaisy/src/sys/fatfs.h"
+ 1636              		.file 78 "../../libdaisy/src/dev/sr_595.h"
+ARM GAS  /tmp/ccJNPitZ.s 			page 51
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 FilterBank.cpp
+     /tmp/ccJNPitZ.s:17     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 $t
+     /tmp/ccJNPitZ.s:26     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD2Ev
+     /tmp/ccJNPitZ.s:26     .text._ZN5daisy10DaisyPetalD2Ev:0000000000000000 _ZN5daisy10DaisyPetalD1Ev
+     /tmp/ccJNPitZ.s:89     .text.__tcf_0:0000000000000000 $t
+     /tmp/ccJNPitZ.s:96     .text.__tcf_0:0000000000000000 __tcf_0
+     /tmp/ccJNPitZ.s:110    .text._Z9InitFreqsv:0000000000000000 $t
+     /tmp/ccJNPitZ.s:118    .text._Z9InitFreqsv:0000000000000000 _Z9InitFreqsv
+     /tmp/ccJNPitZ.s:175    .text._Z9InitFreqsv:0000000000000038 $d
+     /tmp/ccJNPitZ.s:180    .text._Z11InitFiltersf:0000000000000000 $t
+     /tmp/ccJNPitZ.s:188    .text._Z11InitFiltersf:0000000000000000 _Z11InitFiltersf
+     /tmp/ccJNPitZ.s:289    .text._Z11InitFiltersf:0000000000000058 $d
+     /tmp/ccJNPitZ.s:296    .text._Z14UpdateControlsv:0000000000000000 $t
+     /tmp/ccJNPitZ.s:304    .text._Z14UpdateControlsv:0000000000000000 _Z14UpdateControlsv
+     /tmp/ccJNPitZ.s:478    .text._Z14UpdateControlsv:0000000000000088 $d
+     /tmp/ccJNPitZ.s:490    .text._ZL13AudioCallbackPKPKfPPfj:0000000000000000 $t
+     /tmp/ccJNPitZ.s:497    .text._ZL13AudioCallbackPKPKfPPfj:0000000000000000 _ZL13AudioCallbackPKPKfPPfj
+     /tmp/ccJNPitZ.s:681    .text._ZL13AudioCallbackPKPKfPPfj:00000000000000a0 $d
+     /tmp/ccJNPitZ.s:693    .text._Z10UpdateLedsv:0000000000000000 $t
+     /tmp/ccJNPitZ.s:701    .text._Z10UpdateLedsv:0000000000000000 _Z10UpdateLedsv
+     /tmp/ccJNPitZ.s:824    .text._Z10UpdateLedsv:0000000000000084 $d
+     /tmp/ccJNPitZ.s:834    .text.startup.main:0000000000000000 $t
+     /tmp/ccJNPitZ.s:842    .text.startup.main:0000000000000000 main
+     /tmp/ccJNPitZ.s:1035   .text.startup.main:00000000000000b8 $d
+     /tmp/ccJNPitZ.s:1046   .text.startup._GLOBAL__sub_I_petal:0000000000000000 $t
+     /tmp/ccJNPitZ.s:1053   .text.startup._GLOBAL__sub_I_petal:0000000000000000 _GLOBAL__sub_I_petal
+     /tmp/ccJNPitZ.s:1252   .text.startup._GLOBAL__sub_I_petal:0000000000000038 $d
+     /tmp/ccJNPitZ.s:1263   .init_array:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1563   .bss.passthru:0000000000000000 passthru
+     /tmp/ccJNPitZ.s:1550   .bss.filters:0000000000000000 filters
+     /tmp/ccJNPitZ.s:1543   .bss.condUpdates:0000000000000000 condUpdates
+     /tmp/ccJNPitZ.s:1536   .bss.bank:0000000000000000 bank
+     /tmp/ccJNPitZ.s:1557   .bss.freqs:0000000000000000 freqs
+     /tmp/ccJNPitZ.s:1570   .bss.petal:0000000000000000 petal
+     /tmp/ccJNPitZ.s:1272   .rodata:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1532   .bss.bank:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1539   .bss.condUpdates:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1546   .bss.filters:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1553   .bss.freqs:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1564   .bss.passthru:0000000000000000 $d
+     /tmp/ccJNPitZ.s:1566   .bss.petal:0000000000000000 $d
+                           .group:0000000000000000 _ZN5daisy10DaisyPetalD5Ev
+
+UNDEFINED SYMBOLS
+_ZN7daisysp3Svf4InitEf
+_ZN7daisysp3Svf6SetResEf
+_ZN7daisysp3Svf8SetDriveEf
+_ZN7daisysp3Svf7SetFreqEf
+_ZN5daisy10DaisyPetal21ProcessAnalogControlsEv
+_ZN5daisy10DaisyPetal22ProcessDigitalControlsEv
+_ZN5daisy13AnalogControl7ProcessEv
+_ZN7daisysp3Svf7ProcessEf
+_ZN5daisy10DaisyPetal10SetRingLedENS0_7RingLedEfff
+_ZN5daisy10DaisyPetal16SetFootswitchLedENS0_13FootswitchLedEf
+_ZN5daisy10DaisyPetal10UpdateLedsEv
+_ZN5daisy10DaisyPetal4InitEb
+ARM GAS  /tmp/ccJNPitZ.s 			page 52
+
+
+_ZN5daisy10DaisyPetal15AudioSampleRateEv
+_ZN5daisy10DaisyPetal8StartAdcEv
+_ZN5daisy10DaisyPetal10StartAudioEPFvPKPKfPPfjE
+_ZN5daisy6System5DelayEm
+memcpy
+__aeabi_atexit
+__dso_handle
