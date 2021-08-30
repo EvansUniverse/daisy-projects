@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccDK7OY5.s 			page 1
+ARM GAS  /tmp/ccDsoCRY.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   27:dsp/pvoc/stft.cpp **** // STFT with overlap-add.
   28:dsp/pvoc/stft.cpp **** 
   29:dsp/pvoc/stft.cpp **** #include "stft.h"
-ARM GAS  /tmp/ccDK7OY5.s 			page 2
+ARM GAS  /tmp/ccDsoCRY.s 			page 2
 
 
   30:dsp/pvoc/stft.cpp **** #include "stmtemp.h"
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   79:dsp/pvoc/stft.cpp ****     buffer_ptr_  = 0;
   35              		.loc 1 79 5 view .LVU1
   80:dsp/pvoc/stft.cpp ****     process_ptr_ = (2 * hop_size_) % buffer_size_;
-ARM GAS  /tmp/ccDK7OY5.s 			page 3
+ARM GAS  /tmp/ccDsoCRY.s 			page 3
 
 
   36              		.loc 1 80 38 is_stmt 0 view .LVU2
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   12:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // but WITHOUT ANY WARRANTY; without even the implied warranty of
   13:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   14:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // GNU General Public License for more details.
-ARM GAS  /tmp/ccDK7OY5.s 			page 4
+ARM GAS  /tmp/ccDsoCRY.s 			page 4
 
 
   15:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   69:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <debug/debug.h>
   70:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <bits/move.h> // For std::swap
   71:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <bits/predefined_ops.h>
-ARM GAS  /tmp/ccDK7OY5.s 			page 5
+ARM GAS  /tmp/ccDsoCRY.s 			page 5
 
 
   72:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  126:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
  127:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 				  _ForwardIterator1>)
  128:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
-ARM GAS  /tmp/ccDK7OY5.s 			page 6
+ARM GAS  /tmp/ccDsoCRY.s 			page 6
 
 
  129:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 				  _ForwardIterator2>)
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  183:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
  184:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   /**
  185:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
-ARM GAS  /tmp/ccDK7OY5.s 			page 7
+ARM GAS  /tmp/ccDsoCRY.s 			page 7
 
 
  186:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  240:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  This will work on temporary expressions, since they are only evaluated
  241:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  once, unlike a preprocessor macro.
  242:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   */
-ARM GAS  /tmp/ccDK7OY5.s 			page 8
+ARM GAS  /tmp/ccDsoCRY.s 			page 8
 
 
  243:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _Tp, typename _Compare>
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  297:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
  298:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   // All of these auxiliary structs serve two purposes.  (1) Replace
  299:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   // calls to copy with memmove whenever possible.  (Memmove, not memcpy,
-ARM GAS  /tmp/ccDK7OY5.s 			page 9
+ARM GAS  /tmp/ccDsoCRY.s 			page 9
 
 
  300:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   // because the input and output ranges are permitted to overlap.)
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  354:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       template<typename _II, typename _OI>
  355:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	static _OI
  356:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	__copy_m(_II __first, _II __last, _OI __result)
-ARM GAS  /tmp/ccDK7OY5.s 			page 10
+ARM GAS  /tmp/ccDsoCRY.s 			page 10
 
 
  357:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	{
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  411:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
  412:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _CharT, typename _Traits>
  413:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     class istreambuf_iterator;
-ARM GAS  /tmp/ccDK7OY5.s 			page 11
+ARM GAS  /tmp/ccDsoCRY.s 			page 11
 
 
  414:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  468:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_InputIteratorConcept<_II>)
  469:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_OutputIteratorConcept<_OI,
  470:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	    typename iterator_traits<_II>::value_type>)
-ARM GAS  /tmp/ccDK7OY5.s 			page 12
+ARM GAS  /tmp/ccDsoCRY.s 			page 12
 
 
  471:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_requires_can_increment_range(__first, __last, __result);
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  525:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     };
  526:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
  527:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #if __cplusplus >= 201103L
-ARM GAS  /tmp/ccDK7OY5.s 			page 13
+ARM GAS  /tmp/ccDsoCRY.s 			page 13
 
 
  528:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _Category>
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  582:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 					   is_copy_assignable<_Tp>>;
  583:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  // trivial types can have deleted assignment
  584:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  static_assert( __assignable::type::value, "type is not assignable" );
-ARM GAS  /tmp/ccDK7OY5.s 			page 14
+ARM GAS  /tmp/ccDsoCRY.s 			page 14
 
 
  585:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #endif
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  639:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _BI1, typename _BI2>
  640:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     inline _BI2
  641:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     copy_backward(_BI1 __first, _BI1 __last, _BI2 __result)
-ARM GAS  /tmp/ccDK7OY5.s 			page 15
+ARM GAS  /tmp/ccDsoCRY.s 			page 15
 
 
  642:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     {
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  696:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _ForwardIterator, typename _Tp>
  697:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     inline typename
  698:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     __gnu_cxx::__enable_if<!__is_scalar<_Tp>::__value, void>::__type
-ARM GAS  /tmp/ccDK7OY5.s 			page 16
+ARM GAS  /tmp/ccDsoCRY.s 			page 16
 
 
  699:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     __fill_a(_ForwardIterator __first, _ForwardIterator __last,
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   78              	.LVL2:
   79              	.L3:
  714:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     }
-ARM GAS  /tmp/ccDK7OY5.s 			page 17
+ARM GAS  /tmp/ccDsoCRY.s 			page 17
 
 
   80              		.loc 2 714 2 is_stmt 0 view .LVU20
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  124              	.LBE202:
  125              	.LBE201:
   84:dsp/pvoc/stft.cpp ****     ready_ = 0;
-ARM GAS  /tmp/ccDK7OY5.s 			page 18
+ARM GAS  /tmp/ccDsoCRY.s 			page 18
 
 
  126              		.loc 1 84 5 is_stmt 1 view .LVU34
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  174              		.loc 1 45 1 view .LVU43
  175 0008 8046     		mov	r8, r0
  176              	.LBB215:
-ARM GAS  /tmp/ccDK7OY5.s 			page 19
+ARM GAS  /tmp/ccDsoCRY.s 			page 19
 
 
   49:dsp/pvoc/stft.cpp ****     {
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  218 0036 F8D1     		bne	.L12
  219 0038 C8F80800 		str	r0, [r8, #8]
  220              	.LVL14:
-ARM GAS  /tmp/ccDK7OY5.s 			page 20
+ARM GAS  /tmp/ccDsoCRY.s 			page 20
 
 
  221              	.L11:
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   42:./shy_fft.h   **** 
   43:./shy_fft.h   **** // Compile-time log 2
   44:./shy_fft.h   **** template <size_t x>
-ARM GAS  /tmp/ccDK7OY5.s 			page 21
+ARM GAS  /tmp/ccDsoCRY.s 			page 21
 
 
   45:./shy_fft.h   **** struct Log2
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   99:./shy_fft.h   **** {
  100:./shy_fft.h   ****     enum
  101:./shy_fft.h   ****     {
-ARM GAS  /tmp/ccDK7OY5.s 			page 22
+ARM GAS  /tmp/ccDsoCRY.s 			page 22
 
 
  102:./shy_fft.h   ****         size = 16
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  156:./shy_fft.h   ****   public:
  157:./shy_fft.h   ****     LutPhasor() {}
  158:./shy_fft.h   ****     ~LutPhasor() {}
-ARM GAS  /tmp/ccDK7OY5.s 			page 23
+ARM GAS  /tmp/ccDsoCRY.s 			page 23
 
 
  159:./shy_fft.h   **** 
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  213:./shy_fft.h   ****     void Init(){};
  214:./shy_fft.h   **** };
  215:./shy_fft.h   **** 
-ARM GAS  /tmp/ccDK7OY5.s 			page 24
+ARM GAS  /tmp/ccDsoCRY.s 			page 24
 
 
  216:./shy_fft.h   **** template <typename T>
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  270:./shy_fft.h   **** };
  271:./shy_fft.h   **** 
  272:./shy_fft.h   **** template <typename T>
-ARM GAS  /tmp/ccDK7OY5.s 			page 25
+ARM GAS  /tmp/ccDsoCRY.s 			page 25
 
 
  273:./shy_fft.h   **** struct RotationPhasor<T, 0>
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  327:./shy_fft.h   **** 
  328:./shy_fft.h   ****             d[1] = s[r0] - s[r1];
  329:./shy_fft.h   ****             d[3] = s[r2] - s[r3];
-ARM GAS  /tmp/ccDK7OY5.s 			page 26
+ARM GAS  /tmp/ccDsoCRY.s 			page 26
 
 
  330:./shy_fft.h   ****             T a  = s[r0] + s[r1];
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  384:./shy_fft.h   ****                 phasor->Start(pass);
  385:./shy_fft.h   ****                 for(size_t j = 1; j < n_2; ++j)
  386:./shy_fft.h   ****                 {
-ARM GAS  /tmp/ccDK7OY5.s 			page 27
+ARM GAS  /tmp/ccDsoCRY.s 			page 27
 
 
  387:./shy_fft.h   ****                     T c = phasor->cos();
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  441:./shy_fft.h   ****         // Third pass.
  442:./shy_fft.h   ****         s = output;
  443:./shy_fft.h   ****         d = input;
-ARM GAS  /tmp/ccDK7OY5.s 			page 28
+ARM GAS  /tmp/ccDsoCRY.s 			page 28
 
 
  444:./shy_fft.h   ****         for(size_t i = 0; i < rt_size; i += 8)
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  498:./shy_fft.h   **** 
  499:./shy_fft.h   ****                     v         = s2r[j] * s + s2i[j] * c;
  500:./shy_fft.h   ****                     di[j]     = v + s1i[j];
-ARM GAS  /tmp/ccDK7OY5.s 			page 29
+ARM GAS  /tmp/ccDsoCRY.s 			page 29
 
 
  501:./shy_fft.h   ****                     di[n - j] = v - s1i[j];
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  555:./shy_fft.h   ****     {
  556:./shy_fft.h   ****         size = 1 << num_passes
  557:./shy_fft.h   ****     };
-ARM GAS  /tmp/ccDK7OY5.s 			page 30
+ARM GAS  /tmp/ccDsoCRY.s 			page 30
 
 
  558:./shy_fft.h   **** 
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  612:./shy_fft.h   ****                 d = output;
  613:./shy_fft.h   ****             }
  614:./shy_fft.h   ****         }
-ARM GAS  /tmp/ccDK7OY5.s 			page 31
+ARM GAS  /tmp/ccDsoCRY.s 			page 31
 
 
  615:./shy_fft.h   **** 
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  669:./shy_fft.h   ****                     size_t         rt_num_passes)
  670:./shy_fft.h   ****     {
  671:./shy_fft.h   ****         T*      s = (T*)(input);
-ARM GAS  /tmp/ccDK7OY5.s 			page 32
+ARM GAS  /tmp/ccDsoCRY.s 			page 32
 
 
  672:./shy_fft.h   ****         T*      d = output;
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  726:./shy_fft.h   **** 
  727:./shy_fft.h   ****         // Copy data if necessary.
  728:./shy_fft.h   ****         if(d == output)
-ARM GAS  /tmp/ccDK7OY5.s 			page 33
+ARM GAS  /tmp/ccDsoCRY.s 			page 33
 
 
  729:./shy_fft.h   ****         {
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  783:./shy_fft.h   **** 
  784:./shy_fft.h   **** template <typename T, typename Phasor>
  785:./shy_fft.h   **** struct InverseTransform<T, 1, Phasor>
-ARM GAS  /tmp/ccDK7OY5.s 			page 34
+ARM GAS  /tmp/ccDsoCRY.s 			page 34
 
 
  786:./shy_fft.h   **** {
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   53:dsp/pvoc/stft.cpp **** 
  238              		.loc 1 53 18 view .LVU62
  239 0046 C8F81030 		str	r3, [r8, #16]
-ARM GAS  /tmp/ccDK7OY5.s 			page 35
+ARM GAS  /tmp/ccDsoCRY.s 			page 35
 
 
   55:dsp/pvoc/stft.cpp **** #ifdef USE_ARM_FFT
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  285 0078 FFF7FEFF 		bl	sinf
  286              	.LVL20:
  287              	.L14:
-ARM GAS  /tmp/ccDK7OY5.s 			page 36
+ARM GAS  /tmp/ccDsoCRY.s 			page 36
 
 
  238:./shy_fft.h   ****         {
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  139:./shy_fft.h   **** };
  333              		.loc 3 139 18 is_stmt 1 view .LVU83
  139:./shy_fft.h   **** };
-ARM GAS  /tmp/ccDK7OY5.s 			page 37
+ARM GAS  /tmp/ccDsoCRY.s 			page 37
 
 
  334              		.loc 3 139 18 is_stmt 0 view .LVU84
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  375              		.loc 1 63 18 view .LVU97
  376 00aa 05EB4105 		add	r5, r5, r1, lsl #1
   65:dsp/pvoc/stft.cpp ****     ifft_out_ = fft_out_ = ifft_buffer;
-ARM GAS  /tmp/ccDK7OY5.s 			page 38
+ARM GAS  /tmp/ccDsoCRY.s 			page 38
 
 
  377              		.loc 1 65 24 view .LVU98
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  414              		.cfi_restore 14
  415              		.cfi_restore 11
  416              		.cfi_restore 10
-ARM GAS  /tmp/ccDK7OY5.s 			page 39
+ARM GAS  /tmp/ccDsoCRY.s 			page 39
 
 
  417              		.cfi_restore 9
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  463              		.cfi_offset 10, -12
  464              		.cfi_offset 11, -8
  465              		.cfi_offset 14, -4
-ARM GAS  /tmp/ccDK7OY5.s 			page 40
+ARM GAS  /tmp/ccDsoCRY.s 			page 40
 
 
  466 0004 83B0     		sub	sp, sp, #12
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  506              	.LVL31:
   98:dsp/pvoc/stft.cpp ****         for(size_t i = 0; i < processed; ++i)
  507              		.loc 1 98 9 is_stmt 1 view .LVU131
-ARM GAS  /tmp/ccDK7OY5.s 			page 41
+ARM GAS  /tmp/ccDsoCRY.s 			page 41
 
 
  508              	.LBB256:
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   18:./stmtemp.h   **** #define ONE_POLE(out, in, coefficient) out += (coefficient) * ((in)-out);
   19:./stmtemp.h   **** 
   20:./stmtemp.h   **** #define CONSTRAIN(var, min, max) \
-ARM GAS  /tmp/ccDK7OY5.s 			page 42
+ARM GAS  /tmp/ccDsoCRY.s 			page 42
 
 
   21:./stmtemp.h   ****     if(var < (min))              \
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
   75:./stmtemp.h   ****     }
   76:./stmtemp.h   **** 
   77:./stmtemp.h   ****     float Next()
-ARM GAS  /tmp/ccDK7OY5.s 			page 43
+ARM GAS  /tmp/ccDsoCRY.s 			page 43
 
 
   78:./stmtemp.h   ****     {
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  560 0072 07EE903A 		vmov	s15, r3	@ int
  561              	.LVL34:
  103:dsp/pvoc/stft.cpp ****             input += stride;
-ARM GAS  /tmp/ccDK7OY5.s 			page 44
+ARM GAS  /tmp/ccDsoCRY.s 			page 44
 
 
  562              		.loc 1 103 67 discriminator 2 view .LVU148
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  110:dsp/pvoc/stft.cpp ****         if(buffer_ptr_ >= buffer_size_)
  600              		.loc 1 110 21 is_stmt 0 view .LVU166
  601 0098 C0F834E0 		str	lr, [r0, #52]
-ARM GAS  /tmp/ccDK7OY5.s 			page 45
+ARM GAS  /tmp/ccDsoCRY.s 			page 45
 
 
  602              	.L27:
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  641              	.LVL42:
  642              	.L23:
  113:dsp/pvoc/stft.cpp ****         }
-ARM GAS  /tmp/ccDK7OY5.s 			page 46
+ARM GAS  /tmp/ccDsoCRY.s 			page 46
 
 
  643              		.loc 1 113 25 view .LVU178
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  692              		.loc 3 423 29 view .LVU185
  693              	.LBE260:
  411:./shy_fft.h   ****                     T*             output,
-ARM GAS  /tmp/ccDK7OY5.s 			page 47
+ARM GAS  /tmp/ccDsoCRY.s 			page 47
 
 
  694              		.loc 3 411 10 view .LVU186
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  427:./shy_fft.h   ****             size_t r1 = r0 + 2 * (rt_size >> 2);
  737              		.loc 3 427 25 discriminator 2 view .LVU198
  738 0040 42FA0EF2 		asr	r2, r2, lr
-ARM GAS  /tmp/ccDK7OY5.s 			page 48
+ARM GAS  /tmp/ccDsoCRY.s 			page 48
 
 
  739              	.LVL51:
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  435:./shy_fft.h   ****             d[0] = a + b;
  778              		.loc 3 435 15 discriminator 2 view .LVU214
  779 0088 92ED007A 		vldr.32	s14, [r2]
-ARM GAS  /tmp/ccDK7OY5.s 			page 49
+ARM GAS  /tmp/ccDsoCRY.s 			page 49
 
 
  434:./shy_fft.h   ****             T b  = s[r2] + s[r3];
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  821 00bc 2033     		adds	r3, r3, #32
  822 00be 13ED087A 		vldr.32	s14, [r3, #-32]
  823 00c2 2032     		adds	r2, r2, #32
-ARM GAS  /tmp/ccDK7OY5.s 			page 50
+ARM GAS  /tmp/ccDsoCRY.s 			page 50
 
 
  454:./shy_fft.h   ****             d[i + 3] = s[i + 1] - v;
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  455:./shy_fft.h   **** 
  862              		.loc 3 455 33 discriminator 2 view .LVU244
  863 0108 53ED076A 		vldr.32	s13, [r3, #-28]
-ARM GAS  /tmp/ccDK7OY5.s 			page 51
+ARM GAS  /tmp/ccDsoCRY.s 			page 51
 
 
  864 010c E7EE676A 		vfms.f32	s13, s14, s15
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  444:./shy_fft.h   ****         {
  903              		.loc 3 444 29 is_stmt 0 discriminator 2 view .LVU260
  904              	.LBE272:
-ARM GAS  /tmp/ccDK7OY5.s 			page 52
+ARM GAS  /tmp/ccDsoCRY.s 			page 52
 
 
  905              	.LBB273:
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  948              		.loc 3 475 52 view .LVU271
  949 017a 0B92     		str	r2, [sp, #44]
  950              	.LBB290:
-ARM GAS  /tmp/ccDK7OY5.s 			page 53
+ARM GAS  /tmp/ccDsoCRY.s 			page 53
 
 
  478:./shy_fft.h   ****                 T* dr  = d + i;
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  996 01ca 77EE877A 		vadd.f32	s15, s15, s14
  485:./shy_fft.h   ****                 T* s1i  = s1r + n_2;
  997              		.loc 3 485 17 view .LVU281
-ARM GAS  /tmp/ccDK7OY5.s 			page 54
+ARM GAS  /tmp/ccDsoCRY.s 			page 54
 
 
  998 01ce 0499     		ldr	r1, [sp, #16]
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1037              	.LBE278:
  1038              	.LBE277:
  1039              	.LBB281:
-ARM GAS  /tmp/ccDK7OY5.s 			page 55
+ARM GAS  /tmp/ccDsoCRY.s 			page 55
 
 
  489:./shy_fft.h   ****                 {
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  495:./shy_fft.h   ****                     dr[j]  = s1r[j] + v;
  1084              		.loc 3 495 21 discriminator 2 view .LVU307
  1085 023e A5EEA77A 		vfma.f32	s14, s11, s15
-ARM GAS  /tmp/ccDK7OY5.s 			page 56
+ARM GAS  /tmp/ccDsoCRY.s 			page 56
 
 
  1086              	.LVL78:
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  254:./shy_fft.h   ****     {
  1126              		.loc 3 254 17 is_stmt 1 discriminator 2 view .LVU322
  1127              	.LBB284:
-ARM GAS  /tmp/ccDK7OY5.s 			page 57
+ARM GAS  /tmp/ccDsoCRY.s 			page 57
 
 
  256:./shy_fft.h   ****         sin_   = cos_ * imag_ + sin_ * real_;
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1166              		.loc 3 475 13 is_stmt 0 view .LVU338
  1167 02ae 0B9A     		ldr	r2, [sp, #44]
  1168 02b0 F344     		add	fp, fp, lr
-ARM GAS  /tmp/ccDK7OY5.s 			page 58
+ARM GAS  /tmp/ccDsoCRY.s 			page 58
 
 
  1169 02b2 F144     		add	r9, r9, lr
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1215 02ec 0691     		str	r1, [sp, #24]
  1216 02ee 0F99     		ldr	r1, [sp, #60]
  1217 02f0 0E91     		str	r1, [sp, #56]
-ARM GAS  /tmp/ccDK7OY5.s 			page 59
+ARM GAS  /tmp/ccDsoCRY.s 			page 59
 
 
  1218 02f2 1099     		ldr	r1, [sp, #64]
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1261 030e 04D0     		beq	.L37
  1262              	.LBE298:
  1263              	.LBE297:
-ARM GAS  /tmp/ccDK7OY5.s 			page 60
+ARM GAS  /tmp/ccDsoCRY.s 			page 60
 
 
  1264              	.LBE296:
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1313 0320 F304353F 		.word	1060439283
  1314              		.cfi_endproc
  1315              	.LFE4715:
-ARM GAS  /tmp/ccDK7OY5.s 			page 61
+ARM GAS  /tmp/ccDsoCRY.s 			page 61
 
 
  1317              		.section	.text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j,"axG",%progbi
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  665:./shy_fft.h   ****                     T*             output,
  1364              		.loc 3 665 10 view .LVU371
  1365 0010 DDF868B0 		ldr	fp, [sp, #104]
-ARM GAS  /tmp/ccDK7OY5.s 			page 62
+ARM GAS  /tmp/ccDsoCRY.s 			page 62
 
 
  1366              	.LBB323:
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1408 0042 079B     		ldr	r3, [sp, #28]
  1409              	.LVL112:
  683:./shy_fft.h   ****             {
-ARM GAS  /tmp/ccDK7OY5.s 			page 63
+ARM GAS  /tmp/ccDsoCRY.s 			page 63
 
 
  1410              		.loc 3 683 33 is_stmt 0 view .LVU384
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1455              	.LVL114:
  1456              	.L71:
  1457              	.LBB320:
-ARM GAS  /tmp/ccDK7OY5.s 			page 64
+ARM GAS  /tmp/ccDsoCRY.s 			page 64
 
 
  690:./shy_fft.h   ****                 d2r[0]   = sr[0] - si[0];
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1497              	.LBE309:
  693:./shy_fft.h   **** 
  1498              		.loc 3 693 36 view .LVU409
-ARM GAS  /tmp/ccDK7OY5.s 			page 65
+ARM GAS  /tmp/ccDsoCRY.s 			page 65
 
 
  1499 00ca 77EEA77A 		vadd.f32	s15, s15, s15
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  700:./shy_fft.h   ****                     d1i[j] = si[j] - si[n - j];
  1543              		.loc 3 700 21 discriminator 2 view .LVU420
  1544 0114 E4EC017A 		vstmia.32	r4!, {s15}
-ARM GAS  /tmp/ccDK7OY5.s 			page 66
+ARM GAS  /tmp/ccDsoCRY.s 			page 66
 
 
  701:./shy_fft.h   **** 
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  708:./shy_fft.h   ****                     d2i[j] = vi * c - vr * s;
  1583              		.loc 3 708 21 discriminator 2 view .LVU437
  1584 015a A5EC016A 		vstmia.32	r5!, {s12}
-ARM GAS  /tmp/ccDK7OY5.s 			page 67
+ARM GAS  /tmp/ccDsoCRY.s 			page 67
 
 
  1585              	.LVL123:
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1624 018a BDD1     		bne	.L73
  1625              	.LVL130:
  1626              	.L72:
-ARM GAS  /tmp/ccDK7OY5.s 			page 68
+ARM GAS  /tmp/ccDsoCRY.s 			page 68
 
 
  698:./shy_fft.h   ****                 {
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1672 01c2 00F0B680 		beq	.L82
  722:./shy_fft.h   ****                 d = output;
  1673              		.loc 3 722 17 view .LVU462
-ARM GAS  /tmp/ccDK7OY5.s 			page 69
+ARM GAS  /tmp/ccDsoCRY.s 			page 69
 
 
  1674 01c6 DDF83880 		ldr	r8, [sp, #56]
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1718              		.loc 3 738 29 is_stmt 0 discriminator 2 view .LVU472
  1719 0202 93ED047A 		vldr.32	s14, [r3, #16]
  1720 0206 2033     		adds	r3, r3, #32
-ARM GAS  /tmp/ccDK7OY5.s 			page 70
+ARM GAS  /tmp/ccDsoCRY.s 			page 70
 
 
  1721 0208 53ED087A 		vldr.32	s15, [r3, #-32]
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1760 0266 13ED077A 		vldr.32	s14, [r3, #-28]
  1761 026a 53ED055A 		vldr.32	s11, [r3, #-20]
  745:./shy_fft.h   ****             d[i + 5] = (vr + vi) * math.sqrt_2_div_2();
-ARM GAS  /tmp/ccDK7OY5.s 			page 71
+ARM GAS  /tmp/ccDsoCRY.s 			page 71
 
 
  1762              		.loc 3 745 13 discriminator 2 view .LVU488
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1802              		.loc 3 735 9 is_stmt 1 discriminator 2 view .LVU502
  735:./shy_fft.h   ****         {
  1803              		.loc 3 735 29 discriminator 2 view .LVU503
-ARM GAS  /tmp/ccDK7OY5.s 			page 72
+ARM GAS  /tmp/ccDsoCRY.s 			page 72
 
 
  1804 0294 B5D1     		bne	.L78
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1844 02d0 52ED035A 		vldr.32	s11, [r2, #-12]
  755:./shy_fft.h   ****                         >> (16 - rt_num_passes);
  1845              		.loc 3 755 51 discriminator 2 view .LVU518
-ARM GAS  /tmp/ccDK7OY5.s 			page 73
+ARM GAS  /tmp/ccDsoCRY.s 			page 73
 
 
  1846 02d4 43EA0023 		orr	r3, r3, r0, lsl #8
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  768:./shy_fft.h   ****             d[r3] = b_2 - b_3;
  1886              		.loc 3 768 14 discriminator 2 view .LVU533
  1887 030a 07EB8909 		add	r9, r7, r9, lsl #2
-ARM GAS  /tmp/ccDK7OY5.s 			page 74
+ARM GAS  /tmp/ccDsoCRY.s 			page 74
 
 
  1888              	.LVL155:
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1929 0336 0C93     		str	r3, [sp, #48]
  1930              	.LVL162:
  718:./shy_fft.h   ****             }
-ARM GAS  /tmp/ccDK7OY5.s 			page 75
+ARM GAS  /tmp/ccDsoCRY.s 			page 75
 
 
  1931              		.loc 3 718 17 view .LVU547
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  1974 0350 F304353F 		.word	1060439283
  1975              	.LBE343:
  1976              	.LBE342:
-ARM GAS  /tmp/ccDK7OY5.s 			page 76
+ARM GAS  /tmp/ccDsoCRY.s 			page 76
 
 
  1977              	.LBE341:
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  128:dsp/pvoc/stft.cpp ****     }
  129:dsp/pvoc/stft.cpp **** 
  130:dsp/pvoc/stft.cpp ****     // Copy block to FFT buffer and apply window.
-ARM GAS  /tmp/ccDK7OY5.s 			page 77
+ARM GAS  /tmp/ccDsoCRY.s 			page 77
 
 
  131:dsp/pvoc/stft.cpp ****     size_t       source_ptr = process_ptr_;
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2060              		.loc 1 139 13 view .LVU580
  135:dsp/pvoc/stft.cpp ****         ++source_ptr;
  2061              		.loc 1 135 27 is_stmt 0 view .LVU581
-ARM GAS  /tmp/ccDK7OY5.s 			page 78
+ARM GAS  /tmp/ccDsoCRY.s 			page 78
 
 
  2062 0038 36F913E0 		ldrsh	lr, [r6, r3, lsl #1]
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  152:dsp/pvoc/stft.cpp ****         fft_out_[i + fft_size_ / 2] = fft_in_[2 * i + 1];
  153:dsp/pvoc/stft.cpp ****     }
  154:dsp/pvoc/stft.cpp **** #else
-ARM GAS  /tmp/ccDK7OY5.s 			page 79
+ARM GAS  /tmp/ccDsoCRY.s 			page 79
 
 
  155:dsp/pvoc/stft.cpp ****     if(fft_size_ != FFT::max_size)
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2105 0066 129C     		ldr	r4, [sp, #72]
  2106 0068 4946     		mov	r1, r9
  2107              	.LVL178:
-ARM GAS  /tmp/ccDK7OY5.s 			page 80
+ARM GAS  /tmp/ccDsoCRY.s 			page 80
 
 
  2108              		.loc 3 872 10 view .LVU600
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2152 009c 6268     		ldr	r2, [r4, #4]
  2153 009e 236A     		ldr	r3, [r4, #32]
  2154 00a0 1392     		str	r2, [sp, #76]
-ARM GAS  /tmp/ccDK7OY5.s 			page 81
+ARM GAS  /tmp/ccDsoCRY.s 			page 81
 
 
  2155 00a2 1193     		str	r3, [sp, #68]
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2183 00c0 FFF7FEFF 		bl	_ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j
  2184              	.LVL189:
  2185              		.loc 3 878 10 view .LVU621
-ARM GAS  /tmp/ccDK7OY5.s 			page 82
+ARM GAS  /tmp/ccDsoCRY.s 			page 82
 
 
  2186 00c4 6368     		ldr	r3, [r4, #4]
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  199:dsp/pvoc/stft.cpp ****         = 1.0f / float(fft_size_ * fft_size_ / hop_size_ >> 1);
  2218              		.loc 1 199 11 view .LVU636
  2219 00ee C7EE276A 		vdiv.f32	s13, s14, s15
-ARM GAS  /tmp/ccDK7OY5.s 			page 83
+ARM GAS  /tmp/ccDsoCRY.s 			page 83
 
 
  2220              	.LVL191:
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  212:dsp/pvoc/stft.cpp ****         }
  2252              		.loc 1 212 13 view .LVU647
  206:dsp/pvoc/stft.cpp **** 
-ARM GAS  /tmp/ccDK7OY5.s 			page 84
+ARM GAS  /tmp/ccDsoCRY.s 			page 84
 
 
  2253              		.loc 1 206 30 is_stmt 0 view .LVU648
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2292              		.loc 1 215 9 is_stmt 0 view .LVU664
  2293 0134 0133     		adds	r3, r3, #1
  2294              	.LVL200:
-ARM GAS  /tmp/ccDK7OY5.s 			page 85
+ARM GAS  /tmp/ccDsoCRY.s 			page 85
 
 
  215:dsp/pvoc/stft.cpp ****         if(destination_ptr >= buffer_size_)
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  223:dsp/pvoc/stft.cpp ****     process_ptr_ += hop_size_;
  2334              		.loc 1 223 5 view .LVU681
  2335 0152 4A6C     		ldr	r2, [r1, #68]
-ARM GAS  /tmp/ccDK7OY5.s 			page 86
+ARM GAS  /tmp/ccDsoCRY.s 			page 86
 
 
  225:dsp/pvoc/stft.cpp ****     if(process_ptr_ >= buffer_size_)
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2377              	.LBE423:
  161:dsp/pvoc/stft.cpp ****     }
  2378              		.loc 1 161 9 view .LVU693
-ARM GAS  /tmp/ccDK7OY5.s 			page 87
+ARM GAS  /tmp/ccDsoCRY.s 			page 87
 
 
  2379 0170 D0F80080 		ldr	r8, [r0]
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  317:./shy_fft.h   ****         {
  2425              		.loc 3 317 9 view .LVU702
  2426 018e 0434     		adds	r4, r4, #4
-ARM GAS  /tmp/ccDK7OY5.s 			page 88
+ARM GAS  /tmp/ccDsoCRY.s 			page 88
 
 
  2427              	.LVL217:
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2466 01ce D5ED007A 		vldr.32	s15, [r5]
  2467 01d2 77EEC77A 		vsub.f32	s15, s15, s14
  329:./shy_fft.h   ****             T a  = s[r0] + s[r1];
-ARM GAS  /tmp/ccDK7OY5.s 			page 89
+ARM GAS  /tmp/ccDsoCRY.s 			page 89
 
 
  2468              		.loc 3 329 13 view .LVU718
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2508              		.loc 3 344 29 view .LVU732
  2509 020c D3ED046A 		vldr.32	s13, [r3, #16]
  2510 0210 2033     		adds	r3, r3, #32
-ARM GAS  /tmp/ccDK7OY5.s 			page 90
+ARM GAS  /tmp/ccDsoCRY.s 			page 90
 
 
  2511 0212 13ED087A 		vldr.32	s14, [r3, #-32]
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2551              	.LBB489:
  2552              	.LBB483:
  2553              	.LBB438:
-ARM GAS  /tmp/ccDK7OY5.s 			page 91
+ARM GAS  /tmp/ccDsoCRY.s 			page 91
 
 
  2554              	.LBB435:
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  340:./shy_fft.h   ****         {
  2595              		.loc 3 340 29 view .LVU760
  2596 0284 9842     		cmp	r0, r3
-ARM GAS  /tmp/ccDK7OY5.s 			page 92
+ARM GAS  /tmp/ccDsoCRY.s 			page 92
 
 
  2597              	.LBB437:
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2642 02b4 8340     		lsls	r3, r3, r0
  2643              	.LVL229:
  2644              	.LBB472:
-ARM GAS  /tmp/ccDK7OY5.s 			page 93
+ARM GAS  /tmp/ccDsoCRY.s 			page 93
 
 
  371:./shy_fft.h   ****             {
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2689              	.LBB471:
  378:./shy_fft.h   ****                 di[0]   = s1r[0] - s2r[0];
  2690              		.loc 3 378 34 view .LVU780
-ARM GAS  /tmp/ccDK7OY5.s 			page 94
+ARM GAS  /tmp/ccDsoCRY.s 			page 94
 
 
  2691 02f4 12ED017A 		vldr.32	s14, [r2, #-4]
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2734              		.loc 3 379 17 view .LVU791
  2735 0330 E0EC017A 		vstmia.32	r0!, {s15}
  380:./shy_fft.h   ****                 di[n_2] = s2r[n_2];
-ARM GAS  /tmp/ccDK7OY5.s 			page 95
+ARM GAS  /tmp/ccDsoCRY.s 			page 95
 
 
  2736              		.loc 3 380 30 view .LVU792
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2778 0356 C8ED147A 		vstr.32	s15, [r8, #80]
  2779 035a C8ED127A 		vstr.32	s15, [r8, #72]
  251:./shy_fft.h   ****     }
-ARM GAS  /tmp/ccDK7OY5.s 			page 96
+ARM GAS  /tmp/ccDsoCRY.s 			page 96
 
 
  2780              		.loc 3 251 36 view .LVU805
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  395:./shy_fft.h   ****                     di[j]     = v + s1i[j];
  2820              		.loc 3 395 21 view .LVU820
  2821 039a B4EC016A 		vldmia.32	r4!, {s12}
-ARM GAS  /tmp/ccDK7OY5.s 			page 97
+ARM GAS  /tmp/ccDsoCRY.s 			page 97
 
 
  395:./shy_fft.h   ****                     di[j]     = v + s1i[j];
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2860 03da 0493     		str	r3, [sp, #16]
  2861              	.LVL241:
  2862              	.LBB464:
-ARM GAS  /tmp/ccDK7OY5.s 			page 98
+ARM GAS  /tmp/ccDsoCRY.s 			page 98
 
 
  2863              	.LBI460:
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  371:./shy_fft.h   ****             {
  2905              		.loc 3 371 13 is_stmt 1 view .LVU849
  2906 03fa 2044     		add	r0, r0, r4
-ARM GAS  /tmp/ccDK7OY5.s 			page 99
+ARM GAS  /tmp/ccDsoCRY.s 			page 99
 
 
  2907 03fc 039C     		ldr	r4, [sp, #12]
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2950              	.LVL250:
  359:./shy_fft.h   ****         {
  2951              		.loc 3 359 35 is_stmt 0 view .LVU861
-ARM GAS  /tmp/ccDK7OY5.s 			page 100
+ARM GAS  /tmp/ccDsoCRY.s 			page 100
 
 
  2952 0434 0B9A     		ldr	r2, [sp, #44]
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  2995              	.LBI508:
  375:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	{
  2996              		.loc 2 375 2 view .LVU873
-ARM GAS  /tmp/ccDK7OY5.s 			page 101
+ARM GAS  /tmp/ccDsoCRY.s 			page 101
 
 
  2997              	.LBB509:
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3042              		.loc 1 191 22 view .LVU882
  3043 0474 D3F81CB0 		ldr	fp, [r3, #28]
  191:dsp/pvoc/stft.cpp ****     }
-ARM GAS  /tmp/ccDK7OY5.s 			page 102
+ARM GAS  /tmp/ccDsoCRY.s 			page 102
 
 
  3044              		.loc 1 191 9 view .LVU883
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  569:./shy_fft.h   ****             size_t n_2 = n >> 1;
  3089              		.loc 3 569 28 view .LVU893
  3090 048e 0123     		movs	r3, #1
-ARM GAS  /tmp/ccDK7OY5.s 			page 103
+ARM GAS  /tmp/ccDsoCRY.s 			page 103
 
 
  3091 0490 B018     		adds	r0, r6, r2
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3135 04cc 0E92     		str	r2, [sp, #56]
  3136              	.LVL268:
  3137              	.L112:
-ARM GAS  /tmp/ccDK7OY5.s 			page 104
+ARM GAS  /tmp/ccDsoCRY.s 			page 104
 
 
  582:./shy_fft.h   **** 
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3178 0506 77EEC77A 		vsub.f32	s15, s15, s14
  3179 050a 0995     		str	r5, [sp, #36]
  582:./shy_fft.h   **** 
-ARM GAS  /tmp/ccDK7OY5.s 			page 105
+ARM GAS  /tmp/ccDsoCRY.s 			page 105
 
 
  3180              		.loc 3 582 36 view .LVU918
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  251:./shy_fft.h   ****     }
  3222              		.loc 3 251 9 view .LVU931
  3223              	.LBE526:
-ARM GAS  /tmp/ccDK7OY5.s 			page 106
+ARM GAS  /tmp/ccDsoCRY.s 			page 106
 
 
  3224              	.LBE530:
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3264 057c 9EED006A 		vldr.32	s12, [lr]
  595:./shy_fft.h   **** 
  3265              		.loc 3 595 23 view .LVU946
-ARM GAS  /tmp/ccDK7OY5.s 			page 107
+ARM GAS  /tmp/ccDsoCRY.s 			page 107
 
 
  3266 0580 37EE277A 		vadd.f32	s14, s14, s15
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3305 05bc 9CED126A 		vldr.32	s12, [ip, #72]
  256:./shy_fft.h   ****         sin_   = cos_ * imag_ + sin_ * real_;
  3306              		.loc 3 256 11 view .LVU962
-ARM GAS  /tmp/ccDK7OY5.s 			page 108
+ARM GAS  /tmp/ccDsoCRY.s 			page 108
 
 
  3307 05c0 65EEE77A 		vnmul.f32	s15, s11, s15
@@ -6478,7 +6478,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3349              	.LBE543:
  3350              	.LBE545:
  572:./shy_fft.h   ****             {
-ARM GAS  /tmp/ccDK7OY5.s 			page 109
+ARM GAS  /tmp/ccDsoCRY.s 			page 109
 
 
  3351              		.loc 3 572 13 is_stmt 0 view .LVU975
@@ -6538,7 +6538,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3394              	.LVL288:
  3395              	.L113:
  604:./shy_fft.h   ****             {
-ARM GAS  /tmp/ccDK7OY5.s 			page 110
+ARM GAS  /tmp/ccDsoCRY.s 			page 110
 
 
  3396              		.loc 3 604 13 view .LVU987
@@ -6598,7 +6598,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3438              		.loc 3 628 29 view .LVU999
  3439 0650 53ED047A 		vldr.32	s15, [r3, #-16]
  3440 0654 13ED087A 		vldr.32	s14, [r3, #-32]
-ARM GAS  /tmp/ccDK7OY5.s 			page 111
+ARM GAS  /tmp/ccDsoCRY.s 			page 111
 
 
  3441 0658 37EE677A 		vsub.f32	s14, s14, s15
@@ -6658,7 +6658,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3480              	.LVL293:
  634:./shy_fft.h   ****             d[i + 5] = (vr + vi) * math.sqrt_2_div_2();
  3481              		.loc 3 634 13 view .LVU1015
-ARM GAS  /tmp/ccDK7OY5.s 			page 112
+ARM GAS  /tmp/ccDsoCRY.s 			page 112
 
 
  3482 06ae 77EE257A 		vadd.f32	s15, s14, s11
@@ -6718,7 +6718,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3526              	.LBE554:
  624:./shy_fft.h   ****         {
  3527              		.loc 3 624 9 is_stmt 1 view .LVU1026
-ARM GAS  /tmp/ccDK7OY5.s 			page 113
+ARM GAS  /tmp/ccDsoCRY.s 			page 113
 
 
  624:./shy_fft.h   ****         {
@@ -6778,7 +6778,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3570              	.LVL302:
  647:./shy_fft.h   ****             size_t r1 = r0 + 2 * (size >> 2);
  3571              		.loc 3 647 35 view .LVU1039
-ARM GAS  /tmp/ccDK7OY5.s 			page 114
+ARM GAS  /tmp/ccDsoCRY.s 			page 114
 
 
  3572 06fe 1B11     		asrs	r3, r3, #4
@@ -6838,7 +6838,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3611 0738 E6EE265A 		vfma.f32	s11, s12, s13
  3612              	.LVL308:
  659:./shy_fft.h   ****             d[r3] = b_2 - b_3;
-ARM GAS  /tmp/ccDK7OY5.s 			page 115
+ARM GAS  /tmp/ccDsoCRY.s 			page 115
 
 
  3613              		.loc 3 659 25 view .LVU1055
@@ -6898,7 +6898,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3656              	.LBB585:
  3657              	.LBB579:
  3658              	.LBB573:
-ARM GAS  /tmp/ccDK7OY5.s 			page 116
+ARM GAS  /tmp/ccDsoCRY.s 			page 116
 
 
  3659              	.LBB561:
@@ -6958,7 +6958,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  386:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  return __result + _Num;
  3704              		.loc 2 386 23 is_stmt 0 view .LVU1077
  3705 0772 4FF48042 		mov	r2, #16384
-ARM GAS  /tmp/ccDK7OY5.s 			page 117
+ARM GAS  /tmp/ccDsoCRY.s 			page 117
 
 
  3706 0776 FFF7FEFF 		bl	memmove
@@ -7018,7 +7018,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3748              	.LBB513:
  438:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     {
  3749              		.loc 2 438 5 view .LVU1090
-ARM GAS  /tmp/ccDK7OY5.s 			page 118
+ARM GAS  /tmp/ccDsoCRY.s 			page 118
 
 
  3750              	.LBB512:
@@ -7078,7 +7078,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3794              	.LBB568:
  386:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  return __result + _Num;
  3795              		.loc 2 386 23 is_stmt 0 view .LVU1101
-ARM GAS  /tmp/ccDK7OY5.s 			page 119
+ARM GAS  /tmp/ccDsoCRY.s 			page 119
 
 
  3796 07a4 4FF48042 		mov	r2, #16384
@@ -7138,7 +7138,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3835      42C222A2 
  3835      62E2
  3836 0048 129252D2 		.ascii	"\022\222R\3222\262r\362\012\212J\312*\252j\352\032\232"
-ARM GAS  /tmp/ccDK7OY5.s 			page 120
+ARM GAS  /tmp/ccDsoCRY.s 			page 120
 
 
  3836      32B272F2 
@@ -7198,7 +7198,7 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3851              		.file 7 "../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/system_stm32h7xx.h"
  3852              		.file 8 "/usr/lib/gcc/arm-none-eabi/9.2.1/include/stddef.h"
  3853              		.file 9 "/usr/include/newlib/c++/9.2.1/bits/cpp_type_traits.h"
-ARM GAS  /tmp/ccDK7OY5.s 			page 121
+ARM GAS  /tmp/ccDsoCRY.s 			page 121
 
 
  3854              		.file 10 "/usr/include/newlib/c++/9.2.1/cmath"
@@ -7257,33 +7257,33 @@ ARM GAS  /tmp/ccDK7OY5.s 			page 1
  3907              		.file 63 "../../libdaisy/src/dev/sr_595.h"
  3908              		.file 64 "dsp/pvoc/frame_transformation.h"
  3909              		.file 65 "dsp/pvoc/stft.h"
-ARM GAS  /tmp/ccDK7OY5.s 			page 122
+ARM GAS  /tmp/ccDsoCRY.s 			page 122
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 stft.cpp
-     /tmp/ccDK7OY5.s:17     .text._ZN4STFT5ResetEv:0000000000000000 $t
-     /tmp/ccDK7OY5.s:26     .text._ZN4STFT5ResetEv:0000000000000000 _ZN4STFT5ResetEv
-     /tmp/ccDK7OY5.s:142    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:0000000000000000 $t
-     /tmp/ccDK7OY5.s:150    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:0000000000000000 _ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation
-     /tmp/ccDK7OY5.s:431    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:00000000000000e4 $d
-     /tmp/ccDK7OY5.s:438    .text._ZN4STFT7ProcessERK10ParametersPKfPfjj:0000000000000000 $t
-     /tmp/ccDK7OY5.s:446    .text._ZN4STFT7ProcessERK10ParametersPKfPfjj:0000000000000000 _ZN4STFT7ProcessERK10ParametersPKfPfjj
-     /tmp/ccDK7OY5.s:651    .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 $t
-     /tmp/ccDK7OY5.s:659    .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 _ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j
-     /tmp/ccDK7OY5.s:1313   .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000320 $d
-     /tmp/ccDK7OY5.s:1318   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 $t
-     /tmp/ccDK7OY5.s:1326   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 _ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j
-     /tmp/ccDK7OY5.s:1974   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000350 $d
-     /tmp/ccDK7OY5.s:1985   .text._ZN4STFT6BufferEv:0000000000000000 $t
-     /tmp/ccDK7OY5.s:1993   .text._ZN4STFT6BufferEv:0000000000000000 _ZN4STFT6BufferEv
-     /tmp/ccDK7OY5.s:2406   .text._ZN4STFT6BufferEv:0000000000000180 $d
-     /tmp/ccDK7OY5.s:3831   .rodata._ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E:0000000000000000 _ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E
-     /tmp/ccDK7OY5.s:2410   .text._ZN4STFT6BufferEv:0000000000000184 $t
-     /tmp/ccDK7OY5.s:2963   .text._ZN4STFT6BufferEv:000000000000043c $d
-     /tmp/ccDK7OY5.s:2975   .text._ZN4STFT6BufferEv:0000000000000444 $t
-     /tmp/ccDK7OY5.s:3816   .text._ZN4STFT6BufferEv:00000000000007b8 $d
-     /tmp/ccDK7OY5.s:3828   .rodata._ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E:0000000000000000 $d
+     /tmp/ccDsoCRY.s:17     .text._ZN4STFT5ResetEv:0000000000000000 $t
+     /tmp/ccDsoCRY.s:26     .text._ZN4STFT5ResetEv:0000000000000000 _ZN4STFT5ResetEv
+     /tmp/ccDsoCRY.s:142    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:0000000000000000 $t
+     /tmp/ccDsoCRY.s:150    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:0000000000000000 _ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation
+     /tmp/ccDsoCRY.s:431    .text._ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation:00000000000000e4 $d
+     /tmp/ccDsoCRY.s:438    .text._ZN4STFT7ProcessERK10ParametersPKfPfjj:0000000000000000 $t
+     /tmp/ccDsoCRY.s:446    .text._ZN4STFT7ProcessERK10ParametersPKfPfjj:0000000000000000 _ZN4STFT7ProcessERK10ParametersPKfPfjj
+     /tmp/ccDsoCRY.s:651    .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 $t
+     /tmp/ccDsoCRY.s:659    .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 _ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j
+     /tmp/ccDsoCRY.s:1313   .text._ZN15DirectTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000320 $d
+     /tmp/ccDsoCRY.s:1318   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 $t
+     /tmp/ccDsoCRY.s:1326   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000000 _ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j
+     /tmp/ccDsoCRY.s:1974   .text._ZN16InverseTransformIfLj12E14RotationPhasorIfLj12EEEclEPfS3_PKhPS1_j:0000000000000350 $d
+     /tmp/ccDsoCRY.s:1985   .text._ZN4STFT6BufferEv:0000000000000000 $t
+     /tmp/ccDsoCRY.s:1993   .text._ZN4STFT6BufferEv:0000000000000000 _ZN4STFT6BufferEv
+     /tmp/ccDsoCRY.s:2406   .text._ZN4STFT6BufferEv:0000000000000180 $d
+     /tmp/ccDsoCRY.s:3831   .rodata._ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E:0000000000000000 _ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E
+     /tmp/ccDsoCRY.s:2410   .text._ZN4STFT6BufferEv:0000000000000184 $t
+     /tmp/ccDsoCRY.s:2963   .text._ZN4STFT6BufferEv:000000000000043c $d
+     /tmp/ccDsoCRY.s:2975   .text._ZN4STFT6BufferEv:0000000000000444 $t
+     /tmp/ccDsoCRY.s:3816   .text._ZN4STFT6BufferEv:00000000000007b8 $d
+     /tmp/ccDsoCRY.s:3828   .rodata._ZN6ShyFFTIfLj4096E14RotationPhasorE16bit_rev_256_lut_E:0000000000000000 $d
 
 UNDEFINED SYMBOLS
 cosf

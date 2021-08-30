@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccoDtert.s 			page 1
+ARM GAS  /tmp/cciNPEvk.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   27:dsp/pvoc/frame_transformation.cpp **** // Transformations applied to a single STFT slice.
   28:dsp/pvoc/frame_transformation.cpp **** 
   29:dsp/pvoc/frame_transformation.cpp **** #include "frame_transformation.h"
-ARM GAS  /tmp/ccoDtert.s 			page 2
+ARM GAS  /tmp/cciNPEvk.s 			page 2
 
 
   30:dsp/pvoc/frame_transformation.cpp **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   56              		.loc 1 52 5 is_stmt 1 view .LVU10
   57              	.LVL1:
   58              	.LBB175:
-ARM GAS  /tmp/ccoDtert.s 			page 3
+ARM GAS  /tmp/cciNPEvk.s 			page 3
 
 
   59              		.loc 1 52 26 view .LVU11
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   94              		.loc 1 58 9 view .LVU23
   95 0032 4260     		str	r2, [r0, #4]
   56:dsp/pvoc/frame_transformation.cpp ****     num_textures_
-ARM GAS  /tmp/ccoDtert.s 			page 4
+ARM GAS  /tmp/cciNPEvk.s 			page 4
 
 
   96              		.loc 1 56 13 view .LVU24
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
    4:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** //
    5:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // This file is part of the GNU ISO C++ Library.  This library is free
    6:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // software; you can redistribute it and/or modify it under the
-ARM GAS  /tmp/ccoDtert.s 			page 5
+ARM GAS  /tmp/cciNPEvk.s 			page 5
 
 
    7:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** // terms of the GNU General Public License as published by the
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   61:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <bits/cpp_type_traits.h>
   62:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <ext/type_traits.h>
   63:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <ext/numeric_traits.h>
-ARM GAS  /tmp/ccoDtert.s 			page 6
+ARM GAS  /tmp/cciNPEvk.s 			page 6
 
 
   64:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #include <bits/stl_pair.h>
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  118:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  This function swaps the values pointed to by two iterators, not the
  119:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  iterators themselves.
  120:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   */
-ARM GAS  /tmp/ccoDtert.s 			page 7
+ARM GAS  /tmp/cciNPEvk.s 			page 7
 
 
  121:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _ForwardIterator1, typename _ForwardIterator2>
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  175:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
  176:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 				  _ForwardIterator2>)
  177:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       __glibcxx_requires_valid_range(__first1, __last1);
-ARM GAS  /tmp/ccoDtert.s 			page 8
+ARM GAS  /tmp/cciNPEvk.s 			page 8
 
 
  178:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  232:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   /**
  233:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  @brief This does what you think it does.
  234:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  @ingroup sorting_algorithms
-ARM GAS  /tmp/ccoDtert.s 			page 9
+ARM GAS  /tmp/cciNPEvk.s 			page 9
 
 
  235:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  @param  __a  A thing of arbitrary type.
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  289:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     __niter_wrap(_From __from, _To __res)
  290:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     { return __from + (__res - std::__niter_base(__from)); }
  291:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
-ARM GAS  /tmp/ccoDtert.s 			page 10
+ARM GAS  /tmp/cciNPEvk.s 			page 10
 
 
  292:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   // No need to wrap, iterator already has the right type.
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  346:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  return __result;
  347:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	}
  348:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     };
-ARM GAS  /tmp/ccoDtert.s 			page 11
+ARM GAS  /tmp/cciNPEvk.s 			page 11
 
 
  349:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  403:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       return std::__copy_move<_IsMove, __simple,
  404:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 			      _Category>::__copy_m(__first, __last, __result);
  405:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 12
+ARM GAS  /tmp/cciNPEvk.s 			page 12
 
 
  406:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  460:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  Note that the end of the output range is permitted to be contained
  461:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  within [first,last).
  462:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   */
-ARM GAS  /tmp/ccoDtert.s 			page 13
+ARM GAS  /tmp/cciNPEvk.s 			page 13
 
 
  463:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****   template<typename _II, typename _OI>
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  517:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       template<typename _BI1, typename _BI2>
  518:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	static _BI2
  519:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	__copy_move_b(_BI1 __first, _BI1 __last, _BI2 __result)
-ARM GAS  /tmp/ccoDtert.s 			page 14
+ARM GAS  /tmp/cciNPEvk.s 			page 14
 
 
  520:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	{
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  574:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     {
  575:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****       template<typename _Tp>
  576:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	static _Tp*
-ARM GAS  /tmp/ccoDtert.s 			page 15
+ARM GAS  /tmp/cciNPEvk.s 			page 15
 
 
  577:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	__copy_move_b(const _Tp* __first, const _Tp* __last, _Tp* __result)
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  631:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  This inline function will boil down to a call to @c memmove whenever
  632:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  possible.  Failing that, if random access iterators are passed, then the
  633:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  loop count will be known (and therefore a candidate for compiler
-ARM GAS  /tmp/ccoDtert.s 			page 16
+ARM GAS  /tmp/cciNPEvk.s 			page 16
 
 
  634:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****    *  optimizations such as unrolling).
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  688:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 						__result);
  689:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     }
  690:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 
-ARM GAS  /tmp/ccoDtert.s 			page 17
+ARM GAS  /tmp/cciNPEvk.s 			page 17
 
 
  691:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** #define _GLIBCXX_MOVE_BACKWARD3(_Tp, _Up, _Vp) std::move_backward(_Tp, _Up, _Vp)
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  139              	.LBI179:
  709:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	     const _Tp& __value)
  140              		.loc 2 709 5 view .LVU41
-ARM GAS  /tmp/ccoDtert.s 			page 18
+ARM GAS  /tmp/cciNPEvk.s 			page 18
 
 
  141              	.LBB180:
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  188              	_ZN19FrameTransformation5ResetEv:
  189              	.LVL12:
  190              	.LFB4228:
-ARM GAS  /tmp/ccoDtert.s 			page 19
+ARM GAS  /tmp/cciNPEvk.s 			page 19
 
 
   66:dsp/pvoc/frame_transformation.cpp ****     for(int32_t i = 0; i < num_textures_; ++i)
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  237              	.L16:
  714:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     }
  238              		.loc 2 714 2 is_stmt 0 view .LVU65
-ARM GAS  /tmp/ccoDtert.s 			page 20
+ARM GAS  /tmp/cciNPEvk.s 			page 20
 
 
  239 001c 0022     		movs	r2, #0
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   78:dsp/pvoc/frame_transformation.cpp ****     fft_out[fft_size_ >> 1] = 0.0f;
   79:dsp/pvoc/frame_transformation.cpp **** 
   80:dsp/pvoc/frame_transformation.cpp ****     bool  freeze      = parameters.freeze;
-ARM GAS  /tmp/ccoDtert.s 			page 21
+ARM GAS  /tmp/cciNPEvk.s 			page 21
 
 
   81:dsp/pvoc/frame_transformation.cpp ****     bool  glitch      = parameters.gate;
@@ -1258,7 +1258,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  118:dsp/pvoc/frame_transformation.cpp ****     for(int32_t i = 1; i < size_; ++i)
  297              		.loc 1 118 28 view .LVU77
  298 0004 8668     		ldr	r6, [r0, #8]
-ARM GAS  /tmp/ccoDtert.s 			page 22
+ARM GAS  /tmp/cciNPEvk.s 			page 22
 
 
  299              	.LBE207:
@@ -1318,7 +1318,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   20:./stmtemp.h   **** #define CONSTRAIN(var, min, max) \
   21:./stmtemp.h   ****     if(var < (min))              \
   22:./stmtemp.h   ****     {                            \
-ARM GAS  /tmp/ccoDtert.s 			page 23
+ARM GAS  /tmp/cciNPEvk.s 			page 23
 
 
   23:./stmtemp.h   ****         var = (min);             \
@@ -1378,7 +1378,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   77:./stmtemp.h   ****     float Next()
   78:./stmtemp.h   ****     {
   79:./stmtemp.h   ****         phs_ += phs_inc_;
-ARM GAS  /tmp/ccoDtert.s 			page 24
+ARM GAS  /tmp/cciNPEvk.s 			page 24
 
 
   80:./stmtemp.h   **** 
@@ -1438,7 +1438,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  134:./stmtemp.h   **** 
  135:./stmtemp.h   **** inline float Crossfade(float a, float b, float fade)
  136:./stmtemp.h   **** {
-ARM GAS  /tmp/ccoDtert.s 			page 25
+ARM GAS  /tmp/cciNPEvk.s 			page 25
 
 
  137:./stmtemp.h   ****     return a + (b - a) * fade;
@@ -1498,7 +1498,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  191:./stmtemp.h   ****     uint32_t quadrant = ((~ux_s & uy_s) >> 29 | ux_s >> 30);
  192:./stmtemp.h   ****     uint16_t angle    = 0;
  193:./stmtemp.h   ****     x                 = fabs(x);
-ARM GAS  /tmp/ccoDtert.s 			page 26
+ARM GAS  /tmp/cciNPEvk.s 			page 26
 
 
  194:./stmtemp.h   ****     y                 = fabs(y);
@@ -1558,7 +1558,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  169:./stmtemp.h   **** }
  367              		.loc 3 169 5 is_stmt 0 view .LVU99
  368              	.LBE220:
-ARM GAS  /tmp/ccoDtert.s 			page 27
+ARM GAS  /tmp/cciNPEvk.s 			page 27
 
 
  369              	.LBE228:
@@ -1618,7 +1618,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   15:/usr/include/newlib/c++/9.2.1/cmath **** 
   16:/usr/include/newlib/c++/9.2.1/cmath **** // Under Section 7 of GPL version 3, you are granted additional
   17:/usr/include/newlib/c++/9.2.1/cmath **** // permissions described in the GCC Runtime Library Exception, version
-ARM GAS  /tmp/ccoDtert.s 			page 28
+ARM GAS  /tmp/cciNPEvk.s 			page 28
 
 
   18:/usr/include/newlib/c++/9.2.1/cmath **** // 3.1, as published by the Free Software Foundation.
@@ -1678,7 +1678,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   72:/usr/include/newlib/c++/9.2.1/cmath **** #undef sinh
   73:/usr/include/newlib/c++/9.2.1/cmath **** #undef sqrt
   74:/usr/include/newlib/c++/9.2.1/cmath **** #undef tan
-ARM GAS  /tmp/ccoDtert.s 			page 29
+ARM GAS  /tmp/cciNPEvk.s 			page 29
 
 
   75:/usr/include/newlib/c++/9.2.1/cmath **** #undef tanh
@@ -1738,7 +1738,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  129:/usr/include/newlib/c++/9.2.1/cmath ****   atan(long double __x)
  130:/usr/include/newlib/c++/9.2.1/cmath ****   { return __builtin_atanl(__x); }
  131:/usr/include/newlib/c++/9.2.1/cmath **** #endif
-ARM GAS  /tmp/ccoDtert.s 			page 30
+ARM GAS  /tmp/cciNPEvk.s 			page 30
 
 
  132:/usr/include/newlib/c++/9.2.1/cmath **** 
@@ -1798,7 +1798,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  186:/usr/include/newlib/c++/9.2.1/cmath **** 
  187:/usr/include/newlib/c++/9.2.1/cmath ****   inline _GLIBCXX_CONSTEXPR long double
  188:/usr/include/newlib/c++/9.2.1/cmath ****   cos(long double __x)
-ARM GAS  /tmp/ccoDtert.s 			page 31
+ARM GAS  /tmp/cciNPEvk.s 			page 31
 
 
  189:/usr/include/newlib/c++/9.2.1/cmath ****   { return __builtin_cosl(__x); }
@@ -1858,7 +1858,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  397              	.LBB232:
  242:/usr/include/newlib/c++/9.2.1/cmath ****   { return __builtin_fabsf(__x); }
  398              		.loc 4 242 5 view .LVU114
-ARM GAS  /tmp/ccoDtert.s 			page 32
+ARM GAS  /tmp/cciNPEvk.s 			page 32
 
 
  399              		.loc 4 242 5 is_stmt 0 view .LVU115
@@ -1918,7 +1918,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  439 006e 03EB8E33 		add	r3, r3, lr, lsl #14
  440              	.LVL35:
  441              		.loc 3 208 35 view .LVU132
-ARM GAS  /tmp/ccoDtert.s 			page 33
+ARM GAS  /tmp/cciNPEvk.s 			page 33
 
 
  442 0072 9BB2     		uxth	r3, r3
@@ -1978,7 +1978,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  485              	.LBE246:
  486              	.LBE249:
  120:dsp/pvoc/frame_transformation.cpp ****         phases_delta_[i] = angle - phases_[i];
-ARM GAS  /tmp/ccoDtert.s 			page 34
+ARM GAS  /tmp/cciNPEvk.s 			page 34
 
 
  487              		.loc 1 120 39 discriminator 2 view .LVU147
@@ -2038,7 +2038,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  529              		.loc 3 160 5 discriminator 2 view .LVU160
  161:./stmtemp.h   ****     const float threehalfs = 1.5f;
  530              		.loc 3 161 5 discriminator 2 view .LVU161
-ARM GAS  /tmp/ccoDtert.s 			page 35
+ARM GAS  /tmp/cciNPEvk.s 			page 35
 
 
  162:./stmtemp.h   ****     y                      = x;
@@ -2098,7 +2098,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  569 00ca 4EEA527E 		orr	lr, lr, r2, lsr #29
  570              	.LBB243:
  571              	.LBB225:
-ARM GAS  /tmp/ccoDtert.s 			page 36
+ARM GAS  /tmp/cciNPEvk.s 			page 36
 
 
  572              	.LBB217:
@@ -2158,7 +2158,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  202:./stmtemp.h   ****     }
  613              		.loc 3 202 50 view .LVU193
  614 00e8 67EEA67A 		vmul.f32	s15, s15, s13
-ARM GAS  /tmp/ccoDtert.s 			page 37
+ARM GAS  /tmp/cciNPEvk.s 			page 37
 
 
  615              	.LVL46:
@@ -2218,7 +2218,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  659              		@ frame_needed = 0, uses_anonymous_args = 0
  130:dsp/pvoc/frame_transformation.cpp ****     uint32_t* synthesis_phase = (uint32_t*)&destination[fft_size_ >> 1];
  660              		.loc 1 130 5 view .LVU201
-ARM GAS  /tmp/ccoDtert.s 			page 38
+ARM GAS  /tmp/cciNPEvk.s 			page 38
 
 
  129:dsp/pvoc/frame_transformation.cpp ****     uint32_t* synthesis_phase = (uint32_t*)&destination[fft_size_ >> 1];
@@ -2278,7 +2278,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  706 0022 0130     		adds	r0, r0, #1
  707              	.LVL53:
  708              		.loc 1 134 45 discriminator 2 view .LVU216
-ARM GAS  /tmp/ccoDtert.s 			page 39
+ARM GAS  /tmp/cciNPEvk.s 			page 39
 
 
  709 0024 07EE903A 		vmov	s15, r3	@ int
@@ -2338,7 +2338,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  750 0062 38D4     		bmi	.L44
  751              		.loc 1 139 5 discriminator 2 view .LVU235
  752 0064 B7EE007A 		vmov.f32	s14, #1.0e+0
-ARM GAS  /tmp/ccoDtert.s 			page 40
+ARM GAS  /tmp/cciNPEvk.s 			page 40
 
 
  753 0068 F4EEC77A 		vcmpe.f32	s15, s14
@@ -2398,7 +2398,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  797              	.LBE257:
  146:dsp/pvoc/frame_transformation.cpp ****                >> 14;
  147:dsp/pvoc/frame_transformation.cpp ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 41
+ARM GAS  /tmp/cciNPEvk.s 			page 41
 
 
  148:dsp/pvoc/frame_transformation.cpp **** }
@@ -2458,7 +2458,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  840              	.L48:
  841 00dc CDCC4C3D 		.word	1028443341
  842 00e0 14AE873F 		.word	1065856532
-ARM GAS  /tmp/ccoDtert.s 			page 42
+ARM GAS  /tmp/cciNPEvk.s 			page 42
 
 
  843              		.cfi_endproc
@@ -2518,7 +2518,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  887              		.loc 1 154 5 is_stmt 1 view .LVU273
  155:dsp/pvoc/frame_transformation.cpp ****     for(int32_t i = 1; i < size_; ++i)
  888              		.loc 1 155 5 view .LVU274
-ARM GAS  /tmp/ccoDtert.s 			page 43
+ARM GAS  /tmp/cciNPEvk.s 			page 43
 
 
  889              		.loc 1 156 5 view .LVU275
@@ -2578,7 +2578,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   33:dsp/pvoc/frame_transformation.h **** 
   34:dsp/pvoc/frame_transformation.h **** const int32_t kMaxNumTextures          = 7;
   35:dsp/pvoc/frame_transformation.h **** const int32_t kHighFrequencyTruncation = 16;
-ARM GAS  /tmp/ccoDtert.s 			page 44
+ARM GAS  /tmp/cciNPEvk.s 			page 44
 
 
   36:dsp/pvoc/frame_transformation.h **** 
@@ -2638,7 +2638,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  929              	.LVL77:
  930              		.loc 5 66 9 is_stmt 1 discriminator 2 view .LVU289
  931              	.LBE260:
-ARM GAS  /tmp/ccoDtert.s 			page 45
+ARM GAS  /tmp/cciNPEvk.s 			page 45
 
 
  932              	.LBE259:
@@ -2698,7 +2698,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  975 006e F8D1     		bne	.L56
  976              	.L50:
  160:dsp/pvoc/frame_transformation.cpp ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 46
+ARM GAS  /tmp/cciNPEvk.s 			page 46
 
 
  977              		.loc 1 160 30 is_stmt 0 discriminator 2 view .LVU305
@@ -2758,7 +2758,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1024 000e 032B     		cmp	r3, #3
  1025 0010 34D8     		bhi	.L63
  1026 0012 DFE803F0 		tbb	[pc, r3]
-ARM GAS  /tmp/ccoDtert.s 			page 47
+ARM GAS  /tmp/cciNPEvk.s 			page 47
 
 
  1027              	.L66:
@@ -2818,7 +2818,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1042              	.LVL85:
  1043              	.LBB268:
  1044              	.LBI268:
-ARM GAS  /tmp/ccoDtert.s 			page 48
+ARM GAS  /tmp/cciNPEvk.s 			page 48
 
 
  1045              		.file 6 "/usr/include/newlib/c++/9.2.1/bits/stl_algo.h"
@@ -2878,7 +2878,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   54:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****  */
   55:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
   56:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** #ifndef _STL_ALGO_H
-ARM GAS  /tmp/ccoDtert.s 			page 49
+ARM GAS  /tmp/cciNPEvk.s 			page 49
 
 
   57:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** #define _STL_ALGO_H 1
@@ -2938,7 +2938,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  111:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     _RandomAccessIterator
  112:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     __find_if(_RandomAccessIterator __first, _RandomAccessIterator __last,
  113:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      _Predicate __pred, random_access_iterator_tag)
-ARM GAS  /tmp/ccoDtert.s 			page 50
+ARM GAS  /tmp/cciNPEvk.s 			page 50
 
 
  114:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
@@ -2998,7 +2998,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  168:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     __find_if_not(_InputIterator __first, _InputIterator __last,
  169:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  _Predicate __pred)
  170:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 51
+ARM GAS  /tmp/cciNPEvk.s 			page 51
 
 
  171:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return std::__find_if(__first, __last,
@@ -3058,7 +3058,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  225:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  __first1 =
  226:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    std::__find_if(__first1, __last1,
  227:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		__gnu_cxx::__ops::__iter_comp_iter(__predicate, __first2));
-ARM GAS  /tmp/ccoDtert.s 			page 52
+ARM GAS  /tmp/cciNPEvk.s 			page 52
 
 
  228:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -3118,7 +3118,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  282:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
  283:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  This is an helper function for search_n overloaded for random access
  284:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  iterators.
-ARM GAS  /tmp/ccoDtert.s 			page 53
+ARM GAS  /tmp/cciNPEvk.s 			page 53
 
 
  285:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
@@ -3178,7 +3178,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  339:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	       forward_iterator_tag, forward_iterator_tag,
  340:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	       _BinaryPredicate __comp)
  341:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 54
+ARM GAS  /tmp/cciNPEvk.s 			page 54
 
 
  342:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__first2 == __last2)
@@ -3238,7 +3238,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  396:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
  397:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
  398:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Find last matching subsequence in a sequence.
-ARM GAS  /tmp/ccoDtert.s 			page 55
+ARM GAS  /tmp/cciNPEvk.s 			page 55
 
 
  399:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup non_mutating_algorithms
@@ -3298,7 +3298,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  453:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  predicate(*(i+N), @p (__first2+N)) is true for each @c N in the
  454:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  range @p [0,__last2-__first2), or @p __last1 if no such iterator
  455:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  exists.
-ARM GAS  /tmp/ccoDtert.s 			page 56
+ARM GAS  /tmp/cciNPEvk.s 			page 56
 
 
  456:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
@@ -3358,7 +3358,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  510:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
  511:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
  512:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Checks that a predicate is false for all the elements
-ARM GAS  /tmp/ccoDtert.s 			page 57
+ARM GAS  /tmp/cciNPEvk.s 			page 57
 
 
  513:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *          of a sequence.
@@ -3418,7 +3418,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  567:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				__gnu_cxx::__ops::__pred_iter(__pred));
  568:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
  569:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
-ARM GAS  /tmp/ccoDtert.s 			page 58
+ARM GAS  /tmp/cciNPEvk.s 			page 58
 
 
  570:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
@@ -3478,7 +3478,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  624:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  __middle = __first;
  625:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  std::advance(__middle, __half);
  626:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  if (__pred(*__middle))
-ARM GAS  /tmp/ccoDtert.s 			page 59
+ARM GAS  /tmp/cciNPEvk.s 			page 59
 
 
  627:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    {
@@ -3538,7 +3538,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  681:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return std::__remove_copy_if(__first, __last, __result,
  682:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	__gnu_cxx::__ops::__iter_equals_val(__value));
  683:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 60
+ARM GAS  /tmp/cciNPEvk.s 			page 60
 
 
  684:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -3598,7 +3598,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  738:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    _OutputIterator __result, _Predicate __pred)
  739:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
  740:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
-ARM GAS  /tmp/ccoDtert.s 			page 61
+ARM GAS  /tmp/cciNPEvk.s 			page 61
 
 
  741:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
@@ -3658,7 +3658,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  795:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  optimizations such as unrolling).
  796:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
  797:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _InputIterator, typename _Size, typename _OutputIterator>
-ARM GAS  /tmp/ccoDtert.s 			page 62
+ARM GAS  /tmp/cciNPEvk.s 			page 62
 
 
  798:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline _OutputIterator
@@ -3718,7 +3718,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  852:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  }
  853:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
  854:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return pair<_OutputIterator1, _OutputIterator2>(__out_true, __out_false);
-ARM GAS  /tmp/ccoDtert.s 			page 63
+ARM GAS  /tmp/cciNPEvk.s 			page 63
 
 
  855:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
@@ -3778,7 +3778,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  909:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
  910:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
  911:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Remove elements from a sequence using a predicate.
-ARM GAS  /tmp/ccoDtert.s 			page 64
+ARM GAS  /tmp/cciNPEvk.s 			page 64
 
 
  912:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup mutating_algorithms
@@ -3838,7 +3838,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  966:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __first = std::__adjacent_find(__first, __last, __binary_pred);
  967:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__first == __last)
  968:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	return __last;
-ARM GAS  /tmp/ccoDtert.s 			page 65
+ARM GAS  /tmp/cciNPEvk.s 			page 65
 
 
  969:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -3898,7 +3898,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1023:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _ForwardIterator, typename _BinaryPredicate>
 1024:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline _ForwardIterator
 1025:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     unique(_ForwardIterator __first, _ForwardIterator __last,
-ARM GAS  /tmp/ccoDtert.s 			page 66
+ARM GAS  /tmp/cciNPEvk.s 			page 66
 
 
 1026:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   _BinaryPredicate __binary_pred)
@@ -3958,7 +3958,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1080:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  input_iterator_tag, output_iterator_tag)
 1081:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 1082:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements -- iterators already checked
-ARM GAS  /tmp/ccoDtert.s 			page 67
+ARM GAS  /tmp/cciNPEvk.s 			page 67
 
 
 1083:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_BinaryPredicateConcept<_BinaryPredicate,
@@ -4018,7 +4018,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1137:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  return;
 1138:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	else
 1139:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  {
-ARM GAS  /tmp/ccoDtert.s 			page 68
+ARM GAS  /tmp/cciNPEvk.s 			page 68
 
 
 1140:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    std::iter_swap(__first, __last);
@@ -4078,7 +4078,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1194:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __result  An output iterator.
 1195:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  An iterator designating the end of the resulting sequence.
 1196:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
-ARM GAS  /tmp/ccoDtert.s 			page 69
+ARM GAS  /tmp/cciNPEvk.s 			page 69
 
 
 1197:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  Copies the elements in the range @p [__first,__last) to the
@@ -4138,7 +4138,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1251:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	     _ForwardIterator __last,
 1252:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	     forward_iterator_tag)
 1253:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 70
+ARM GAS  /tmp/cciNPEvk.s 			page 70
 
 
 1254:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__first == __middle)
@@ -4198,7 +4198,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1308:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	{
 1309:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  std::iter_swap(__first, --__last);
 1310:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  ++__first;
-ARM GAS  /tmp/ccoDtert.s 			page 71
+ARM GAS  /tmp/cciNPEvk.s 			page 71
 
 
 1311:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	}
@@ -4258,7 +4258,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1365:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  _ValueType __t = _GLIBCXX_MOVE(*__p);
 1366:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  _GLIBCXX_MOVE3(__p + 1, __p + __n, __p);
 1367:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  *(__p + __n - 1) = _GLIBCXX_MOVE(__t);
-ARM GAS  /tmp/ccoDtert.s 			page 72
+ARM GAS  /tmp/cciNPEvk.s 			page 72
 
 
 1368:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  return __ret;
@@ -4318,7 +4318,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1422:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @p __first+1 and so on for each element in the range
 1423:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @p [__first,__last).
 1424:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
-ARM GAS  /tmp/ccoDtert.s 			page 73
+ARM GAS  /tmp/cciNPEvk.s 			page 73
 
 
 1425:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  This effectively swaps the ranges @p [__first,__middle) and
@@ -4378,7 +4378,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1479:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__middle, __last);
 1480:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 1481:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return std::copy(__first, __middle,
-ARM GAS  /tmp/ccoDtert.s 			page 74
+ARM GAS  /tmp/cciNPEvk.s 			page 74
 
 
 1482:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		       std::copy(__middle, __last, __result));
@@ -4438,7 +4438,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1536:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
 1537:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 1538:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   // partition
-ARM GAS  /tmp/ccoDtert.s 			page 75
+ARM GAS  /tmp/cciNPEvk.s 			page 75
 
 
 1539:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -4498,7 +4498,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1593:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // function's preconditions.
 1594:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       _Distance __right_len = __len - __len / 2;
 1595:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       _ForwardIterator __right_split =
-ARM GAS  /tmp/ccoDtert.s 			page 76
+ARM GAS  /tmp/cciNPEvk.s 			page 76
 
 
 1596:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	std::__find_if_not_n(__middle, __right_len, __pred);
@@ -4558,7 +4558,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1650:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     stable_partition(_ForwardIterator __first, _ForwardIterator __last,
 1651:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		     _Predicate __pred)
 1652:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 77
+ARM GAS  /tmp/cciNPEvk.s 			page 77
 
 
 1653:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
@@ -4618,7 +4618,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1707:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			       _DistanceType(__result_real_last
 1708:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 					     - __result_first),
 1709:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			       _InputValueType(*__first), __comp);
-ARM GAS  /tmp/ccoDtert.s 			page 78
+ARM GAS  /tmp/cciNPEvk.s 			page 78
 
 
 1710:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  ++__first;
@@ -4678,7 +4678,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1764:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Copy the smallest elements of a sequence using a predicate for
 1765:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *         comparison.
 1766:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup sorting_algorithms
-ARM GAS  /tmp/ccoDtert.s 			page 79
+ARM GAS  /tmp/cciNPEvk.s 			page 79
 
 
 1767:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first   An input iterator.
@@ -4738,7 +4738,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1821:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			      _Compare __comp)
 1822:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 1823:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       typename iterator_traits<_RandomAccessIterator>::value_type
-ARM GAS  /tmp/ccoDtert.s 			page 80
+ARM GAS  /tmp/cciNPEvk.s 			page 80
 
 
 1824:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	__val = _GLIBCXX_MOVE(*__last);
@@ -4798,7 +4798,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1878:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     void
 1879:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     __final_insertion_sort(_RandomAccessIterator __first,
 1880:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			   _RandomAccessIterator __last, _Compare __comp)
-ARM GAS  /tmp/ccoDtert.s 			page 81
+ARM GAS  /tmp/cciNPEvk.s 			page 81
 
 
 1881:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
@@ -4858,7 +4858,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1935:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 1936:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /// This is a helper function for the sort routine.
 1937:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _RandomAccessIterator, typename _Size, typename _Compare>
-ARM GAS  /tmp/ccoDtert.s 			page 82
+ARM GAS  /tmp/cciNPEvk.s 			page 82
 
 
 1938:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     void
@@ -4918,7 +4918,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 1992:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  if (__cut <= __nth)
 1993:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    __first = __cut;
 1994:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  else
-ARM GAS  /tmp/ccoDtert.s 			page 83
+ARM GAS  /tmp/cciNPEvk.s 			page 83
 
 
 1995:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    __last = __cut;
@@ -4978,7 +4978,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2049:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  _ForwardIterator __middle = __first;
 2050:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  std::advance(__middle, __half);
 2051:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  if (__comp(__val, __middle))
-ARM GAS  /tmp/ccoDtert.s 			page 84
+ARM GAS  /tmp/cciNPEvk.s 			page 84
 
 
 2052:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    __len = __half;
@@ -5038,7 +5038,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2106:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     upper_bound(_ForwardIterator __first, _ForwardIterator __last,
 2107:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		const _Tp& __val, _Compare __comp)
 2108:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 85
+ARM GAS  /tmp/cciNPEvk.s 			page 85
 
 
 2109:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
@@ -5098,7 +5098,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2163:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __last    Another iterator.
 2164:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __val     The search term.
 2165:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  An pair of iterators defining the subrange.
-ARM GAS  /tmp/ccoDtert.s 			page 86
+ARM GAS  /tmp/cciNPEvk.s 			page 86
 
 
 2166:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup binary_search_algorithms
@@ -5158,7 +5158,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2220:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_BinaryPredicateConcept<_Compare,
 2221:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	_Tp, typename iterator_traits<_ForwardIterator>::value_type>)
 2222:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_partitioned_lower_pred(__first, __last,
-ARM GAS  /tmp/ccoDtert.s 			page 87
+ARM GAS  /tmp/cciNPEvk.s 			page 87
 
 
 2223:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 						__val, __comp);
@@ -5218,7 +5218,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2277:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _ForwardIterator, typename _Tp, typename _Compare>
 2278:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     bool
 2279:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     binary_search(_ForwardIterator __first, _ForwardIterator __last,
-ARM GAS  /tmp/ccoDtert.s 			page 88
+ARM GAS  /tmp/cciNPEvk.s 			page 88
 
 
 2280:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		  const _Tp& __val, _Compare __comp)
@@ -5278,7 +5278,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2334:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				   _Compare __comp)
 2335:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 2336:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__first1 == __last1)
-ARM GAS  /tmp/ccoDtert.s 			page 89
+ARM GAS  /tmp/cciNPEvk.s 			page 89
 
 
 2337:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	{
@@ -5338,7 +5338,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2391:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       else if (__len1 <= __buffer_size)
 2392:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	{
 2393:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  if (__len1)
-ARM GAS  /tmp/ccoDtert.s 			page 90
+ARM GAS  /tmp/cciNPEvk.s 			page 90
 
 
 2394:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    {
@@ -5398,7 +5398,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2448:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      __first_cut
 2449:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		= std::__upper_bound(__first, __middle, *__second_cut,
 2450:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				     __gnu_cxx::__ops::__val_comp_iter(__comp));
-ARM GAS  /tmp/ccoDtert.s 			page 91
+ARM GAS  /tmp/cciNPEvk.s 			page 91
 
 
 2451:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      __len11 = std::distance(__first, __first_cut);
@@ -5458,7 +5458,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2505:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    = std::__upper_bound(__first, __middle, *__second_cut,
 2506:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				 __gnu_cxx::__ops::__val_comp_iter(__comp));
 2507:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  __len11 = std::distance(__first, __first_cut);
-ARM GAS  /tmp/ccoDtert.s 			page 92
+ARM GAS  /tmp/cciNPEvk.s 			page 92
 
 
 2508:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	}
@@ -5518,7 +5518,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2562:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  If enough additional memory is available, this takes (__last-__first)-1
 2563:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  comparisons.  Otherwise an NlogN algorithm is used, where N is
 2564:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  distance(__first,__last).
-ARM GAS  /tmp/ccoDtert.s 			page 93
+ARM GAS  /tmp/cciNPEvk.s 			page 93
 
 
 2565:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
@@ -5578,7 +5578,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2619:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_BidirectionalIterator>::value_type>)
 2620:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_sorted_pred(__first, __middle, __comp);
 2621:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_sorted_pred(__middle, __last, __comp);
-ARM GAS  /tmp/ccoDtert.s 			page 94
+ARM GAS  /tmp/cciNPEvk.s 			page 94
 
 
 2622:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_irreflexive_pred(__first, __last, __comp);
@@ -5638,7 +5638,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2676:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       std::__move_merge(__first, __first + __step_size,
 2677:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			__first + __step_size, __last, __result, __comp);
 2678:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 95
+ARM GAS  /tmp/cciNPEvk.s 			page 95
 
 
 2679:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -5698,7 +5698,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2733:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__len > __buffer_size)
 2734:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	{
 2735:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  std::__stable_sort_adaptive(__first, __middle, __buffer,
-ARM GAS  /tmp/ccoDtert.s 			page 96
+ARM GAS  /tmp/cciNPEvk.s 			page 96
 
 
 2736:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				      __buffer_size, __comp);
@@ -5758,7 +5758,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2790:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  ++__first1;
 2791:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	else
 2792:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  {
-ARM GAS  /tmp/ccoDtert.s 			page 97
+ARM GAS  /tmp/cciNPEvk.s 			page 97
 
 
 2793:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    ++__first1;
@@ -5818,7 +5818,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2847:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first2  Start of sequence
 2848:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __last2   End of sequence.
 2849:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __comp    Comparison function to use.
-ARM GAS  /tmp/ccoDtert.s 			page 98
+ARM GAS  /tmp/cciNPEvk.s 			page 98
 
 
 2850:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return True if each element in [__first2,__last2) is contained
@@ -5878,7 +5878,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2904:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       _BidirectionalIterator __i = __first;
 2905:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       ++__i;
 2906:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       if (__i == __last)
-ARM GAS  /tmp/ccoDtert.s 			page 99
+ARM GAS  /tmp/cciNPEvk.s 			page 99
 
 
 2907:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	return false;
@@ -5938,7 +5938,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 2961:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
 2962:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 2963:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
-ARM GAS  /tmp/ccoDtert.s 			page 100
+ARM GAS  /tmp/cciNPEvk.s 			page 100
 
 
 2964:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Permute range into the next @e dictionary ordering using
@@ -5998,7 +5998,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3018:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		{}
 3019:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      std::iter_swap(__i, __j);
 3020:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      std::__reverse(__ii, __last,
-ARM GAS  /tmp/ccoDtert.s 			page 101
+ARM GAS  /tmp/cciNPEvk.s 			page 101
 
 
 3021:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 			     std::__iterator_category(__first));
@@ -6058,7 +6058,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3075:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  more sequences to generate.  If the sequence is the smallest of the set,
 3076:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  the largest is generated and false returned.
 3077:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
-ARM GAS  /tmp/ccoDtert.s 			page 102
+ARM GAS  /tmp/cciNPEvk.s 			page 102
 
 
 3078:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _BidirectionalIterator, typename _Compare>
@@ -6118,7 +6118,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3132:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		 const _Tp& __old_value, const _Tp& __new_value)
 3133:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 3134:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
-ARM GAS  /tmp/ccoDtert.s 			page 103
+ARM GAS  /tmp/cciNPEvk.s 			page 103
 
 
 3135:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
@@ -6178,7 +6178,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3189:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  ++__n;
 3190:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return __n;
 3191:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 104
+ARM GAS  /tmp/cciNPEvk.s 			page 104
 
 
 3192:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -6238,7 +6238,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3246:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     is_sorted_until(_ForwardIterator __first, _ForwardIterator __last)
 3247:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 3248:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
-ARM GAS  /tmp/ccoDtert.s 			page 105
+ARM GAS  /tmp/cciNPEvk.s 			page 105
 
 
 3249:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_ForwardIteratorConcept<_ForwardIterator>)
@@ -6298,7 +6298,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3303:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
 3304:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 3305:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
-ARM GAS  /tmp/ccoDtert.s 			page 106
+ARM GAS  /tmp/cciNPEvk.s 			page 106
 
 
 3306:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Determines min and max at once as an ordered pair.
@@ -6358,7 +6358,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3360:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 3361:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  if (__comp(__next, __first))
 3362:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    {
-ARM GAS  /tmp/ccoDtert.s 			page 107
+ARM GAS  /tmp/cciNPEvk.s 			page 107
 
 
 3363:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      if (__comp(__next, __min))
@@ -6418,7 +6418,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3417:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  make_pair(m, M), where m is the first iterator i in 
 3418:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *           [__first, __last) such that no other element in the range is
 3419:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *           smaller, and where M is the last iterator i in [__first, __last)
-ARM GAS  /tmp/ccoDtert.s 			page 108
+ARM GAS  /tmp/cciNPEvk.s 			page 108
 
 
 3420:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *           such that no other element in the range is larger.
@@ -6478,7 +6478,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3474:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 3475:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _Tp, typename _Compare>
 3476:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     _GLIBCXX14_CONSTEXPR
-ARM GAS  /tmp/ccoDtert.s 			page 109
+ARM GAS  /tmp/cciNPEvk.s 			page 109
 
 
 3477:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline pair<_Tp, _Tp>
@@ -6538,7 +6538,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3531:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *          ForwardIterator2 begin, such that equal(__first1, __last1, begin)
 3532:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *          returns true; otherwise, returns false.
 3533:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
-ARM GAS  /tmp/ccoDtert.s 			page 110
+ARM GAS  /tmp/cciNPEvk.s 			page 110
 
 
 3534:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _ForwardIterator1, typename _ForwardIterator2>
@@ -6598,7 +6598,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3588:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		     _ForwardIterator2 __first2, _ForwardIterator2 __last2,
 3589:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 		     _BinaryPredicate __pred)
 3590:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 111
+ARM GAS  /tmp/cciNPEvk.s 			page 111
 
 
 3591:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       using _Cat1
@@ -6658,7 +6658,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3645:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
 3646:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Checks whether a permutaion of the second sequence is equal
 3647:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *          to the first sequence.
-ARM GAS  /tmp/ccoDtert.s 			page 112
+ARM GAS  /tmp/cciNPEvk.s 			page 112
 
 
 3648:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup non_mutating_algorithms
@@ -6718,7 +6718,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3702:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 3703:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
 3704:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief  Returns the value clamped between lo and hi.
-ARM GAS  /tmp/ccoDtert.s 			page 113
+ARM GAS  /tmp/cciNPEvk.s 			page 113
 
 
 3705:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup sorting_algorithms
@@ -6778,7 +6778,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3759:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  invocation, and significantly reduce the waste.
 3760:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
 3761:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _IntType, typename _UniformRandomBitGenerator>
-ARM GAS  /tmp/ccoDtert.s 			page 114
+ARM GAS  /tmp/cciNPEvk.s 			page 114
 
 
 3762:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     pair<_IntType, _IntType>
@@ -6838,7 +6838,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3816:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 3817:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	// Since we know the range isn't empty, an even number of elements
 3818:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	// means an uneven number of elements /to swap/, in which case we
-ARM GAS  /tmp/ccoDtert.s 			page 115
+ARM GAS  /tmp/cciNPEvk.s 			page 115
 
 
 3819:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	// do the first one up front:
@@ -6898,7 +6898,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3873:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
 3874:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__first, __last);
 3875:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       for (; __first != __last; ++__first)
-ARM GAS  /tmp/ccoDtert.s 			page 116
+ARM GAS  /tmp/cciNPEvk.s 			page 116
 
 
 3876:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	__f(*__first);
@@ -6958,7 +6958,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3930:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
 3931:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
 3932:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
-ARM GAS  /tmp/ccoDtert.s 			page 117
+ARM GAS  /tmp/cciNPEvk.s 			page 117
 
 
 3933:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_EqualOpConcept<
@@ -7018,7 +7018,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 3987:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
 3988:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_ForwardIteratorConcept<_ForwardIterator>)
 3989:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_EqualOpConcept<
-ARM GAS  /tmp/ccoDtert.s 			page 118
+ARM GAS  /tmp/cciNPEvk.s 			page 118
 
 
 3990:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator>::value_type,
@@ -7078,7 +7078,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4044:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
 4045:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Find two adjacent values in a sequence that are equal.
 4046:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup non_mutating_algorithms
-ARM GAS  /tmp/ccoDtert.s 			page 119
+ARM GAS  /tmp/cciNPEvk.s 			page 119
 
 
 4047:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first  A forward iterator.
@@ -7138,7 +7138,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4101:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  for which @c *i == @p __value
 4102:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
 4103:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _InputIterator, typename _Tp>
-ARM GAS  /tmp/ccoDtert.s 			page 120
+ARM GAS  /tmp/cciNPEvk.s 			page 120
 
 
 4104:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline typename iterator_traits<_InputIterator>::difference_type
@@ -7198,7 +7198,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4158:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  Because the sub-sequence must lie completely within the range @p
 4159:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  [__first1,__last1) it must start at a position less than @p
 4160:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  __last1-(__last2-__first2) where @p __last2-__first2 is the
-ARM GAS  /tmp/ccoDtert.s 			page 121
+ARM GAS  /tmp/cciNPEvk.s 			page 121
 
 
 4161:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  length of the sub-sequence.
@@ -7258,7 +7258,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4215:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_BinaryPredicateConcept<_BinaryPredicate,
 4216:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_ForwardIterator1>::value_type,
 4217:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_ForwardIterator2>::value_type>)
-ARM GAS  /tmp/ccoDtert.s 			page 122
+ARM GAS  /tmp/cciNPEvk.s 			page 122
 
 
 4218:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__first1, __last1);
@@ -7318,7 +7318,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4272:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
 4273:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _ForwardIterator, typename _Integer, typename _Tp,
 4274:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   typename _BinaryPredicate>
-ARM GAS  /tmp/ccoDtert.s 			page 123
+ARM GAS  /tmp/cciNPEvk.s 			page 123
 
 
 4275:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline _ForwardIterator
@@ -7378,7 +7378,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4329:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
 4330:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    // "the type returned by a _UnaryOperation"
 4331:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    __typeof__(__unary_op(*__first))>)
-ARM GAS  /tmp/ccoDtert.s 			page 124
+ARM GAS  /tmp/cciNPEvk.s 			page 124
 
 
 4332:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__first, __last);
@@ -7438,7 +7438,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4386:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return   replace() returns no value.
 4387:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
 4388:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  For each iterator @c i in the range @p [__first,__last) if @c *i ==
-ARM GAS  /tmp/ccoDtert.s 			page 125
+ARM GAS  /tmp/cciNPEvk.s 			page 125
 
 
 4389:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @p __old_value then the assignment @c *i = @p __new_value is performed.
@@ -7498,7 +7498,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4443:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Assign the result of a function object to each value in a
 4444:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *         sequence.
 4445:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup mutating_algorithms
-ARM GAS  /tmp/ccoDtert.s 			page 126
+ARM GAS  /tmp/cciNPEvk.s 			page 126
 
 
 4446:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first  A forward iterator.
@@ -7558,7 +7558,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4500:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 4501:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
 4502:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Copy a sequence, removing consecutive duplicate values.
-ARM GAS  /tmp/ccoDtert.s 			page 127
+ARM GAS  /tmp/cciNPEvk.s 			page 127
 
 
 4503:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup mutating_algorithms
@@ -7618,7 +7618,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4557:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  copied is unchanged.
 4558:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
 4559:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  _GLIBCXX_RESOLVE_LIB_DEFECTS
-ARM GAS  /tmp/ccoDtert.s 			page 128
+ARM GAS  /tmp/cciNPEvk.s 			page 128
 
 
 4560:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  DR 241. Does unique_copy() require CopyConstructible and Assignable?
@@ -7678,7 +7678,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4614:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** #endif
 4615:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 4616:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   /**
-ARM GAS  /tmp/ccoDtert.s 			page 129
+ARM GAS  /tmp/cciNPEvk.s 			page 129
 
 
 4617:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @brief Shuffle the elements of a sequence using a random number
@@ -7738,7 +7738,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4671:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline _ForwardIterator
 4672:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     partition(_ForwardIterator __first, _ForwardIterator __last,
 4673:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      _Predicate   __pred)
-ARM GAS  /tmp/ccoDtert.s 			page 130
+ARM GAS  /tmp/cciNPEvk.s 			page 130
 
 
 4674:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
@@ -7798,7 +7798,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4728:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __last    Another iterator.
 4729:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __comp    A comparison functor.
 4730:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  Nothing.
-ARM GAS  /tmp/ccoDtert.s 			page 131
+ARM GAS  /tmp/cciNPEvk.s 			page 131
 
 
 4731:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
@@ -7858,7 +7858,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4785:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_LessThanComparableConcept<
 4786:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_RandomAccessIterator>::value_type>)
 4787:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__first, __nth);
-ARM GAS  /tmp/ccoDtert.s 			page 132
+ARM GAS  /tmp/cciNPEvk.s 			page 132
 
 
 4788:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_valid_range(__nth, __last);
@@ -7918,7 +7918,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4842:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first   An iterator.
 4843:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __last    Another iterator.
 4844:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  Nothing.
-ARM GAS  /tmp/ccoDtert.s 			page 133
+ARM GAS  /tmp/cciNPEvk.s 			page 133
 
 
 4845:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
@@ -7978,7 +7978,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4899:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 4900:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _InputIterator1, typename _InputIterator2,
 4901:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   typename _OutputIterator, typename _Compare>
-ARM GAS  /tmp/ccoDtert.s 			page 134
+ARM GAS  /tmp/cciNPEvk.s 			page 134
 
 
 4902:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     _OutputIterator
@@ -8038,7 +8038,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 4956:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
 4957:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator2>::value_type>)
 4958:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_LessThanOpConcept<
-ARM GAS  /tmp/ccoDtert.s 			page 135
+ARM GAS  /tmp/cciNPEvk.s 			page 135
 
 
 4959:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator2>::value_type,
@@ -8098,7 +8098,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5013:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_irreflexive_pred2(__first1, __last1, __comp);
 5014:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_irreflexive_pred2(__first2, __last2, __comp);
 5015:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
-ARM GAS  /tmp/ccoDtert.s 			page 136
+ARM GAS  /tmp/cciNPEvk.s 			page 136
 
 
 5016:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return _GLIBCXX_STD_A::__merge(__first1, __last1,
@@ -8158,7 +8158,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5070:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       _GLIBCXX_STD_A::__stable_sort(__first, __last,
 5071:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				    __gnu_cxx::__ops::__iter_less_iter());
 5072:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 137
+ARM GAS  /tmp/cciNPEvk.s 			page 137
 
 
 5073:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -8218,7 +8218,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5127:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      *__result = *__first2;
 5128:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	      ++__first2;
 5129:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    }
-ARM GAS  /tmp/ccoDtert.s 			page 138
+ARM GAS  /tmp/cciNPEvk.s 			page 138
 
 
 5130:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	  else
@@ -8278,7 +8278,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5184:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_irreflexive2(__first2, __last2);
 5185:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
 5186:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       return _GLIBCXX_STD_A::__set_union(__first1, __last1,
-ARM GAS  /tmp/ccoDtert.s 			page 139
+ARM GAS  /tmp/cciNPEvk.s 			page 139
 
 
 5187:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				__first2, __last2, __result,
@@ -8338,7 +8338,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5241:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _InputIterator1, typename _InputIterator2,
 5242:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   typename _OutputIterator,
 5243:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   typename _Compare>
-ARM GAS  /tmp/ccoDtert.s 			page 140
+ARM GAS  /tmp/cciNPEvk.s 			page 140
 
 
 5244:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     _OutputIterator
@@ -8398,7 +8398,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5298:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator2>::value_type,
 5299:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator1>::value_type>)
 5300:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_sorted_set(__first1, __last1, __first2);
-ARM GAS  /tmp/ccoDtert.s 			page 141
+ARM GAS  /tmp/cciNPEvk.s 			page 141
 
 
 5301:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_requires_sorted_set(__first2, __last2, __first1);
@@ -8458,7 +8458,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5355:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				__first2, __last2, __result,
 5356:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 				__gnu_cxx::__ops::__iter_comp_iter(__comp));
 5357:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     }
-ARM GAS  /tmp/ccoDtert.s 			page 142
+ARM GAS  /tmp/cciNPEvk.s 			page 142
 
 
 5358:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 
@@ -8518,7 +8518,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5412:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
 5413:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
 5414:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
-ARM GAS  /tmp/ccoDtert.s 			page 143
+ARM GAS  /tmp/cciNPEvk.s 			page 143
 
 
 5415:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator1>::value_type>)
@@ -8578,7 +8578,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5469:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator2>::value_type>)
 5470:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       __glibcxx_function_requires(_BinaryPredicateConcept<_Compare,
 5471:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator2>::value_type,
-ARM GAS  /tmp/ccoDtert.s 			page 144
+ARM GAS  /tmp/cciNPEvk.s 			page 144
 
 
 5472:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	    typename iterator_traits<_InputIterator1>::value_type>)
@@ -8638,7 +8638,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5526:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *
 5527:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  This operation iterates over both ranges, copying elements present in
 5528:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  one range but not the other in order to the output range.  Iterators
-ARM GAS  /tmp/ccoDtert.s 			page 145
+ARM GAS  /tmp/cciNPEvk.s 			page 145
 
 
 5529:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  increment for each range.  When the current element of one range is less
@@ -8698,7 +8698,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5583:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  range may not overlap either input range.
 5584:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   */
 5585:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****   template<typename _InputIterator1, typename _InputIterator2,
-ARM GAS  /tmp/ccoDtert.s 			page 146
+ARM GAS  /tmp/cciNPEvk.s 			page 146
 
 
 5586:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	   typename _OutputIterator, typename _Compare>
@@ -8758,7 +8758,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5640:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     _ForwardIterator
 5641:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     inline min_element(_ForwardIterator __first, _ForwardIterator __last)
 5642:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****     {
-ARM GAS  /tmp/ccoDtert.s 			page 147
+ARM GAS  /tmp/cciNPEvk.s 			page 147
 
 
 5643:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****       // concept requirements
@@ -8818,7 +8818,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
 5697:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @ingroup sorting_algorithms
 5698:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __first  Start of range.
 5699:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @param  __last   End of range.
-ARM GAS  /tmp/ccoDtert.s 			page 148
+ARM GAS  /tmp/cciNPEvk.s 			page 148
 
 
 5700:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h ****    *  @return  Iterator referencing the first instance of the largest value.
@@ -8878,7 +8878,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1084 004c F1D1     		bne	.L78
  1085              	.LVL93:
 5689:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	if (__comp(__result, __first))
-ARM GAS  /tmp/ccoDtert.s 			page 149
+ARM GAS  /tmp/cciNPEvk.s 			page 149
 
 
  1086              		.loc 6 5689 24 view .LVU328
@@ -8938,7 +8938,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1130              	.LBE273:
  1131              	.LBE272:
  1132              	.LBE271:
-ARM GAS  /tmp/ccoDtert.s 			page 150
+ARM GAS  /tmp/cciNPEvk.s 			page 150
 
 
  1133              		.loc 1 209 49 view .LVU341
@@ -8998,7 +8998,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1164              		.loc 1 217 60 is_stmt 0 view .LVU348
  1165 008a FFF7FEFF 		bl	rand
  1166              	.LVL103:
-ARM GAS  /tmp/ccoDtert.s 			page 151
+ARM GAS  /tmp/cciNPEvk.s 			page 151
 
 
  220:dsp/pvoc/frame_transformation.cpp ****                 }
@@ -9058,7 +9058,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1211              	.LVL106:
  192:dsp/pvoc/frame_transformation.cpp ****                 float source = 0.0f;
  1212              		.loc 1 192 66 view .LVU360
-ARM GAS  /tmp/ccoDtert.s 			page 152
+ARM GAS  /tmp/cciNPEvk.s 			page 152
 
 
  1213 00bc C0F30240 		ubfx	r0, r0, #16, #3
@@ -9118,7 +9118,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1254              	.LVL110:
  1255              	.L75:
  1256              	.LBB282:
-ARM GAS  /tmp/ccoDtert.s 			page 153
+ARM GAS  /tmp/cciNPEvk.s 			page 153
 
 
  201:dsp/pvoc/frame_transformation.cpp ****                 }
@@ -9178,7 +9178,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1297              		.loc 1 175 23 view .LVU387
  1298 0122 9FED0D8A 		vldr.32	s16, .L96
  1299              	.LVL116:
-ARM GAS  /tmp/ccoDtert.s 			page 154
+ARM GAS  /tmp/cciNPEvk.s 			page 154
 
 
  1300              	.L74:
@@ -9238,7 +9238,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1339              		.cfi_restore 80
  1340              		.cfi_restore 81
  1341              		.cfi_def_cfa_offset 16
-ARM GAS  /tmp/ccoDtert.s 			page 155
+ARM GAS  /tmp/cciNPEvk.s 			page 155
 
 
  1342              	.LVL121:
@@ -9298,7 +9298,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1391 0000 DFED4D7A 		vldr.32	s15, .L119
  1392              	.LBE312:
  231:dsp/pvoc/frame_transformation.cpp ****     if(amount <= 0.48f)
-ARM GAS  /tmp/ccoDtert.s 			page 156
+ARM GAS  /tmp/cciNPEvk.s 			page 156
 
 
  1393              		.loc 1 231 1 is_stmt 0 view .LVU411
@@ -9358,7 +9358,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1435 002a B0EE465A 		vmov.f32	s10, s12
  1436              	.LBB321:
  1437              	.LBB317:
-ARM GAS  /tmp/ccoDtert.s 			page 157
+ARM GAS  /tmp/cciNPEvk.s 			page 157
 
 
  132:./stmtemp.h   **** }
@@ -9418,7 +9418,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1478              		.loc 3 130 47 view .LVU440
  1479 004c 17EE10CA 		vmov	ip, s14	@ int
  1480 0050 00EB8C00 		add	r0, r0, ip, lsl #2
-ARM GAS  /tmp/ccoDtert.s 			page 158
+ARM GAS  /tmp/cciNPEvk.s 			page 158
 
 
  128:./stmtemp.h   **** 
@@ -9478,7 +9478,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  241:dsp/pvoc/frame_transformation.cpp ****                           * static_cast<float>(
  1521              		.loc 1 241 25 discriminator 2 view .LVU457
  1522 0096 E1EC017A 		vstmia.32	r1!, {s15}
-ARM GAS  /tmp/ccoDtert.s 			page 159
+ARM GAS  /tmp/cciNPEvk.s 			page 159
 
 
  239:dsp/pvoc/frame_transformation.cpp ****         {
@@ -9538,7 +9538,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1556              		.loc 1 248 9 view .LVU465
  249:dsp/pvoc/frame_transformation.cpp ****         float inv_norm = 1.0f / (norm + 0.0001f);
  1557              		.loc 1 249 68 is_stmt 0 view .LVU466
-ARM GAS  /tmp/ccoDtert.s 			page 160
+ARM GAS  /tmp/cciNPEvk.s 			page 160
 
 
  1558 00b0 8068     		ldr	r0, [r0, #8]
@@ -9598,7 +9598,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1600 00de F5D1     		bne	.L108
  1601              	.LVL145:
  1602              	.L107:
-ARM GAS  /tmp/ccoDtert.s 			page 161
+ARM GAS  /tmp/cciNPEvk.s 			page 161
 
 
 5689:/usr/include/newlib/c++/9.2.1/bits/stl_algo.h **** 	if (__comp(__result, __first))
@@ -9658,7 +9658,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1641 0106 76EEE76A 		vsub.f32	s13, s13, s15
  1642              	.LVL149:
  255:dsp/pvoc/frame_transformation.cpp ****         }
-ARM GAS  /tmp/ccoDtert.s 			page 162
+ARM GAS  /tmp/cciNPEvk.s 			page 162
 
 
  1643              		.loc 1 255 13 is_stmt 1 view .LVU496
@@ -9718,7 +9718,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1686              	.L120:
  1687              		.align	2
  1688              	.L119:
-ARM GAS  /tmp/ccoDtert.s 			page 163
+ARM GAS  /tmp/cciNPEvk.s 			page 163
 
 
  1689 0138 8FC2F53E 		.word	1056293519
@@ -9778,7 +9778,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1724              		.loc 1 273 30 view .LVU516
  1725 000a 06EE900A 		vmov	s13, r0	@ int
  1726              		.loc 1 277 12 view .LVU517
-ARM GAS  /tmp/ccoDtert.s 			page 164
+ARM GAS  /tmp/cciNPEvk.s 			page 164
 
 
  1727 000e 20EE070A 		vmul.f32	s0, s0, s14
@@ -9838,7 +9838,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1771              		.loc 1 281 72 is_stmt 0 discriminator 2 view .LVU533
  1772 003e F4EC017A 		vldmia.32	r4!, {s15}
  282:dsp/pvoc/frame_transformation.cpp ****                                     kWarpPolynomials[amount_integral + 1][i],
-ARM GAS  /tmp/ccoDtert.s 			page 165
+ARM GAS  /tmp/cciNPEvk.s 			page 165
 
 
  1773              		.loc 1 282 76 discriminator 2 view .LVU534
@@ -9898,7 +9898,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1807 005c DDED013A 		vldr.32	s7, [sp, #4]
  1808              	.LVL166:
  288:dsp/pvoc/frame_transformation.cpp ****     float d = coefficients[3];
-ARM GAS  /tmp/ccoDtert.s 			page 166
+ARM GAS  /tmp/cciNPEvk.s 			page 166
 
 
  1809              		.loc 1 288 5 is_stmt 1 view .LVU548
@@ -9958,7 +9958,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1854              	.LBB345:
  118:./stmtemp.h   ****     MAKE_INTEGRAL_FRACTIONAL(index)
  1855              		.loc 3 118 5 discriminator 2 view .LVU566
-ARM GAS  /tmp/ccoDtert.s 			page 167
+ARM GAS  /tmp/cciNPEvk.s 			page 167
 
 
  119:./stmtemp.h   ****     float a = table[index_integral];
@@ -10018,7 +10018,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1894              	.LBE347:
  296:dsp/pvoc/frame_transformation.cpp ****     }
  297:dsp/pvoc/frame_transformation.cpp **** }
-ARM GAS  /tmp/ccoDtert.s 			page 168
+ARM GAS  /tmp/cciNPEvk.s 			page 168
 
 
  1895              		.loc 1 297 1 view .LVU584
@@ -10078,7 +10078,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1942              		.cfi_offset 7, -8
  1943              		.cfi_offset 14, -4
  1944              	.LBB373:
-ARM GAS  /tmp/ccoDtert.s 			page 169
+ARM GAS  /tmp/cciNPEvk.s 			page 169
 
 
  1945              		.loc 1 305 5 view .LVU589
@@ -10138,7 +10138,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  1986              		.loc 2 385 4 is_stmt 0 view .LVU603
  1987 001e 8AB3     		cbz	r2, .L131
  386:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h **** 	  return __result + _Num;
-ARM GAS  /tmp/ccoDtert.s 			page 170
+ARM GAS  /tmp/cciNPEvk.s 			page 170
 
 
  1988              		.loc 2 386 23 view .LVU604
@@ -10198,7 +10198,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2013              	.LBI378:
  393:/usr/include/newlib/c++/9.2.1/bits/stl_algobase.h ****     {
  2014              		.loc 2 393 5 view .LVU610
-ARM GAS  /tmp/ccoDtert.s 			page 171
+ARM GAS  /tmp/cciNPEvk.s 			page 171
 
 
  2015              	.LBB379:
@@ -10258,7 +10258,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2063              	.LBB355:
  309:dsp/pvoc/frame_transformation.cpp ****     {
  2064              		.loc 1 309 10 view .LVU617
-ARM GAS  /tmp/ccoDtert.s 			page 172
+ARM GAS  /tmp/cciNPEvk.s 			page 172
 
 
  2065 0038 B4EEC70A 		vcmpe.f32	s0, s14
@@ -10318,7 +10318,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2105              		.loc 3 120 5 discriminator 2 view .LVU631
  120:./stmtemp.h   ****     float b = table[index_integral + 1];
  2106              		.loc 3 120 11 is_stmt 0 discriminator 2 view .LVU632
-ARM GAS  /tmp/ccoDtert.s 			page 173
+ARM GAS  /tmp/cciNPEvk.s 			page 173
 
 
  2107 0054 17EE900A 		vmov	r0, s15	@ int
@@ -10378,7 +10378,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2147              	.LBE356:
  2148              	.LBE371:
  2149              	.LBE394:
-ARM GAS  /tmp/ccoDtert.s 			page 174
+ARM GAS  /tmp/cciNPEvk.s 			page 174
 
 
  332:dsp/pvoc/frame_transformation.cpp **** }
@@ -10438,7 +10438,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2193 0088 AF42     		cmp	r7, r5
  2194 008a 05D0     		beq	.L141
  2195 008c 2946     		mov	r1, r5
-ARM GAS  /tmp/ccoDtert.s 			page 175
+ARM GAS  /tmp/cciNPEvk.s 			page 175
 
 
  2196              	.LVL204:
@@ -10498,7 +10498,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  326:dsp/pvoc/frame_transformation.cpp ****             temp[index_integral] += (1.0f - index_fractional) * source[i];
  2238              		.loc 1 326 13 discriminator 2 view .LVU672
  2239 00bc 77EE677A 		vsub.f32	s15, s14, s15
-ARM GAS  /tmp/ccoDtert.s 			page 176
+ARM GAS  /tmp/cciNPEvk.s 			page 176
 
 
  2240              	.LVL209:
@@ -10558,7 +10558,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2279              	.LBE396:
  2280              		.cfi_endproc
  2281              	.LFE4236:
-ARM GAS  /tmp/ccoDtert.s 			page 177
+ARM GAS  /tmp/cciNPEvk.s 			page 177
 
 
  2283 00ee 00BF     		.section	.text._ZN19FrameTransformation15StoreMagnitudesEPfff,"ax",%progbits
@@ -10618,7 +10618,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2320 000e 8146     		mov	r9, r0
  340:dsp/pvoc/frame_transformation.cpp ****     int32_t index_int        = static_cast<int32_t>(index_float);
  2321              		.loc 1 340 63 view .LVU695
-ARM GAS  /tmp/ccoDtert.s 			page 178
+ARM GAS  /tmp/cciNPEvk.s 			page 178
 
 
  2322 0010 013B     		subs	r3, r3, #1
@@ -10678,7 +10678,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2363              		.loc 1 347 12 view .LVU710
  2364 0046 1344     		add	r3, r3, r2
  346:dsp/pvoc/frame_transformation.cpp ****     float* b = textures_[index_int + (position == 1.0f ? 0 : 1)];
-ARM GAS  /tmp/ccoDtert.s 			page 179
+ARM GAS  /tmp/cciNPEvk.s 			page 179
 
 
  2365              		.loc 1 346 12 view .LVU711
@@ -10738,7 +10738,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  356:dsp/pvoc/frame_transformation.cpp ****             for(int32_t i = 0; i < size_; ++i)
  2404              		.loc 1 356 36 is_stmt 0 view .LVU727
  2405 0070 8368     		ldr	r3, [r0, #8]
-ARM GAS  /tmp/ccoDtert.s 			page 180
+ARM GAS  /tmp/cciNPEvk.s 			page 180
 
 
  2406              	.LBE401:
@@ -10798,7 +10798,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  137:./stmtemp.h   **** }
  2450              		.loc 3 137 19 discriminator 2 view .LVU742
  2451 0090 77EE676A 		vsub.f32	s13, s14, s15
-ARM GAS  /tmp/ccoDtert.s 			page 181
+ARM GAS  /tmp/cciNPEvk.s 			page 181
 
 
  137:./stmtemp.h   **** }
@@ -10858,7 +10858,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  364:dsp/pvoc/frame_transformation.cpp ****         {
  365:dsp/pvoc/frame_transformation.cpp ****             float t          = (feedback - 0.5f) * 0.7f + 0.5f;
  366:dsp/pvoc/frame_transformation.cpp ****             float gain_new   = t - 0.5f;
-ARM GAS  /tmp/ccoDtert.s 			page 182
+ARM GAS  /tmp/cciNPEvk.s 			page 182
 
 
  367:dsp/pvoc/frame_transformation.cpp ****             gain_new         = gain_new * gain_new * 2.0f + 0.5f;
@@ -10918,7 +10918,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2511              		.loc 1 384 9 view .LVU761
  384:dsp/pvoc/frame_transformation.cpp ****         for(int32_t i = 0; i < size_; ++i)
  2512              		.loc 1 384 39 is_stmt 0 view .LVU762
-ARM GAS  /tmp/ccoDtert.s 			page 183
+ARM GAS  /tmp/cciNPEvk.s 			page 183
 
 
  2513 00ba DFED3C7A 		vldr.32	s15, .L175
@@ -10978,7 +10978,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2554 00ee DFED307A 		vldr.32	s15, .L175+4
  2555 00f2 03D2     		bcs	.L165
  2556              	.LVL241:
-ARM GAS  /tmp/ccoDtert.s 			page 184
+ARM GAS  /tmp/cciNPEvk.s 			page 184
 
 
  391:dsp/pvoc/frame_transformation.cpp ****                       : 0.0f;
@@ -11038,7 +11038,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2599              	.LBE427:
  393:dsp/pvoc/frame_transformation.cpp ****             b[i] = Crossfade(b[i], x, gain_b * gain);
  2600              		.loc 1 393 18 discriminator 2 view .LVU788
-ARM GAS  /tmp/ccoDtert.s 			page 185
+ARM GAS  /tmp/cciNPEvk.s 			page 185
 
 
  2601 0112 E5EC017A 		vstmia.32	r5!, {s15}
@@ -11098,7 +11098,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2645              	.LBB434:
  2646              	.LBB418:
  2647              	.LBB412:
-ARM GAS  /tmp/ccoDtert.s 			page 186
+ARM GAS  /tmp/cciNPEvk.s 			page 186
 
 
  365:dsp/pvoc/frame_transformation.cpp ****             float gain_new   = t - 0.5f;
@@ -11158,7 +11158,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  368:dsp/pvoc/frame_transformation.cpp ****             float gain_new_b = gain_b * gain_new;
  2687              		.loc 1 368 13 is_stmt 1 view .LVU816
  370:dsp/pvoc/frame_transformation.cpp ****             float gain_old_b = 1.0f - gain_b * (1.0f - t);
-ARM GAS  /tmp/ccoDtert.s 			page 187
+ARM GAS  /tmp/cciNPEvk.s 			page 187
 
 
  2688              		.loc 1 370 19 is_stmt 0 view .LVU817
@@ -11218,7 +11218,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2726              		.loc 1 375 45 discriminator 2 view .LVU833
  2727 018c A6EE867A 		vfma.f32	s14, s13, s12
  375:dsp/pvoc/frame_transformation.cpp ****                 b[i]    = b[i] * gain_old_b + x * gain_new_b;
-ARM GAS  /tmp/ccoDtert.s 			page 188
+ARM GAS  /tmp/cciNPEvk.s 			page 188
 
 
  2728              		.loc 1 375 25 discriminator 2 view .LVU834
@@ -11278,7 +11278,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2778              	.LVL268:
  2779              	.LFB4238:
  398:dsp/pvoc/frame_transformation.cpp **** 
-ARM GAS  /tmp/ccoDtert.s 			page 189
+ARM GAS  /tmp/cciNPEvk.s 			page 189
 
 
  399:dsp/pvoc/frame_transformation.cpp **** void FrameTransformation::ReplayMagnitudes(float* xf_polar, float position)
@@ -11338,7 +11338,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2818              	.LBB440:
  406:dsp/pvoc/frame_transformation.cpp ****     for(int32_t i = 0; i < size_; ++i)
  2819              		.loc 1 406 28 is_stmt 0 view .LVU860
-ARM GAS  /tmp/ccoDtert.s 			page 190
+ARM GAS  /tmp/cciNPEvk.s 			page 190
 
 
  2820 002c 8468     		ldr	r4, [r0, #8]
@@ -11398,7 +11398,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2862              	.LBB442:
  137:./stmtemp.h   **** }
  2863              		.loc 3 137 5 discriminator 2 view .LVU876
-ARM GAS  /tmp/ccoDtert.s 			page 191
+ARM GAS  /tmp/cciNPEvk.s 			page 191
 
 
  2864              	.LBE442:
@@ -11458,7 +11458,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2910              		@ frame_needed = 0, uses_anonymous_args = 0
   77:dsp/pvoc/frame_transformation.cpp ****     fft_out[fft_size_ >> 1] = 0.0f;
  2911              		.loc 1 77 5 view .LVU887
-ARM GAS  /tmp/ccoDtert.s 			page 192
+ARM GAS  /tmp/cciNPEvk.s 			page 192
 
 
   76:dsp/pvoc/frame_transformation.cpp ****     fft_out[0]              = 0.0f;
@@ -11518,7 +11518,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   76:dsp/pvoc/frame_transformation.cpp ****     fft_out[0]              = 0.0f;
  2954              		.loc 1 76 1 view .LVU900
  2955 0022 0446     		mov	r4, r0
-ARM GAS  /tmp/ccoDtert.s 			page 193
+ARM GAS  /tmp/cciNPEvk.s 			page 193
 
 
   81:dsp/pvoc/frame_transformation.cpp ****     float pitch_ratio = SemitonesToRatio(parameters.pitch);
@@ -11578,7 +11578,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  2993              	.LVL287:
  132:./stmtemp.h   **** }
  2994              		.loc 3 132 64 view .LVU918
-ARM GAS  /tmp/ccoDtert.s 			page 194
+ARM GAS  /tmp/cciNPEvk.s 			page 194
 
 
  2995 0050 91ED007A 		vldr.32	s14, [r1]
@@ -11638,7 +11638,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  3037 0090 2046     		mov	r0, r4
  3038 0092 FFF7FEFF 		bl	_ZN19FrameTransformation15ShiftMagnitudesEPfS0_f
  3039              	.LVL295:
-ARM GAS  /tmp/ccoDtert.s 			page 195
+ARM GAS  /tmp/cciNPEvk.s 			page 195
 
 
   94:dsp/pvoc/frame_transformation.cpp ****     {
@@ -11698,7 +11698,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  110:dsp/pvoc/frame_transformation.cpp **** }
  3079              		.loc 1 110 23 view .LVU946
  3080 00d0 5B10     		asrs	r3, r3, #1
-ARM GAS  /tmp/ccoDtert.s 			page 196
+ARM GAS  /tmp/cciNPEvk.s 			page 196
 
 
  109:dsp/pvoc/frame_transformation.cpp ****     ifft_in[fft_size_ >> 1] = 0.0f;
@@ -11758,7 +11758,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
   98:dsp/pvoc/frame_transformation.cpp ****     SetPhases(ifft_in, parameters.spectral.phase_randomization, pitch_ratio);
  3123              		.loc 1 98 5 is_stmt 1 view .LVU959
   98:dsp/pvoc/frame_transformation.cpp ****     SetPhases(ifft_in, parameters.spectral.phase_randomization, pitch_ratio);
-ARM GAS  /tmp/ccoDtert.s 			page 197
+ARM GAS  /tmp/cciNPEvk.s 			page 197
 
 
  3124              		.loc 1 98 23 is_stmt 0 view .LVU960
@@ -11818,7 +11818,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  3176 003c 00000000 		.space	4
  3177 0040 65AAEAC0 		.word	3236604517
  3178 0044 00001841 		.word	1092091904
-ARM GAS  /tmp/ccoDtert.s 			page 198
+ARM GAS  /tmp/cciNPEvk.s 			page 198
 
 
  3179 0048 ACAA1AC0 		.word	3222973100
@@ -11878,7 +11878,7 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  3233              		.file 53 "../../libdaisy/Middlewares/Third_Party/FatFs/src/ff_gen_drv.h"
  3234              		.file 54 "../../libdaisy/src/util/sd_diskio.h"
  3235              		.file 55 "../../libdaisy/src/sys/fatfs.h"
-ARM GAS  /tmp/ccoDtert.s 			page 199
+ARM GAS  /tmp/cciNPEvk.s 			page 199
 
 
  3236              		.file 56 "./resources.h"
@@ -11892,47 +11892,47 @@ ARM GAS  /tmp/ccoDtert.s 			page 1
  3244              		.file 64 "../../DaisySP/Source/Utility/dsp.h"
  3245              		.file 65 "/usr/include/newlib/string.h"
  3246              		.file 66 "dsp/frame.h"
-ARM GAS  /tmp/ccoDtert.s 			page 200
+ARM GAS  /tmp/cciNPEvk.s 			page 200
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 frame_transformation.cpp
-     /tmp/ccoDtert.s:17     .text._ZN19FrameTransformation4InitEPfll:0000000000000000 $t
-     /tmp/ccoDtert.s:26     .text._ZN19FrameTransformation4InitEPfll:0000000000000000 _ZN19FrameTransformation4InitEPfll
-     /tmp/ccoDtert.s:180    .text._ZN19FrameTransformation5ResetEv:0000000000000000 $t
-     /tmp/ccoDtert.s:188    .text._ZN19FrameTransformation5ResetEv:0000000000000000 _ZN19FrameTransformation5ResetEv
-     /tmp/ccoDtert.s:270    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000000 $t
-     /tmp/ccoDtert.s:278    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000000 _ZN19FrameTransformation18RectangularToPolarEPf
-     /tmp/ccoDtert.s:638    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000104 $d
-     /tmp/ccoDtert.s:645    .text._ZN19FrameTransformation9SetPhasesEPfff:0000000000000000 $t
-     /tmp/ccoDtert.s:653    .text._ZN19FrameTransformation9SetPhasesEPfff:0000000000000000 _ZN19FrameTransformation9SetPhasesEPfff
-     /tmp/ccoDtert.s:841    .text._ZN19FrameTransformation9SetPhasesEPfff:00000000000000dc $d
-     /tmp/ccoDtert.s:847    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000000 $t
-     /tmp/ccoDtert.s:855    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000000 _ZN19FrameTransformation18PolarToRectangularEPf
-     /tmp/ccoDtert.s:986    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000074 $d
-     /tmp/ccoDtert.s:991    .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000000 $t
-     /tmp/ccoDtert.s:999    .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000000 _ZN19FrameTransformation9AddGlitchEPf
-     /tmp/ccoDtert.s:1028   .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000016 $d
-     /tmp/ccoDtert.s:1032   .text._ZN19FrameTransformation9AddGlitchEPf:000000000000001a $t
-     /tmp/ccoDtert.s:1363   .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000158 $d
-     /tmp/ccoDtert.s:1373   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000000 $t
-     /tmp/ccoDtert.s:1381   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000000 _ZN19FrameTransformation18QuantizeMagnitudesEPff
-     /tmp/ccoDtert.s:1689   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000138 $d
-     /tmp/ccoDtert.s:1700   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:0000000000000000 $t
-     /tmp/ccoDtert.s:1708   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:0000000000000000 _ZN19FrameTransformation14WarpMagnitudesEPfS0_f
-     /tmp/ccoDtert.s:1909   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:00000000000000cc $d
-     /tmp/ccoDtert.s:1915   .text._ZN19FrameTransformation15ShiftMagnitudesEPfS0_f:0000000000000000 $t
-     /tmp/ccoDtert.s:1923   .text._ZN19FrameTransformation15ShiftMagnitudesEPfS0_f:0000000000000000 _ZN19FrameTransformation15ShiftMagnitudesEPfS0_f
-     /tmp/ccoDtert.s:2284   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:0000000000000000 $t
-     /tmp/ccoDtert.s:2292   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:0000000000000000 _ZN19FrameTransformation15StoreMagnitudesEPfff
-     /tmp/ccoDtert.s:2762   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:00000000000001ac $d
-     /tmp/ccoDtert.s:2769   .text._ZN19FrameTransformation16ReplayMagnitudesEPff:0000000000000000 $t
-     /tmp/ccoDtert.s:2777   .text._ZN19FrameTransformation16ReplayMagnitudesEPff:0000000000000000 _ZN19FrameTransformation16ReplayMagnitudesEPff
-     /tmp/ccoDtert.s:2896   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000000 $t
-     /tmp/ccoDtert.s:2904   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000000 _ZN19FrameTransformation7ProcessERK10ParametersPfS3_
-     /tmp/ccoDtert.s:3149   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000128 $d
-     /tmp/ccoDtert.s:3156   .rodata._ZL16kWarpPolynomials:0000000000000000 $d
-     /tmp/ccoDtert.s:3160   .rodata._ZL16kWarpPolynomials:0000000000000000 _ZL16kWarpPolynomials
+     /tmp/cciNPEvk.s:17     .text._ZN19FrameTransformation4InitEPfll:0000000000000000 $t
+     /tmp/cciNPEvk.s:26     .text._ZN19FrameTransformation4InitEPfll:0000000000000000 _ZN19FrameTransformation4InitEPfll
+     /tmp/cciNPEvk.s:180    .text._ZN19FrameTransformation5ResetEv:0000000000000000 $t
+     /tmp/cciNPEvk.s:188    .text._ZN19FrameTransformation5ResetEv:0000000000000000 _ZN19FrameTransformation5ResetEv
+     /tmp/cciNPEvk.s:270    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000000 $t
+     /tmp/cciNPEvk.s:278    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000000 _ZN19FrameTransformation18RectangularToPolarEPf
+     /tmp/cciNPEvk.s:638    .text._ZN19FrameTransformation18RectangularToPolarEPf:0000000000000104 $d
+     /tmp/cciNPEvk.s:645    .text._ZN19FrameTransformation9SetPhasesEPfff:0000000000000000 $t
+     /tmp/cciNPEvk.s:653    .text._ZN19FrameTransformation9SetPhasesEPfff:0000000000000000 _ZN19FrameTransformation9SetPhasesEPfff
+     /tmp/cciNPEvk.s:841    .text._ZN19FrameTransformation9SetPhasesEPfff:00000000000000dc $d
+     /tmp/cciNPEvk.s:847    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000000 $t
+     /tmp/cciNPEvk.s:855    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000000 _ZN19FrameTransformation18PolarToRectangularEPf
+     /tmp/cciNPEvk.s:986    .text._ZN19FrameTransformation18PolarToRectangularEPf:0000000000000074 $d
+     /tmp/cciNPEvk.s:991    .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000000 $t
+     /tmp/cciNPEvk.s:999    .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000000 _ZN19FrameTransformation9AddGlitchEPf
+     /tmp/cciNPEvk.s:1028   .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000016 $d
+     /tmp/cciNPEvk.s:1032   .text._ZN19FrameTransformation9AddGlitchEPf:000000000000001a $t
+     /tmp/cciNPEvk.s:1363   .text._ZN19FrameTransformation9AddGlitchEPf:0000000000000158 $d
+     /tmp/cciNPEvk.s:1373   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000000 $t
+     /tmp/cciNPEvk.s:1381   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000000 _ZN19FrameTransformation18QuantizeMagnitudesEPff
+     /tmp/cciNPEvk.s:1689   .text._ZN19FrameTransformation18QuantizeMagnitudesEPff:0000000000000138 $d
+     /tmp/cciNPEvk.s:1700   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:0000000000000000 $t
+     /tmp/cciNPEvk.s:1708   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:0000000000000000 _ZN19FrameTransformation14WarpMagnitudesEPfS0_f
+     /tmp/cciNPEvk.s:1909   .text._ZN19FrameTransformation14WarpMagnitudesEPfS0_f:00000000000000cc $d
+     /tmp/cciNPEvk.s:1915   .text._ZN19FrameTransformation15ShiftMagnitudesEPfS0_f:0000000000000000 $t
+     /tmp/cciNPEvk.s:1923   .text._ZN19FrameTransformation15ShiftMagnitudesEPfS0_f:0000000000000000 _ZN19FrameTransformation15ShiftMagnitudesEPfS0_f
+     /tmp/cciNPEvk.s:2284   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:0000000000000000 $t
+     /tmp/cciNPEvk.s:2292   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:0000000000000000 _ZN19FrameTransformation15StoreMagnitudesEPfff
+     /tmp/cciNPEvk.s:2762   .text._ZN19FrameTransformation15StoreMagnitudesEPfff:00000000000001ac $d
+     /tmp/cciNPEvk.s:2769   .text._ZN19FrameTransformation16ReplayMagnitudesEPff:0000000000000000 $t
+     /tmp/cciNPEvk.s:2777   .text._ZN19FrameTransformation16ReplayMagnitudesEPff:0000000000000000 _ZN19FrameTransformation16ReplayMagnitudesEPff
+     /tmp/cciNPEvk.s:2896   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000000 $t
+     /tmp/cciNPEvk.s:2904   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000000 _ZN19FrameTransformation7ProcessERK10ParametersPfS3_
+     /tmp/cciNPEvk.s:3149   .text._ZN19FrameTransformation7ProcessERK10ParametersPfS3_:0000000000000128 $d
+     /tmp/cciNPEvk.s:3156   .rodata._ZL16kWarpPolynomials:0000000000000000 $d
+     /tmp/cciNPEvk.s:3160   .rodata._ZL16kWarpPolynomials:0000000000000000 _ZL16kWarpPolynomials
 
 UNDEFINED SYMBOLS
 atan_lut

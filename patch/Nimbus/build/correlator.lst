@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccqHlXZj.s 			page 1
+ARM GAS  /tmp/ccvNZy9v.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
   27:dsp/correlator.cpp **** // Search for stretch/shift splicing points by maximizing correlation.
   28:dsp/correlator.cpp **** 
   29:dsp/correlator.cpp **** #include "correlator.h"
-ARM GAS  /tmp/ccqHlXZj.s 			page 2
+ARM GAS  /tmp/ccvNZy9v.s 			page 2
 
 
   30:dsp/correlator.cpp **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
   62              	.LFE3589:
   64              		.section	.text._ZN10Correlator21EvaluateNextCandidateEv,"ax",%progbits
   65              		.align	1
-ARM GAS  /tmp/ccqHlXZj.s 			page 3
+ARM GAS  /tmp/ccvNZy9v.s 			page 3
 
 
   66              		.p2align 2,,3
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  106              		.loc 1 53 41 view .LVU24
  107 0016 4FEA6E11 		asr	r1, lr, #5
  108              	.LVL3:
-ARM GAS  /tmp/ccqHlXZj.s 			page 4
+ARM GAS  /tmp/ccvNZy9v.s 			page 4
 
 
  109              	.LBB2:
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  149              		.loc 1 64 46 is_stmt 0 discriminator 2 view .LVU42
  150 003c 55F8041F 		ldr	r1, [r5, #4]!
  151              	.LVL12:
-ARM GAS  /tmp/ccqHlXZj.s 			page 5
+ARM GAS  /tmp/ccvNZy9v.s 			page 5
 
 
   65:dsp/correlator.cpp ****         uint32_t count = ~(source_bits ^ destination_bits);
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  199              	.LVL21:
   69:dsp/correlator.cpp ****         xcorr += count;
  200              		.loc 1 69 9 is_stmt 1 discriminator 2 view .LVU63
-ARM GAS  /tmp/ccqHlXZj.s 			page 6
+ARM GAS  /tmp/ccvNZy9v.s 			page 6
 
 
  201              		.loc 1 69 15 is_stmt 0 discriminator 2 view .LVU64
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  244              		.p2align 2,,3
  245              		.global	_ZN10Correlator11StartSearchElll
  246              		.syntax unified
-ARM GAS  /tmp/ccqHlXZj.s 			page 7
+ARM GAS  /tmp/ccvNZy9v.s 			page 7
 
 
  247              		.thumb
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  283              		.loc 1 88 5 view .LVU92
  284              		.loc 1 89 1 is_stmt 0 view .LVU93
  285 0018 7047     		bx	lr
-ARM GAS  /tmp/ccqHlXZj.s 			page 8
+ARM GAS  /tmp/ccvNZy9v.s 			page 8
 
 
  286              		.cfi_endproc
@@ -470,16 +470,16 @@ ARM GAS  /tmp/ccqHlXZj.s 			page 1
  333              		.file 44 "/usr/include/newlib/c++/9.2.1/stdlib.h"
  334              		.file 45 "/usr/include/newlib/string.h"
  335              		.file 46 "dsp/correlator.h"
-ARM GAS  /tmp/ccqHlXZj.s 			page 9
+ARM GAS  /tmp/ccvNZy9v.s 			page 9
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 correlator.cpp
-     /tmp/ccqHlXZj.s:17     .text._ZN10Correlator4InitEPmS0_:0000000000000000 $t
-     /tmp/ccqHlXZj.s:26     .text._ZN10Correlator4InitEPmS0_:0000000000000000 _ZN10Correlator4InitEPmS0_
-     /tmp/ccqHlXZj.s:65     .text._ZN10Correlator21EvaluateNextCandidateEv:0000000000000000 $t
-     /tmp/ccqHlXZj.s:73     .text._ZN10Correlator21EvaluateNextCandidateEv:0000000000000000 _ZN10Correlator21EvaluateNextCandidateEv
-     /tmp/ccqHlXZj.s:243    .text._ZN10Correlator11StartSearchElll:0000000000000000 $t
-     /tmp/ccqHlXZj.s:251    .text._ZN10Correlator11StartSearchElll:0000000000000000 _ZN10Correlator11StartSearchElll
+     /tmp/ccvNZy9v.s:17     .text._ZN10Correlator4InitEPmS0_:0000000000000000 $t
+     /tmp/ccvNZy9v.s:26     .text._ZN10Correlator4InitEPmS0_:0000000000000000 _ZN10Correlator4InitEPmS0_
+     /tmp/ccvNZy9v.s:65     .text._ZN10Correlator21EvaluateNextCandidateEv:0000000000000000 $t
+     /tmp/ccvNZy9v.s:73     .text._ZN10Correlator21EvaluateNextCandidateEv:0000000000000000 _ZN10Correlator21EvaluateNextCandidateEv
+     /tmp/ccvNZy9v.s:243    .text._ZN10Correlator11StartSearchElll:0000000000000000 $t
+     /tmp/ccvNZy9v.s:251    .text._ZN10Correlator11StartSearchElll:0000000000000000 _ZN10Correlator11StartSearchElll
 
 NO UNDEFINED SYMBOLS

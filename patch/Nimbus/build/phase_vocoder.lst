@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccbMRYYM.s 			page 1
+ARM GAS  /tmp/cc4cTvYF.s 			page 1
 
 
    1              		.cpu cortex-m7
@@ -58,7 +58,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
   27:dsp/pvoc/phase_vocoder.cpp **** // Naive phase vocoder.
   28:dsp/pvoc/phase_vocoder.cpp **** 
   29:dsp/pvoc/phase_vocoder.cpp **** #include "phase_vocoder.h"
-ARM GAS  /tmp/ccbMRYYM.s 			page 2
+ARM GAS  /tmp/cc4cTvYF.s 			page 2
 
 
   30:dsp/pvoc/phase_vocoder.cpp **** 
@@ -118,7 +118,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
   53:dsp/pvoc/phase_vocoder.cpp ****     BufferAllocator  allocator_1(buffer[1], buffer_size[1]);
   56              		.loc 1 53 59 view .LVU7
   57 000c 1168     		ldr	r1, [r2]
-ARM GAS  /tmp/ccbMRYYM.s 			page 3
+ARM GAS  /tmp/cc4cTvYF.s 			page 3
 
 
   58              	.LVL1:
@@ -178,7 +178,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
   38:./buffer_allocator.h ****     BufferAllocator() {}
   39:./buffer_allocator.h ****     ~BufferAllocator() {}
   40:./buffer_allocator.h **** 
-ARM GAS  /tmp/ccbMRYYM.s 			page 4
+ARM GAS  /tmp/cc4cTvYF.s 			page 4
 
 
   41:./buffer_allocator.h ****     BufferAllocator(void* buffer, size_t size) { Init(buffer, size); }
@@ -238,7 +238,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  103              		.loc 1 50 5 is_stmt 1 view .LVU20
  104              	.LVL5:
   51:dsp/pvoc/phase_vocoder.cpp **** 
-ARM GAS  /tmp/ccbMRYYM.s 			page 5
+ARM GAS  /tmp/cc4cTvYF.s 			page 5
 
 
  105              		.loc 1 51 5 view .LVU21
@@ -298,7 +298,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  135              	.LBB86:
  136              	.LBI86:
   41:./buffer_allocator.h **** 
-ARM GAS  /tmp/ccbMRYYM.s 			page 6
+ARM GAS  /tmp/cc4cTvYF.s 			page 6
 
 
  137              		.loc 2 41 5 view .LVU34
@@ -358,7 +358,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  184              	.LBB70:
   69:./buffer_allocator.h ****         free_ = size_;
  185              		.loc 2 69 15 view .LVU47
-ARM GAS  /tmp/ccbMRYYM.s 			page 7
+ARM GAS  /tmp/cc4cTvYF.s 			page 7
 
 
  186 0030 CDE90E22 		strd	r2, r2, [sp, #56]
@@ -418,7 +418,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  235              		.loc 2 57 19 view .LVU54
  236 0046 D518     		adds	r5, r2, r3
  237              	.LVL8:
-ARM GAS  /tmp/ccbMRYYM.s 			page 8
+ARM GAS  /tmp/cc4cTvYF.s 			page 8
 
 
   58:./buffer_allocator.h ****             return start;
@@ -478,7 +478,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  278              		.loc 2 57 13 view .LVU68
  279 0068 0B60     		str	r3, [r1]
  280              	.LVL13:
-ARM GAS  /tmp/ccbMRYYM.s 			page 9
+ARM GAS  /tmp/cc4cTvYF.s 			page 9
 
 
  281              	.L3:
@@ -538,7 +538,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  322              		.loc 2 53 16 view .LVU79
  323 0082 4FEA8808 		lsl	r8, r8, #2
  324              	.LBE123:
-ARM GAS  /tmp/ccbMRYYM.s 			page 10
+ARM GAS  /tmp/cc4cTvYF.s 			page 10
 
 
  325              	.LBE127:
@@ -598,7 +598,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  367              	.LBB121:
   54:./buffer_allocator.h ****         {
  368              		.loc 2 54 9 is_stmt 0 view .LVU91
-ARM GAS  /tmp/ccbMRYYM.s 			page 11
+ARM GAS  /tmp/cc4cTvYF.s 			page 11
 
 
  369 00a6 2FD8     		bhi	.L14
@@ -658,7 +658,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  410              	.LVL25:
  411              		.loc 1 70 22 view .LVU105
  412 00c2 0A99     		ldr	r1, [sp, #40]
-ARM GAS  /tmp/ccbMRYYM.s 			page 12
+ARM GAS  /tmp/cc4cTvYF.s 			page 12
 
 
  413 00c4 0190     		str	r0, [sp, #4]
@@ -718,7 +718,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
   54:./buffer_allocator.h ****         {
  458              		.loc 2 54 9 view .LVU118
  459 0104 E045     		cmp	r8, ip
-ARM GAS  /tmp/ccbMRYYM.s 			page 13
+ARM GAS  /tmp/cc4cTvYF.s 			page 13
 
 
  460 0106 CFD9     		bls	.L20
@@ -778,7 +778,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  494              		.loc 1 79 26 is_stmt 1 view .LVU125
  495 011c F6DD     		ble	.L1
  496              	.LVL35:
-ARM GAS  /tmp/ccbMRYYM.s 			page 14
+ARM GAS  /tmp/cc4cTvYF.s 			page 14
 
 
  497              	.LBB141:
@@ -838,7 +838,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  540              	.LBE145:
   54:./buffer_allocator.h ****         {
  541              		.loc 2 54 9 view .LVU137
-ARM GAS  /tmp/ccbMRYYM.s 			page 15
+ARM GAS  /tmp/cc4cTvYF.s 			page 15
 
 
  542 0138 18D8     		bhi	.L15
@@ -898,7 +898,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  584 015e 53F82850 		ldr	r5, [r3, r8, lsl #2]
  585              	.LBB158:
   81:dsp/pvoc/phase_vocoder.cpp ****             = allocator[i]->Allocate<float>(num_textures * texture_size);
-ARM GAS  /tmp/ccbMRYYM.s 			page 16
+ARM GAS  /tmp/cc4cTvYF.s 			page 16
 
 
  586              		.loc 1 81 9 view .LVU150
@@ -958,7 +958,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
   63:./buffer_allocator.h ****         }
  632              		.loc 2 63 20 view .LVU159
  633 0178 0B93     		str	r3, [sp, #44]
-ARM GAS  /tmp/ccbMRYYM.s 			page 17
+ARM GAS  /tmp/cc4cTvYF.s 			page 17
 
 
  634 017a 76E7     		b	.L3
@@ -1018,7 +1018,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  679              		.loc 1 91 1 view .LVU167
  680 000a 82B0     		sub	sp, sp, #8
  681              		.cfi_def_cfa_offset 40
-ARM GAS  /tmp/ccbMRYYM.s 			page 18
+ARM GAS  /tmp/cc4cTvYF.s 			page 18
 
 
  682              	.LBB162:
@@ -1078,7 +1078,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  726              		.loc 1 99 1 view .LVU179
  727 0046 02B0     		add	sp, sp, #8
  728              		.cfi_def_cfa_offset 32
-ARM GAS  /tmp/ccbMRYYM.s 			page 19
+ARM GAS  /tmp/cc4cTvYF.s 			page 19
 
 
  729              		@ sp needed
@@ -1138,7 +1138,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  777              	.LVL59:
  778              		.loc 1 105 24 discriminator 2 view .LVU189
  779 0016 FFF7FEFF 		bl	_ZN4STFT6BufferEv
-ARM GAS  /tmp/ccbMRYYM.s 			page 20
+ARM GAS  /tmp/cc4cTvYF.s 			page 20
 
 
  780              	.LVL60:
@@ -1198,7 +1198,7 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  831              		.file 30 "<built-in>"
  832              		.file 31 "/usr/include/newlib/sys/reent.h"
  833              		.file 32 "/usr/include/newlib/sys/lock.h"
-ARM GAS  /tmp/ccbMRYYM.s 			page 21
+ARM GAS  /tmp/cc4cTvYF.s 			page 21
 
 
  834              		.file 33 "/usr/include/newlib/math.h"
@@ -1234,17 +1234,17 @@ ARM GAS  /tmp/ccbMRYYM.s 			page 1
  864              		.file 63 "dsp/pvoc/stft.h"
  865              		.file 64 "./shy_fft.h"
  866              		.file 65 "dsp/pvoc/phase_vocoder.h"
-ARM GAS  /tmp/ccbMRYYM.s 			page 22
+ARM GAS  /tmp/cc4cTvYF.s 			page 22
 
 
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 phase_vocoder.cpp
-     /tmp/ccbMRYYM.s:17     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 $t
-     /tmp/ccbMRYYM.s:26     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 _ZN12PhaseVocoder4InitEPPvPjPKfjllf
-     /tmp/ccbMRYYM.s:642    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 $t
-     /tmp/ccbMRYYM.s:650    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 _ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j
-     /tmp/ccbMRYYM.s:736    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 $t
-     /tmp/ccbMRYYM.s:744    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 _ZN12PhaseVocoder6BufferEv
+     /tmp/cc4cTvYF.s:17     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 $t
+     /tmp/cc4cTvYF.s:26     .text._ZN12PhaseVocoder4InitEPPvPjPKfjllf:0000000000000000 _ZN12PhaseVocoder4InitEPPvPjPKfjllf
+     /tmp/cc4cTvYF.s:642    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 $t
+     /tmp/cc4cTvYF.s:650    .text._ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j:0000000000000000 _ZN12PhaseVocoder7ProcessERK10ParametersPK10FloatFramePS3_j
+     /tmp/cc4cTvYF.s:736    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 $t
+     /tmp/cc4cTvYF.s:744    .text._ZN12PhaseVocoder6BufferEv:0000000000000000 _ZN12PhaseVocoder6BufferEv
 
 UNDEFINED SYMBOLS
 _ZN4STFT4InitEP6ShyFFTIfLj4096E14RotationPhasorEjjPfS4_PKfPsP19FrameTransformation
