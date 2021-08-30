@@ -1,7 +1,8 @@
-# Daisy_Examples
+# Evan's Daisy Projects :smile:
 
-![Build Workflow](https://github.com/electro-smith/DaisyExamples/workflows/Build%20All/badge.svg)
-![Style Workflow](https://github.com/electro-smith/DaisyExamples/workflows/Fix%20Style/badge.svg)
+This is a fork of Daisy_Examples containing all of my own projects, which are in the `_evan` directory.
+
+# :point_down: Everything below is the official Daisy documentation :point_down:
 
 If you are just getting started with Daisy, check out our [Getting Started Wiki page!](https://github.com/electro-smith/DaisyWiki/wiki)
 
