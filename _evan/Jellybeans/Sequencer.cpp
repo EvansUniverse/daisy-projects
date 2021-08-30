@@ -9,26 +9,91 @@ using namespace daisysp;
 DaisyPatch patch;
 
 const int maxArpSteps = 10;
-
 int  values[maxArpSteps];
 bool trigs[maxArpSteps];
 int  stepNumber;
 bool trigOut;
 
-//const char *menuItems[10] = {
-std::array<std::string, 10> menuItems = {
-    // TODO shorten names if screen domain doesn't permint.
-    "Tonic",
-    "Scale",
-    "Division",
-    "Voicing",
-    "Order",
-    "Rhythm",
-    "Inversion",
-    "Oct Range",
-    "Oct",
-    "Clock"
+const FontDef font = Font_7x10;
+const int     fontWidth = 7;
+const int     fontHeight = 10;
+
+// Menu item
+// By default, the value can be any string
+class MenuItem {
+  public:
+    std::string name;
+    std::string value;
+
+    MenuItem(){
+        name =  "N/A";
+        value = "N/A";
+    };
+
+    MenuItem(std::string aName, std::string aValue){
+        name = aName;
+        value = aValue;
+    };
+
+    void Increment(){};
+    void Decrement(){};
 };
+
+// Menu item whos value is an element of a list of predefined strings
+class MenuItemStr: public MenuItem {
+  public:
+    int index;
+    std::vector<std::string> values;
+
+    MenuItemStr(std::string aName, std::vector<std::string> aValues){
+        name = aName;
+        values = aValues;
+        index = 0;
+    };
+
+    std::string Value(){
+        return values[index];
+    };
+
+    void Increment(){};
+    void Decrement(){};
+};
+
+// Menu item for a numeric value
+class MenuItemInt: public MenuItem {
+  public:
+    int value;
+    int max;
+    int min;
+
+    MenuItemInt(std::string aName, int aValue, int aMax, int aMin){
+        name = aName;
+        value = aValue;
+        max = aMax;
+        min = aMin;
+    };
+
+    std::string Value(){
+        return std::to_string(value);
+    };
+
+    void Increment(){};
+    void Decrement(){};
+};
+
+std::array<MenuItem, 10> menuItems;
+//  = {
+//     "Tonic",
+//     "Scalse",
+//     "Division",
+//     "Voicing",
+//     "Order",
+//     "Rhythm",
+//     "Inversion",
+//     "Oct Range",
+//     "Oct",
+//     "Clock"
+// };
 //const int menuLen = sizeof(menuItems)/sizeof(menuItems[0]);
 
 int  menuPos;
@@ -42,6 +107,9 @@ int main(void)
 {
     // Initialize hardware
     patch.Init(); 
+
+    // Initialize menu items
+    menuItems[0] = 
 
     // Initialize variables
     stepNumber = 0;
@@ -126,7 +194,7 @@ void UpdateOled()
     patch.display.SetCursor(0, 0);
     std::string debug_str = std::to_string(menuPos);
     char* debug_cstr = &debug_str[0];
-    patch.display.WriteString(debug_cstr, Font_7x10, true);
+    patch.display.WriteString(debug_cstr, font, true);
 
     // Draw a line across the top
     patch.display.DrawLine(0, 10, 128, 10, true);
@@ -135,39 +203,18 @@ void UpdateOled()
     patch.display.SetCursor(0, 11);
     std::string cursor_str = ">";
     char* cursor_cstr = &cursor_str[0];
-    patch.display.WriteString(cursor_cstr, Font_7x10, true);
+    patch.display.WriteString(cursor_cstr, font, true);
 
     // Draw each menu item
     for(unsigned int i = menuPos; i < menuPos + 6; i = i + 1){
-        patch.display.SetCursor(7, i * 10 + 11);
+        patch.display.SetCursor(fontWidth, i * fontHeight + 11);
         if(i < menuItems.size())
         {
             char* cstr = &menuItems[i][0];
-            patch.display.WriteString(cstr, Font_7x10, true);
+            patch.display.WriteString(cstr, font, true);
         }
     }
 
-    // std::string str  = "!";
-    // char*       cstr = &str[0];
-    // patch.display.SetCursor(25 * stepNumber, 45);
-    // patch.display.WriteString(cstr, Font_7x10, true);
-
-    // //values and trigs
-    // for(int i = 0; i < 5; i++)
-    // {
-    //     sprintf(cstr, "%d", values[i]);
-    //     patch.display.SetCursor(i * 25, 10);
-    //     patch.display.WriteString(cstr, Font_7x10, true);
-
-    //     str = trigs[i % 5] ? "*" : "-";
-    //     patch.display.SetCursor(i * 25, 30);
-    //     patch.display.WriteString(cstr, Font_7x10, true);
-    // }
-
-    // //cursor
-    // str = isEditing ? "@" : "o";
-    // patch.display.SetCursor((menuPos % 5) * 25, (menuPos > 4) * 20);
-    // patch.display.WriteString(cstr, Font_7x10, true);
 
     patch.display.Update();
 }
