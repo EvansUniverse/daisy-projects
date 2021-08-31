@@ -7,7 +7,6 @@
  * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  *
- * 
  * ====================================================
  * =   __       _        _                            =
  * =   \ \  ___| | |_   _| |__   ___  __ _ _ __  ___  =
@@ -32,7 +31,7 @@ using namespace daisysp;
 
 DaisyPatch patch;
 
-// If true, the top bar will display some debug data
+// If true, the top bar will display debug data
 const bool debugMode = false;
 
 // Maximum possible arp steps
@@ -128,7 +127,7 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
 };
 
 
-std::vector<std::string> allOrders {
+std::vector<std::string> allPatterns {
     "Up",
     "Down",
     "U+D In",
@@ -223,7 +222,7 @@ MenuItem mTonic     = menuItems[0];
 MenuItem mScales    = menuItems[1];
 MenuItem mDivision  = menuItems[2];
 MenuItem mVoicing   = menuItems[3];
-MenuItem mOrder     = menuItems[4];
+MenuItem mPattern   = menuItems[4];
 MenuItem mRhythm    = menuItems[5];
 MenuItem mInversion = menuItems[6];
 MenuItem mOctRng    = menuItems[7];
@@ -234,8 +233,10 @@ void UpdateControls();
 void UpdateOled();
 void UpdateOutputs();
 void UpdateArpNotes();
+void UpdateStep();
+
 void DrawString(std::string, int, int);
-float semitoneToDac(int);
+float SemitoneToDac(int);
 
 
 int main(void) {
@@ -247,7 +248,7 @@ int main(void) {
     mScales    = MenuItem("Scales",    allScales,     0);
     mDivision  = MenuItem("Division",  allClockDivs,  5);
     mVoicing   = MenuItem("Voicing",   allVoicings,   0);
-    mOrder     = MenuItem("Order",     allOrders,     0);
+    mPattern   = MenuItem("Pattern",   allPatterns,   0);
     mRhythm    = MenuItem("Rhythm",    allRhythms,    0);
     mInversion = MenuItem("Inversion", allInversions, 0);
     mOctRng    = MenuItem("Oct Rng",   allOctaves,    5);
@@ -310,28 +311,34 @@ void UpdateControls() {
     //
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
-        arpStep++;
-        arpStep %= arpLength;
-        trigOut = arpTrigs[arpStep];
+        UpdateStep();
     }
 }
 
 // Display on Daisy Patch is 128x64p
 // With 7x10 font, this means it's limited to:
-//  * 18 chars horizontally (w/2p to spare)
-//  * 6 chars vertically (w/4p to spare)
+//  - 18 chars horizontally (w/2p to spare)
+//  - 6 chars vertically (w/4p to spare)
 void UpdateOled() {
     // Clear display
     patch.display.Fill(false);  
 
     // Draw the top bar
     if (debugMode){
-        // Debug mode - displays debug values for development
+        // Debug mode: displays debug values for development
         DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
     } else {
-        // Normal mode - displays which note is playing
-        std::string arpDisp = "------------------";
-        arpDisp[arpStep] = '0';
+        // Normal mode: displays which note is playing. 
+        // '0' for current note and '-' for other notes e.g.
+        // ---0--
+        std::string arpDisp = "";
+        for (int i = 0; i < arpLength; i++){
+            if (i == arpStep){
+                arpDisp += "0";
+            } else {
+                arpDisp += "-";
+            }
+        }
         DrawString(arpDisp, 0, 0);
     }
     patch.display.DrawLine(0, 10, 128, 10, true);
@@ -351,8 +358,10 @@ void UpdateOled() {
 }
 
 void UpdateOutputs() {
-    // patch.seed.dac.WriteValue(DacHandle::Channel::ONE, round((arpValues[arpStep] / 12.f) * 819.2f));
+    // Send arp pitch to CV OUT 1
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
 
+    // Send note trigger to GATE OUT 1
     dsy_gpio_write(&patch.gate_output, trigOut);
     trigOut = false;
 }
@@ -367,6 +376,22 @@ void UpdateArpNotes(){
         arpValues[i] = voicingToScaleDegrees[mVoicing.name][i];
     }
     arpLength = voicingToScaleDegrees[mVoicing.name].size();
+
+    // If arpStep exceeds the new arpLength, reduce it.
+    //
+    // TODO: this behavior could be a configurable setting,
+    // or maybe something else sounds better. Could maybe
+    // tinker with this later and figure out what sounds the best.
+    arpStep = arpStep % arpLength;
+}
+
+// Called every time the arp steps to the next note
+//
+// TODO: modify for other patterns
+void UpdateStep(){
+    arpStep++;
+    arpStep = arpStep % arpLength;
+    trigOut = arpTrigs[arpStep];
 }
 
 // Utility to perform a silly little dance where we set the cursor, 
@@ -384,6 +409,6 @@ void DrawString(std::string str, int x, int y){
 //
 // FYI: In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 dac units
 // per volt or octave.
-float semitoneToDac(int semi) {
+float SemitoneToDac(int semi) {
     return round((semi / 12.f) * 819.2f);
 }
