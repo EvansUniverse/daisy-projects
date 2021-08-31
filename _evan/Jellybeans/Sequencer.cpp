@@ -1,3 +1,12 @@
+/* Copyright (C) 2020 Evan Pernu - All Rights Reserved
+ * You may use, distribute and modify this code under the
+ * terms of the GNU AGPLv3 license
+ *
+ * You should have received a copy of the GNU AGPLv3 license with
+ * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
+ * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
+ */
+
 #include "daisysp.h"
 #include "daisy_patch.h"
 #include <string>
@@ -10,11 +19,12 @@ DaisyPatch patch;
 
 const bool debugMode = false;
 
-const int maxArpSteps = 10;
-int  values[maxArpSteps];
-bool trigs[maxArpSteps];
-int  stepNumber;
+const int maxArpSteps = 3; // TODO determine a non-arbitrary number
+int  arpValues[maxArpSteps];
+bool arpTrigs[maxArpSteps];
+int  arpStep;
 bool trigOut;
+float root;
 
 const FontDef font = Font_7x10;
 const int     fontWidth = 7;
@@ -23,11 +33,9 @@ const int     fontHeight = 10;
 int  menuPos;
 bool isEditing;
 
+// Note that the indices of these elements also correspond to
+// their semitone distance from C.
 std::vector<std::string> allNotes {
-    "A",
-    "Bb",
-    "B",
-    "Cb",
     "C",
     "Db",
     "D",
@@ -35,7 +43,11 @@ std::vector<std::string> allNotes {
     "E",
     "F",
     "Gb",
-    "G"
+    "G",
+    "A",
+    "Bb",
+    "B",
+    "Cb"
 };
 
 std::vector<std::string> allScales {
@@ -83,16 +95,14 @@ std::vector<std::string> allInversions {
     "Drop 4"
 };
 
+// Given the 1V/oct and 0-5V range of the CV out port,
+// we are limited to a 5 octave register.
 std::vector<std::string> allOctaves {
-    "-4",
-    "-3",
-    "-2",
     "-1",
     "0",
     "+1",
     "+2",
     "+3",
-    "+4"
 };
 
 std::vector<std::string> allClockDivs {
@@ -175,16 +185,18 @@ int main(void)
     menuItems[9] = MenuItem("Clock",     allClockDivs,  0);
 
     // Initialize variables
-    stepNumber = 0;
-    trigOut    = false;
-    menuPos    = 0;
-    isEditing  = false;
+    arpStep   = 0;
+    trigOut   = false;
+    menuPos   = 0;
+    isEditing = false;
 
     for(int i = 0; i < maxArpSteps; i++)
     {
-        values[i] = 0.f;
-        trigs[i]  = false;
+        arpValues[i] = 0;
+        arpTrigs[i]  = true;
     }
+
+
 
     // God only knows what this fucking thing does
     patch.StartAdc();
@@ -196,6 +208,15 @@ int main(void)
         UpdateOled();
         UpdateOutputs();
     }
+}
+
+// Converts a semitone value to data that can be supplied to Daisy Seed's DAC
+// for CV, using the function patch.seed.dac.WriteValue()
+//
+// In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 per volt/octave.
+// Therefore tthe number 819 is significant here.
+float semitoneToDac(int semi) {
+    round((semi / 12.f) * 819.2f);
 }
 
 void UpdateControls()
@@ -248,9 +269,9 @@ void UpdateControls()
     //gate in
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
     {
-        stepNumber++;
-        stepNumber %= 5;
-        trigOut = trigs[stepNumber];
+        arpStep++;
+        arpStep %= 5;
+        trigOut = arpTrigs[arpStep];
     }
 }
 
@@ -296,8 +317,7 @@ void UpdateOled()
 
 void UpdateOutputs()
 {
-    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, round((values[stepNumber] / 12.f) * 819.2f));
-    patch.seed.dac.WriteValue(DacHandle::Channel::TWO, round((values[stepNumber] / 12.f) * 819.2f));
+    // patch.seed.dac.WriteValue(DacHandle::Channel::ONE, round((arpValues[arpStep] / 12.f) * 819.2f));
 
     dsy_gpio_write(&patch.gate_output, trigOut);
     trigOut = false;
