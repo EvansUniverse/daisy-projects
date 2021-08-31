@@ -18,8 +18,7 @@ const FontDef font = Font_7x10;
 const int     fontWidth = 7;
 const int     fontHeight = 10;
 
-// Menu item
-// By default, the value can be any string
+// Base class for menu item
 class MenuItem {
   public:
     std::string name;
@@ -35,6 +34,9 @@ class MenuItem {
         value = aValue;
     };
 
+    std::string Value(){
+        return value;
+    };
     void Increment(){};
     void Decrement(){};
 };
@@ -45,18 +47,28 @@ class MenuItemStr: public MenuItem {
     int index;
     std::vector<std::string> values;
 
-    MenuItemStr(std::string aName, std::vector<std::string> aValues){
+    // aDefault must be a valid index in aValues
+    MenuItemStr(std::string aName, std::vector<std::string> aValues, int aDefault){
         name = aName;
         values = aValues;
-        index = 0;
+        index = aDefault;
     };
 
     std::string Value(){
-        return values[index];
+        return  name + "   " + values[index];
     };
 
-    void Increment(){};
-    void Decrement(){};
+    void Increment(){
+        index++;
+        index = index % values.size();
+    };
+
+    void Decrement(){
+        index--;
+        if (index < 0){
+            index = values.size() - 1;
+        }
+    };
 };
 
 // Menu item for a numeric value
@@ -82,19 +94,91 @@ class MenuItemInt: public MenuItem {
 };
 
 std::array<MenuItem, 10> menuItems;
-//  = {
-//     "Tonic",
-//     "Scalse",
-//     "Division",
-//     "Voicing",
-//     "Order",
-//     "Rhythm",
-//     "Inversion",
-//     "Oct Range",
-//     "Oct",
-//     "Clock"
-// };
-//const int menuLen = sizeof(menuItems)/sizeof(menuItems[0]);
+
+std::vector<std::string> allNotes {
+    "A",
+    "Bb",
+    "B",
+    "Cb",
+    "C",
+    "Db",
+    "D",
+    "Eb",
+    "E",
+    "F",
+    "Gb",
+    "G"
+};
+
+std::vector<std::string> allScales {
+    "Major",
+    // "Minor"
+    // "Dorian",
+    // "Phyrgian",
+    // "Lydian",
+    // "Mixolydian",
+    // "Locrian",
+};
+
+std::vector<std::string> allVoicings {
+    "Triad",
+    // "7th",
+    // "9th",
+    // "11th",
+    // "13th",
+    // "6th",
+    // "Sus2",
+    // "Sus4",
+    // "KB"
+};
+
+std::vector<std::string> allOrders {
+    "Up",
+    // "Down",
+    // "Up+Down In",
+    // "Up+Down Ex",
+    // "Random"
+};
+
+std::vector<std::string> allRhythms {
+    "Straight",
+    // "Swing 25%",
+    // "Swing 50%",
+    // "Swing 75%",
+    // "Swing 100%"
+};
+
+std::vector<std::string> allInversions {
+    "None",
+    // "Drop 2",
+    // "Drop 3",
+    // "Drop 4"
+};
+
+std::vector<std::string> allOctaves {
+    "-4",
+    "-3",
+    "-2",
+    "-1",
+    "0",
+    "+1",
+    "+2",
+    "+3",
+    "+4"
+};
+
+std::vector<std::string> allClockDivs {
+    "8",
+    "4",
+    "2",
+    "1",
+    "1/2",
+    "1/4",
+    "1/8",
+    "1/16",
+    "1/32",
+    "1/64"
+};
 
 int  menuPos;
 bool isEditing;
@@ -109,7 +193,16 @@ int main(void)
     patch.Init(); 
 
     // Initialize menu items
-    menuItems[0] = 
+    menuItems[0] = MenuItemStr("Tonic",     allNotes,      0);
+    menuItems[1] = MenuItemStr("Scales",    allScales,     0);
+    menuItems[2] = MenuItemStr("Division",  allClockDivs,  0);
+    menuItems[3] = MenuItemStr("Voicing",   allVoicings,   0);
+    menuItems[4] = MenuItemStr("Order",     allOrders,     0);
+    menuItems[5] = MenuItemStr("Rhythm",    allRhythms,    0);
+    menuItems[6] = MenuItemStr("Inversion", allInversions, 0);
+    menuItems[7] = MenuItemStr("Oct Rng",   allOctaves,    0);
+    menuItems[8] = MenuItemStr("Oct",       allOctaves,    0);
+    menuItems[9] = MenuItemStr("Clock In",  allClockDivs,  0);
 
     // Initialize variables
     stepNumber = 0;
@@ -153,8 +246,8 @@ void UpdateControls()
         } else if (menuPos < 0) {
             menuPos = 0;
         }
-        // menuPos = (menuPos % 100 + 100) % 100;
 
+        // menuPos = (menuPos % 10 + 10) % 10;
         // if(menuPos < 5)
         // {
         //     isEditing = patch.encoder.RisingEdge() ? true : false;
@@ -169,10 +262,17 @@ void UpdateControls()
 
     else
     {
-        values[menuPos] += patch.encoder.Increment();
-        values[menuPos] = values[menuPos] < 0.f ? 0.f : values[menuPos];
-        values[menuPos] = values[menuPos] > 60.f ? 60.f : values[menuPos];
-        isEditing       = patch.encoder.RisingEdge() ? false : true;
+        // values[menuPos] += patch.encoder.Increment();
+        // values[menuPos] = values[menuPos] < 0.f ? 0.f : values[menuPos];
+        // values[menuPos] = values[menuPos] > 60.f ? 60.f : values[menuPos];
+        int inc = patch.encoder.Increment();
+        if (inc > 0){
+            menuItems[menuPos].Increment();
+        } else if (inc < 0){
+            menuItems[menuPos].Decrement();
+        }
+        
+        isEditing = patch.encoder.RisingEdge() ? false : true;
     }
 
     //gate in
@@ -184,7 +284,10 @@ void UpdateControls()
     }
 }
 
-// Display is 128x64
+// Display on Daisy Patch is 128x64p
+// With 7x10 font, this means it's limited to:
+//  * 18 chars horizontally (w/2p to spare)
+//  * 6 chars vertically (w/4p to spare)
 void UpdateOled()
 {
     // Clear display
@@ -210,12 +313,13 @@ void UpdateOled()
         patch.display.SetCursor(fontWidth, i * fontHeight + 11);
         if(i < menuItems.size())
         {
-            char* cstr = &menuItems[i][0];
+            std::string str = menuItems[i].Value();
+            char* cstr = &str[0];
             patch.display.WriteString(cstr, font, true);
         }
     }
 
-
+    // Write display buffer to OLED
     patch.display.Update();
 }
 
