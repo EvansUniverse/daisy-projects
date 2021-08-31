@@ -2,6 +2,10 @@
 
 Diatonic arpeggio generator for Daisy Patch
 
+## TODO
+* boot screen
+* persist settings upon startup
+
 
 ## Features
 

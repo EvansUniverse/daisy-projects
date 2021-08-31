@@ -11,6 +11,7 @@
 #include "daisy_patch.h"
 #include <string>
 #include <array>
+#include <map>
 
 using namespace daisy;
 using namespace daisysp;
@@ -19,12 +20,17 @@ DaisyPatch patch;
 
 const bool debugMode = false;
 
-const int maxArpSteps = 3; // TODO determine a non-arbitrary number
-int  arpValues[maxArpSteps];
-bool arpTrigs[maxArpSteps];
-int  arpStep;
-bool trigOut;
+// Maximum possible arp steps
+// Font size allows max 18 chars across, limiting the step display to 18
+const int maxArpSteps = 18; 
+
+int   arpValues[maxArpSteps];
+bool  arpTrigs[maxArpSteps];
+int   arpStep;
+int   arpLength;
 float root;
+
+bool trigOut;
 
 const FontDef font = Font_7x10;
 const int     fontWidth = 7;
@@ -34,7 +40,7 @@ int  menuPos;
 bool isEditing;
 
 // Note that the indices of these elements also correspond to
-// their semitone distance from C.
+// their semitone distances from C.
 std::vector<std::string> allNotes {
     "C",
     "Db",
@@ -54,10 +60,21 @@ std::vector<std::string> allScales {
     "Major",
     "Minor",
     "Dorian",
-    "Phyrgi",
+    "Phyrgi", // Phyrgian
     "Lydian",
-    "Mixo",
-    "Locri",
+    "Mixo",   // Mixolydian
+    "Locri",  // Locrian
+};
+
+// Maps scale names to their first 7 semitone values
+std::map<std::string, std::vector<int>> scalesToSemitones {
+    {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
+    {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
+    {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
+    {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
+    {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
+    {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
+    {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
 };
 
 std::vector<std::string> allVoicings {
@@ -69,8 +86,23 @@ std::vector<std::string> allVoicings {
     "6th",
     "Sus2",
     "Sus4",
-    "KennyB"
+    "KennyB" // Kenny Barron
 };
+
+// Maps voicings to the scale degrees they contain
+std::map<std::string, std::vector<int>> voicingToScaleDegrees {
+    {"Triad",  std::vector<int>{1, 3, 5}},
+    {"7th",    std::vector<int>{1, 3, 5, 7}},
+    {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
+    {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
+    {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
+    {"6th",    std::vector<int>{1, 3, 5, 6}},
+    {"Sus2",   std::vector<int>{1, 2, 5}},
+    {"Sus4",   std::vector<int>{1, 4, 5}},
+    {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
+    {"Power",  std::vector<int>{1, 7}}
+};
+
 
 std::vector<std::string> allOrders {
     "Up",
@@ -163,14 +195,45 @@ class MenuItem {
 
 std::array<MenuItem, 10> menuItems;
 
+// The current values of each menu item setting
+// Stored as strings for readability
+//
+// TODO consider storing as int or using maps to save RAM
+std::string curTonic;
+std::string curScale;
+std::string curDivision;
+std::string curVoicing;
+std::string curOrder;
+std::string curRhythm;
+std::string curInversion;
+std::string curOctRng;
+std::string curOct;
+std::string curClockDiv;
+
+std::map<std::string, std::vector<int>> chords;
+
+
 void UpdateControls();
 void UpdateOled();
 void UpdateOutputs();
+
+// Updates note data for the arp
+void UpdateArpNotes(){
+    // Update 
+    switch(){
+
+    }
+}
 
 int main(void)
 {
     // Initialize hardware
     patch.Init(); 
+
+    // Initialize chords
+    chords = std::map<std::string, std::vector<int>>{};
+    chords[""]
+
 
     // Initialize menu items
     menuItems[0] = MenuItem("Tonic",     allNotes,      0);
@@ -182,19 +245,21 @@ int main(void)
     menuItems[6] = MenuItem("Inversion", allInversions, 0);
     menuItems[7] = MenuItem("Oct Rng",   allOctaves,    5);
     menuItems[8] = MenuItem("Oct",       allOctaves,    5);
-    menuItems[9] = MenuItem("Clock",     allClockDivs,  0);
+    menuItems[9] = MenuItem("Clock Div", allClockDivs,  0);
 
     // Initialize variables
     arpStep   = 0;
+    arpLength = 0;
     trigOut   = false;
     menuPos   = 0;
     isEditing = false;
 
-    for(int i = 0; i < maxArpSteps; i++)
-    {
+    for(int i = 0; i < maxArpSteps; i++){
         arpValues[i] = 0;
         arpTrigs[i]  = true;
     }
+
+    // Initialize arp
 
 
 
@@ -224,38 +289,18 @@ void UpdateControls()
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
-    //encoder
-    //can we simplify the menu logic?
-    if(!isEditing)
-    {
-        // Update menu position
+    // Update menu position
+    if(!isEditing) {
         menuPos += patch.encoder.Increment();
-
-        if (menuPos > (int) menuItems.size() - 1)
-        {
+    
+        if (menuPos > (int) menuItems.size() - 1) {
             menuPos = (int) menuItems.size() - 1;
         } else if (menuPos <= 0) {
             menuPos = 0;
         }
-
-        // menuPos = (menuPos % 10 + 10) % 10;
-        // if(menuPos < 5)
-        // {
         isEditing = patch.encoder.RisingEdge() ? true : false;
-        // }
-        // else
-        // {
-        //     trigs[menuPos % 5] = patch.encoder.RisingEdge()
-        //                              ? !trigs[menuPos % 5]
-        //                              : trigs[menuPos % 5];
-        // }
-    }
 
-    else
-    {
-        // values[menuPos] += patch.encoder.Increment();
-        // values[menuPos] = values[menuPos] < 0.f ? 0.f : values[menuPos];
-        // values[menuPos] = values[menuPos] > 60.f ? 60.f : values[menuPos];
+    } else {
         int inc = patch.encoder.Increment();
         if (inc > 0){
             menuItems[menuPos].Increment();
@@ -266,11 +311,12 @@ void UpdateControls()
         isEditing = patch.encoder.RisingEdge() ? false : true;
     }
 
-    //gate in
-    if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
-    {
+    // Update step with respect to clock
+    //
+    // Currently, we'll just do 1 step per clock pulse
+    if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
         arpStep++;
-        arpStep %= 5;
+        arpStep %= ;
         trigOut = arpTrigs[arpStep];
     }
 }
@@ -297,7 +343,10 @@ void UpdateOled()
         // Debug mode - displays debug values for development
         DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
     } else {
-        // Normal mode - displays various info
+        // Normal mode - displays which note is playing
+        std::string arpDisp = "------------------";
+        arpDisp[arpStep] = '0';
+        DrawString(arpDisp, 0, 0);
     }
     patch.display.DrawLine(0, 10, 128, 10, true);
 
