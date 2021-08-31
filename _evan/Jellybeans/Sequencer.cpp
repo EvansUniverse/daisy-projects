@@ -8,6 +8,8 @@ using namespace daisysp;
 
 DaisyPatch patch;
 
+const bool debugMode = false;
+
 const int maxArpSteps = 10;
 int  values[maxArpSteps];
 bool trigs[maxArpSteps];
@@ -252,6 +254,14 @@ void UpdateControls()
     }
 }
 
+// Utility to perform a silly little dance where we set the cursor, 
+// convert a std::string to char*, and pass it to WriteString()
+void DrawString(std::string str, int x, int y){
+    patch.display.SetCursor(x, y);
+    char* cstr = &str[0];
+    patch.display.WriteString(cstr, font, true);
+}
+
 // Display on Daisy Patch is 128x64p
 // With 7x10 font, this means it's limited to:
 //  * 18 chars horizontally (w/2p to spare)
@@ -261,29 +271,23 @@ void UpdateOled()
     // Clear display
     patch.display.Fill(false);  
 
-    // Draw debug info
-    patch.display.SetCursor(0, 0);
-    std::string debug_str = std::to_string(menuPos) + std::to_string(isEditing);
-    char* debug_cstr = &debug_str[0];
-    patch.display.WriteString(debug_cstr, font, true);
-
-    // Draw a line across the top
+    // Draw the top bar
+    if (debugMode){
+        // Debug mode - displays debug values for development
+        DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
+    } else {
+        // Normal mode - displays various info
+    }
     patch.display.DrawLine(0, 10, 128, 10, true);
 
     // Draw the cursor indicator
-    patch.display.SetCursor(0, 11);
-    std::string cursor_str = ">";
-    char* cursor_cstr = &cursor_str[0];
-    patch.display.WriteString(cursor_cstr, font, true);
+    DrawString(">", 0, 11);
 
     // Draw each menu item
     for(int i = menuPos; i < menuPos + 6; i = i + 1){
-        patch.display.SetCursor(fontWidth, (i - menuPos) * fontHeight + 11);
-        if(i < (int) menuItems.size()){
-            std::string str = menuItems[i].Value();
-            char* cstr = &str[0];
-            patch.display.WriteString(cstr, font, true);
-        }
+        if (i < (int) menuItems.size()){
+            DrawString(menuItems[i].Value(), fontWidth, (i - menuPos) * fontHeight + 11);
+        }    
     }
 
     // Write display buffer to OLED
