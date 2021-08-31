@@ -1,10 +1,24 @@
-/* Copyright (C) 2020 Evan Pernu - All Rights Reserved
+/* 
+ * Copyright (C) 2020 Evan Pernu - All Rights Reserved
  * You may use, distribute and modify this code under the
- * terms of the GNU AGPLv3 license
+ * terms of the GNU AGPLv3 license.
  *
  * You should have received a copy of the GNU AGPLv3 license with
  * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
+ *
+ * 
+ * ====================================================
+ * =   __       _        _                            =
+ * =   \ \  ___| | |_   _| |__   ___  __ _ _ __  ___  =
+ * =    \ \/ _ \ | | | | | '_ \ / _ \/ _` | '_ \/ __| =
+ * = /\_/ /  __/ | | |_| | |_) |  __/ (_| | | | \__ \ =
+ * = \___/ \___|_|_|\__, |_.__/ \___|\__,_|_| |_|___/ =
+ * =                |___/                             =
+ * ====================================================
+ * 
+ * Jellybeans is an arpeggiator eurorack module designed for the 
+ * Electrosmith Daisy Patch.
  */
 
 #include "daisysp.h"
@@ -18,16 +32,26 @@ using namespace daisysp;
 
 DaisyPatch patch;
 
+// If true, the top bar will display some debug data
 const bool debugMode = false;
 
 // Maximum possible arp steps
 // Font size allows max 18 chars across, limiting the step display to 18
 const int maxArpSteps = 18; 
 
-int   arpValues[maxArpSteps];
-bool  arpTrigs[maxArpSteps];
-int   arpStep;
-int   arpLength;
+// The semitone values for each step
+int arpValues[maxArpSteps];
+
+// Represents whether each step should be played or not
+bool arpTrigs[maxArpSteps];
+
+// Current step index, 0 based
+int arpStep; 
+
+// Length of the current arp pattern
+int arpLength;
+
+// Current root note
 float root;
 
 bool trigOut;
@@ -151,6 +175,7 @@ std::vector<std::string> allClockDivs {
 };
 
 // Menu item whos value is an element of a list of predefined strings
+// They are also used to store settings
 class MenuItem {
   public:
     int index;
@@ -176,7 +201,7 @@ class MenuItem {
         }
     };
 
-    std::string Value() {
+    std::string Value(){
         return  displayName + values[index];
     };
 
@@ -194,58 +219,40 @@ class MenuItem {
 };
 
 std::array<MenuItem, 10> menuItems;
-
-// The current values of each menu item setting
-// Stored as strings for readability
-//
-// TODO consider storing as int or using maps to save RAM
-std::string curTonic;
-std::string curScale;
-std::string curDivision;
-std::string curVoicing;
-std::string curOrder;
-std::string curRhythm;
-std::string curInversion;
-std::string curOctRng;
-std::string curOct;
-std::string curClockDiv;
-
-std::map<std::string, std::vector<int>> chords;
-
+MenuItem mTonic     = menuItems[0];
+MenuItem mScales    = menuItems[1];
+MenuItem mDivision  = menuItems[2];
+MenuItem mVoicing   = menuItems[3];
+MenuItem mOrder     = menuItems[4];
+MenuItem mRhythm    = menuItems[5];
+MenuItem mInversion = menuItems[6];
+MenuItem mOctRng    = menuItems[7];
+MenuItem mOct       = menuItems[8];
+MenuItem mClockDiv  = menuItems[9];
 
 void UpdateControls();
 void UpdateOled();
 void UpdateOutputs();
+void UpdateArpNotes();
+void DrawString(std::string, int, int);
+float semitoneToDac(int);
 
-// Updates note data for the arp
-void UpdateArpNotes(){
-    // Update 
-    switch(){
 
-    }
-}
-
-int main(void)
-{
+int main(void) {
     // Initialize hardware
     patch.Init(); 
 
-    // Initialize chords
-    chords = std::map<std::string, std::vector<int>>{};
-    chords[""]
-
-
     // Initialize menu items
-    menuItems[0] = MenuItem("Tonic",     allNotes,      0);
-    menuItems[1] = MenuItem("Scales",    allScales,     0);
-    menuItems[2] = MenuItem("Division",  allClockDivs,  5);
-    menuItems[3] = MenuItem("Voicing",   allVoicings,   0);
-    menuItems[4] = MenuItem("Order",     allOrders,     0);
-    menuItems[5] = MenuItem("Rhythm",    allRhythms,    0);
-    menuItems[6] = MenuItem("Inversion", allInversions, 0);
-    menuItems[7] = MenuItem("Oct Rng",   allOctaves,    5);
-    menuItems[8] = MenuItem("Oct",       allOctaves,    5);
-    menuItems[9] = MenuItem("Clock Div", allClockDivs,  0);
+    mTonic     = MenuItem("Tonic",     allNotes,      0);
+    mScales    = MenuItem("Scales",    allScales,     0);
+    mDivision  = MenuItem("Division",  allClockDivs,  5);
+    mVoicing   = MenuItem("Voicing",   allVoicings,   0);
+    mOrder     = MenuItem("Order",     allOrders,     0);
+    mRhythm    = MenuItem("Rhythm",    allRhythms,    0);
+    mInversion = MenuItem("Inversion", allInversions, 0);
+    mOctRng    = MenuItem("Oct Rng",   allOctaves,    5);
+    mOct       = MenuItem("Oct",       allOctaves,    5);
+    mClockDiv  = MenuItem("Clock Div", allClockDivs,  0);
 
     // Initialize variables
     arpStep   = 0;
@@ -254,38 +261,26 @@ int main(void)
     menuPos   = 0;
     isEditing = false;
 
-    for(int i = 0; i < maxArpSteps; i++){
+    for (int i = 0; i < maxArpSteps; i++){
         arpValues[i] = 0;
         arpTrigs[i]  = true;
     }
 
     // Initialize arp
-
-
+    UpdateArpNotes();
 
     // God only knows what this fucking thing does
     patch.StartAdc();
 
     // Main event loop
-    while(1)
-    {
+    while(1){
         UpdateControls();
         UpdateOled();
         UpdateOutputs();
     }
 }
 
-// Converts a semitone value to data that can be supplied to Daisy Seed's DAC
-// for CV, using the function patch.seed.dac.WriteValue()
-//
-// In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 per volt/octave.
-// Therefore tthe number 819 is significant here.
-float semitoneToDac(int semi) {
-    round((semi / 12.f) * 819.2f);
-}
-
-void UpdateControls()
-{
+void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
@@ -316,25 +311,16 @@ void UpdateControls()
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
         arpStep++;
-        arpStep %= ;
+        arpStep %= arpLength;
         trigOut = arpTrigs[arpStep];
     }
-}
-
-// Utility to perform a silly little dance where we set the cursor, 
-// convert a std::string to char*, and pass it to WriteString()
-void DrawString(std::string str, int x, int y){
-    patch.display.SetCursor(x, y);
-    char* cstr = &str[0];
-    patch.display.WriteString(cstr, font, true);
 }
 
 // Display on Daisy Patch is 128x64p
 // With 7x10 font, this means it's limited to:
 //  * 18 chars horizontally (w/2p to spare)
 //  * 6 chars vertically (w/4p to spare)
-void UpdateOled()
-{
+void UpdateOled() {
     // Clear display
     patch.display.Fill(false);  
 
@@ -364,10 +350,40 @@ void UpdateOled()
     patch.display.Update();
 }
 
-void UpdateOutputs()
-{
+void UpdateOutputs() {
     // patch.seed.dac.WriteValue(DacHandle::Channel::ONE, round((arpValues[arpStep] / 12.f) * 819.2f));
 
     dsy_gpio_write(&patch.gate_output, trigOut);
     trigOut = false;
+}
+
+/*
+ * Helper functions
+ */
+
+// Updates note and length data for the arp
+void UpdateArpNotes(){
+    for (int i = 0; i < voicingToScaleDegrees[mVoicing.name].size(); i++){
+        arpValues[i] = voicingToScaleDegrees[mVoicing.name][i];
+    }
+    arpLength = voicingToScaleDegrees[mVoicing.name].size();
+}
+
+// Utility to perform a silly little dance where we set the cursor, 
+// convert a std::string to char*, and pass it to WriteString()
+void DrawString(std::string str, int x, int y){
+    patch.display.SetCursor(x, y);
+    char* cstr = &str[0];
+    patch.display.WriteString(cstr, font, true);
+}
+
+// Converts a semitone value to data that can be supplied to Daisy Seed's DAC
+// for CV, using the function patch.seed.dac.WriteValue()
+//
+// semi: an integer between 0-60 representing the number of semitones from low C
+//
+// FYI: In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 dac units
+// per volt or octave.
+float semitoneToDac(int semi) {
+    return round((semi / 12.f) * 819.2f);
 }
