@@ -18,7 +18,7 @@
  * ====================================================
  * 
  * Jellybeans is an arpeggiator eurorack module designed for the 
- * Electrosmith Daisy Patch.
+ * Electrosmith Daisy Patch platform.
  */
 
 
@@ -53,6 +53,9 @@ int arpStep;
 
 // Length of the current arp pattern
 int arpLength;
+
+// Number of clock pulses that have been received since the last reset
+int clockCount;
 
 // Current root note
 float root;
@@ -117,7 +120,8 @@ const std::vector<std::string> allVoicings {
     "6th",
     "Sus2",
     "Sus4",
-    "KennyB"  // Kenny Barron
+    // "KennyB",  // Kenny Barron chord
+    "Power"
 };
 
 // Maps voicings to the scale degrees they contain
@@ -130,7 +134,9 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
     {"6th",    std::vector<int>{1, 3, 5, 6}},
     {"Sus2",   std::vector<int>{1, 2, 5}},
     {"Sus4",   std::vector<int>{1, 4, 5}},
-    {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
+    // TODO add this back in later; it will require special treatment
+    // because it spans so many octaves.
+    // {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}}, 
     {"Power",  std::vector<int>{1, 7}}
 };
 
@@ -165,20 +171,29 @@ const std::vector<std::string> allOctaves {
     "0",
     "+1",
     "+2",
-    "+3",
+    "+3"
 };
 
-const std::vector<std::string> allClockDivs {
-    "8",
-    "4",
-    "2",
+const std::vector<std::string> allClockInDivs {
+    // "1/2", // TODO figure out how to interpolate for fractional clock values
+    // "1/4",
+    // "1/8",
+    // "1/16",
+    // "1/32",
+    // "1/64",
     "1",
-    "1/2",
-    "1/4",
-    "1/8",
-    "1/16",
-    "1/32",
-    "1/64"
+    "2",
+    "4",
+    "8",
+    "16"
+};
+
+std::map<std::string, int> clockInDivToInt {
+    {"1",  1},
+    {"2",  2},
+    {"4",  4},            
+    {"8",  8},
+    {"16", 16}
 };
 
 void UpdateControls();
@@ -187,6 +202,7 @@ void UpdateOutputs();
 void UpdateArpNotes();
 void UpdateArpStep();
 void UpdateArpString();
+void OnClockPulseIn();
 
 void DrawString(std::string, int, int);
 float SemitoneToDac(int);
@@ -208,10 +224,10 @@ class MenuItem {
         values = aValues;
         index = aDefault;
 
-        // Each menu item's displayName needs to be padded with
-        // enough spaces to be in line with the end of the longest
-        // name, plus 1 additional space. The longest menu item name
-        // is currently "Inversion" with 10 chars.
+        // For everything to line up neatly, each menu item's displayName 
+        // needs to be padded with enough spaces to be in line with the 
+        // end of the longest name, plus 1 additional space. The longest 
+        // menu item name is currently "Inversion" with 10 chars.
         displayName = aName;
         for (unsigned int i = 0; i < 10 - name.length(); i++) {
             displayName += " ";
@@ -250,7 +266,7 @@ std::array<MenuItem, 10> menuItems;
 // Macros to make the code more readable
 // TODO these may cause some fuckery
 MenuItem *mTonic     = &menuItems[0];
-MenuItem *mScales    = &menuItems[1];
+MenuItem *mScale    = &menuItems[1];
 MenuItem *mDivision  = &menuItems[2];
 MenuItem *mVoicing   = &menuItems[3];
 MenuItem *mOrder     = &menuItems[4];
@@ -265,30 +281,30 @@ int main(void) {
     // Initialize hardware
     patch.Init();
 
-   // DrawStartupScreen();
-
-    // DrawStartupScreen();
-    // // Sleep 2
+    // if (!debugMode){
+    //     DrawStartupScreen();
+    //     Sleep(2)
+    // }
 
     // Initialize menu items
-    menuItems[0] = MenuItem("Tonic",     allNotes,      0);
-    menuItems[1] = MenuItem("Scales",    allScales,     0);
-    menuItems[2] = MenuItem("Division",  allClockDivs,  5);
-    menuItems[3] = MenuItem("Voicing",   allVoicings,   0);
-    menuItems[4] = MenuItem("Order",     allOrders,     0);
-    menuItems[5] = MenuItem("Rhythm",    allRhythms,    0);
-    menuItems[6] = MenuItem("Inversion", allInversions, 0);
-    menuItems[7] = MenuItem("Oct Rng",   allOctaves,    1);
-    menuItems[8] = MenuItem("Oct",       allOctaves,    1);
-    menuItems[9] = MenuItem("Clock",     allClockDivs,  0);
+    menuItems[0] = MenuItem("N/A",       allNotes,       0); // Tonic
+    menuItems[1] = MenuItem("Scale",    allScales,      0);
+    menuItems[2] = MenuItem("N/A",       allClockInDivs, 0); // Division
+    menuItems[3] = MenuItem("Voicing",   allVoicings,    0);
+    menuItems[4] = MenuItem("N/A",       allOrders,      0); // Order
+    menuItems[5] = MenuItem("N/A",       allRhythms,     0); // Rhythm
+    menuItems[6] = MenuItem("N/A",       allInversions,  0); // Inversion
+    menuItems[7] = MenuItem("N/A",       allOctaves,     1); // Oct Rng
+    menuItems[8] = MenuItem("N/A",       allOctaves,     1); // Oct
+    menuItems[9] = MenuItem("Clock In",  allClockInDivs, 0);
 
     // Initialize variables
     arpStep     = 0;
     arpLength   = 0;
+    clockCount  = 0;
     trigOut     = false;
     menuPos     = 0;
     isEditing   = false;
-    arpString   = "Loading...";
     debugString = "Startup";
 
     // Initialize arp
@@ -340,7 +356,7 @@ void UpdateControls() {
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
     {
-        UpdateArpStep();
+        OnClockPulseIn();
     }
 }
 
@@ -392,7 +408,7 @@ void UpdateArpNotes(){
     int degree;
     int oct;
     int chordLen = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
-    int scaleLen = static_cast<int>(scalesToSemitones[mScales->Value()].size());
+    int scaleLen = static_cast<int>(scalesToSemitones[mScale->Value()].size());
 
     // For each degree in the chord
     //
@@ -411,7 +427,7 @@ void UpdateArpNotes(){
         degree--;
 
         // Update the semitone value
-        arpValues[i] = scalesToSemitones[mScales->Value()][degree] + 12 * oct;
+        arpValues[i] = scalesToSemitones[mScale->Value()][degree] + 12 * oct;
 
         debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpValues[i]);
     }
@@ -427,7 +443,17 @@ void UpdateArpNotes(){
     // For example, could just reset to 0 instead.
     arpStep = arpStep % arpLength;
 
-    UpdateArpString();
+    UpdateArpString();UpdateArpStep();
+}
+
+// Called every time a clock pulse is received
+void OnClockPulseIn(){
+    clockCount++;
+    if (clockCount >= clockInDivToInt[mClockDiv->Value()]){
+        clockCount = 0;
+
+        UpdateArpStep();
+    }
 }
 
 // Called every time the arp steps to the next note
