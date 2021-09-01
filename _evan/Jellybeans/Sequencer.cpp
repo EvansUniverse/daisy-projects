@@ -76,17 +76,17 @@ std::string debugString;
 // their semitone distances from C.
 const std::vector<std::string> allNotes {
     "C",
-    "Db",
+    "C#",
     "D",
-    "Eb",
+    "D#",
     "E",
     "F",
-    "Gb",
+    "F#",
     "G",
+    "G#",
     "A",
-    "Bb",
-    "B",
-    "Cb"
+    "A#",
+    "B"
 };
 
 const std::vector<std::string> allScales {
@@ -137,7 +137,7 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
     // TODO add this back in later; it will require special treatment
     // because it spans so many octaves.
     // {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}}, 
-    {"Power",  std::vector<int>{1, 7}}
+    {"Power",  std::vector<int>{1, 5}}
 };
 
 
@@ -165,13 +165,15 @@ const std::vector<std::string> allInversions {
 };
 
 // Given the 1V/oct and 0-5V range of the CV out port,
-// we are limited to a 5 octave register.
+// we are limited to a 5 octave register. Voicings span
+// up to 2 octaves and coarse tuning (mTonic) spans another,
+// leaving us 2 octaves of room for upwards transposition.
+//
+// Note that the indices of the elements are also their octave distances from 0
 const std::vector<std::string> allOctaves {
-    "-1",
     "0",
     "+1",
     "+2",
-    "+3"
 };
 
 const std::vector<std::string> allClockInDivs {
@@ -287,15 +289,15 @@ int main(void) {
     // }
 
     // Initialize menu items
-    menuItems[0] = MenuItem("N/A",       allNotes,       0); // Tonic
-    menuItems[1] = MenuItem("Scale",    allScales,      0);
+    menuItems[0] = MenuItem("Tonic",     allNotes,       0); // Tonic
+    menuItems[1] = MenuItem("Scale",     allScales,      0);
     menuItems[2] = MenuItem("N/A",       allClockInDivs, 0); // Division
     menuItems[3] = MenuItem("Voicing",   allVoicings,    0);
     menuItems[4] = MenuItem("N/A",       allOrders,      0); // Order
     menuItems[5] = MenuItem("N/A",       allRhythms,     0); // Rhythm
     menuItems[6] = MenuItem("N/A",       allInversions,  0); // Inversion
-    menuItems[7] = MenuItem("N/A",       allOctaves,     1); // Oct Rng
-    menuItems[8] = MenuItem("N/A",       allOctaves,     1); // Oct
+    menuItems[7] = MenuItem("N/A",       allOctaves,     0); // Oct Rng
+    menuItems[8] = MenuItem("Octave",    allOctaves,     0);
     menuItems[9] = MenuItem("Clock In",  allClockInDivs, 0);
 
     // Initialize variables
@@ -338,7 +340,6 @@ void UpdateControls() {
 
         isEditing = patch.encoder.RisingEdge() ? true : false;
     }
-
     else
     {
         int inc = patch.encoder.Increment();
@@ -426,8 +427,8 @@ void UpdateArpNotes(){
         // Offset by 1 since the values of the maps are 1-inedexed
         degree--;
 
-        // Update the semitone value
-        arpValues[i] = scalesToSemitones[mScale->Value()][degree] + 12 * oct;
+        // Calculate the semitone value
+        arpValues[i] = scalesToSemitones[mScale->Value()][degree] + 12 * (oct + mOct->index) + mTonic->index;
 
         debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpValues[i]);
     }
@@ -443,7 +444,7 @@ void UpdateArpNotes(){
     // For example, could just reset to 0 instead.
     arpStep = arpStep % arpLength;
 
-    UpdateArpString();UpdateArpStep();
+    UpdateArpString();
 }
 
 // Called every time a clock pulse is received
