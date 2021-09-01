@@ -62,6 +62,10 @@ float root;
 
 bool trigOut;
 
+// If true, the arp is currently traveling up
+// if false, it's currently traveling down
+bool goingUp;
+
 const FontDef font = Font_7x10;
 const int     fontWidth = 7;
 const int     fontHeight = 10;
@@ -136,7 +140,7 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
     {"Sus4",   std::vector<int>{1, 4, 5}},
     // TODO add this back in later; it will require special treatment
     // because it spans so many octaves.
-    // {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}}, 
+    // {"KennyB", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
     {"Power",  std::vector<int>{1, 5}}
 };
 
@@ -172,8 +176,8 @@ const std::vector<std::string> allInversions {
 // Note that the indices of the elements are also their octave distances from 0
 const std::vector<std::string> allOctaves {
     "0",
-    "+1",
-    "+2",
+    // "+1", // TODO re-enable these once out-of-bounds notes have been handled
+    // "+2"
 };
 
 const std::vector<std::string> allClockInDivs {
@@ -289,7 +293,7 @@ int main(void) {
     // }
 
     // Initialize menu items
-    menuItems[0] = MenuItem("Tonic",     allNotes,       0); // Tonic
+    menuItems[0] = MenuItem("Tonic",     allNotes,       0);
     menuItems[1] = MenuItem("Scale",     allScales,      0);
     menuItems[2] = MenuItem("N/A",       allClockInDivs, 0); // Division
     menuItems[3] = MenuItem("Voicing",   allVoicings,    0);

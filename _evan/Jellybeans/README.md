@@ -10,6 +10,11 @@ Diatonic arpeggio generator for Daisy Patch
 * rename order to pattern
 * make maps const (this causes other bugs that need to be ironed out)
 * use their instructions for setting up a new repo so that this isn't in a fork of their example repo
+* implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
+* fine tune for +/- 1 semitone
+* CV in and knobs can alter their respective fields
+* Settings submenu
+* Display settings (note names, semitones, scale degrees)
 
 ## Bugs
 * First note of scale is off (sharp) by 1 semitone
