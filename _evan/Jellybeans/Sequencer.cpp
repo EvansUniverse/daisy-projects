@@ -20,8 +20,8 @@
  * Electrosmith Daisy Patch.
  */
 
-#include "daisysp.h"
 #include "daisy_patch.h"
+#include "daisysp.h"
 #include <string>
 #include <array>
 #include <map>
@@ -32,7 +32,7 @@ using namespace daisysp;
 DaisyPatch patch;
 
 // If true, the top bar will display debug data
-const bool debugMode = false;
+const bool debugMode = true;
 
 // Maximum possible arp steps
 // Font size allows max 18 chars across, limiting the step display to 18
@@ -89,16 +89,16 @@ std::vector<std::string> allScales {
     "Locri",  // Locrian
 };
 
-// Maps scale names to their first 7 semitone values
-std::map<std::string, std::vector<int>> scalesToSemitones {
-    {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
-    {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
-    {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
-    {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
-    {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
-    {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
-    {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
-};
+// // Maps scale names to their first 7 semitone values
+// std::map<std::string, std::vector<int>> scalesToSemitones {
+//     {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
+//     {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
+//     {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
+//     {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
+//     {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
+//     {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
+//     {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
+// };
 
 std::vector<std::string> allVoicings {
     "Triad",
@@ -112,19 +112,19 @@ std::vector<std::string> allVoicings {
     "KennyB" // Kenny Barron
 };
 
-// Maps voicings to the scale degrees they contain
-std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-    {"Triad",  std::vector<int>{1, 3, 5}},
-    {"7th",    std::vector<int>{1, 3, 5, 7}},
-    {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
-    {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-    {"6th",    std::vector<int>{1, 3, 5, 6}},
-    {"Sus2",   std::vector<int>{1, 2, 5}},
-    {"Sus4",   std::vector<int>{1, 4, 5}},
-    {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
-    {"Power",  std::vector<int>{1, 7}}
-};
+// // Maps voicings to the scale degrees they contain
+// std::map<std::string, std::vector<int>> voicingToScaleDegrees {
+//     {"Triad",  std::vector<int>{1, 3, 5}},
+//     {"7th",    std::vector<int>{1, 3, 5, 7}},
+//     {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
+//     {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
+//     {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
+//     {"6th",    std::vector<int>{1, 3, 5, 6}},
+//     {"Sus2",   std::vector<int>{1, 2, 5}},
+//     {"Sus4",   std::vector<int>{1, 4, 5}},
+//     {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
+//     {"Power",  std::vector<int>{1, 7}}
+// };
 
 
 std::vector<std::string> allPatterns {
@@ -235,13 +235,16 @@ void UpdateOutputs();
 void UpdateArpNotes();
 void UpdateStep();
 
+void DrawStartupScreen();
 void DrawString(std::string, int, int);
 float SemitoneToDac(int);
 
 
 int main(void) {
     // Initialize hardware
-    patch.Init(); 
+    patch.Init();
+
+   // DrawStartupScreen();
 
     // Initialize menu items
     mTonic     = MenuItem("Tonic",     allNotes,      0);
@@ -268,9 +271,9 @@ int main(void) {
     }
 
     // Initialize arp
-    UpdateArpNotes();
+    // UpdateArpNotes();
 
-    // God only knows what this fucking thing does
+    // // God only knows what this fucking thing does
     patch.StartAdc();
 
     // Main event loop
@@ -310,9 +313,9 @@ void UpdateControls() {
     // Update step with respect to clock
     //
     // Currently, we'll just do 1 step per clock pulse
-    if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
-        UpdateStep();
-    }
+    //if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
+        //UpdateStep();
+   // }
 }
 
 // Display on Daisy Patch is 128x64p
@@ -326,20 +329,20 @@ void UpdateOled() {
     // Draw the top bar
     if (debugMode){
         // Debug mode: displays debug values for development
-        DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
+        //DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
     } else {
         // Normal mode: displays which note is playing. 
         // '0' for current note and '-' for other notes e.g.
         // ---0--
-        std::string arpDisp = "";
-        for (int i = 0; i < arpLength; i++){
-            if (i == arpStep){
-                arpDisp += "0";
-            } else {
-                arpDisp += "-";
-            }
-        }
-        DrawString(arpDisp, 0, 0);
+        // std::string arpDisp = "";
+        // for (int i = 0; i < arpLength; i++){
+        //     if (i == arpStep){
+        //         arpDisp += "0";
+        //     } else {
+        //         arpDisp += "-";
+        //     }
+        // }
+        // DrawString(arpDisp, 0, 0);
     }
     patch.display.DrawLine(0, 10, 128, 10, true);
 
@@ -357,13 +360,20 @@ void UpdateOled() {
     patch.display.Update();
 }
 
+void DrawStartupScreen() {
+    patch.display.Fill(false);  
+    DrawString("Jellybeans", 29, 27);
+    patch.display.DrawRect(27, 23, 102, 39, true);
+    patch.display.Update();
+}
+
 void UpdateOutputs() {
     // Send arp pitch to CV OUT 1
-    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
+    //patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
 
     // Send note trigger to GATE OUT 1
-    dsy_gpio_write(&patch.gate_output, trigOut);
-    trigOut = false;
+    // dsy_gpio_write(&patch.gate_output, trigOut);
+    // trigOut = false;
 }
 
 /*
@@ -371,28 +381,28 @@ void UpdateOutputs() {
  */
 
 // Updates note and length data for the arp
-void UpdateArpNotes(){
-    for (int i = 0; i < voicingToScaleDegrees[mVoicing.name].size(); i++){
-        arpValues[i] = voicingToScaleDegrees[mVoicing.name][i];
-    }
-    arpLength = voicingToScaleDegrees[mVoicing.name].size();
+// void UpdateArpNotes(){
+//     for (unsigned int i = 0; i < voicingToScaleDegrees[mVoicing.name].size(); i++){
+//         arpValues[i] = voicingToScaleDegrees[mVoicing.name][i];
+//     }
+//     arpLength = voicingToScaleDegrees[mVoicing.name].size();
 
-    // If arpStep exceeds the new arpLength, reduce it.
-    //
-    // TODO: this behavior could be a configurable setting,
-    // or maybe something else sounds better. Could maybe
-    // tinker with this later and figure out what sounds the best.
-    arpStep = arpStep % arpLength;
-}
+//     // If arpStep exceeds the new arpLength, reduce it.
+//     //
+//     // TODO: this behavior could be a configurable setting,
+//     // or maybe something else sounds better. Could maybe
+//     // tinker with this later and figure out what sounds the best.
+//     arpStep = arpStep % arpLength;
+// }
 
 // Called every time the arp steps to the next note
 //
 // TODO: modify for other patterns
-void UpdateStep(){
-    arpStep++;
-    arpStep = arpStep % arpLength;
-    trigOut = arpTrigs[arpStep];
-}
+// void UpdateStep(){
+//     arpStep++;
+//     arpStep = arpStep % arpLength;
+//     trigOut = arpTrigs[arpStep];
+// }
 
 // Utility to perform a silly little dance where we set the cursor, 
 // convert a std::string to char*, and pass it to WriteString()
@@ -409,6 +419,6 @@ void DrawString(std::string str, int x, int y){
 //
 // FYI: In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 dac units
 // per volt or octave.
-float SemitoneToDac(int semi) {
-    return round((semi / 12.f) * 819.2f);
-}
+// float SemitoneToDac(int semi) {
+//     return round((semi / 12.f) * 819.2f);
+// }
