@@ -180,6 +180,7 @@ void UpdateControls();
 void UpdateOled();
 void UpdateOutputs();
 void UpdateArpNotes();
+void UpdateArpStep();
 void UpdateArpString();
 void DrawString(std::string, int, int);
 float SemitoneToDac(int);
@@ -258,6 +259,9 @@ int main(void)
     // Initialize hardware
     patch.Init(); 
 
+    // DrawStartupScreen();
+    // // Sleep 2
+
     // Initialize menu items
     menuItems[0] = MenuItem("Tonic",     allNotes,      0);
     menuItems[1] = MenuItem("Scales",    allScales,     0);
@@ -332,9 +336,7 @@ void UpdateControls()
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
     {
-        arpStep++;
-        arpStep %= 5;
-        trigOut = arpTrigs[arpStep];
+        UpdateArpStep();
     }
 }
 
@@ -389,6 +391,25 @@ void UpdateArpNotes(){
         arpValues[i] = voicingToScaleDegrees[mVoicing->Value()][i];
     }
     arpLength = voicingToScaleDegrees[mVoicing->Value()].size();
+
+    // If arpStep exceeds the new arpLength, reduce it.
+    //
+    // TODO: this behavior could be a configurable setting,
+    // or maybe something else sounds better. Could maybe
+    // tinker with this later and figure out what sounds the best.
+    arpStep = arpStep % arpLength;
+
+    UpdateArpString();
+}
+
+// Called every time the arp steps to the next note
+//
+// TODO: modify for other patterns besides up
+void UpdateStep(){
+    arpStep++;
+    arpStep = arpStep % arpLength;
+    trigOut = arpTrigs[arpStep];
+
     UpdateArpString();
 }
 
@@ -397,7 +418,11 @@ void UpdateArpString(){
     arpString = "";
 
     for(int i = 0; i < arpLength; i++){
-        arpString += std::to_string(arpValues[i]);
+        if (i == arpStep){
+            arpString += std::to_string(arpValues[i]);
+        } else {
+            arpString += "_";
+        }
     }
 }
 
