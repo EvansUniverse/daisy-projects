@@ -3,11 +3,18 @@
 Diatonic arpeggio generator for Daisy Patch
 
 ## TODO
+<<<<<<< HEAD
 * boot screen
 * persist settings upon startup
 * rename src file to jellybeans.cpp
 * split defs into a .h file
 
+=======
+* boot screen (disable during debug mode?)
+* persist settings upon startup
+* rename src file to jellybeans.cpp
+* split defs into a .h file
+>>>>>>> dev_1
 
 ## Features
 

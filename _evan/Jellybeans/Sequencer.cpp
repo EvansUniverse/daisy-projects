@@ -7,6 +7,7 @@
  * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  *
+ * 
  * ====================================================
  * =   __       _        _                            =
  * =   \ \  ___| | |_   _| |__   ___  __ _ _ __  ___  =
@@ -20,6 +21,8 @@
  * Electrosmith Daisy Patch.
  */
 
+
+#include "daisysp.h"
 #include "daisy_patch.h"
 #include "daisysp.h"
 #include <string>
@@ -31,18 +34,18 @@ using namespace daisysp;
 
 DaisyPatch patch;
 
-// If true, the top bar will display debug data
-const bool debugMode = true;
+// If true, the top bar will display some debug data
+const bool debugMode = false;
 
 // Maximum possible arp steps
 // Font size allows max 18 chars across, limiting the step display to 18
-const int maxArpSteps = 18; 
+const int maxArpSteps = 18;
 
 // The semitone values for each step
-int arpValues[maxArpSteps];
+std::array<int, maxArpSteps> arpValues;
 
 // Represents whether each step should be played or not
-bool arpTrigs[maxArpSteps];
+std::array<bool, maxArpSteps>  arpTrigs;
 
 // Current step index, 0 based
 int arpStep; 
@@ -61,6 +64,8 @@ const int     fontHeight = 10;
 
 int  menuPos;
 bool isEditing;
+
+std::string arpString;
 
 // Note that the indices of these elements also correspond to
 // their semitone distances from C.
@@ -89,6 +94,17 @@ std::vector<std::string> allScales {
     "Locri",  // Locrian
 };
 
+// Maps scale names to their first 7 semitone values
+std::map<std::string, std::vector<int>> scalesToSemitones {
+    {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
+    {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
+    {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
+    {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
+    {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
+    {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
+    {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
+};
+
 // // Maps scale names to their first 7 semitone values
 // std::map<std::string, std::vector<int>> scalesToSemitones {
 //     {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
@@ -109,7 +125,21 @@ std::vector<std::string> allVoicings {
     "6th",
     "Sus2",
     "Sus4",
-    "KennyB" // Kenny Barron
+    "KennyB"  // Kenny Barron
+};
+
+// Maps voicings to the scale degrees they contain
+std::map<std::string, std::vector<int>> voicingToScaleDegrees {
+    {"Triad",  std::vector<int>{1, 3, 5}},
+    {"7th",    std::vector<int>{1, 3, 5, 7}},
+    {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
+    {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
+    {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
+    {"6th",    std::vector<int>{1, 3, 5, 6}},
+    {"Sus2",   std::vector<int>{1, 2, 5}},
+    {"Sus4",   std::vector<int>{1, 4, 5}},
+    {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
+    {"Power",  std::vector<int>{1, 7}}
 };
 
 // // Maps voicings to the scale degrees they contain
@@ -173,6 +203,15 @@ std::vector<std::string> allClockDivs {
     "1/64"
 };
 
+void UpdateControls();
+void UpdateOled();
+void UpdateOutputs();
+void UpdateArpNotes();
+void UpdateArpStep();
+void UpdateArpString();
+void DrawString(std::string, int, int);
+float SemitoneToDac(int);
+
 // Menu item whos value is an element of a list of predefined strings
 // They are also used to store settings
 class MenuItem {
@@ -200,13 +239,18 @@ class MenuItem {
         }
     };
 
-    std::string Value(){
+    std::string DisplayValue() {
         return  displayName + values[index];
     };
+
+    std::string Value() {
+        return values[index];
+    }
 
     void Increment(){
         index++;
         index = index % values.size();
+        OnChange();
     };
 
     void Decrement(){
@@ -214,30 +258,28 @@ class MenuItem {
         if (index < 0){
             index = values.size() - 1;
         }
+        OnChange();
+    };
+
+    void OnChange(){
+        UpdateArpNotes();
+        UpdateArpString();
     };
 };
 
 std::array<MenuItem, 10> menuItems;
-MenuItem mTonic     = menuItems[0];
-MenuItem mScales    = menuItems[1];
-MenuItem mDivision  = menuItems[2];
-MenuItem mVoicing   = menuItems[3];
-MenuItem mPattern   = menuItems[4];
-MenuItem mRhythm    = menuItems[5];
-MenuItem mInversion = menuItems[6];
-MenuItem mOctRng    = menuItems[7];
-MenuItem mOct       = menuItems[8];
-MenuItem mClockDiv  = menuItems[9];
-
-void UpdateControls();
-void UpdateOled();
-void UpdateOutputs();
-void UpdateArpNotes();
-void UpdateStep();
-
-void DrawStartupScreen();
-void DrawString(std::string, int, int);
-float SemitoneToDac(int);
+// Macros to make the code more readable
+// TODO these may cause some fuckery
+MenuItem *mTonic     = &menuItems[0];
+MenuItem *mScales    = &menuItems[1];
+MenuItem *mDivision  = &menuItems[2];
+MenuItem *mVoicing   = &menuItems[3];
+MenuItem *mOrder     = &menuItems[4];
+MenuItem *mRhythm    = &menuItems[5];
+MenuItem *mInversion = &menuItems[6];
+MenuItem *mOctRng    = &menuItems[7];
+MenuItem *mOct       = &menuItems[8];
+MenuItem *mClockDiv  = &menuItems[9];
 
 
 int main(void) {
@@ -246,17 +288,20 @@ int main(void) {
 
    // DrawStartupScreen();
 
+    // DrawStartupScreen();
+    // // Sleep 2
+
     // Initialize menu items
-    mTonic     = MenuItem("Tonic",     allNotes,      0);
-    mScales    = MenuItem("Scales",    allScales,     0);
-    mDivision  = MenuItem("Division",  allClockDivs,  5);
-    mVoicing   = MenuItem("Voicing",   allVoicings,   0);
-    mPattern   = MenuItem("Pattern",   allPatterns,   0);
-    mRhythm    = MenuItem("Rhythm",    allRhythms,    0);
-    mInversion = MenuItem("Inversion", allInversions, 0);
-    mOctRng    = MenuItem("Oct Rng",   allOctaves,    5);
-    mOct       = MenuItem("Oct",       allOctaves,    5);
-    mClockDiv  = MenuItem("Clock Div", allClockDivs,  0);
+    menuItems[0] = MenuItem("Tonic",     allNotes,      0);
+    menuItems[1] = MenuItem("Scales",    allScales,     0);
+    menuItems[2] = MenuItem("Division",  allClockDivs,  5);
+    menuItems[3] = MenuItem("Voicing",   allVoicings,   0);
+    menuItems[4] = MenuItem("Order",     allOrders,     0);
+    menuItems[5] = MenuItem("Rhythm",    allRhythms,    0);
+    menuItems[6] = MenuItem("Inversion", allInversions, 0);
+    menuItems[7] = MenuItem("Oct Rng",   allOctaves,    1);
+    menuItems[8] = MenuItem("Oct",       allOctaves,    1);
+    menuItems[9] = MenuItem("Clock",     allClockDivs,  0);
 
     // Initialize variables
     arpStep   = 0;
@@ -264,11 +309,10 @@ int main(void) {
     trigOut   = false;
     menuPos   = 0;
     isEditing = false;
+    arpString = "Loading...";
 
-    for (int i = 0; i < maxArpSteps; i++){
-        arpValues[i] = 0;
-        arpTrigs[i]  = true;
-    }
+    // Initialize arp
+    UpdateArpNotes();
 
     // Initialize arp
     // UpdateArpNotes();
@@ -288,8 +332,9 @@ void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
-    // Update menu position
-    if(!isEditing) {
+    if(!isEditing)
+    {
+        // Update menu position
         menuPos += patch.encoder.Increment();
     
         if (menuPos > (int) menuItems.size() - 1) {
@@ -297,9 +342,12 @@ void UpdateControls() {
         } else if (menuPos <= 0) {
             menuPos = 0;
         }
-        isEditing = patch.encoder.RisingEdge() ? true : false;
 
-    } else {
+        isEditing = patch.encoder.RisingEdge() ? true : false;
+    }
+
+    else
+    {
         int inc = patch.encoder.Increment();
         if (inc > 0){
             menuItems[menuPos].Increment();
@@ -313,9 +361,10 @@ void UpdateControls() {
     // Update step with respect to clock
     //
     // Currently, we'll just do 1 step per clock pulse
-    //if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig()) {
-        //UpdateStep();
-   // }
+    if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
+    {
+        UpdateArpStep();
+    }
 }
 
 // Display on Daisy Patch is 128x64p
@@ -328,21 +377,11 @@ void UpdateOled() {
 
     // Draw the top bar
     if (debugMode){
-        // Debug mode: displays debug values for development
-        //DrawString(std::to_string(menuPos) + " " + std::to_string(isEditing), 0, 0);
+        // Debug mode - displays debug values for development
+        DrawString(std::to_string(voicingToScaleDegrees[mVoicing->Value()][1]), 0, 0);
     } else {
-        // Normal mode: displays which note is playing. 
-        // '0' for current note and '-' for other notes e.g.
-        // ---0--
-        // std::string arpDisp = "";
-        // for (int i = 0; i < arpLength; i++){
-        //     if (i == arpStep){
-        //         arpDisp += "0";
-        //     } else {
-        //         arpDisp += "-";
-        //     }
-        // }
-        // DrawString(arpDisp, 0, 0);
+        // Normal mode - displays various info
+        DrawString(arpString, 0, 0);
     }
     patch.display.DrawLine(0, 10, 128, 10, true);
 
@@ -352,7 +391,7 @@ void UpdateOled() {
     // Draw each menu item
     for(int i = menuPos; i < menuPos + 6; i = i + 1){
         if (i < (int) menuItems.size()){
-            DrawString(menuItems[i].Value(), fontWidth, (i - menuPos) * fontHeight + 11);
+            DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 11);
         }    
     }
 
@@ -360,49 +399,59 @@ void UpdateOled() {
     patch.display.Update();
 }
 
-void DrawStartupScreen() {
-    patch.display.Fill(false);  
-    DrawString("Jellybeans", 29, 27);
-    patch.display.DrawRect(27, 23, 102, 39, true);
-    patch.display.Update();
+void UpdateOutputs()
+{
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
+
+    dsy_gpio_write(&patch.gate_output, trigOut);
+    trigOut = false;
 }
-
-void UpdateOutputs() {
-    // Send arp pitch to CV OUT 1
-    //patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
-
-    // Send note trigger to GATE OUT 1
-    // dsy_gpio_write(&patch.gate_output, trigOut);
-    // trigOut = false;
-}
-
-/*
- * Helper functions
- */
 
 // Updates note and length data for the arp
-// void UpdateArpNotes(){
-//     for (unsigned int i = 0; i < voicingToScaleDegrees[mVoicing.name].size(); i++){
-//         arpValues[i] = voicingToScaleDegrees[mVoicing.name][i];
-//     }
-//     arpLength = voicingToScaleDegrees[mVoicing.name].size();
+void UpdateArpNotes(){
+    for (int i = 0; i < static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size()); i++){
+        arpValues[i] = voicingToScaleDegrees[mVoicing->Value()][i];
+    }
+    arpLength = voicingToScaleDegrees[mVoicing->Value()].size();
 
-//     // If arpStep exceeds the new arpLength, reduce it.
-//     //
-//     // TODO: this behavior could be a configurable setting,
-//     // or maybe something else sounds better. Could maybe
-//     // tinker with this later and figure out what sounds the best.
-//     arpStep = arpStep % arpLength;
-// }
+    // If arpStep exceeds the new arpLength, reduce it.
+    //
+    // TODO: this behavior could be a configurable setting,
+    // or maybe something else sounds better. Could maybe
+    // tinker with this later and figure out what sounds the best.
+    arpStep = arpStep % arpLength;
+
+    UpdateArpString();
+}
 
 // Called every time the arp steps to the next note
 //
-// TODO: modify for other patterns
-// void UpdateStep(){
-//     arpStep++;
-//     arpStep = arpStep % arpLength;
-//     trigOut = arpTrigs[arpStep];
-// }
+// TODO: modify for other patterns besides up
+void UpdateArpStep(){
+    arpStep++;
+    arpStep = arpStep % arpLength;
+    trigOut = arpTrigs[arpStep];
+
+    UpdateArpString();
+}
+
+// Updates the string used to display the arp
+void UpdateArpString(){
+    arpString = "";
+
+    for(int i = 0; i < arpLength; i++){
+        if (i == arpStep){
+            arpString += std::to_string(arpValues[i]);
+        } else {
+            arpString += "_";
+        }
+    }
+}
+
+
+/*
+ * Utility functions
+ */
 
 // Utility to perform a silly little dance where we set the cursor, 
 // convert a std::string to char*, and pass it to WriteString()
@@ -419,6 +468,6 @@ void DrawString(std::string str, int x, int y){
 //
 // FYI: In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 dac units
 // per volt or octave.
-// float SemitoneToDac(int semi) {
-//     return round((semi / 12.f) * 819.2f);
-// }
+float SemitoneToDac(int semi) {
+    return round((semi / 12.f) * 819.2f);
+}
