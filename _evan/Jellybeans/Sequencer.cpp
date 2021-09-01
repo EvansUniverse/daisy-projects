@@ -34,12 +34,13 @@ using namespace daisysp;
 
 DaisyPatch patch;
 
-// If true, the top bar will display some debug data
-const bool debugMode = false;
+// If true, the bottom row will display debug data instead of a menu item
+const bool debugMode = true;
 
 // Maximum possible arp steps
-// Font size allows max 18 chars across, limiting the step display to 18
-const int maxArpSteps = 18;
+// Font size allows max 18 chars across, limiting the step display to 18.
+// Subtract to account for 2 char step values.
+const int maxArpSteps = 17;
 
 // The semitone values for each step
 std::array<int, maxArpSteps> arpValues;
@@ -66,10 +67,11 @@ int  menuPos;
 bool isEditing;
 
 std::string arpString;
+std::string debugString;
 
 // Note that the indices of these elements also correspond to
 // their semitone distances from C.
-std::vector<std::string> allNotes {
+const std::vector<std::string> allNotes {
     "C",
     "Db",
     "D",
@@ -84,7 +86,7 @@ std::vector<std::string> allNotes {
     "Cb"
 };
 
-std::vector<std::string> allScales {
+const std::vector<std::string> allScales {
     "Major",
     "Minor",
     "Dorian",
@@ -94,7 +96,7 @@ std::vector<std::string> allScales {
     "Locri",  // Locrian
 };
 
-// Maps scale names to their first 7 semitone values
+// Maps scale names to their first octave of semitone values
 std::map<std::string, std::vector<int>> scalesToSemitones {
     {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
     {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
@@ -106,7 +108,7 @@ std::map<std::string, std::vector<int>> scalesToSemitones {
 };
 
 
-std::vector<std::string> allVoicings {
+const std::vector<std::string> allVoicings {
     "Triad",
     "7th",
     "9th",
@@ -133,7 +135,7 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
 };
 
 
-std::vector<std::string> allOrders {
+const std::vector<std::string> allOrders {
     "Up",
     "Down",
     "U+D In",
@@ -141,7 +143,7 @@ std::vector<std::string> allOrders {
     "Random"
 };
 
-std::vector<std::string> allRhythms {
+const std::vector<std::string> allRhythms {
     "None",
     "Sw 25%",
     "Sw 50%",
@@ -149,7 +151,7 @@ std::vector<std::string> allRhythms {
     "Sw 100%"
 };
 
-std::vector<std::string> allInversions {
+const std::vector<std::string> allInversions {
     "None",
     "Drop 2",
     "Drop 3",
@@ -158,7 +160,7 @@ std::vector<std::string> allInversions {
 
 // Given the 1V/oct and 0-5V range of the CV out port,
 // we are limited to a 5 octave register.
-std::vector<std::string> allOctaves {
+const std::vector<std::string> allOctaves {
     "-1",
     "0",
     "+1",
@@ -166,7 +168,7 @@ std::vector<std::string> allOctaves {
     "+3",
 };
 
-std::vector<std::string> allClockDivs {
+const std::vector<std::string> allClockDivs {
     "8",
     "4",
     "2",
@@ -185,6 +187,7 @@ void UpdateOutputs();
 void UpdateArpNotes();
 void UpdateArpStep();
 void UpdateArpString();
+
 void DrawString(std::string, int, int);
 float SemitoneToDac(int);
 
@@ -280,18 +283,16 @@ int main(void) {
     menuItems[9] = MenuItem("Clock",     allClockDivs,  0);
 
     // Initialize variables
-    arpStep   = 0;
-    arpLength = 0;
-    trigOut   = false;
-    menuPos   = 0;
-    isEditing = false;
-    arpString = "Loading...";
+    arpStep     = 0;
+    arpLength   = 0;
+    trigOut     = false;
+    menuPos     = 0;
+    isEditing   = false;
+    arpString   = "Loading...";
+    debugString = "Startup";
 
     // Initialize arp
     UpdateArpNotes();
-
-    // Initialize arp
-    // UpdateArpNotes();
 
     // // God only knows what this fucking thing does
     patch.StartAdc();
@@ -352,22 +353,25 @@ void UpdateOled() {
     patch.display.Fill(false);  
 
     // Draw the top bar
-    if (debugMode){
-        // Debug mode - displays debug values for development
-        DrawString(std::to_string(voicingToScaleDegrees[mVoicing->Value()][1]), 0, 0);
-    } else {
-        // Normal mode - displays various info
-        DrawString(arpString, 0, 0);
-    }
-    patch.display.DrawLine(0, 10, 128, 10, true);
+    DrawString(arpString, 0, 0);
+    patch.display.DrawLine(0, 11, 128, 11, true);
 
     // Draw the cursor indicator
     DrawString(">", 0, 11);
 
+    int listSize = 5;
+
+    if (debugMode){
+        // If in debug mode, reserve the bottom menu item's space for debug data
+        listSize--;
+        patch.display.DrawLine(0, 53, 128, 53, true);
+        DrawString(debugString, 2, 54);
+    }
+
     // Draw each menu item
-    for(int i = menuPos; i < menuPos + 6; i = i + 1){
+    for(int i = menuPos; i < menuPos + listSize; i++){
         if (i < (int) menuItems.size()){
-            DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 11);
+            DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
         }    
     }
 
@@ -385,16 +389,40 @@ void UpdateOutputs()
 
 // Updates note and length data for the arp
 void UpdateArpNotes(){
-    for (int i = 0; i < static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size()); i++){
-        arpValues[i] = voicingToScaleDegrees[mVoicing->Value()][i];
+    int degree;
+    int oct;
+    int chordLen = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
+    int scaleLen = static_cast<int>(scalesToSemitones[mScales->Value()].size());
+
+    // For each degree in the chord
+    //
+    // bug: major 7th results in 8
+    for (int i = 0; i < chordLen; i++){
+        // Get the degree
+        degree = voicingToScaleDegrees[mVoicing->Value()][i];
+
+        // Figure out how many octaves above 0 it is
+        oct = degree / (scaleLen + 1);
+        degree = degree % (scaleLen + 1);
+
+        // Offset by 1 since the values of the maps are 1-inedexed
+        degree--;
+
+        debugString = std::to_string(degree);
+
+        // Update the semitone value
+        arpValues[i] = scalesToSemitones[mScales->Value()][degree] + 12 * oct;
     }
+
+    // Set the arp length to match the new chord
     arpLength = voicingToScaleDegrees[mVoicing->Value()].size();
 
-    // If arpStep exceeds the new arpLength, reduce it.
+    // If the current arpStep exceeds the new arpLength, reduce it.
     //
     // TODO: this behavior could be a configurable setting,
     // or maybe something else sounds better. Could maybe
     // tinker with this later and figure out what sounds the best.
+    // For example, could just reset to 0 instead.
     arpStep = arpStep % arpLength;
 
     UpdateArpString();

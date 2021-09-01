@@ -8,6 +8,8 @@ Diatonic arpeggio generator for Daisy Patch
 * rename src file to jellybeans.cpp
 * split defs into a .h file
 * rename order to pattern
+* make maps const (this causes other bugs that need to be ironed out)
+* use their instructions for setting up a new repo so that this isn't in a fork of their example repo
 
 ## Bugs
 * First note of scale is off (sharp) by 1 semitone
