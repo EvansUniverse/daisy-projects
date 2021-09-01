@@ -403,15 +403,17 @@ void UpdateArpNotes(){
 
         // Figure out how many octaves above 0 it is
         oct = degree / (scaleLen + 1);
-        degree = degree % (scaleLen + 1);
+        if (oct > 0){
+            degree = degree % scaleLen;
+        }
 
         // Offset by 1 since the values of the maps are 1-inedexed
         degree--;
 
-        debugString = std::to_string(degree);
-
         // Update the semitone value
         arpValues[i] = scalesToSemitones[mScales->Value()][degree] + 12 * oct;
+
+        debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpValues[i]);
     }
 
     // Set the arp length to match the new chord
