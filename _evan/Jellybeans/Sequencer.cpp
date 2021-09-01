@@ -105,16 +105,6 @@ std::map<std::string, std::vector<int>> scalesToSemitones {
     {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
 };
 
-// // Maps scale names to their first 7 semitone values
-// std::map<std::string, std::vector<int>> scalesToSemitones {
-//     {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
-//     {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
-//     {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
-//     {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
-//     {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
-//     {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
-//     {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
-// };
 
 std::vector<std::string> allVoicings {
     "Triad",
@@ -142,22 +132,8 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
     {"Power",  std::vector<int>{1, 7}}
 };
 
-// // Maps voicings to the scale degrees they contain
-// std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-//     {"Triad",  std::vector<int>{1, 3, 5}},
-//     {"7th",    std::vector<int>{1, 3, 5, 7}},
-//     {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
-//     {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
-//     {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-//     {"6th",    std::vector<int>{1, 3, 5, 6}},
-//     {"Sus2",   std::vector<int>{1, 2, 5}},
-//     {"Sus4",   std::vector<int>{1, 4, 5}},
-//     {"KennyB", std::vector<int>{1, 7, 14, 15, 22, 29}},
-//     {"Power",  std::vector<int>{1, 7}}
-// };
 
-
-std::vector<std::string> allPatterns {
+std::vector<std::string> allOrders {
     "Up",
     "Down",
     "U+D In",
