@@ -302,8 +302,6 @@ void UpdateControls()
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
-    //encoder
-    //can we simplify the menu logic?
     if(!isEditing)
     {
         // Update menu position
@@ -375,15 +373,11 @@ void UpdateOled()
 
 void UpdateOutputs()
 {
-    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(12));
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
 
     dsy_gpio_write(&patch.gate_output, trigOut);
     trigOut = false;
 }
-
-/*
- * Helper functions
- */
 
 // Updates note and length data for the arp
 void UpdateArpNotes(){
@@ -405,7 +399,7 @@ void UpdateArpNotes(){
 // Called every time the arp steps to the next note
 //
 // TODO: modify for other patterns besides up
-void UpdateStep(){
+void UpdateArpStep(){
     arpStep++;
     arpStep = arpStep % arpLength;
     trigOut = arpTrigs[arpStep];
@@ -425,6 +419,11 @@ void UpdateArpString(){
         }
     }
 }
+
+
+/*
+ * Utility functions
+ */
 
 // Utility to perform a silly little dance where we set the cursor, 
 // convert a std::string to char*, and pass it to WriteString()
