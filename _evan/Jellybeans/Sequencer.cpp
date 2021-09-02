@@ -16,6 +16,7 @@
  * = \___/ \___|_|_|\__, |_.__/ \___|\__,_|_| |_|___/ =
  * =                |___/                             =
  * ====================================================
+ * ====================================================
  * 
  * Jellybeans is an arpeggiator eurorack module designed for the 
  * Electrosmith Daisy Patch platform.
@@ -43,16 +44,24 @@ const bool debugMode = true;
 const int maxArpSteps = 17;
 
 // The semitone values for each step
-std::array<int, maxArpSteps> arpValues;
+std::array<int, maxArpSteps> arpNotes;
 
-// Represents whether each step should be played or not
-std::array<bool, maxArpSteps>  arpTrigs;
+// Stores which arp note should be played at each next step.
+// Contains a list of indices of arpNotes
+std::vector<int> arpTraversal;
+
+// Tracks the current position in arpTraversal
+int arpTraversalIndex;
 
 // Current step index, 0 based
 int arpStep; 
 
 // Length of the current arp pattern
-int arpLength;
+//int arpLength;
+
+// The note vallue currently being sent to Patches' DAC's output 1
+// This is stored so that it's only calculated upon a change
+float arpNoteDacOutput1;
 
 // Number of clock pulses that have been received since the last reset
 int clockCount;
@@ -117,31 +126,39 @@ std::map<std::string, std::vector<int>> scalesToSemitones {
 
 const std::vector<std::string> allVoicings {
     "Triad",
+    "Triad+",
     "7th",
+    "7th+",
     "9th",
     "11th",
     "13th",
     "6th",
     "Sus2",
     "Sus4",
-    // "KennyB",  // Kenny Barron chord
-    "Power"
+    "Kenny B.",  // Kenny Barron chord
+    "Power",
+    "Power+",
+    "Shell 1",
+    "Shell 2"
 };
 
 // Maps voicings to the scale degrees they contain
 std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-    {"Triad",  std::vector<int>{1, 3, 5}},
-    {"7th",    std::vector<int>{1, 3, 5, 7}},
-    {"9th",    std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",   std::vector<int>{1, 3, 5, 7, 9, 11}},
-    {"13th",   std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-    {"6th",    std::vector<int>{1, 3, 5, 6}},
-    {"Sus2",   std::vector<int>{1, 2, 5}},
-    {"Sus4",   std::vector<int>{1, 4, 5}},
-    // TODO add this back in later; it will require special treatment
-    // because it spans so many octaves.
-    // {"KennyB", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-    {"Power",  std::vector<int>{1, 5}}
+    {"Triad",     std::vector<int>{1, 3, 5}},
+    {"Triad+", std::vector<int>{1, 3, 5, 8}},
+    {"7th",       std::vector<int>{1, 3, 5, 7}},
+    {"7th+",   std::vector<int>{1, 3, 5, 7, 8}},
+    {"9th",       std::vector<int>{1, 3, 5, 7, 9}},
+    {"11th",      std::vector<int>{1, 3, 5, 7, 9, 11}},
+    {"13th",      std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
+    {"6th",       std::vector<int>{1, 3, 5, 6}},
+    {"Sus2",      std::vector<int>{1, 2, 5}},
+    {"Sus4",      std::vector<int>{1, 4, 5}},
+    {"Kenny B.",  std::vector<int>{1, 5, 9, 10, 14, 18}}, 
+    {"Power",     std::vector<int>{1, 5}},
+    {"Power+", std::vector<int>{1, 5, 8}},
+    {"Shell 1",   std::vector<int>{1, 7, 10}},
+    {"Shell 2",   std::vector<int>{1, 10, 14}},
 };
 
 
@@ -207,6 +224,7 @@ void UpdateOled();
 void UpdateOutputs();
 void UpdateArpNotes();
 void UpdateArpStep();
+void UpdateArpTraversal();
 void UpdateArpString();
 void OnClockPulseIn();
 
@@ -262,8 +280,10 @@ class MenuItem {
         OnChange();
     };
 
+    // Executed every time this item's value is changed
     void OnChange(){
         UpdateArpNotes();
+        UpdateArpTraversal();
         UpdateArpString();
     };
 };
@@ -297,7 +317,7 @@ int main(void) {
     menuItems[1] = MenuItem("Scale",     allScales,      0);
     menuItems[2] = MenuItem("N/A",       allClockInDivs, 0); // Division
     menuItems[3] = MenuItem("Voicing",   allVoicings,    0);
-    menuItems[4] = MenuItem("N/A",       allOrders,      0); // Order
+    menuItems[4] = MenuItem("Order",     allOrders,      0); // Order
     menuItems[5] = MenuItem("N/A",       allRhythms,     0); // Rhythm
     menuItems[6] = MenuItem("N/A",       allInversions,  0); // Inversion
     menuItems[7] = MenuItem("N/A",       allOctaves,     0); // Oct Rng
@@ -306,7 +326,9 @@ int main(void) {
 
     // Initialize variables
     arpStep     = 0;
-    arpLength   = 0;
+    //arpLength   = 0;
+    arpTraversalIndex = 0;
+    arpNoteDacOutput1 = 0.f;
     clockCount  = 0;
     trigOut     = false;
     menuPos     = 0;
@@ -314,6 +336,7 @@ int main(void) {
     debugString = "Startup";
 
     // Initialize arp
+    UpdateArpTraversal();
     UpdateArpNotes();
 
     // // God only knows what this fucking thing does
@@ -327,6 +350,7 @@ int main(void) {
     }
 }
 
+// Handle any input to Patches' controls
 void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
@@ -365,6 +389,8 @@ void UpdateControls() {
     }
 }
 
+// Update Patches' screen
+//
 // Display on Daisy Patch is 128x64p
 // With 7x10 font, this means it's limited to:
 //  - 18 chars horizontally (w/2p to spare)
@@ -400,14 +426,6 @@ void UpdateOled() {
     patch.display.Update();
 }
 
-void UpdateOutputs()
-{
-    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, SemitoneToDac(arpValues[arpStep]));
-
-    dsy_gpio_write(&patch.gate_output, trigOut);
-    trigOut = false;
-}
-
 // Updates note and length data for the arp
 void UpdateArpNotes(){
     int degree;
@@ -417,7 +435,7 @@ void UpdateArpNotes(){
 
     // For each degree in the chord
     //
-    // bug: major 7th results in 8
+    // bug: 14ths resolve to octaves
     for (int i = 0; i < chordLen; i++){
         // Get the degree
         degree = voicingToScaleDegrees[mVoicing->Value()][i];
@@ -432,21 +450,18 @@ void UpdateArpNotes(){
         degree--;
 
         // Calculate the semitone value
-        arpValues[i] = scalesToSemitones[mScale->Value()][degree] + 12 * (oct + mOct->index) + mTonic->index;
+        arpNotes[i] = scalesToSemitones[mScale->Value()][degree] + 12 * (oct + mOct->index) + mTonic->index;
 
-        debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpValues[i]);
+        // If the value exceeds our note range, bring it up/down an octave until it fits
+        while (arpNotes[i] > 60){
+            arpNotes[i] -= 12;
+        }
+        while (arpNotes[i] < 0){
+            arpNotes[i] -+ 12;
+        }
+
+        //debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpNotes[i]);
     }
-
-    // Set the arp length to match the new chord
-    arpLength = voicingToScaleDegrees[mVoicing->Value()].size();
-
-    // If the current arpStep exceeds the new arpLength, reduce it.
-    //
-    // TODO: this behavior could be a configurable setting,
-    // or maybe something else sounds better. Could maybe
-    // tinker with this later and figure out what sounds the best.
-    // For example, could just reset to 0 instead.
-    arpStep = arpStep % arpLength;
 
     UpdateArpString();
 }
@@ -461,13 +476,55 @@ void OnClockPulseIn(){
     }
 }
 
+// Updates the arp traversal values based on the current pattern
+void UpdateArpTraversal(){
+    arpTraversal = std::vector<int>{};
+    int chordLen = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
+
+    if (mOrder->Value() == "Down") {
+        for (int i = chordLen-1; i >= 0; i--) {
+            arpTraversal.push_back(i);
+        }
+
+    } else if (mOrder->Value() == "U+D In") {
+        for (int i = 0; i < chordLen; i++) {
+            arpTraversal.push_back(i);
+        }
+                for (int i = chordLen-1; i > 0; i--) {
+            arpTraversal.push_back(i);
+        }
+
+    } else if (mOrder->Value() == "U+D Ex") {
+        for (int i = 0; i < chordLen-1; i++) {
+            arpTraversal.push_back(i);
+        }
+        for (int i = chordLen-1; i > 0; i--) {
+            arpTraversal.push_back(i);
+        }
+
+    // } else if (mOrder->Value() == "Random") {// TODO implement
+    // -1 will represent "random value"
+    // arpTraversal.push_back(-1);
+
+    } else { // mOrder->Value() == "Up"
+        for (int i = 0; i < chordLen; i++) {
+            arpTraversal.push_back(i);
+        }
+    }    
+
+    arpTraversalIndex = 0;
+}
+
 // Called every time the arp steps to the next note
 //
 // TODO: modify for other patterns besides up
 void UpdateArpStep(){
-    arpStep++;
-    arpStep = arpStep % arpLength;
-    trigOut = arpTrigs[arpStep];
+    arpStep = arpTraversal[arpTraversalIndex];
+    trigOut = true;
+    arpNoteDacOutput1 = SemitoneToDac(arpNotes[arpStep]);
+    
+    arpTraversalIndex++;
+    arpTraversalIndex = arpTraversalIndex % static_cast<int>(arpTraversal.size());
 
     UpdateArpString();
 }
@@ -475,16 +532,25 @@ void UpdateArpStep(){
 // Updates the string used to display the arp
 void UpdateArpString(){
     arpString = "";
+    int chordSize = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
 
-    for(int i = 0; i < arpLength; i++){
+    for(int i = 0; i < chordSize; i++){
         if (i == arpStep){
-            arpString += std::to_string(arpValues[i]);
+            arpString += std::to_string(arpNotes[i]);
         } else {
             arpString += "_";
         }
     }
 }
 
+// Updates Patches' output values
+void UpdateOutputs()
+{
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, arpNoteDacOutput1);
+
+    dsy_gpio_write(&patch.gate_output, trigOut);
+    trigOut = false;
+}
 
 /*
  * Utility functions

@@ -11,13 +11,17 @@ Diatonic arpeggio generator for Daisy Patch
 * make maps const (this causes other bugs that need to be ironed out)
 * use their instructions for setting up a new repo so that this isn't in a fork of their example repo
 * implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
-* fine tune for +/- 1 semitone
+* fine tune for +/- 1 semitone?
 * CV in and knobs can alter their respective fields
 * Settings submenu
 * Display settings (note names, semitones, scale degrees)
+* Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
+* derive menus from map keys
+* Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
+* Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 
 ## Bugs
-* First note of scale is off (sharp) by 1 semitone
+* 14ths resolve to octaves
 
 ## Features
 
