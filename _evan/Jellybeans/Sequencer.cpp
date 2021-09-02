@@ -435,7 +435,7 @@ void UpdateArpNotes(){
 
     // For each degree in the chord
     //
-    // bug: 14ths resolve to octaves
+    // bug: 5th note in kenny barron chords (both major and minor) resolve to octaves
     for (int i = 0; i < chordLen; i++){
         // Get the degree
         degree = voicingToScaleDegrees[mVoicing->Value()][i];
@@ -457,7 +457,7 @@ void UpdateArpNotes(){
             arpNotes[i] -= 12;
         }
         while (arpNotes[i] < 0){
-            arpNotes[i] -+ 12;
+            arpNotes[i] += 12;
         }
 
         //debugString = "o: " + std::to_string(oct) + " d: " + std::to_string(degree) + " v: " + std::to_string(arpNotes[i]);

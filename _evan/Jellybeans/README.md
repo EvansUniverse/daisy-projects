@@ -21,7 +21,7 @@ Diatonic arpeggio generator for Daisy Patch
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 
 ## Bugs
-* 14ths resolve to octaves
+* 5th note in kenny barron chords (both major and minor) resolve to octaves
 
 ## Features
 
