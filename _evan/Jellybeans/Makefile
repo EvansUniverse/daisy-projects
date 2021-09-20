@@ -1,8 +1,8 @@
 # Project Name
-TARGET = Sequencer
+TARGET = Jellybeans
 
 # Sources
-CPP_SOURCES = Sequencer.cpp
+CPP_SOURCES = Jellybeans.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../../libdaisy

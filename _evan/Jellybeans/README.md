@@ -3,25 +3,32 @@
 Diatonic arpeggio generator for Daisy Patch
 
 ## TODO
-* boot screen (disable during debug mode?)
+### Priority 1: Do asap
+
+### Priority 2: Needed for initial release
+* CV in and knobs can alter their respective fields
+* Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
+* implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
 * persist settings upon startup
+* boot screen (disable during debug mode?)
 * rename src file to jellybeans.cpp
 * split defs into a .h file
-* rename order to pattern
-* make maps const (this causes other bugs that need to be ironed out)
-* use their instructions for setting up a new repo so that this isn't in a fork of their example repo
-* implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
-* fine tune for +/- 1 semitone?
-* CV in and knobs can alter their respective fields
-* Settings submenu
-* Display settings (note names, semitones, scale degrees)
-* Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
 * derive menus from map keys
-* Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
-* Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
+* use their instructions for setting up a new repo so that this isn't in a fork of their example repo
 
-## Bugs
+### Priotiry 3: Nice to haves
+* Settings submenu
+* Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
+* implement slides
+* make maps const (this causes other bugs that need to be ironed out)
+* fine tune setting for +/- 1 semitone?
+* Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
+* Is "Jellybeans.sln" needed?
+
+
+## Known Bugs
 * 5th note in kenny barron chords (both major and minor) resolve to octaves
+
 
 ## Features
 
@@ -42,7 +49,7 @@ Diatonic arpeggio generator for Daisy Patch
 * **Ctrl 2:** Note division
 * **Ctrl 3:** Voicing 
 * **Ctrl 4:** Inversion
-* **Enc 1 (push):** Select alter/browse menu item
+* **Enc 1 (push):** Select alter/browse menu item 
 * **Enc 1 (rotate):** Alter/browse menu item
 * **Audio in 1:**
 * **Audio in 2:**
