@@ -16,7 +16,7 @@
  * = \___/ \___|_|_|\__, |_.__/ \___|\__,_|_| |_|___/ =
  * =                |___/                             =
  * ====================================================
- * ====================================================
+ * 
  * 
  * Jellybeans is an arpeggiator eurorack module designed for the 
  * Electrosmith Daisy Patch platform.
@@ -278,6 +278,10 @@ class MenuItem {
         OnChange();
     };
 
+    void SetIndex(int i){
+        index = i;
+    };
+
     // Executed every time this item's value is changed
     void OnChange(){
         UpdateArpNotes();
@@ -293,12 +297,15 @@ MenuItem *mTonic     = &menuItems[0];
 MenuItem *mScale     = &menuItems[1];
 MenuItem *mDivision  = &menuItems[2];
 MenuItem *mVoicing   = &menuItems[3];
-MenuItem *mPattern     = &menuItems[4];
+MenuItem *mPattern   = &menuItems[4];
 MenuItem *mRhythm    = &menuItems[5];
 MenuItem *mInversion = &menuItems[6];
 MenuItem *mOctRng    = &menuItems[7];
 MenuItem *mOct       = &menuItems[8];
 MenuItem *mClockDiv  = &menuItems[9];
+
+Parameter patternParam;
+int curPatternCvVal;
 
 
 int main(void) {
@@ -311,16 +318,21 @@ int main(void) {
     // }
 
     // Initialize menu items
-    menuItems[0] = MenuItem("Tonic",     allNotes,       0);
-    menuItems[1] = MenuItem("Scale",     allScales,      0);
-    menuItems[2] = MenuItem("N/A",       allClockInDivs, 0); // Division
-    menuItems[3] = MenuItem("Voicing",   allVoicings,    0);
-    menuItems[4] = MenuItem("PAttern",   allPatterns,    0);
-    menuItems[5] = MenuItem("N/A",       allRhythms,     0); // Rhythm
-    menuItems[6] = MenuItem("N/A",       allInversions,  0); // Inversion
+    // Note that the positions of items 0-3 need to remain fixed 
+    menuItems[0] = MenuItem("Pattern",   allPatterns,    0);
+    menuItems[1] = MenuItem("N/A",       allClockInDivs, 0); // Division
+    menuItems[2] = MenuItem("Voicing",   allVoicings,    0);
+    menuItems[3] = MenuItem("N/A",       allInversions,  0); // Inversion
+    menuItems[4] = MenuItem("Tonic",     allNotes,       0);
+    menuItems[5] = MenuItem("Scale",     allScales,      0);
+    menuItems[6] = MenuItem("N/A",       allRhythms,     0); // Rhythm
     menuItems[7] = MenuItem("N/A",       allOctaves,     0); // Oct Rng
     menuItems[8] = MenuItem("Octave",    allOctaves,     0);
     menuItems[9] = MenuItem("Clock In",  allClockInDivs, 0);
+
+    // Initialize CV params
+    patternParam.Init(patch.controls[0], 0.f, static_cast<float>(allPatterns.size()), Parameter::LINEAR);
+    curPatternCvVal = static_cast<int>(patternParam.Process());
 
     // Initialize variables
     arpStep     = 0;
@@ -352,6 +364,14 @@ void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
+    // Parse pattern CV
+    int patternCvVal = static_cast<int>(patternParam.Process());
+    if(patternCvVal != curPatternCvVal)
+    {
+        menuItems[0].SetIndex(patternCvVal);
+        curPatternCvVal = patternCvVal;
+    }
+
     if(!isEditing)
     {
         // Update menu position
@@ -367,6 +387,7 @@ void UpdateControls() {
     }
     else
     {
+        // Update selected menu item's value
         int inc = patch.encoder.Increment();
         if (inc > 0){
             menuItems[menuPos].Increment();
@@ -584,4 +605,9 @@ void DrawString(std::string str, int x, int y){
 // per volt or octave.
 float SemitoneToDac(int semi) {
     return round((semi / 12.f) * 819.2f);
+}
+
+// Converts a float from a libdaisy.Param's .Process() method to an int value, rounded down
+int ParamValueToInt(float f) {
+    return static_cast<int>(f);
 }

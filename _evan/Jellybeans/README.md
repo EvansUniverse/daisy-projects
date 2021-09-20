@@ -11,7 +11,6 @@ Diatonic arpeggio generator for Daisy Patch
 * implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
 * persist settings upon startup
 * boot screen (disable during debug mode?)
-* rename src file to jellybeans.cpp
 * split defs into a .h file
 * derive menus from map keys
 * use their instructions for setting up a new repo so that this isn't in a fork of their example repo
@@ -45,9 +44,9 @@ Diatonic arpeggio generator for Daisy Patch
 * **Gate in 1:** Clock in
 * **Gate in 2:**
 * **Gate out 1:** Arpeggio gate out
-* **Ctrl 1:** Root
-* **Ctrl 2:** Note division
-* **Ctrl 3:** Voicing 
+* **Ctrl 1:** Pattern
+* **Ctrl 2:** Rhythm
+* **Ctrl 3:** Time Division
 * **Ctrl 4:** Inversion
 * **Enc 1 (push):** Select alter/browse menu item 
 * **Enc 1 (rotate):** Alter/browse menu item
