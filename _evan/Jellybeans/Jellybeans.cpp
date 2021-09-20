@@ -304,8 +304,8 @@ MenuItem *mOctRng    = &menuItems[7];
 MenuItem *mOct       = &menuItems[8];
 MenuItem *mClockDiv  = &menuItems[9];
 
-Parameter patternParam;
-int curPatternCvVal;
+Parameter patternParam, divisionParam, voicingParam, inversionParam;
+int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
 
 int main(void) {
@@ -332,7 +332,13 @@ int main(void) {
 
     // Initialize CV params
     patternParam.Init(patch.controls[0], 0.f, static_cast<float>(allPatterns.size()), Parameter::LINEAR);
-    curPatternCvVal = static_cast<int>(patternParam.Process());
+    patternCurCvVal = static_cast<int>(patternParam.Process());
+    divisionParam.Init(patch.controls[1], 0.f, static_cast<float>(allClockInDivs.size()), Parameter::LINEAR);
+    divisionCurCvVal = static_cast<int>(divisionParam.Process());
+    voicingParam.Init(patch.controls[2], 0.f, static_cast<float>(allVoicings.size()), Parameter::LINEAR);
+    voicingCurCvVal = static_cast<int>(voicingParam.Process());
+    inversionParam.Init(patch.controls[3], 0.f, static_cast<float>(allInversions.size()), Parameter::LINEAR);
+    inversionCurCvVal = static_cast<int>(inversionParam.Process());
 
     // Initialize variables
     arpStep     = 0;
@@ -364,12 +370,31 @@ void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
-    // Parse pattern CV
-    int patternCvVal = static_cast<int>(patternParam.Process());
-    if(patternCvVal != curPatternCvVal)
-    {
-        menuItems[0].SetIndex(patternCvVal);
-        curPatternCvVal = patternCvVal;
+    // Parse CV values
+    int curCvVal;
+    // Pattern
+    curCvVal = static_cast<int>(patternParam.Process());
+    if(curCvVal != patternCurCvVal){
+        menuItems[0].SetIndex(curCvVal);
+        patternCurCvVal = curCvVal;
+    }
+    // Division
+    curCvVal = static_cast<int>(divisionParam.Process());
+    if(curCvVal != divisionCurCvVal){
+        menuItems[1].SetIndex(curCvVal);
+        divisionCurCvVal = curCvVal;
+    }
+    // // Voicing
+    curCvVal = static_cast<int>(voicingParam.Process());
+    if(curCvVal != voicingCurCvVal){
+        menuItems[2].SetIndex(curCvVal);
+        voicingCurCvVal = curCvVal;
+    }
+    // // Inversion
+    curCvVal = static_cast<int>(inversionParam.Process());
+    if(curCvVal != inversionCurCvVal){
+        menuItems[3].SetIndex(curCvVal);
+        inversionCurCvVal = curCvVal;
     }
 
     if(!isEditing)
