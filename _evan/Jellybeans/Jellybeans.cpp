@@ -280,6 +280,7 @@ class MenuItem {
 
     void SetIndex(int i){
         index = i;
+        OnChange();
     };
 
     // Executed every time this item's value is changed
@@ -293,16 +294,17 @@ class MenuItem {
 std::array<MenuItem, 10> menuItems;
 
 // Reference bars to make the code more readable
-MenuItem *mTonic     = &menuItems[0];
-MenuItem *mScale     = &menuItems[1];
-MenuItem *mDivision  = &menuItems[2];
-MenuItem *mVoicing   = &menuItems[3];
-MenuItem *mPattern   = &menuItems[4];
-MenuItem *mRhythm    = &menuItems[5];
-MenuItem *mInversion = &menuItems[6];
+MenuItem *mPattern   = &menuItems[0];
+MenuItem *mDivision  = &menuItems[1];
+MenuItem *mVoicing   = &menuItems[2];
+MenuItem *mInversion = &menuItems[3];
+MenuItem *mTonic     = &menuItems[4];
+MenuItem *mScale     = &menuItems[5];
+MenuItem *mRhythm    = &menuItems[6];
 MenuItem *mOctRng    = &menuItems[7];
 MenuItem *mOct       = &menuItems[8];
 MenuItem *mClockDiv  = &menuItems[9];
+
 
 Parameter patternParam, divisionParam, voicingParam, inversionParam;
 int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
