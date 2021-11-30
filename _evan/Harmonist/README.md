@@ -4,6 +4,8 @@ Teachable chord generation AI
 ## TODO
 ### Priority 1: Do asap
 * gut out old jellybeans code
+* design a new MenuItem that acts as a momentary push button (when hovered over, press encoder to "press" the button)
+    * Create a child of this for toggle switch
 
 ### Priority 2: Needed for initial release
 * rename to something garden related
@@ -20,6 +22,26 @@ Teachable chord generation AI
 * Learns chord progressions from the user
 * Plays chord progressions based on a combination of what it’s learned, new things generated based off of what it's learned, intelligent permutations thereof
 * Takes feedback from the user, and employs a neural network (or stochastic function, TBD), and uses it to develop a "personality" that determines further permutations and generations
+
+## Under the hood
+### Brainstorm
+Data structure:
+Mode: uint 
+corresponds to a string name and []int set of tones via a static internal map, which I’ll make part of a standard library for my daisy stuff
+Progression: [16]uint
+Max of 16 values, can use 0 as a blank value. Can play with this number later but 16 seems good. As soon as the harmonist encounters a 0, it will consider that to be the end of progression.
+E.g. [1, 5, 6, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+Rating: int
+A rating based off of the user’s like/dislike data
+Ranges from -128 to 128 (can change this value if needed)###
+Generation:
+Well, the stupid way would be to use a Markov chain that dictates the next chord based on the previous. But, that’s not musical enough.
+Improving upon the Markov model, we could create a stochastic function that generates probabilities for each parameter of the next note based on previous data
+This guy used fitness functions to improve a Markov chain for his text generator: https://medium.com/@G3Kappa/writing-a-weight-adjustable-markov-chain-based-text-generator-in-python-9bbde6437fb4
+Could use some sort of not-markov function that takes all previous notes into account
+Could use a neural network instead of a stochastic function
+Lightweight C++ ML libraries: https://github.com/tiny-dnn/tiny-dnn/ (most promising) https://github.com/yixuan/MiniDNN
+This would be fun for the “teach your own device” ethos
 
 
 ## Controls
