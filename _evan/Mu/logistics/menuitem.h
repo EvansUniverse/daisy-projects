@@ -1,15 +1,11 @@
 /* 
- * Copyright (C) 2020 Evan Pernu - All Rights Reserved
+ * Copyright (C) 2021 Evan Pernu - All Rights Reserved
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
- *
+ * 
  * You should have received a copy of the GNU AGPLv3 license with
  * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
- * 
- * 
- * daisy_utils is a library of common utilies for developing
- * on the electrosmith diasy Patch platform
  */
 
 #pragma once
@@ -50,4 +46,4 @@ namespace mu {
         // Executed every time this item's value is changed
         void OnChange();
     };
-} // namespace du
+}

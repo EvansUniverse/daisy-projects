@@ -6,36 +6,10 @@
  * You should have received a copy of the GNU AGPLv3 license with
  * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
- *
- * 
- * ====================================================
- * =   __       _        _                            =
- * =   \ \  ___| | |_   _| |__   ___  __ _ _ __  ___  =
- * =    \ \/ _ \ | | | | | '_ \ / _ \/ _` | '_ \/ __| =
- * = /\_/ /  __/ | | |_| | |_) |  __/ (_| | | | \__ \ =
- * = \___/ \___|_|_|\__, |_.__/ \___|\__,_|_| |_|___/ =
- * =                |___/                             =
- * ====================================================
- * 
- * 
- * Jellybeans is an arpeggiator eurorack module designed for the 
- * Electrosmith Daisy Patch platform.
  */
 
+namespace mu{
 
-#include "daisysp.h"
-#include "daisy_patch.h"
-#include "daisysp.h"
-
-#include "../Mu/mu.h"
-
-#include <string>
-#include <array>
-#include <map>
-
-using namespace daisy;
-using namespace daisysp;
-using namespace mu;
 
 DaisyPatch patch;
 
