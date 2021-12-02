@@ -1,6 +1,5 @@
 # :candy: Jellybeans :candy:
-
-Diatonic arpeggio generator for Daisy Patch
+Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 
 ## TODO
 ### Priority 1: Do asap
@@ -30,7 +29,6 @@ Diatonic arpeggio generator for Daisy Patch
 
 
 ## Features
-
 * User selects a scale (root and quality) through the bmenu.
 * Receives clock through _Gate in 1_ 
 * Receives cv through _Ctrl 1_ which dictates the root note
@@ -65,11 +63,7 @@ Diatonic arpeggio generator for Daisy Patch
 
 
 ## Menu
-
 Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
-
-
-
 * Note division (_Ctrl 2)_
     * 4 bars
     * 2 bars
@@ -156,54 +150,33 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 
 
 ## Development Phases
-
-
 ### Phase -1
-
-
-
 * Takes clock (step) in
 * Outputs a fixed arpeggio with a configurable root
 
 
 ### Phase 0
-
-
-
 * Takes clock and root in
 * Outputs 1 type of arpeggio
 
 
 ### Phase 1
-
-
-
 * Most arpeggiation features work
 
 
 ### Phase 2
-
-
-
 * Most basslines features work
 
 
 ### Phase 3
-
-
-
 * Add extra features like virus-style patterns
 * Fix bugs, streamline
 
 
 ## Post-Daisy
-
 I want to use the Daisy version for a while to figure out which parameters are useful, how it’s played, etc. to figure out the layout for the non-Daisy version. 
 
 Current ideas:
-
-
-
 * More dedicated controls for:
     * Order 
     * Rhythm
@@ -216,3 +189,20 @@ Current ideas:
     * Octave
 * Maybe a piano key style display to indicate current chord and note (e.g. all notes in the current chord are lit blue, the current note is lit green)
 
+
+## Build Instructions
+### Local build 
+To build locally (for checking compilation, etc): `make`
+
+### Using a dirrect connection
+From this project's root directory:
+1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
+2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
+3. `make program-dfu`
+4. Disconnect USB and power on the module.
+
+### Using a debug probe
+//TODO
+
+### Additional resources
+https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment

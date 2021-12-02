@@ -202,7 +202,7 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/Middlewares/Third_Party/FatFs/src/diskio.h \
  ../../libdaisy/Middlewares/Third_Party/FatFs/src/ff.h \
  ../../libdaisy/src/util/sd_diskio.h ../../libdaisy/src/util/WavWriter.h \
- ../../libdaisy/src/dev/oled_ssd130x.h
+ ../../libdaisy/src/dev/oled_ssd130x.h ../Mu/mu_lib.h
 
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 
@@ -673,3 +673,5 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/util/WavWriter.h:
 
 ../../libdaisy/src/dev/oled_ssd130x.h:
+
+../Mu/mu_lib.h:

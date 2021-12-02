@@ -26,12 +26,16 @@
 #include "daisysp.h"
 #include "daisy_patch.h"
 #include "daisysp.h"
+
+#include "../Mu/mu.h"
+
 #include <string>
 #include <array>
 #include <map>
 
 using namespace daisy;
 using namespace daisysp;
+using namespace mu;
 
 DaisyPatch patch;
 
@@ -82,83 +86,6 @@ bool isEditing;
 std::string arpString;
 std::string debugString;
 
-// Note that the indices of these elements also correspond to
-// their semitone distances from C.
-const std::vector<std::string> allNotes {
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B"
-};
-
-const std::vector<std::string> allScales {
-    "Major",
-    "Minor",
-    "Dorian",
-    "Phyrgi", // Phyrgian
-    "Lydian",
-    "Mixo",   // Mixolydian
-    "Locri",  // Locrian
-};
-
-// Maps scale names to their first octave of semitone values
-std::map<std::string, std::vector<int>> scalesToSemitones {
-    {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
-    {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
-    {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
-    {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
-    {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
-    {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
-    {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
-};
-
-
-const std::vector<std::string> allVoicings {
-    "Triad",
-    "Triad+",
-    "7th",
-    "7th+",
-    "9th",
-    "11th",
-    "13th",
-    "6th",
-    "Sus2",
-    "Sus4",
-    // disabled til its bug is fixed
-    //"Kenny B.",  // Kenny Barron chord 
-    "Power",
-    "Power+",
-    "Shell 1",
-    "Shell 2"
-};
-
-// Maps voicings to the scale degrees they contain
-std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-    {"Triad",    std::vector<int>{1, 3, 5}},
-    {"Triad+",   std::vector<int>{1, 3, 5, 8}},
-    {"7th",      std::vector<int>{1, 3, 5, 7}},
-    {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
-    {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
-    {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-    {"6th",      std::vector<int>{1, 3, 5, 6}},
-    {"Sus2",     std::vector<int>{1, 2, 5}},
-    {"Sus4",     std::vector<int>{1, 4, 5}},
-    //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-    {"Power",    std::vector<int>{1, 5}},
-    {"Power+",   std::vector<int>{1, 5, 8}},
-    {"Shell 1",  std::vector<int>{1, 7, 10}},
-    {"Shell 2",  std::vector<int>{1, 10, 14}},
-};
-
 
 const std::vector<std::string> allPatterns {
     "Up",
@@ -176,13 +103,6 @@ const std::vector<std::string> allRhythms {
     "Sw 100%"
 };
 
-const std::vector<std::string> allInversions {
-    "None",
-    "Drop 2",
-    "Drop 3",
-    "Drop 4"
-};
-
 // Given the 1V/oct and 0-5V range of the CV out port,
 // we are limited to a 5 octave register. Voicings span
 // up to 2 octaves and coarse tuning (mTonic) spans another,
@@ -193,20 +113,6 @@ const std::vector<std::string> allOctaves {
     "0",
     // "+1", // TODO re-enable these once out-of-bounds notes have been handled
     // "+2"
-};
-
-const std::vector<std::string> allClockInDivs {
-    // "1/2", // TODO figure out how to interpolate for fractional clock values
-    // "1/4",
-    // "1/8",
-    // "1/16",
-    // "1/32",
-    // "1/64",
-    "1",
-    "2",
-    "4",
-    "8",
-    "16"
 };
 
 std::map<std::string, int> clockInDivToInt {
@@ -321,25 +227,25 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed 
-    menuItems[0] = MenuItem("Pattern",   allPatterns,    0);
-    menuItems[1] = MenuItem("N/A",       allClockInDivs, 0); // Division
-    menuItems[2] = MenuItem("Voicing",   allVoicings,    0);
-    menuItems[3] = MenuItem("N/A",       allInversions,  0); // Inversion
-    menuItems[4] = MenuItem("Tonic",     allNotes,       0);
-    menuItems[5] = MenuItem("Scale",     allScales,      0);
-    menuItems[6] = MenuItem("N/A",       allRhythms,     0); // Rhythm
-    menuItems[7] = MenuItem("N/A",       allOctaves,     0); // Oct Rng
-    menuItems[8] = MenuItem("Octave",    allOctaves,     0);
-    menuItems[9] = MenuItem("Clock In",  allClockInDivs, 0);
+    menuItems[0] = MenuItem("Pattern",   allPatterns,           0);
+    menuItems[1] = MenuItem("N/A",       allClockInDivs,        0); // Division
+    menuItems[2] = MenuItem("Voicing",   mu::allVoicings,    0);
+    menuItems[3] = MenuItem("N/A",       mu::allInversions,  0); // Inversion
+    menuItems[4] = MenuItem("Tonic",     mu::allNotes,       0);
+    menuItems[5] = MenuItem("Scale",     mu::allScales,      0);
+    menuItems[6] = MenuItem("N/A",       allRhythms,            0); // Rhythm
+    menuItems[7] = MenuItem("N/A",       allOctaves,            0); // Oct Rng
+    menuItems[8] = MenuItem("Octave",    allOctaves,            0);
+    menuItems[9] = MenuItem("Clock In",  mu::allClockInDivs, 0);
 
     // Initialize CV params
     patternParam.Init(patch.controls[0], 0.f, static_cast<float>(allPatterns.size()), Parameter::LINEAR);
     patternCurCvVal = static_cast<int>(patternParam.Process());
     divisionParam.Init(patch.controls[1], 0.f, static_cast<float>(allClockInDivs.size()), Parameter::LINEAR);
     divisionCurCvVal = static_cast<int>(divisionParam.Process());
-    voicingParam.Init(patch.controls[2], 0.f, static_cast<float>(allVoicings.size()), Parameter::LINEAR);
+    voicingParam.Init(patch.controls[2], 0.f, static_cast<float>(mu::allVoicings.size()), Parameter::LINEAR);
     voicingCurCvVal = static_cast<int>(voicingParam.Process());
-    inversionParam.Init(patch.controls[3], 0.f, static_cast<float>(allInversions.size()), Parameter::LINEAR);
+    inversionParam.Init(patch.controls[3], 0.f, static_cast<float>(mu::allInversions.size()), Parameter::LINEAR);
     inversionCurCvVal = static_cast<int>(inversionParam.Process());
 
     // Initialize variables
@@ -475,15 +381,15 @@ void UpdateOled() {
 void UpdateArpNotes(){
     int degree;
     int oct;
-    int chordLen = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
-    int scaleLen = static_cast<int>(scalesToSemitones[mScale->Value()].size());
+    int chordLen = static_cast<int>(mu::voicingToScaleDegrees.at(mVoicing->Value()).size());
+    int scaleLen = static_cast<int>(mu::scalesToSemitones.at(mScale->Value()).size());
 
     // For each degree in the chord
     //
     // bug: 5th note in kenny barron chords (both major and minor) resolve to octaves
     for (int i = 0; i < chordLen; i++){
         // Get the degree
-        degree = voicingToScaleDegrees[mVoicing->Value()][i];
+        degree = mu::voicingToScaleDegrees.at(mVoicing->Value())[i];
 
         // Figure out how many octaves above 0 it is
         oct = degree / (scaleLen + 1);
@@ -495,7 +401,7 @@ void UpdateArpNotes(){
         degree--;
 
         // Calculate the semitone value
-        arpNotes[i] = scalesToSemitones[mScale->Value()][degree] + 12 * (oct + mOct->index) + mTonic->index;
+        arpNotes[i] = mu::scalesToSemitones.at(mScale->Value())[degree] + 12 * (oct + mOct->index) + mTonic->index;
 
         // If the value exceeds our note range, bring it up/down an octave until it fits
         while (arpNotes[i] > 60){
@@ -522,7 +428,7 @@ void OnClockPulseIn(){
 // Updates the arp traversal values based on the current pattern
 void UpdateArpTraversal(){
     arpTraversal = std::vector<int>{};
-    int chordLen = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
+    int chordLen = static_cast<int>(mu::voicingToScaleDegrees.at(mVoicing->Value()).size());
 
     if (mPattern->Value() == "Down") {
         for (int i = chordLen-1; i >= 0; i--) {
@@ -591,7 +497,7 @@ void UpdateArpStep()
 // Updates the string used to display the arp
 void UpdateArpString(){
     arpString = "";
-    int chordSize = static_cast<int>(voicingToScaleDegrees[mVoicing->Value()].size());
+    int chordSize = static_cast<int>(mu::voicingToScaleDegrees.at(mVoicing->Value()).size());
 
     for(int i = 0; i < chordSize; i++){
         if (i == arpStep){

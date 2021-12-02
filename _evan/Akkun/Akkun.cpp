@@ -30,39 +30,28 @@ DaisyPatch patch;
 // If true, the bottom row will display debug data instead of a menu item
 const bool debugMode = true;
 
-// Maximum possible arp steps
-// Font size allows max 18 chars across, limiting the step display to 18.
-// Subtract 1 to account for 2 char step values.
-const int maxArpSteps = 17;
+// Maximum possible seq steps
+const int maxSeqSteps = 16;
 
 // The semitone values for each step
-std::array<int, maxArpSteps> arpNotes;
+std::array<int, maxSeqSteps> seqNotes;
 
-// Stores which arp note should be played at each next step.
-// Contains a list of indices of arpNotes
-std::vector<int> arpTraversal;
-
-// Tracks the current position in arpTraversal
-int arpTraversalIndex;
+// Tracks the current position in seqNotes
+int seqStepIndex;
 
 // Current step index, 0 based
 int arpStep; 
 
-// The note vallue currently being sent to Patches' DAC's output 1
+// The note vallue currently being sent to Patches' DAC's CV 1 output
 // This is stored so that it's only calculated upon a change
-float arpNoteDacOutput1;
+float seqNoteDacOutput1;
 
 // Number of clock pulses that have been received since the last reset
 int clockCount;
 
-// Current root note
-float root;
-
+// If true, send gate through Patches' Gate 1 output
 bool trigOut;
 
-// If true, the arp is currently traveling up
-// if false, it's currently traveling down
-bool goingUp;
 
 const FontDef font = Font_7x10;
 const int     fontWidth = 7;
@@ -112,102 +101,39 @@ std::map<std::string, std::vector<int>> scalesToSemitones {
     {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
 };
 
+// // Given the 1V/oct and 0-5V range of the CV out port,
+// // we are limited to a 5 octave register. Voicings span
+// // up to 2 octaves and coarse tuning (mTonic) spans another,
+// // leaving us 2 octaves of room for upwards transposition.
+// //
+// // Note that the indices of the elements are also their octave distances from 0
+// const std::vector<std::string> allOctaves {
+//     "0",
+//     // "+1", // TODO re-enable these once out-of-bounds notes have been handled
+//     // "+2"
+// };
 
-const std::vector<std::string> allVoicings {
-    "Triad",
-    "Triad+",
-    "7th",
-    "7th+",
-    "9th",
-    "11th",
-    "13th",
-    "6th",
-    "Sus2",
-    "Sus4",
-    // disabled til its bug is fixed
-    //"Kenny B.",  // Kenny Barron chord 
-    "Power",
-    "Power+",
-    "Shell 1",
-    "Shell 2"
-};
+// const std::vector<std::string> allClockInDivs {
+//     // "1/2", // TODO figure out how to interpolate for fractional clock values
+//     // "1/4",
+//     // "1/8",
+//     // "1/16",
+//     // "1/32",
+//     // "1/64",
+//     "1",
+//     "2",
+//     "4",
+//     "8",
+//     "16"
+// };
 
-// Maps voicings to the scale degrees they contain
-std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-    {"Triad",    std::vector<int>{1, 3, 5}},
-    {"Triad+",   std::vector<int>{1, 3, 5, 8}},
-    {"7th",      std::vector<int>{1, 3, 5, 7}},
-    {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
-    {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
-    {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-    {"6th",      std::vector<int>{1, 3, 5, 6}},
-    {"Sus2",     std::vector<int>{1, 2, 5}},
-    {"Sus4",     std::vector<int>{1, 4, 5}},
-    //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-    {"Power",    std::vector<int>{1, 5}},
-    {"Power+",   std::vector<int>{1, 5, 8}},
-    {"Shell 1",  std::vector<int>{1, 7, 10}},
-    {"Shell 2",  std::vector<int>{1, 10, 14}},
-};
-
-
-const std::vector<std::string> allPatterns {
-    "Up",
-    "Down",
-    "U+D In",
-    "U+D Ex",
-    "Random"
-};
-
-const std::vector<std::string> allRhythms {
-    "None",
-    "Sw 25%",
-    "Sw 50%",
-    "Sw 75%",
-    "Sw 100%"
-};
-
-const std::vector<std::string> allInversions {
-    "None",
-    "Drop 2",
-    "Drop 3",
-    "Drop 4"
-};
-
-// Given the 1V/oct and 0-5V range of the CV out port,
-// we are limited to a 5 octave register. Voicings span
-// up to 2 octaves and coarse tuning (mTonic) spans another,
-// leaving us 2 octaves of room for upwards transposition.
-//
-// Note that the indices of the elements are also their octave distances from 0
-const std::vector<std::string> allOctaves {
-    "0",
-    // "+1", // TODO re-enable these once out-of-bounds notes have been handled
-    // "+2"
-};
-
-const std::vector<std::string> allClockInDivs {
-    // "1/2", // TODO figure out how to interpolate for fractional clock values
-    // "1/4",
-    // "1/8",
-    // "1/16",
-    // "1/32",
-    // "1/64",
-    "1",
-    "2",
-    "4",
-    "8",
-    "16"
-};
-
-std::map<std::string, int> clockInDivToInt {
-    {"1",  1},
-    {"2",  2},
-    {"4",  4},            
-    {"8",  8},
-    {"16", 16}
-};
+// std::map<std::string, int> clockInDivToInt {
+//     {"1",  1},
+//     {"2",  2},
+//     {"4",  4},            
+//     {"8",  8},
+//     {"16", 16}
+// };
 
 void UpdateControls();
 void UpdateOled();
