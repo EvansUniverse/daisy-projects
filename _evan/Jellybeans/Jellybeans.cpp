@@ -115,14 +115,6 @@ const std::vector<std::string> allOctaves {
     // "+2"
 };
 
-std::map<std::string, int> clockInDivToInt {
-    {"1",  1},
-    {"2",  2},
-    {"4",  4},            
-    {"8",  8},
-    {"16", 16}
-};
-
 void UpdateControls();
 void UpdateOled();
 void UpdateOutputs();
@@ -236,13 +228,13 @@ void UpdateControls() {
         menuItems[1].SetIndex(curCvVal);
         divisionCurCvVal = curCvVal;
     }
-    // // Voicing
+    // Voicing
     curCvVal = static_cast<int>(voicingParam.Process());
     if(curCvVal != voicingCurCvVal){
         menuItems[2].SetIndex(curCvVal);
         voicingCurCvVal = curCvVal;
     }
-    // // Inversion
+    // Inversion
     curCvVal = static_cast<int>(inversionParam.Process());
     if(curCvVal != inversionCurCvVal){
         menuItems[3].SetIndex(curCvVal);
