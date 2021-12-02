@@ -28,8 +28,6 @@
 #include "daisysp.h"
 
 #include "../Mu/mu.h"
-#include "../Du/du.h"
-#include "../Du/du.cpp"
 
 #include <string>
 #include <array>
@@ -38,7 +36,6 @@
 using namespace daisy;
 using namespace daisysp;
 using namespace mu;
-using namespace du;
 
 DaisyPatch patch;
 

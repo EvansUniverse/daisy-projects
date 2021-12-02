@@ -8,15 +8,16 @@
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  * 
  * 
- * DU (Daisy utilities) is a library of common utilies for developing
+ * daisy_utils is a library of common utilies for developing
  * on the electrosmith diasy Patch platform
  */
 
 #pragma once
 
 #include <functional>
+#include <vector>
 
-namespace du {
+namespace mu {
 
     // Menu item whos value is an element of a list of predefined strings
     // They are also used to store settings

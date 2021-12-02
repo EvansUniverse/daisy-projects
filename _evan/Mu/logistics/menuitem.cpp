@@ -12,13 +12,13 @@
  * on the electrosmith diasy Patch platform
  */
 
-#include "du.h"
+#include "menuitem.h"
 
 #include <string>
 #include <vector>
 #include <functional>
 
-using namespace du;
+using namespace mu;
 
 MenuItem::MenuItem(){};
 
@@ -69,7 +69,4 @@ void MenuItem::SetIndex(int i){
 // Executed every time this item's value is changed
 void MenuItem::OnChange(){
     myOnChangeCallback();
-    // UpdateArpNotes();
-    // UpdateArpTraversal();
-    // UpdateArpString();
 };
