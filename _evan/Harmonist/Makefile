@@ -2,7 +2,8 @@
 TARGET = Jellybeans
 
 # Sources
-CPP_SOURCES = Jellybeans.cpp
+CPP_SOURCES = Jellybeans.cpp \
+../du.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../../libdaisy

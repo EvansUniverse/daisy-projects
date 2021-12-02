@@ -114,4 +114,4 @@ namespace mu {
         "16"
     };
 
-} // namespace music
+} // namespace mu

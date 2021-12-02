@@ -26,6 +26,7 @@ Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 
 ## Known Bugs
 * 5th note in kenny barron chords (both major and minor) resolve to octaves
+* Random order tends to bias root notes
 
 
 ## Features

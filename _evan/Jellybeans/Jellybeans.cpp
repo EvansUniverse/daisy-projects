@@ -28,6 +28,8 @@
 #include "daisysp.h"
 
 #include "../Mu/mu.h"
+#include "../Du/du.h"
+#include "../Du/du.cpp"
 
 #include <string>
 #include <array>
@@ -36,6 +38,7 @@
 using namespace daisy;
 using namespace daisysp;
 using namespace mu;
+using namespace du;
 
 DaisyPatch patch;
 
@@ -135,68 +138,6 @@ void OnClockPulseIn();
 void DrawString(std::string, int, int);
 float SemitoneToDac(int);
 
-// Menu item whos value is an element of a list of predefined strings
-// They are also used to store settings
-class MenuItem {
-  public:
-    int index;
-    std::string name;
-    std::string displayName; // name with spaces appended
-    std::vector<std::string> values;
-
-    MenuItem(){};
-
-    // aDefault must be a valid index in aValues
-    MenuItem(std::string aName, std::vector<std::string> aValues, int aDefault){
-        name = aName;
-        values = aValues;
-        index = aDefault;
-
-        // For everything to line up neatly, each menu item's displayName 
-        // needs to be padded with enough spaces to be in line with the 
-        // end of the longest name, plus 1 additional space. The longest 
-        // menu item name is currently "Inversion" with 10 chars.
-        displayName = aName;
-        for (unsigned int i = 0; i < 10 - name.length(); i++) {
-            displayName += " ";
-        }
-    };
-
-    std::string DisplayValue() {
-        return  displayName + values[index];
-    };
-
-    std::string Value() {
-        return values[index];
-    }
-
-    void Increment(){
-        index++;
-        index = index % values.size();
-        OnChange();
-    };
-
-    void Decrement(){
-        index--;
-        if (index < 0){
-            index = values.size() - 1;
-        }
-        OnChange();
-    };
-
-    void SetIndex(int i){
-        index = i;
-        OnChange();
-    };
-
-    // Executed every time this item's value is changed
-    void OnChange(){
-        UpdateArpNotes();
-        UpdateArpTraversal();
-        UpdateArpString();
-    };
-};
-
 std::array<MenuItem, 10> menuItems;
 
 // Reference bars to make the code more readable
@@ -215,6 +156,12 @@ MenuItem *mClockDiv  = &menuItems[9];
 Parameter patternParam, divisionParam, voicingParam, inversionParam;
 int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
+void cb(){
+    UpdateArpNotes();
+    UpdateArpTraversal();
+    UpdateArpString();
+};
+
 
 int main(void) {
     // Initialize hardware
@@ -227,16 +174,16 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed 
-    menuItems[0] = MenuItem("Pattern",   allPatterns,           0);
-    menuItems[1] = MenuItem("N/A",       allClockInDivs,        0); // Division
-    menuItems[2] = MenuItem("Voicing",   mu::allVoicings,    0);
-    menuItems[3] = MenuItem("N/A",       mu::allInversions,  0); // Inversion
-    menuItems[4] = MenuItem("Tonic",     mu::allNotes,       0);
-    menuItems[5] = MenuItem("Scale",     mu::allScales,      0);
-    menuItems[6] = MenuItem("N/A",       allRhythms,            0); // Rhythm
-    menuItems[7] = MenuItem("N/A",       allOctaves,            0); // Oct Rng
-    menuItems[8] = MenuItem("Octave",    allOctaves,            0);
-    menuItems[9] = MenuItem("Clock In",  mu::allClockInDivs, 0);
+    menuItems[0] = MenuItem("Pattern",   allPatterns,        0, cb);
+    menuItems[1] = MenuItem("N/A",       allClockInDivs,     0, cb); // Division
+    menuItems[2] = MenuItem("Voicing",   mu::allVoicings,    0, cb);
+    menuItems[3] = MenuItem("N/A",       mu::allInversions,  0, cb); // Inversion
+    menuItems[4] = MenuItem("Tonic",     mu::allNotes,       0, cb);
+    menuItems[5] = MenuItem("Scale",     mu::allScales,      0, cb);
+    menuItems[6] = MenuItem("N/A",       allRhythms,         0, cb); // Rhythm
+    menuItems[7] = MenuItem("N/A",       allOctaves,         0, cb); // Oct Rng
+    menuItems[8] = MenuItem("Octave",    allOctaves,         0, cb);
+    menuItems[9] = MenuItem("Clock In",  mu::allClockInDivs, 0, cb);
 
     // Initialize CV params
     patternParam.Init(patch.controls[0], 0.f, static_cast<float>(allPatterns.size()), Parameter::LINEAR);
