@@ -13,60 +13,87 @@
 #include <map>
 #include <vector>
 
+#include "chord.h"
+
 namespace mu {
     class Arp {
     public:
-        // Maximum possible arp step
-        int maxArpSteps;
+        // Maximum arp steps
+        int maxSteps;
 
         // Tracks the current position in arpTraversal
-        int arpTraversalIndex;
+        int traversalIndex;
 
         // Current step index, 0 based
-        int arpStep; 
+        int step; 
 
-        // The note vallue currently being sent to Patches' DAC's output 1
+        // The note value currently being sent to Patches' DAC's output 1
         // This is stored so that it's only calculated upon a change
-        float arpNoteDacOutput1;
+        float noteDacOutput1;
 
         // Number of clock pulses that have been received since the last reset
         int clockCount;
 
-        // The semitone values for each step
-        std::vector<int> arpNotes; //TODO FYI this was formerly an array w/ length of maxArpSteps
+        // The arp's clock division (step to the next note every X clock pulses)
+        // TODO convert to int, out of say 256 notes per bar, so that we can use rapid pulses for fractional timing and swing
+        int clockDiv;
 
         // Stores which arp note should be played at each next step.
         // Contains a list of indices of arpNotes
-        std::vector<int> arpTraversal;
+        std::vector<int> traversal;
+
+        // Must be an element of mu::arpPatterns
+        std::string pattern;
 
         // If true, the arp is currently traveling up
         // if false, it's currently traveling down
         bool goingUp;
 
         // String representation of the arp
-        std::string arpString;
+        std::string string;
 
         // Current root note
-        float root;
+        float root; //TODO delete?
 
-        Arp();
-        Arp(int maxLength);
+        // Underlying chord
+        DiatonicChord chord;
+
+        Arp() : Arp(8, DiatonicChord(), "Up", 1) {};
+
+        // @param maxSteps 
+        // @param chord
+        // @param pattern - must be an element of mu::arpPatterns
+        // @param clockDiv
+        Arp(int, DiatonicChord, std::string, int);
 
         // Intended to be called every time a clock pulse is received
         void OnStep();
 
-        // Updates note and length data for the arp
-        void UpdateArpNotes();
+        // Updates the whole ass arp
+        void Update();
 
         // Updates the arp traversal values based on the current pattern
-        void UpdateArpTraversal();
+        void UpdateTraversal();
 
         // Called every time the arp steps to the next note
-        //
-        // TODO: modify for other patterns besides up
-        void UpdateArpStep();
+        void UpdateStep();
 
-        // Updates the string used to display the arp
-        void UpdateArpString();
+        void UpdateString();
+    };
+
+    const std::vector<std::string> arpPatterns {
+        "Up",
+        "Down",
+        "U+D In",
+        "U+D Ex",
+        "Random"
+    };
+
+    const std::vector<std::string> arpRhythms {
+        "None",
+        "Sw 25%",
+        "Sw 50%",
+        "Sw 75%",
+        "Sw 100%"
     };
 }

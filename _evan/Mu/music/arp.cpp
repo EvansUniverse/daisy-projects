@@ -12,147 +12,103 @@
 
 using namespace mu;
 
-
-
-Arp::Arp(){};
-Arp::Arp(int maxLength){
-    // Initialize variables
-    arpStep     = 0;
-    arpTraversalIndex = 0;
-    arpNoteDacOutput1 = 0.f;
+Arp::Arp(int theMaxSteps, DiatonicChord theChord, std::string thePattern, int theClockDiv){
+    maxSteps = theMaxSteps;
+    step     = 0;
+    traversalIndex = 0;
+    noteDacOutput1 = 0.f;
     clockCount  = 0;
+    pattern = thePattern;
+    clockDiv = theClockDiv;
+    chord = theChord;
 
-    // Initialize arp
-    this->UpdateArpTraversal();
-    this->UpdateArpNotes();
+    this->Update();
 };
+
+void Arp::Update(){
+    // TODO
+}
+
+// Updates the arp traversal values based on the current pattern
+void Arp::UpdateTraversal(){
+    traversal = std::vector<int>{};
+
+    if (pattern == "Down") {
+        for (int i = chord.length-1; i >= 0; i--) {
+            traversal.push_back(i);
+        }
+
+    } else if (pattern == "U+D In") {
+        for (int i = 0; i < chord.length; i++) {
+            traversal.push_back(i);
+        }
+                for (int i = chord.length-1; i > 0; i--) {
+            traversal.push_back(i);
+        }
+
+    } else if (pattern == "U+D Ex") {
+        for (int i = 0; i < chord.length-1; i++) {
+            traversal.push_back(i);
+        }
+        for (int i = chord.length-1; i > 0; i--) {
+            traversal.push_back(i);
+        }
+
+    } else if (pattern == "Random") {// TODO implement
+        // -1 will represent "random value"
+        traversal.push_back(-1);
+
+    } else { // pattern == "Up"
+        for (int i = 0; i < chord.length; i++) {
+            traversal.push_back(i);
+        }
+    }    
+
+    traversalIndex = 0;
+}
 
 // Intended to be called every time a clock pulse is received
 void Arp::OnStep(){
     clockCount++;
-    if (clockCount >= clockInDivToInt[mClockDiv->Value()]){
+    if (clockCount >= clockDiv){
         clockCount = 0;
-        this->UpdateArpStep();
+        this->UpdateStep();
     }
 }
 
-// Updates note and length data for the arp
-void Arp::UpdateArpNotes(){
-    int degree;
-    int oct;
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at(mVoicing->Value()).size());
-    int scaleLen = static_cast<int>(scalesToSemitones.at(mScale->Value()).size());
-
-    // For each degree in the chord
-    //
-    // bug: 5th note in kenny barron chords (both major and minor) resolve to octaves
-    for (int i = 0; i < chordLen; i++){
-        // Get the degree
-        degree = voicingToScaleDegrees.at(mVoicing->Value())[i];
-
-        // Figure out how many octaves above 0 it is
-        oct = degree / (scaleLen + 1);
-        if (oct > 0){
-            degree = degree % scaleLen;
-        }
-
-        // Offset by 1 since the values of the maps are 1-inedexed
-        degree--;
-
-        // Calculate the semitone value
-        arpNotes[i] = scalesToSemitones.at(mScale->Value())[degree] + 12 * (oct + mOct->index) + mTonic->index;
-
-        // If the value exceeds our note range, bring it up/down an octave until it fits
-        while (arpNotes[i] > 60){
-            arpNotes[i] -= 12;
-        }
-        while (arpNotes[i] < 0){
-            arpNotes[i] += 12;
-        }
-    }
-
-    this->UpdateArpString();
-}
-
-// Updates the arp traversal values based on the current pattern
-void Arp::UpdateArpTraversal(){
-    arpTraversal = std::vector<int>{};
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at(mVoicing->Value()).size());
-
-    if (mPattern->Value() == "Down") {
-        for (int i = chordLen-1; i >= 0; i--) {
-            arpTraversal.push_back(i);
-        }
-
-    } else if (mPattern->Value() == "U+D In") {
-        for (int i = 0; i < chordLen; i++) {
-            arpTraversal.push_back(i);
-        }
-                for (int i = chordLen-1; i > 0; i--) {
-            arpTraversal.push_back(i);
-        }
-
-    } else if (mPattern->Value() == "U+D Ex") {
-        for (int i = 0; i < chordLen-1; i++) {
-            arpTraversal.push_back(i);
-        }
-        for (int i = chordLen-1; i > 0; i--) {
-            arpTraversal.push_back(i);
-        }
-
-    } else if (mPattern->Value() == "Random") {// TODO implement
-        // -1 will represent "random value"
-        arpTraversal.push_back(-1);
-
-    } else { // mPattern->Value() == "Up"
-        for (int i = 0; i < chordLen; i++) {
-            arpTraversal.push_back(i);
-        }
-    }    
-
-    arpTraversalIndex = 0;
-}
-
-// Called every time the arp steps to the next note
-//
-// TODO: modify for other patterns besides up
-void Arp::UpdateArpStep()
-{
+void Arp::UpdateStep(){
     int semi;
+    step = traversal[traversalIndex];
 
-    arpStep = arpTraversal[arpTraversalIndex];
-
-    if (arpStep < 0) {
+    if (step < 0) {
         // Random note
         // TODO this random method is biased, created a stronger random function
         // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
         // musical results
-        semi = arpNotes[rand() % arpNotes.size()];
+        semi = chord.GetNoteAt(rand() % chord.length);
     } else {
-        semi = arpNotes[arpStep];
+        semi = chord.GetNoteAt(step);
     }
 
-    debugString = std::to_string(semi);
+    //debugString = std::to_string(semi);
 
-    trigOut = true;
-    arpNoteDacOutput1 = SemitoneToDac(semi);
+   // trigOut = true;
+    //arpNoteDacOutput1 = SemitoneToDac(semi);
     
-    arpTraversalIndex++;
-    arpTraversalIndex = arpTraversalIndex % static_cast<int>(arpTraversal.size());
+    traversalIndex++;
+    traversalIndex = traversalIndex % static_cast<int>(traversal.size());
 
-    this->UpdateArpString();
+    this->UpdateString();
 }
 
-// Updates the string used to display the arp
-void Arp::UpdateArpString(){
-    arpString = "";
-    int chordSize = static_cast<int>(voicingToScaleDegrees.at(mVoicing->Value()).size());
+void Arp::UpdateString(){
+    string = "";
 
-    for(int i = 0; i < chordSize; i++){
-        if (i == arpStep){
-            arpString += std::to_string(arpNotes[i]);
+    for(int i = 0; i < maxSteps; i++){
+        if (i == step){
+            string += std::to_string(chord.GetNoteAt(i));
         } else {
-            arpString += "_";
+            string += "_";
         }
     }
 }

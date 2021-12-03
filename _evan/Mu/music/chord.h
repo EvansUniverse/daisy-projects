@@ -41,14 +41,13 @@ namespace mu {
         // Scale degree of the current root note
         int root;
 
+        // the number of notes in the chord
+        int length;
+
         // Must be an element of in mu::voicings (chord.h)
         std::string voicing;
 
-        // // Modifiers
-        // bool addOctUp;
-        // bool addOctDown;
-
-        DiatonicChord();
+        DiatonicChord() : DiatonicChord(1, 0, "Major", "Triad") {};
 
         // @param chord root - scale degree  int from 0-7
         // @param mode root - the note value, int from 0-12
@@ -84,12 +83,17 @@ namespace mu {
         // Given the chord's properties, formulates the chord.
         // Call this every time a property of the chord is updated.
         void UpdateChord();
+
+        // @return semis[n], or semis[0] n is out of bounds
+        int GetNoteAt(int);
     };
 
     // All possible chord voicings
     const std::vector<std::string> voicings {
         "Triad",
+        "Triad+",
         "7th",
+        "7th+"
         "9th",
         "11th",
         "13th",

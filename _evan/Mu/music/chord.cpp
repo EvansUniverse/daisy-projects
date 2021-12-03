@@ -19,14 +19,7 @@
 
 using namespace mu;
 
-DiatonicChord::DiatonicChord(){};
-
-DiatonicChord::DiatonicChord(
-        int theRoot = 24, // C2
-        int theModeRoot = 24, // C2
-        std::string theMode = "Major", 
-        std::string theVoicing = "Triad"
-    ){
+DiatonicChord::DiatonicChord(int theRoot,int theModeRoot, std::string theMode, std::string theVoicing){
     root = theRoot;
     mode = theMode;
     modeRoot = theModeRoot;
@@ -47,16 +40,12 @@ void DiatonicChord::UpdateChord(){
     int scaleLen = static_cast<int>(modeToSemitones.at(mode).size());
     semis = std::vector<int>(chordLen);
 
-    // For each degree in the chord
+    length = chordLen;
+
+    // For each note in the chord
     for (int i = 0; i < chordLen; i++){
         // Get the degree
         degree = voicingToScaleDegrees.at(voicing)[i];
-
-        // // Figure out how many octaves above 0 it is
-        // oct = degree / (scaleLen + 1);
-        // if (oct > 0){
-        //     degree = degree % scaleLen;
-        // }
 
         // Offset by 1 since the values of the maps are 1-inedexed
         degree--;
@@ -117,15 +106,14 @@ void DiatonicChord::Transpose(int i) {
     UpdateChord();
 }
 
+int DiatonicChord::GetNthNote(int n){
+    if (n >= length) {
+        return semis[0];
+    }
+    return semis[n];
+}
 
 // TODO make this more accurate/robust (i.e. "A minor" instead of "A triad")
 void DiatonicChord::UpdateString(){
     string = allNotes5Oct[root] + " " + voicing;
-
-    if(addOctDown){
-        string += "-";
-    }
-    if(addOctUp){
-        string += "+";
-    }
 }

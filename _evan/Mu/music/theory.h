@@ -23,6 +23,7 @@ namespace mu {
     // @param an element of mu::allModes
     bool isDiatonic(int, std::string);
 
+    // This seems redundant but it will be needed for fractional clock divs
     std::map<std::string, int> clockInDivToInt {
         {"1",  1},
         {"2",  2},

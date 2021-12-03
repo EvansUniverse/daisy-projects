@@ -87,21 +87,7 @@ std::string arpString;
 std::string debugString;
 
 
-const std::vector<std::string> allPatterns {
-    "Up",
-    "Down",
-    "U+D In",
-    "U+D Ex",
-    "Random"
-};
 
-const std::vector<std::string> allRhythms {
-    "None",
-    "Sw 25%",
-    "Sw 50%",
-    "Sw 75%",
-    "Sw 100%"
-};
 
 // Given the 1V/oct and 0-5V range of the CV out port,
 // we are limited to a 5 octave register. Voicings span
@@ -354,7 +340,7 @@ void UpdateArpNotes(){
 // Called every time a clock pulse is received
 void OnClockPulseIn(){
     clockCount++;
-    if (clockCount >= clockInDivToInt[mClockDiv->Value()]){
+    if (clockCount >= clockInDivToInt[clockDiv]){
         clockCount = 0;
 
         UpdateArpStep();
