@@ -45,8 +45,8 @@ This would be fun for the “teach your own device” ethos
 
 
 ## Controls
-* **Gate in 1:** Clock/step in
-* **Gate in 2:**
+* **Gate in 1:** Clock/arp step in
+* **Gate in 2:** Chord change in (step to next chord in progression)
 * **Gate out 1:** Arpeggio gate out
 * **Ctrl 1:** Ctrl 1: Progression vary
     * Before 12:00 - mutate the chord progression

@@ -15,6 +15,14 @@
 
 namespace mu {
 
+    const int MAX_NOTE = 60;
+    const int MIN_NOTE = 0;
+
+    // Returns true if the given note is diatonic to the given mode
+    // @param a note's index in semitones from C or C0
+    // @param an element of mu::allModes
+    bool isDiatonic(int, std::string);
+
     std::map<std::string, int> clockInDivToInt {
         {"1",  1},
         {"2",  2},
@@ -40,7 +48,77 @@ namespace mu {
         "B"
     };
 
-    const std::vector<std::string> allScales {
+    // Note that the indices of these elements also correspond to
+    // their semitone distances from C0.
+    const std::vector<std::string> allNotes5Oct {
+        "C0",
+        "C#0",
+        "D0",
+        "D#0",
+        "E0",
+        "F0",
+        "F#0",
+        "G0",
+        "G#0",
+        "A0",
+        "A#0",
+        "B0",
+        "C1",
+        "C#1",
+        "D1",
+        "D#1",
+        "E1",
+        "F1",
+        "F#1",
+        "G1",
+        "G#1",
+        "A1",
+        "A#1",
+        "B1",
+        "C2",
+        "C#2",
+        "D2",
+        "D#2",
+        "E2",
+        "F2",
+        "F#2",
+        "G2",
+        "G#2",
+        "A2",
+        "A#2",
+        "B2",
+        "C3",
+        "C#3",
+        "D3",
+        "D#3",
+        "E3",
+        "F3",
+        "F#3",
+        "G3",
+        "G#3",
+        "A3",
+        "A#3",
+        "B3",
+        "C4",
+        "C#4",
+        "D4",
+        "D#4",
+        "E4",
+        "F4",
+        "F#4",
+        "G4",
+        "G#4",
+        "A4",
+        "A#4",
+        "B4"
+        // "C5" ??? TODO does this fit
+    };
+
+    // Note: Mode names are currently abbreviated due to 
+    // Daisy Patch screen size limitations.
+    //
+    // TODO support exotic modes
+    const std::vector<std::string> modes {
         "Major",
         "Minor",
         "Dorian",
@@ -51,7 +129,7 @@ namespace mu {
     };
 
     // Maps scale names to their first octave of semitone values
-    const std::map<std::string, std::vector<int>> scalesToSemitones {
+    const std::map<std::string, std::vector<int>> modeToSemitones {
         {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
         {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
         {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
@@ -59,44 +137,6 @@ namespace mu {
         {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
         {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
         {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
-    };
-
-    const std::vector<std::string> allVoicings {
-        "Triad",
-        "Triad+",
-        "7th",
-        "7th+",
-        "9th",
-        "11th",
-        "13th",
-        "6th",
-        "Sus2",
-        "Sus4",
-        // disabled til its bug is fixed
-        //"Kenny B.",  // Kenny Barron chord 
-        "Power",
-        "Power+",
-        "Shell 1",
-        "Shell 2"
-    };
-
-    // Maps voicings to the scale degrees they contain
-    const std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-        {"Triad",    std::vector<int>{1, 3, 5}},
-        {"Triad+",   std::vector<int>{1, 3, 5, 8}},
-        {"7th",      std::vector<int>{1, 3, 5, 7}},
-        {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
-        {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-        {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
-        {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-        {"6th",      std::vector<int>{1, 3, 5, 6}},
-        {"Sus2",     std::vector<int>{1, 2, 5}},
-        {"Sus4",     std::vector<int>{1, 4, 5}},
-        //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-        {"Power",    std::vector<int>{1, 5}},
-        {"Power+",   std::vector<int>{1, 5, 8}},
-        {"Shell 1",  std::vector<int>{1, 7, 10}},
-        {"Shell 2",  std::vector<int>{1, 10, 14}},
     };
 
     const std::vector<std::string> allInversions {

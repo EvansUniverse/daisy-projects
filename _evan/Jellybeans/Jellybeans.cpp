@@ -168,7 +168,7 @@ int main(void) {
     menuItems[2] = MenuItem("Voicing",   allVoicings,    0, cb);
     menuItems[3] = MenuItem("N/A",       allInversions,  0, cb); // Inversion
     menuItems[4] = MenuItem("Tonic",     allNotes,       0, cb);
-    menuItems[5] = MenuItem("Scale",     allScales,      0, cb);
+    menuItems[5] = MenuItem("Scale",     modes,      0, cb);
     menuItems[6] = MenuItem("N/A",       allRhythms,         0, cb); // Rhythm
     menuItems[7] = MenuItem("N/A",       allOctaves,         0, cb); // Oct Rng
     menuItems[8] = MenuItem("Octave",    allOctaves,         0, cb);
@@ -252,7 +252,7 @@ void UpdateControls() {
             menuPos = 0;
         }
 
-        isEditing = patch.encoder.RisingEdge() ? true : false;
+        isEditing = patch.encoder.RisingEdge() ? true : false; // TODO fix lmao
     }
     else
     {
@@ -264,7 +264,7 @@ void UpdateControls() {
             menuItems[menuPos].Decrement();
         }
 
-        isEditing = patch.encoder.RisingEdge() ? false : true;
+        isEditing = patch.encoder.RisingEdge() ? false : true;// TODO fix lmao
     }
 
     // Update step with respect to clock
@@ -318,7 +318,7 @@ void UpdateArpNotes(){
     int degree;
     int oct;
     int chordLen = static_cast<int>(voicingToScaleDegrees.at(mVoicing->Value()).size());
-    int scaleLen = static_cast<int>(scalesToSemitones.at(mScale->Value()).size());
+    int scaleLen = static_cast<int>(modeToSemitones.at(mScale->Value()).size());
 
     // For each degree in the chord
     //
@@ -337,7 +337,7 @@ void UpdateArpNotes(){
         degree--;
 
         // Calculate the semitone value
-        arpNotes[i] = scalesToSemitones.at(mScale->Value())[degree] + 12 * (oct + mOct->index) + mTonic->index;
+        arpNotes[i] = modeToSemitones.at(mScale->Value())[degree] + 12 * (oct + mOct->index) + mTonic->index;
 
         // If the value exceeds our note range, bring it up/down an octave until it fits
         while (arpNotes[i] > 60){
