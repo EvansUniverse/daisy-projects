@@ -24,13 +24,18 @@ namespace mu {
         std::string displayName; // name with spaces appended
         std::vector<std::string> values;
 
+        int longestName;
+
         // typedef void (*OnChangeCallback)();
         // OnChangeCallback myOnChangeCallback;
         std::function<void ()> myOnChangeCallback;
 
         MenuItem();
 
-        // aDefault must be a valid index in aValues
+        // @param name of the menu that will be displayed on screen
+        // @param list of possible values
+        // @param index of default value, must be a valid index // TODO maybe remove this?
+        // @param callback function that runs every time the MenuItem's value is changed
         MenuItem(std::string, std::vector<std::string>, int , std::function<void ()>);
 
         std::string DisplayValue();

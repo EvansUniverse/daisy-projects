@@ -22,12 +22,8 @@ Arp::Arp(int theMaxSteps, DiatonicChord theChord, std::string thePattern, int th
     clockDiv = theClockDiv;
     chord = theChord;
 
-    this->Update();
+    this->UpdateTraversal();
 };
-
-void Arp::Update(){
-    // TODO
-}
 
 // Updates the arp traversal values based on the current pattern
 void Arp::UpdateTraversal(){

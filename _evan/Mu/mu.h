@@ -20,11 +20,12 @@
  *
  * 
  * MU (music utilities) is a library of common utilies for developing
- * eurorack modules
+ * eurorack modules, with a specific focus on Electrosmith Daisy Patch.
  */
 
 #include "music/theory.h"
 #include "music/chord.h"
 #include "music/arp.h"
+//#include "music/arp.cpp"
 
 #include "logistics/menuitem.h"

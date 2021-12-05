@@ -9,8 +9,6 @@
  */
 
 #include <string>
-#include <array>
-#include <map>
 #include <vector>
 
 #include "chord.h"
@@ -44,10 +42,6 @@ namespace mu {
 
         // Must be an element of mu::arpPatterns
         std::string pattern;
-
-        // If true, the arp is currently traveling up
-        // if false, it's currently traveling down
-        bool goingUp;
 
         // String representation of the arp
         std::string string;
