@@ -124,22 +124,22 @@ int main(void) {
     menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);
     menuItems[9] = MenuItem("Clock In ", allClockInDivs, 0, cb);
 
-    // // Initialize CV params
-    // patternParam.Init(patch.controls[0],   0.f, static_cast<float>(arpPatterns.size()),    Parameter::LINEAR);
-    // divisionParam.Init(patch.controls[1],  0.f, static_cast<float>(allClockInDivs.size()), Parameter::LINEAR);
-    // voicingParam.Init(patch.controls[2],   0.f, static_cast<float>(voicings.size()),       Parameter::LINEAR);
-    // inversionParam.Init(patch.controls[3], 0.f, static_cast<float>(allInversions.size()),  Parameter::LINEAR);
-    // patternCurCvVal   = static_cast<int>(patternParam.Process());
-    // divisionCurCvVal  = static_cast<int>(divisionParam.Process());
-    // voicingCurCvVal   = static_cast<int>(voicingParam.Process());
-    // inversionCurCvVal = static_cast<int>(inversionParam.Process());
+    // Initialize CV params
+    patternParam.Init(patch.controls[0],   0.f, static_cast<float>(arpPatterns.size()),    Parameter::LINEAR);
+    divisionParam.Init(patch.controls[1],  0.f, static_cast<float>(allClockInDivs.size()), Parameter::LINEAR);
+    voicingParam.Init(patch.controls[2],   0.f, static_cast<float>(voicings.size()),       Parameter::LINEAR);
+    inversionParam.Init(patch.controls[3], 0.f, static_cast<float>(allInversions.size()),  Parameter::LINEAR);
+    patternCurCvVal   = static_cast<int>(patternParam.Process());
+    divisionCurCvVal  = static_cast<int>(divisionParam.Process());
+    voicingCurCvVal   = static_cast<int>(voicingParam.Process());
+    inversionCurCvVal = static_cast<int>(inversionParam.Process());
 
     // Initialize variables
     arpNoteDacOutput1 = 0.f;
     trigOut     = false;
     menuPos     = 0;
     isEditing   = false;
-    debugString = "init debug str";
+    debugString = "I'm a debug string";
 
     patch.StartAdc();
 
@@ -156,32 +156,32 @@ void UpdateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
-    // // Parse CV values
-    // int curCvVal;
-    // // Pattern
-    // curCvVal = static_cast<int>(patternParam.Process());
-    // if(curCvVal != patternCurCvVal){
-    //     menuItems[0].SetIndex(curCvVal);
-    //     patternCurCvVal = curCvVal;
-    // }
-    // // Division
-    // curCvVal = static_cast<int>(divisionParam.Process());
-    // if(curCvVal != divisionCurCvVal){
-    //     menuItems[1].SetIndex(curCvVal);
-    //     divisionCurCvVal = curCvVal;
-    // }
-    // // Voicing
-    // curCvVal = static_cast<int>(voicingParam.Process());
-    // if(curCvVal != voicingCurCvVal){
-    //     menuItems[2].SetIndex(curCvVal);
-    //     voicingCurCvVal = curCvVal;
-    // }
-    // // Inversion
-    // curCvVal = static_cast<int>(inversionParam.Process());
-    // if(curCvVal != inversionCurCvVal){
-    //     menuItems[3].SetIndex(curCvVal);
-    //     inversionCurCvVal = curCvVal;
-    // }
+    // Parse CV values
+    int curCvVal;
+    // Pattern
+    curCvVal = static_cast<int>(patternParam.Process());
+    if(curCvVal != patternCurCvVal){
+        menuItems[0].SetIndex(curCvVal);
+        patternCurCvVal = curCvVal;
+    }
+    // Division
+    curCvVal = static_cast<int>(divisionParam.Process());
+    if(curCvVal != divisionCurCvVal){
+        menuItems[1].SetIndex(curCvVal);
+        divisionCurCvVal = curCvVal;
+    }
+    // Voicing
+    curCvVal = static_cast<int>(voicingParam.Process());
+    if(curCvVal != voicingCurCvVal){
+        menuItems[2].SetIndex(curCvVal);
+        voicingCurCvVal = curCvVal;
+    }
+    // Inversion
+    curCvVal = static_cast<int>(inversionParam.Process());
+    if(curCvVal != inversionCurCvVal){
+        menuItems[3].SetIndex(curCvVal);
+        inversionCurCvVal = curCvVal;
+    }
 
     if(!isEditing)
     {
