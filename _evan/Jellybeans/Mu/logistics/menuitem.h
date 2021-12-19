@@ -24,8 +24,6 @@ namespace mu {
         std::string displayName; // name with spaces appended
         std::vector<std::string> values;
 
-        int longestName;
-
         // typedef void (*OnChangeCallback)();
         // OnChangeCallback myOnChangeCallback;
         std::function<void ()> myOnChangeCallback;

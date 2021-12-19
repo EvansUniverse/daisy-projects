@@ -26,6 +26,5 @@
 #include "music/theory.h"
 #include "music/chord.h"
 #include "music/arp.h"
-//#include "music/arp.cpp"
 
 #include "logistics/menuitem.h"

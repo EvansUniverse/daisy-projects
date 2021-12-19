@@ -106,7 +106,7 @@ void DiatonicChord::Transpose(int i) {
     UpdateChord();
 }
 
-int DiatonicChord::GetNthNote(int n){
+int DiatonicChord::GetNoteAt(int n){
     if (n >= length) {
         return semis[0];
     }
