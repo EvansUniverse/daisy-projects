@@ -80,7 +80,7 @@ void DrawString(std::string, int, int);
 //Arp myArp;
 
 //std::array<MenuItem, 10> menuItems;
-std::array<MenuItem, 3> menuItems;
+std::array<MenuItem, 10> menuItems;
 
 // Reference vars to make the code more readable
 MenuItem *mPattern   = &menuItems[0];
@@ -113,19 +113,16 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
-    // menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cb);
-    menuItems[0] = MenuItem("Pattern  ", allOctaves,    0, cb);
-    menuItems[1] = MenuItem("Pattern  ", allOctaves,    0, cb);
-    menuItems[2] = MenuItem("Pattern  ", allOctaves,    0, cb);
-    // menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
-    // menuItems[2] = MenuItem("Voicing  ", voicings,       0, cb);
-    // menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
-    // menuItems[4] = MenuItem("Tonic    ", allNotes,       0, cb);
-    // menuItems[5] = MenuItem("Scale    ", modes,          0, cb);
-    // menuItems[6] = MenuItem("N/A      ", arpRhythms,     0, cb); // Rhythm
-    // menuItems[7] = MenuItem("N/A      ", allOctaves,     0, cb); // Oct Rng
-    // menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);
-    // menuItems[9] = MenuItem("Clock In ", allClockInDivs, 0, cb);
+    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cb);
+    menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
+    menuItems[2] = MenuItem("Voicing  ", voicings,       0, cb);
+    menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
+    menuItems[4] = MenuItem("Tonic    ", allNotes,       0, cb);
+    menuItems[5] = MenuItem("Scale    ", modes,          0, cb);
+    menuItems[6] = MenuItem("N/A      ", arpRhythms,     0, cb); // Rhythm
+    menuItems[7] = MenuItem("N/A      ", allOctaves,     0, cb); // Oct Rng
+    menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);
+    menuItems[9] = MenuItem("Clock In ", allClockInDivs, 0, cb);
 
     // // Initialize CV params
     // patternParam.Init(patch.controls[0],   0.f, static_cast<float>(arpPatterns.size()),    Parameter::LINEAR);
