@@ -5,10 +5,7 @@ MODULE_DIR=src
 C_MODULES = \
 sys/dma \
 hid/audio \
-dev/sdram \
-sys/fatfs \
 per/gpio \
-per/qspi \
 per/sai \
 per/sdmmc \
 util/bsp_sd_diskio \
@@ -16,10 +13,12 @@ util/hal_map \
 util/oled_fonts \
 util/sd_diskio \
 util/unique_id \
+util/usbh_diskio \
 sys/system_stm32h7xx \
 usbd/usbd_cdc_if \
 usbd/usbd_desc \
-usbd/usbd_conf 
+usbd/usbd_conf \
+usbh/usbh_conf
 
 CPP_MODULES = \
 daisy_seed \
@@ -28,12 +27,15 @@ daisy_patch \
 daisy_petal \
 daisy_field \
 daisy_versio \
+daisy_patch_sm \
+sys/fatfs \
 sys/system \
 dev/sr_595 \
 dev/codec_ak4556 \
 dev/codec_pcm3060 \
 dev/codec_wm8731 \
 dev/lcd_hd44780 \
+dev/sdram \
 hid/ctrl \
 hid/encoder \
 hid/gatein \
@@ -42,11 +44,16 @@ hid/parameter \
 hid/rgb_led \
 hid/switch \
 hid/usb \
+hid/usb_midi \
 hid/wavplayer \
 hid/logger \
+hid/usb_host \
 per/adc \
 per/dac \
+per/gpio \
 per/i2c \
+per/rng \
+per/qspi \
 per/spi \
 per/tim \
 per/uart \
@@ -198,7 +205,14 @@ Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c \
 Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c \
 Middlewares/Third_Party/FatFs/src/diskio.c \
 Middlewares/Third_Party/FatFs/src/ff.c \
-Middlewares/Third_Party/FatFs/src/ff_gen_drv.c 
+Middlewares/Third_Party/FatFs/src/ff_gen_drv.c  \
+Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c \
+Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c \
+Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc.c \
+Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_core.c \
+Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ctlreq.c \
+Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
+Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c
 
 # C++ Source
 CPP_SOURCES += $(addsuffix .cpp, $(addprefix $(MODULE_DIR)/, $(CPP_MODULES)))
@@ -266,19 +280,24 @@ C_DEFS =  \
 -Dflash_layout \
 -DHSE_VALUE=16000000 \
 -DUSE_HAL_DRIVER \
--DUSE_FULL_LL_DRIVER 
+-DUSE_FULL_LL_DRIVER \
+-DDATA_IN_D2_SRAM 
+# ^ added for easy startup access
 
 
 C_INCLUDES = \
 -I$(MODULE_DIR) \
 -I$(MODULE_DIR)/sys \
 -I$(MODULE_DIR)/usbd \
+-I$(MODULE_DIR)/usbh \
 -IDrivers/CMSIS/Include \
 -IDrivers/CMSIS/Device/ST/STM32H7xx/Include \
 -IDrivers/STM32H7xx_HAL_Driver/Inc \
 -IDrivers/STM32H7xx_HAL_Driver/Inc/Legacy \
 -IMiddlewares/ST/STM32_USB_Device_Library/Core/Inc \
 -IMiddlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc \
+-IMiddlewares/ST/STM32_USB_Host_Library/Core/Inc \
+-IMiddlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc \
 -IMiddlewares/Third_Party/FatFs/src \
 -I$(MODULE_DIR) \
 -I. 
@@ -313,7 +332,7 @@ C_STANDARD = -std=gnu11
 CPP_STANDARD += -std=gnu++14
 
 # default action: build all
-all: $(BUILD_DIR)/$(TARGET).a 
+all: $(BUILD_DIR)/$(TARGET).a
 
 #######################################
 # build the application
@@ -342,7 +361,7 @@ $(BUILD_DIR)/%.o: %.cpp Makefile | $(BUILD_DIR)
 
 $(BUILD_DIR)/%.o: %.s Makefile | $(BUILD_DIR)
 	mkdir -p $(@D)
-	$(AS) -c $(CFLAGS) $< -o $@ -MD -MP -MF $(BUILD_DIR)/$(notdir $(<:.s =.dep))
+	$(AS) -c $(ASFLAGS) $< -o $@ -MD -MP -MF $(BUILD_DIR)/$(notdir $(<:.s =.dep))
 
 $(BUILD_DIR)/$(TARGET).a: $(SORTED_OBJECTS) Makefile
 	$(AR) -r $@ $(SORTED_OBJECTS)

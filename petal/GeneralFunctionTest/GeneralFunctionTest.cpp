@@ -22,7 +22,8 @@ void UpdateLeds();
 // Declare a local daisy_petal for hardware access
 DaisyPetal hw;
 // Handler for SD Card Hardware
-SdmmcHandler sd;
+SdmmcHandler   sd;
+FatFSInterface fsi;
 
 // Variable for tracking encoder increments since there is it's not a continuous control like the rest.
 int32_t enc_tracker;
@@ -68,6 +69,7 @@ int main(void)
     usb_period = 100;
 
     hw.Init();
+    hw.SetAudioBlockSize(4);
 
     last_led_update = last_usb_update = now = System::GetNow();
 
@@ -103,6 +105,9 @@ int main(void)
     }
 }
 
+/** Global File object for working with test file */
+FIL SDFile;
+
 // Mounts SD card and reads TEST_FILE
 // returns 0 if successful, else failure.
 int TestSdCard()
@@ -120,8 +125,8 @@ int TestSdCard()
     SdmmcHandler::Config sd_cfg;
     sd_cfg.Defaults();
     sd.Init(sd_cfg);
-    dsy_fatfs_init();
-    f_mount(&SDFatFS, SDPath, 1);
+    fsi.Init(FatFSInterface::Config::MEDIA_SD);
+    f_mount(&fsi.GetSDFileSystem(), "/", 1);
 
     // Fill reference buffer with test contents
     sprintf(refbuff, "%s", TEST_FILE_CONTENTS);

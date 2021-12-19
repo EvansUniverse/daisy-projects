@@ -72,7 +72,7 @@ void UpdateControls()
     {
         values[menuPos] += patch.encoder.Increment();
         values[menuPos] = values[menuPos] < 0.f ? 0.f : values[menuPos];
-        values[menuPos] = values[menuPos] > 60.f ? 60.f : values[menuPos]; // EVAN's NOTES: these numbers represent semitones. from 0-60, each number is 1 semitone higher after the conversion on line ~120
+        values[menuPos] = values[menuPos] > 60.f ? 60.f : values[menuPos];
         inSubMenu       = patch.encoder.RisingEdge() ? false : true;
     }
 
@@ -115,8 +115,7 @@ void UpdateOled()
 }
 
 void UpdateOutputs()
-{   
-    // EVAN's NOTES: In Daisy Patches DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 per volt/octave. That's where this magic 819 number comes from.
+{
     patch.seed.dac.WriteValue(DacHandle::Channel::ONE,
                               round((values[stepNumber] / 12.f) * 819.2f));
     patch.seed.dac.WriteValue(DacHandle::Channel::TWO,
