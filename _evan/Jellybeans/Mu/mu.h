@@ -23,8 +23,8 @@
  * eurorack modules, with a specific focus on Electrosmith Daisy Patch.
  */
 
-#include "music/theory.h"
-#include "music/chord.h"
-#include "music/arp.h"
+// #include "music/theory.h"
+// #include "music/chord.h"
+// #include "music/arp.h"
 
 #include "logistics/menuitem.h"

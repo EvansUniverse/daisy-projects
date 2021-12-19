@@ -27,7 +27,7 @@
 #include "daisy_patch.h"
 #include "daisysp.h"
 
-//#include "Mu/mu.h"
+#include "Mu/mu.h"
 
 #include <string>
 #include <array>
@@ -35,7 +35,7 @@
 
 using namespace daisy;
 using namespace daisysp;
-//using namespace mu;
+using namespace mu;
 
 DaisyPatch patch;
 
@@ -55,8 +55,8 @@ const int     fontWidth = 7;
 const int     fontHeight = 10;
 
 /// Menu navigating vars
-// int  menuPos;
-// bool isEditing;
+int  menuPos;
+bool isEditing;
 
 
 // Given the 1V/oct and 0-5V range of the CV out port,
@@ -67,11 +67,11 @@ const int     fontHeight = 10;
 // Note that the indices of the elements are also their octave distances from 0
 const std::vector<std::string> allOctaves {
     "0",
-    // "+1", // TODO re-enable these once out-of-bounds notes have been handled
-    // "+2"
+    "+1", // TODO re-enable these once out-of-bounds notes have been handled
+    "+2"
 };
 
-//void UpdateControls();
+void UpdateControls();
 void UpdateOled();
 //void UpdateOutputs();
 //void OnClockPulseIn();
@@ -80,18 +80,19 @@ void DrawString(std::string, int, int);
 //Arp myArp;
 
 //std::array<MenuItem, 10> menuItems;
+std::array<MenuItem, 3> menuItems;
 
 // Reference vars to make the code more readable
-// MenuItem *mPattern   = &menuItems[0];
-// MenuItem *mDivision  = &menuItems[1];
-// MenuItem *mVoicing   = &menuItems[2];
-// MenuItem *mInversion = &menuItems[3];
-// MenuItem *mTonic     = &menuItems[4];
-// MenuItem *mScale     = &menuItems[5];
-// MenuItem *mRhythm    = &menuItems[6];
-// MenuItem *mOctRng    = &menuItems[7];
-// MenuItem *mOct       = &menuItems[8];
-// MenuItem *mClockDiv  = &menuItems[9];
+MenuItem *mPattern   = &menuItems[0];
+MenuItem *mDivision  = &menuItems[1];
+MenuItem *mVoicing   = &menuItems[2];
+MenuItem *mInversion = &menuItems[3];
+MenuItem *mTonic     = &menuItems[4];
+MenuItem *mScale     = &menuItems[5];
+MenuItem *mRhythm    = &menuItems[6];
+MenuItem *mOctRng    = &menuItems[7];
+MenuItem *mOct       = &menuItems[8];
+MenuItem *mClockDiv  = &menuItems[9];
 
 
 Parameter patternParam, divisionParam, voicingParam, inversionParam;
@@ -110,9 +111,12 @@ int main(void) {
     // // Initialize arp
     // //myArp = Arp();
 
-    // // Initialize menu items
-    // // Note that the positions of items 0-3 need to remain fixed
+    // Initialize menu items
+    // Note that the positions of items 0-3 need to remain fixed
     // menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cb);
+    menuItems[0] = MenuItem("Pattern  ", allOctaves,    0, cb);
+    menuItems[1] = MenuItem("Pattern  ", allOctaves,    0, cb);
+    menuItems[2] = MenuItem("Pattern  ", allOctaves,    0, cb);
     // menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
     // menuItems[2] = MenuItem("Voicing  ", voicings,       0, cb);
     // menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
@@ -136,86 +140,86 @@ int main(void) {
     // Initialize variables
     arpNoteDacOutput1 = 0.f;
     trigOut     = false;
-    // menuPos     = 0;
-    // isEditing   = false;
+    menuPos     = 0;
+    isEditing   = false;
     debugString = "init debug str";
 
     patch.StartAdc();
 
     // Main event loop
     while(1){
-        //UpdateControls();
+        UpdateControls();
         UpdateOled();
         //UpdateOutputs();
     }
 }
 
 // Handle any input to Patches' controls
-// void UpdateControls() {
-//     patch.ProcessAnalogControls();
-//     patch.ProcessDigitalControls();
+void UpdateControls() {
+    patch.ProcessAnalogControls();
+    patch.ProcessDigitalControls();
 
-//     // Parse CV values
-//     int curCvVal;
-//     // Pattern
-//     curCvVal = static_cast<int>(patternParam.Process());
-//     if(curCvVal != patternCurCvVal){
-//         menuItems[0].SetIndex(curCvVal);
-//         patternCurCvVal = curCvVal;
-//     }
-//     // Division
-//     curCvVal = static_cast<int>(divisionParam.Process());
-//     if(curCvVal != divisionCurCvVal){
-//         menuItems[1].SetIndex(curCvVal);
-//         divisionCurCvVal = curCvVal;
-//     }
-//     // Voicing
-//     curCvVal = static_cast<int>(voicingParam.Process());
-//     if(curCvVal != voicingCurCvVal){
-//         menuItems[2].SetIndex(curCvVal);
-//         voicingCurCvVal = curCvVal;
-//     }
-//     // Inversion
-//     curCvVal = static_cast<int>(inversionParam.Process());
-//     if(curCvVal != inversionCurCvVal){
-//         menuItems[3].SetIndex(curCvVal);
-//         inversionCurCvVal = curCvVal;
-//     }
+    // // Parse CV values
+    // int curCvVal;
+    // // Pattern
+    // curCvVal = static_cast<int>(patternParam.Process());
+    // if(curCvVal != patternCurCvVal){
+    //     menuItems[0].SetIndex(curCvVal);
+    //     patternCurCvVal = curCvVal;
+    // }
+    // // Division
+    // curCvVal = static_cast<int>(divisionParam.Process());
+    // if(curCvVal != divisionCurCvVal){
+    //     menuItems[1].SetIndex(curCvVal);
+    //     divisionCurCvVal = curCvVal;
+    // }
+    // // Voicing
+    // curCvVal = static_cast<int>(voicingParam.Process());
+    // if(curCvVal != voicingCurCvVal){
+    //     menuItems[2].SetIndex(curCvVal);
+    //     voicingCurCvVal = curCvVal;
+    // }
+    // // Inversion
+    // curCvVal = static_cast<int>(inversionParam.Process());
+    // if(curCvVal != inversionCurCvVal){
+    //     menuItems[3].SetIndex(curCvVal);
+    //     inversionCurCvVal = curCvVal;
+    // }
 
-//     if(!isEditing)
-//     {
-//         // Update menu position
-//         menuPos += patch.encoder.Increment();
+    if(!isEditing)
+    {
+        // Update menu position
+        menuPos += patch.encoder.Increment();
     
-//         if (menuPos > (int) menuItems.size() - 1) {
-//             menuPos = (int) menuItems.size() - 1;
-//         } else if (menuPos <= 0) {
-//             menuPos = 0;
-//         }
+        if (menuPos > (int) menuItems.size() - 1) {
+            menuPos = (int) menuItems.size() - 1;
+        } else if (menuPos <= 0) {
+            menuPos = 0;
+        }
 
-//         isEditing = patch.encoder.RisingEdge() ? true : false; // TODO fix lmao
-//     }
-//     else
-//     {
-//         // Update selected menu item's value
-//         int inc = patch.encoder.Increment();
-//         if (inc > 0){
-//             menuItems[menuPos].Increment();
-//         } else if (inc < 0){
-//             menuItems[menuPos].Decrement();
-//         }
+        isEditing = patch.encoder.RisingEdge() ? true : false; // TODO fix lmao
+    }
+    else
+    {
+        // Update selected menu item's value
+        int inc = patch.encoder.Increment();
+        if (inc > 0){
+            menuItems[menuPos].Increment();
+        } else if (inc < 0){
+            menuItems[menuPos].Decrement();
+        }
 
-//         isEditing = patch.encoder.RisingEdge() ? false : true;// TODO fix lmao
-//     }
+        isEditing = patch.encoder.RisingEdge() ? false : true;// TODO fix lmao
+    }
 
-//     // Update step with respect to clock
-//     //
-//     // Currently, we'll just do 1 step per clock pulse
-//     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
-//     {
-//         //myArp.UpdateStep();
-//     }
-// }
+    // // Update step with respect to clock
+    // //
+    // // Currently, we'll just do 1 step per clock pulse
+    // if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
+    // {
+    //     myArp.UpdateStep();
+    // }
+}
 
 // Update Patches' screen
 //
@@ -244,11 +248,11 @@ void UpdateOled() {
     }
 
     // Draw each menu item
-    // for(int i = menuPos; i < menuPos + listSize; i++){
-    //     if (i < (int) menuItems.size()){
-    //         DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
-    //     }    
-    // }
+    for(int i = menuPos; i < menuPos + listSize; i++){
+        if (i < (int) menuItems.size()){
+            DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
+        }    
+    }
 
     // Write display buffer to OLED
     patch.display.Update();
