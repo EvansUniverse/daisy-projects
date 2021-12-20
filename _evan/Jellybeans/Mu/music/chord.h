@@ -12,6 +12,7 @@
 
 #include <map>
 #include <vector>
+#include <string>
 
 #include "theory.h"
 
@@ -47,7 +48,8 @@ namespace mu {
         // Must be an element of in mu::voicings (chord.h)
         std::string voicing;
 
-        DiatonicChord() : DiatonicChord(1, 0, "Major", "Triad") {};
+        // Default is C major triad
+        DiatonicChord(); // : DiatonicChord(1, 0, "Major", "Triad") {};
 
         // @param chord root - scale degree  int from 0-7
         // @param mode root - the note value, int from 0-12

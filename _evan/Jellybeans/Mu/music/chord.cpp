@@ -8,18 +8,31 @@
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-#pragma once
-
 #include <algorithm>
 #include <map>
 #include <vector>
+#include <string>
 
 #include "theory.h"
 #include "chord.h"
 
 using namespace mu;
 
-DiatonicChord::DiatonicChord(int theRoot,int theModeRoot, std::string theMode, std::string theVoicing){
+DiatonicChord::DiatonicChord(){
+    root = 1;
+    mode = "Major";
+    modeRoot = 0;
+    voicing = "Triad";
+
+    this->SetRoot(1);
+    this->SetMode("Major");
+    this->SetVoicing("Triad");
+
+    string ="";
+    this->UpdateString();
+}
+
+DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, std::string theVoicing){
     root = theRoot;
     mode = theMode;
     modeRoot = theModeRoot;

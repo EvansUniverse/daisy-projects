@@ -77,9 +77,8 @@ void UpdateOled();
 //void OnClockPulseIn();
 void DrawString(std::string, int, int);
 
-//Arp myArp;
+Arp myArp;
 
-//std::array<MenuItem, 10> menuItems;
 std::array<MenuItem, 10> menuItems;
 
 // Reference vars to make the code more readable
@@ -108,8 +107,8 @@ int main(void) {
     // Initialize hardware
     patch.Init();
 
-    // // Initialize arp
-    // //myArp = Arp();
+    // Initialize arp
+    myArp = Arp();
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed

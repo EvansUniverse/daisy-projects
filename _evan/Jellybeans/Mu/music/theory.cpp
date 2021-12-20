@@ -10,6 +10,7 @@
 
 #include <algorithm>
 #include <string> 
+#include <vector>
 
 #include "theory.h"
 

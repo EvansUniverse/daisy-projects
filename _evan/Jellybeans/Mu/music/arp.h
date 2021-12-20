@@ -52,7 +52,7 @@ namespace mu {
         // Underlying chord
         DiatonicChord chord;
 
-        Arp() : Arp(8, DiatonicChord(), "Up", 1) {};
+        Arp();// : Arp(8, DiatonicChord(1, 0, "Major", "Triad"), "Up", 1) {};
 
         // @param maxSteps 
         // @param chord

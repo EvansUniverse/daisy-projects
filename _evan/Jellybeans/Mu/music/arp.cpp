@@ -9,8 +9,22 @@
  */
 
 #include "arp.h"
+#include "chord.h"
 
 using namespace mu;
+
+Arp::Arp(){
+    maxSteps = 8;
+    step     = 0;
+    traversalIndex = 0;
+    noteDacOutput1 = 0.f;
+    clockCount  = 0;
+    pattern = "Up";
+    clockDiv = 1;
+    chord = DiatonicChord();
+
+    this->UpdateTraversal();
+}
 
 Arp::Arp(int theMaxSteps, DiatonicChord theChord, std::string thePattern, int theClockDiv){
     maxSteps = theMaxSteps;
