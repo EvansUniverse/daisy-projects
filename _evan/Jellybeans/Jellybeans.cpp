@@ -75,7 +75,7 @@ void UpdateOled();
 //void OnClockPulseIn();
 void DrawString(std::string, int, int);
 
-//Arp myArp;
+Arp myArp;
 
 std::array<MenuItem, 10> menuItems;
 

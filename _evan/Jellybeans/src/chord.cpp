@@ -129,5 +129,5 @@ int DiatonicChord::GetNoteAt(int n){
 
 // TODO make this more accurate/robust (i.e. "A minor" instead of "A triad")
 void DiatonicChord::UpdateString(){
-    string = allNotes5Oct[root] + " " + voicing;
+    //string = allNotes5Oct[root] + " " + voicing;
 }
