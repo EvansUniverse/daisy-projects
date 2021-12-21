@@ -1,4 +1,4 @@
-build/menuitem.o: Mu/logistics/menuitem.cpp \
+build/menuitem.o: src/menuitem.cpp \
  ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h \
  ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h \
  ../../libdaisy/Drivers/CMSIS/Include/core_cm7.h \
@@ -93,7 +93,7 @@ build/menuitem.o: Mu/logistics/menuitem.cpp \
  ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h \
  ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h \
  ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hcd.h \
- Mu/logistics/menuitem.h
+ src/menuitem.h
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h:
 ../../libdaisy/Drivers/CMSIS/Include/core_cm7.h:
@@ -188,4 +188,4 @@ build/menuitem.o: Mu/logistics/menuitem.cpp \
 ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_ll_usb.h:
 ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_pcd_ex.h:
 ../../libdaisy/Drivers/STM32H7xx_HAL_Driver/Inc/stm32h7xx_hal_hcd.h:
-Mu/logistics/menuitem.h:
+src/menuitem.h:

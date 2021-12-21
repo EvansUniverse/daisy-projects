@@ -26,16 +26,14 @@
 #include "daisysp.h"
 #include "daisy_patch.h"
 #include "daisysp.h"
-
-#include "Mu/mu.h"
+#include "src/resources.h"
 
 #include <string>
 #include <array>
-#include <map>
 
 using namespace daisy;
 using namespace daisysp;
-using namespace mu;
+using namespace jellybeans;
 
 DaisyPatch patch;
 
@@ -77,7 +75,7 @@ void UpdateOled();
 //void OnClockPulseIn();
 void DrawString(std::string, int, int);
 
-Arp myArp;
+//Arp myArp;
 
 std::array<MenuItem, 10> menuItems;
 
@@ -108,7 +106,7 @@ int main(void) {
     patch.Init();
 
     // Initialize arp
-    myArp = Arp();
+   // myArp = Arp();
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed

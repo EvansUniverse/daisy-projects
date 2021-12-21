@@ -203,8 +203,8 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/src/per/qspi.h ../../libdaisy/src/util/VoctCalibration.h \
  ../../libdaisy/src/util/WaveTableLoader.h ../../libdaisy/src/sys/fatfs.h \
  ../../libdaisy/src/util/WavWriter.h \
- ../../libdaisy/src/dev/oled_ssd130x.h Mu/mu.h Mu/music/theory.h \
- Mu/music/chord.h Mu/music/arp.h Mu/logistics/menuitem.h
+ ../../libdaisy/src/dev/oled_ssd130x.h src/resources.h src/theory.h \
+ src/chord.h src/arp.h src/menuitem.h
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h:
 ../../libdaisy/Drivers/CMSIS/Include/core_cm7.h:
@@ -445,8 +445,8 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/sys/fatfs.h:
 ../../libdaisy/src/util/WavWriter.h:
 ../../libdaisy/src/dev/oled_ssd130x.h:
-Mu/mu.h:
-Mu/music/theory.h:
-Mu/music/chord.h:
-Mu/music/arp.h:
-Mu/logistics/menuitem.h:
+src/resources.h:
+src/theory.h:
+src/chord.h:
+src/arp.h:
+src/menuitem.h:
