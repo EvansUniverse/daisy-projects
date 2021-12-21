@@ -52,7 +52,7 @@ namespace jellybeans {
 
     // Note that the indices of these elements also correspond to
     // their semitone distances from C0.
-    const std::vector<std::string> allNotes5Oct {
+    const std::array<std::string, 60> allNotes5Oct {
         "C0",
         "C#0",
         "D0",
@@ -113,7 +113,6 @@ namespace jellybeans {
         "A4",
         "A#4",
         "B4"
-        // "C5" ??? TODO does this fit
     };
 
     // Note: Mode names are currently abbreviated due to 

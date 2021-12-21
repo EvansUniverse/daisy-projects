@@ -24,7 +24,7 @@ namespace jellybeans {
     public:
         // String representation of the chord
         // e.g. "A minor"
-        std::string string;
+        std::string myString;
 
         // The diatonic distance, in relation to the root, of 
         // each note in the chord (ascending order)
