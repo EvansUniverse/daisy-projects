@@ -50,7 +50,7 @@ namespace jellybeans {
         float root; //TODO delete?
 
         // Underlying chord
-        DiatonicChord chord;
+        DiatonicChord* chord;
 
         Arp();// : Arp(8, DiatonicChord(1, 0, "Major", "Triad"), "Up", 1) {};
 
@@ -58,7 +58,7 @@ namespace jellybeans {
         // @param chord
         // @param pattern - must be an element of mu::arpPatterns
         // @param clockDiv
-        Arp(int, DiatonicChord, std::string, int);
+        Arp(int, DiatonicChord*, std::string, int);
 
         // Intended to be called every time a clock pulse is received
         void OnStep();

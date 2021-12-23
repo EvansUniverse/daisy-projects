@@ -138,7 +138,7 @@ int main(void) {
     menuPos     = 0;
     isEditing   = false;
     //debugString = "I'm a debug string";
-    debugString = myArp->chord.myString;
+    debugString = myArp->chord->myString;
 
     patch.StartAdc();
 

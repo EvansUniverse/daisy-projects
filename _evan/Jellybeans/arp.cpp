@@ -21,13 +21,13 @@ Arp::Arp(){
     clockCount  = 0;
     pattern = "Up";
     clockDiv = 1;
-    chord = DiatonicChord();
+    chord = new DiatonicChord();
     string = "EMPTY ARP";
 
     this->UpdateTraversal();
 }
 
-Arp::Arp(int theMaxSteps, DiatonicChord theChord, std::string thePattern, int theClockDiv){
+Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int theClockDiv){
     maxSteps = theMaxSteps;
     step     = 0;
     traversalIndex = 0;
