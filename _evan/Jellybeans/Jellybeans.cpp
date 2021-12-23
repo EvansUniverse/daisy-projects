@@ -237,7 +237,7 @@ void UpdateOled() {
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
-        debugString = myArp->string;
+        debugString = myArp->chord->myString;
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         DrawString(debugString, 2, 54);
