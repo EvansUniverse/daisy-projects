@@ -98,7 +98,7 @@ int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
 // Callback function invoked whenever a menu parameter is changed
 void cb(){
-    //myArp.UpdateTraversal();
+    myArp->UpdateTraversal();
 };
 
 
@@ -137,8 +137,7 @@ int main(void) {
     trigOut     = false;
     menuPos     = 0;
     isEditing   = false;
-    //debugString = "I'm a debug string";
-    debugString = myArp->chord->myString;
+    debugString = "I'm a debug string";
 
     patch.StartAdc();
 
@@ -238,6 +237,7 @@ void UpdateOled() {
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
+        debugString = myArp->chord->myString;
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         DrawString(debugString, 2, 54);

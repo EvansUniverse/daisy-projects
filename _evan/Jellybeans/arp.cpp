@@ -43,40 +43,40 @@ Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int t
 
 // Updates the arp traversal values based on the current pattern
 void Arp::UpdateTraversal(){
-    // traversal = std::vector<int>{};
+    traversal = std::vector<int>{};
 
-    // if (pattern == "Down") {
-    //     for (int i = chord.length-1; i >= 0; i--) {
-    //         traversal.push_back(i);
-    //     }
+    if (pattern == "Down") {
+        for (int i = chord->length-1; i >= 0; i--) {
+            traversal.push_back(i);
+        }
 
-    // } else if (pattern == "U+D In") {
-    //     for (int i = 0; i < chord.length; i++) {
-    //         traversal.push_back(i);
-    //     }
-    //             for (int i = chord.length-1; i > 0; i--) {
-    //         traversal.push_back(i);
-    //     }
+    } else if (pattern == "U+D In") {
+        for (int i = 0; i < chord->length; i++) {
+            traversal.push_back(i);
+        }
+                for (int i = chord->length-1; i > 0; i--) {
+            traversal.push_back(i);
+        }
 
-    // } else if (pattern == "U+D Ex") {
-    //     for (int i = 0; i < chord.length-1; i++) {
-    //         traversal.push_back(i);
-    //     }
-    //     for (int i = chord.length-1; i > 0; i--) {
-    //         traversal.push_back(i);
-    //     }
+    } else if (pattern == "U+D Ex") {
+        for (int i = 0; i < chord->length-1; i++) {
+            traversal.push_back(i);
+        }
+        for (int i = chord->length-1; i > 0; i--) {
+            traversal.push_back(i);
+        }
 
-    // } else if (pattern == "Random") {// TODO implement
-    //     // -1 will represent "random value"
-    //     traversal.push_back(-1);
+    } else if (pattern == "Random") {// TODO implement
+        // -1 will represent "random value"
+        traversal.push_back(-1);
 
-    // } else { // pattern == "Up"
-    //     for (int i = 0; i < chord.length; i++) {
-    //         traversal.push_back(i);
-    //     }
-    // }    
+    } else { // pattern == "Up"
+        for (int i = 0; i < chord->length; i++) {
+            traversal.push_back(i);
+        }
+    }    
 
-    // traversalIndex = 0;
+    traversalIndex = 0;
 }
 
 // Intended to be called every time a clock pulse is received
@@ -97,7 +97,7 @@ void Arp::UpdateStep(){
     //     // TODO this random method is biased, created a stronger random function
     //     // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
     //     // musical results
-    //     semi = chord.GetNoteAt(rand() % chord.length);
+    //     semi = chord.GetNoteAt(rand() % chord->length);
     // } else {
     //     semi = chord.GetNoteAt(step);
     // }
