@@ -12,9 +12,6 @@
 #include <map>
 #include <vector>
 #include <string>
-//#include <iostream>
-#include <chrono>
-#include <thread>
 
 #include "theory.h"
 #include "chord.h"
@@ -172,13 +169,15 @@ void DiatonicChord::Transpose(int i) {
 }
 
 int DiatonicChord::GetNoteAt(int n){
+    // If out of bounds, return the first note.
+    // This behavior could be modified in the future.
     if (n >= length) {
         return semis[0];
     }
     return semis[n];
 }
 
-// TODO make this more accurate/robust (i.e. "A minor" instead of "A triad")
+// TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
 void DiatonicChord::UpdateString(){
     myString =  allNotes5Oct[root] + " " + voicing;
 }

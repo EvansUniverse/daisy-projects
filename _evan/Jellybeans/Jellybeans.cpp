@@ -207,13 +207,13 @@ void UpdateControls() {
         isEditing = patch.encoder.RisingEdge() ? false : true;// TODO fix lmao
     }
 
-    // // Update step with respect to clock
-    // //
-    // // Currently, we'll just do 1 step per clock pulse
-    // if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
-    // {
-    //     myArp.UpdateStep();
-    // }
+    // Update step with respect to clock
+    //
+    // Currently, we'll just do 1 step per clock pulse
+    if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
+    {
+        myArp->OnClockPulse();
+    }
 }
 
 // Update Patches' screen
@@ -237,7 +237,7 @@ void UpdateOled() {
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
-        debugString = myArp->chord->myString;
+        debugString = myArp->string;
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         DrawString(debugString, 2, 54);

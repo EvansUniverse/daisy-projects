@@ -61,7 +61,7 @@ namespace jellybeans {
         Arp(int, DiatonicChord*, std::string, int);
 
         // Intended to be called every time a clock pulse is received
-        void OnStep();
+        void OnClockPulse();
 
         // Updates the whole ass arp
         void Update();

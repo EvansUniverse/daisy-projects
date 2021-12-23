@@ -10,6 +10,8 @@
 
 #include "arp.h"
 #include "chord.h"
+#include "theory.h"
+#include "utils.h"
 
 using namespace jellybeans;
 
@@ -80,47 +82,46 @@ void Arp::UpdateTraversal(){
 }
 
 // Intended to be called every time a clock pulse is received
-void Arp::OnStep(){
-    // clockCount++;
-    // if (clockCount >= clockDiv){
-    //     clockCount = 0;
-    //     this->UpdateStep();
-    // }
+void Arp::OnClockPulse(){
+    clockCount++;
+    if (clockCount >= clockDiv){
+        clockCount = 0;
+        this->UpdateStep();
+    }
 }
 
 void Arp::UpdateStep(){
-    // int semi;
-    // step = traversal[traversalIndex];
+    int semi;
+    step = traversal[traversalIndex];
 
-    // if (step < 0) {
-    //     // Random note
-    //     // TODO this random method is biased, created a stronger random function
-    //     // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
-    //     // musical results
-    //     semi = chord.GetNoteAt(rand() % chord->length);
-    // } else {
-    //     semi = chord.GetNoteAt(step);
-    // }
-
-    //debugString = std::to_string(semi);
+    if (step < 0) {
+        // Random note
+        // TODO this random method is biased, created a stronger random function
+        // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
+        // musical results
+        semi = chord->GetNoteAt(rand() % chord->length);
+    } else {
+        semi = chord->GetNoteAt(step);
+    }
 
    // trigOut = true;
-    //arpNoteDacOutput1 = SemitoneToDac(semi);
+    noteDacOutput1 = SemitoneToDac(semi);
     
-    // traversalIndex++;
-    // traversalIndex = traversalIndex % static_cast<int>(traversal.size());
+    traversalIndex++;
+    traversalIndex = traversalIndex % static_cast<int>(traversal.size());
 
-    // this->UpdateString();
+    this->UpdateString();
 }
 
-void Arp::UpdateString(){
+void Arp::UpdateString(){ // This is on hold til traversal's figured out
     // string = "";
 
     // for(int i = 0; i < maxSteps; i++){
     //     if (i == step){
-    //         string += std::to_string(chord.GetNoteAt(i));
+    //         string += //allNotes[chord->GetNoteAt(i)];
+    //         string += " ";
     //     } else {
-    //         string += "_";
+    //         string += "_ ";
     //     }
     // }
 }
