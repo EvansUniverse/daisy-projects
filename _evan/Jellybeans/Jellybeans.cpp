@@ -46,9 +46,6 @@ std::string debugString;
 // This is stored so that it's only calculated upon a change
 float arpNoteDacOutput1;
 
-// If true, send a trig to Patches' gate out 1 at the next frame
-bool trigOut;
-
 const FontDef font = Font_7x10;
 const int     fontWidth = 7;
 const int     fontHeight = 10;
@@ -72,7 +69,7 @@ const std::vector<std::string> allOctaves {
 
 void UpdateControls();
 void UpdateOled();
-//void UpdateOutputs();
+void UpdateOutputs();
 //void OnClockPulseIn();
 void DrawString(std::string, int, int);
 
@@ -134,7 +131,6 @@ int main(void) {
 
     // Initialize variables
     arpNoteDacOutput1 = 0.f;
-    trigOut     = false;
     menuPos     = 0;
     isEditing   = false;
     debugString = "I'm a debug string";
@@ -145,7 +141,7 @@ int main(void) {
     while(1){
         UpdateControls();
         UpdateOled();
-        //UpdateOutputs();
+        UpdateOutputs();
     }
 }
 
@@ -237,7 +233,8 @@ void UpdateOled() {
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
-        debugString = myArp->chord->myString;
+        // debugString = myArp->chord->toString();
+        debugString = myArp->toString();
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         DrawString(debugString, 2, 54);
@@ -255,13 +252,12 @@ void UpdateOled() {
 }
 
 // Updates Patches' output values
-// void UpdateOutputs()
-// {
-//     patch.seed.dac.WriteValue(DacHandle::Channel::ONE, arpNoteDacOutput1);
+void UpdateOutputs()
+{
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, myArp->getDacValue());
 
-//     dsy_gpio_write(&patch.gate_output, trigOut);
-//     trigOut = false;
-// }
+    dsy_gpio_write(&patch.gate_output, myArp->getNewNote());
+}
 
 /*
  * Utility functions

@@ -23,8 +23,7 @@ namespace jellybeans {
     class DiatonicChord {
     public:
         // String representation of the chord
-        // e.g. "A minor"
-        std::string myString;
+        std::string string;
 
         // The diatonic distance, in relation to the root, of 
         // each note in the chord (ascending order)
@@ -88,6 +87,8 @@ namespace jellybeans {
 
         // @return semis[n], or semis[0] n is out of bounds
         int GetNoteAt(int);
+
+        std::string toString();
     };
 
     // All possible chord voicings

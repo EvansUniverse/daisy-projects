@@ -15,7 +15,7 @@
 
 namespace jellybeans {
     class Arp {
-    public:
+    private:
         // Maximum arp steps
         int maxSteps;
 
@@ -23,18 +23,21 @@ namespace jellybeans {
         int traversalIndex;
 
         // Current step index, 0 based
-        int step; 
+        int step;
 
-        // The note value currently being sent to Patches' DAC's output 1
+        // If true, a new note is being played this frame
+        bool newNote; 
+
+        // The CV value currently being sent to Patches' DAC's output 1
         // This is stored so that it's only calculated upon a change
-        float noteDacOutput1;
+        float dacValue;
 
         // Number of clock pulses that have been received since the last reset
-        int clockCount;
+        //int clockCount;
 
         // The arp's clock division (step to the next note every X clock pulses)
         // TODO convert to int, out of say 256 notes per bar, so that we can use rapid pulses for fractional timing and swing
-        int clockDiv;
+        //int clockDiv;
 
         // Stores which arp note should be played at each next step.
         // Contains a list of indices of arpNotes
@@ -51,7 +54,7 @@ namespace jellybeans {
 
         // Underlying chord
         DiatonicChord* chord;
-
+    public:
         Arp();// : Arp(8, DiatonicChord(1, 0, "Major", "Triad"), "Up", 1) {};
 
         // @param maxSteps 
@@ -73,6 +76,15 @@ namespace jellybeans {
         void UpdateStep();
 
         void UpdateString();
+
+        std::string toString();
+
+        // Returns true if there's a new note to consume.
+        // Resets the "new note" bool, effectively telling the 
+        // arp "I've consumed the note"
+        bool getNewNote();
+
+        float getDacValue();
     };
 
     const std::vector<std::string> arpPatterns {

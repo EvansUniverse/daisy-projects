@@ -49,7 +49,7 @@ DiatonicChord::DiatonicChord(){
     this->SetMode("Major");
     this->SetVoicing("Triad");
 
-    myString ="";
+    string ="";
     this->UpdateString();
 }
 
@@ -63,7 +63,7 @@ DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, 
     this->SetMode(theMode);
     this->SetVoicing(theVoicing);
 
-    myString ="";
+    string ="";
     this->UpdateString();
 }
 
@@ -150,11 +150,15 @@ int DiatonicChord::GetNoteAt(int n){
 
 // Displayed as a list of semitones e.g. "0 4 7"
 void DiatonicChord::UpdateString(){
-    myString = "";
+    string = "";
     for(int i : semis) 
-        myString += std::to_string(i) + " ";
+        string += std::to_string(i) + " ";
 
     // Other option I'm entertaining e.g "C# Triad"
     // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
-    // myString =  allNotes5Oct[root] + " " + voicing;
+    // string =  allNotes5Oct[root] + " " + voicing;
+}
+
+std::string DiatonicChord::toString(){
+    return string;
 }

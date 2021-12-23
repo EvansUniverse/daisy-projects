@@ -19,10 +19,10 @@ Arp::Arp(){
     maxSteps = 8;
     step     = 0;
     traversalIndex = 0;
-    noteDacOutput1 = 0.f;
-    clockCount  = 0;
+    dacValue = 0.f;
+    //clockCount  = 0;
     pattern = "Up";
-    clockDiv = 1;
+    //clockDiv = 1;
     chord = new DiatonicChord();
     string = "EMPTY ARP";
 
@@ -33,10 +33,10 @@ Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int t
     maxSteps = theMaxSteps;
     step     = 0;
     traversalIndex = 0;
-    noteDacOutput1 = 0.f;
-    clockCount  = 0;
+    dacValue = 0.f;
+    //clockCount  = 0;
     pattern = thePattern;
-    clockDiv = theClockDiv;
+    //clockDiv = theClockDiv;
     chord = theChord;
     string = "EMPTY ARP";
 
@@ -83,11 +83,16 @@ void Arp::UpdateTraversal(){
 
 // Intended to be called every time a clock pulse is received
 void Arp::OnClockPulse(){
-    clockCount++;
-    if (clockCount >= clockDiv){
-        clockCount = 0;
+    // clockCount++;
+    // if (clockCount >= clockDiv){
+    //     clockCount = 0;
+
+        // reset newNote
+        // if (newNote) { 
+        //     newNote = false;
+        // }
         this->UpdateStep();
-    }
+    //}
 }
 
 void Arp::UpdateStep(){
@@ -96,6 +101,7 @@ void Arp::UpdateStep(){
 
     if (step < 0) {
         // Random note
+        //
         // TODO this random method is biased, created a stronger random function
         // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
         // musical results
@@ -104,8 +110,8 @@ void Arp::UpdateStep(){
         semi = chord->GetNoteAt(step);
     }
 
-   // trigOut = true;
-    noteDacOutput1 = SemitoneToDac(semi);
+    newNote = true;
+    dacValue = SemitoneToDac(semi);
     
     traversalIndex++;
     traversalIndex = traversalIndex % static_cast<int>(traversal.size());
@@ -114,14 +120,28 @@ void Arp::UpdateStep(){
 }
 
 void Arp::UpdateString(){ // This is on hold til traversal's figured out
-    // string = "";
+    string = "";
 
-    // for(int i = 0; i < maxSteps; i++){
-    //     if (i == step){
-    //         string += //allNotes[chord->GetNoteAt(i)];
-    //         string += " ";
-    //     } else {
-    //         string += "_ ";
-    //     }
-    // }
+    for(int i = 0; i < static_cast<int>(traversal.size()); i++){
+        if (i == step){
+            string += allNotes[chord->GetNoteAt(i)];
+            string += " ";
+        } else {
+            string += "_ ";
+        }
+    }
+}
+
+std::string Arp::toString(){
+    return string;
+}
+
+bool Arp::getNewNote(){
+    bool ret = newNote;
+    newNote = false;
+    return ret;
+}
+
+float Arp::getDacValue(){
+    return dacValue;
 }
