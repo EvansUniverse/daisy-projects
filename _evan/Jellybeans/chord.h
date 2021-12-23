@@ -21,7 +21,7 @@ namespace jellybeans {
     // Notes are represented as ints, as they correspond to mu::allNotes5Oct
     // For performance reasons, all functions assume valid input
     class DiatonicChord {
-    public:
+    private:
         // String representation of the chord
         std::string string;
 
@@ -41,9 +41,9 @@ namespace jellybeans {
         // Scale degree of the current root note
         int root;
 
-        // the number of notes in the chord
         int length;
 
+    public:
         // Must be an element of in mu::voicings (chord.h)
         std::string voicing;
 
@@ -85,8 +85,11 @@ namespace jellybeans {
         // Call this every time a property of the chord is updated.
         void UpdateChord();
 
-        // @return semis[n], or semis[0] n is out of bounds
+        // @return semis[n], or semis[0] if n is out of bounds
         int GetNoteAt(int);
+
+        // @return the number of notes in the chord
+        int getLength();
 
         std::string toString();
     };

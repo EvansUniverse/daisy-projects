@@ -39,7 +39,7 @@ namespace jellybeans {
 
         std::string DisplayValue();
 
-        std::string Value();
+        std::string value();
 
         void Increment();
 

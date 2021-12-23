@@ -162,3 +162,7 @@ void DiatonicChord::UpdateString(){
 std::string DiatonicChord::toString(){
     return string;
 }
+
+int DiatonicChord::getLength(){
+    return length;
+}

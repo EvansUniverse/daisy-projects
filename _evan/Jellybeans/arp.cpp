@@ -48,32 +48,31 @@ void Arp::UpdateTraversal(){
     traversal = std::vector<int>{};
 
     if (pattern == "Down") {
-        for (int i = chord->length-1; i >= 0; i--) {
+        for (int i = chord->getLength()-1; i >= 0; i--) {
             traversal.push_back(i);
         }
 
     } else if (pattern == "U+D In") {
-        for (int i = 0; i < chord->length; i++) {
+        for (int i = 0; i < chord->getLength(); i++) {
             traversal.push_back(i);
         }
-                for (int i = chord->length-1; i > 0; i--) {
+                for (int i = chord->getLength()-1; i > 0; i--) {
             traversal.push_back(i);
         }
 
     } else if (pattern == "U+D Ex") {
-        for (int i = 0; i < chord->length-1; i++) {
+        for (int i = 0; i < chord->getLength()-1; i++) {
             traversal.push_back(i);
         }
-        for (int i = chord->length-1; i > 0; i--) {
+        for (int i = chord->getLength()-1; i > 0; i--) {
             traversal.push_back(i);
         }
 
-    } else if (pattern == "Random") {// TODO implement
-        // -1 will represent "random value"
-        traversal.push_back(-1);
+    // } else if (pattern == "Random") {
+        // Do nothing
 
     } else { // pattern == "Up"
-        for (int i = 0; i < chord->length; i++) {
+        for (int i = 0; i < chord->getLength(); i++) {
             traversal.push_back(i);
         }
     }    
@@ -97,19 +96,17 @@ void Arp::OnClockPulse(){
 
 void Arp::UpdateStep(){
     int semi;
-    step = traversal[traversalIndex];
-
-    if (step < 0) {
-        // Random note
-        //
+    if (pattern == "Random"){
         // TODO this random method is biased, created a stronger random function
         // Maybe keep this one as a separate option (e.g. "BadRandom") if it produces interesting
         // musical results
-        semi = chord->GetNoteAt(rand() % chord->length);
+        step = rand() % chord->getLength();
     } else {
-        semi = chord->GetNoteAt(step);
+        step = traversal[traversalIndex];
     }
-
+    
+    semi = chord->GetNoteAt(step);
+    
     newNote = true;
     dacValue = SemitoneToDac(semi);
     
@@ -122,7 +119,7 @@ void Arp::UpdateStep(){
 void Arp::UpdateString(){ // This is on hold til traversal's figured out
     string = "";
 
-    for(int i = 0; i < static_cast<int>(traversal.size()); i++){
+    for(int i = 0; i < chord->getLength(); i++){
         if (i == step){
             string += allNotes[chord->GetNoteAt(i)];
             string += " ";
@@ -144,4 +141,8 @@ bool Arp::getNewNote(){
 
 float Arp::getDacValue(){
     return dacValue;
+}
+
+void Arp::setPattern(std::string p){
+    pattern = p;
 }

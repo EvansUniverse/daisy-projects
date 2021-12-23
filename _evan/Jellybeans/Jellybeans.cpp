@@ -89,12 +89,16 @@ MenuItem *mOctRng    = &menuItems[7];
 MenuItem *mOct       = &menuItems[8];
 MenuItem *mClockDiv  = &menuItems[9];
 
-
 Parameter patternParam, divisionParam, voicingParam, inversionParam;
 int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
 // Callback function invoked whenever a menu parameter is changed
 void cb(){
+    myArp->UpdateTraversal();
+};
+
+void cbPattern(){
+    myArp->setPattern(mPattern->value());
     myArp->UpdateTraversal();
 };
 
@@ -108,7 +112,7 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
-    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cb);
+    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern);
     menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
     menuItems[2] = MenuItem("Voicing  ", voicings,       0, cb);
     menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
@@ -188,7 +192,7 @@ void UpdateControls() {
             menuPos = 0;
         }
 
-        isEditing = patch.encoder.RisingEdge() ? true : false; // TODO fix lmao
+        isEditing = patch.encoder.RisingEdge();
     }
     else
     {
@@ -200,10 +204,11 @@ void UpdateControls() {
             menuItems[menuPos].Decrement();
         }
 
-        isEditing = patch.encoder.RisingEdge() ? false : true;// TODO fix lmao
+        isEditing = !patch.encoder.RisingEdge();
     }
 
     // Update step with respect to clock
+    // Accept input from either GATE IN
     //
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())

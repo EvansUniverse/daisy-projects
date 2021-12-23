@@ -40,7 +40,7 @@ std::string MenuItem::DisplayValue() {
     return  displayName + values[index];
 };
 
-std::string MenuItem::Value() {
+std::string MenuItem::value() {
     return values[index];
 }
 
