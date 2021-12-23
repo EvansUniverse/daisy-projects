@@ -26,7 +26,8 @@
 #include "daisysp.h"
 #include "daisy_patch.h"
 #include "daisysp.h"
-#include "src/resources.h"
+#include "resources.h"
+
 
 #include <string>
 #include <array>
@@ -75,7 +76,7 @@ void UpdateOled();
 //void OnClockPulseIn();
 void DrawString(std::string, int, int);
 
-Arp myArp;
+Arp* myArp;
 
 std::array<MenuItem, 10> menuItems;
 
@@ -106,7 +107,7 @@ int main(void) {
     patch.Init();
 
     // Initialize arp
-   // myArp = Arp();
+    myArp = new Arp();
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
@@ -136,7 +137,8 @@ int main(void) {
     trigOut     = false;
     menuPos     = 0;
     isEditing   = false;
-    debugString = "I'm a debug string";
+    //debugString = "I'm a debug string";
+    debugString = myArp->chord.myString;
 
     patch.StartAdc();
 

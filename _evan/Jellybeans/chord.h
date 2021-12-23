@@ -108,24 +108,4 @@ namespace jellybeans {
         "Shell 1",
         "Shell 2"
     };
-
-    // Maps voicings to the scale degrees they contain (in relation to the chord's root note)
-    const std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-        {"Triad",    std::vector<int>{1, 3, 5}},
-        {"Triad+",   std::vector<int>{1, 3, 5, 8}},
-        {"7th",      std::vector<int>{1, 3, 5, 7}},
-        {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
-        {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-        {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
-        {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-        {"6th",      std::vector<int>{1, 3, 5, 6}},
-        {"Sus2",     std::vector<int>{1, 2, 5}},
-        {"Sus4",     std::vector<int>{1, 4, 5}},
-        // disabled til its bug is fixed
-        //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-        {"Power",    std::vector<int>{1, 5}},
-        {"Power+",   std::vector<int>{1, 5, 8}},
-        {"Shell 1",  std::vector<int>{1, 7, 10}},
-        {"Shell 2",  std::vector<int>{1, 10, 14}},
-    };
 }

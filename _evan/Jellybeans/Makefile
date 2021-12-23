@@ -3,10 +3,11 @@ TARGET = Jellybeans
 
 # Sources
 CPP_SOURCES = Jellybeans.cpp \
-src/menuitem.cpp \
-src/arp.cpp \
-src/chord.cpp \
-src/theory.cpp
+theory.cpp \
+menuitem.cpp \
+arp.cpp \
+chord.cpp
+
 
 # Library Locations
 LIBDAISY_DIR = ../../libdaisy

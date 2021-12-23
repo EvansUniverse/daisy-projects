@@ -14,9 +14,13 @@
 
 #include "theory.h"
 
-using namespace jellybeans;
+using namespace jellybeans; // TODO rm?
 
-bool isDiatonic(int note, std::string mode){
-    std::vector<int> v = modeToSemitones.at(mode);
-    return std::find(v.begin(), v.end(), note % 12) != v.end();
-};
+namespace jellybeans {
+
+
+    bool isDiatonic(int note, std::string mode){
+        std::vector<int> v = modeToSemitones.at(mode);
+        return std::find(v.begin(), v.end(), note % 12) != v.end();
+    };
+}

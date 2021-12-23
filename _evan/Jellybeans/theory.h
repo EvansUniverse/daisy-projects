@@ -24,15 +24,6 @@ namespace jellybeans {
     // @param an element of mu::allModes
     bool isDiatonic(int, std::string);
 
-    // This seems redundant but it may be needed for fractional clock divs
-    const std::map<std::string, int> clockInDivToInt {
-        {"1",  1},
-        {"2",  2},
-        {"4",  4},            
-        {"8",  8},
-        {"16", 16}
-    };
-
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
     const std::vector<std::string> allNotes {
