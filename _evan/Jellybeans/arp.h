@@ -50,10 +50,12 @@ namespace jellybeans {
         std::string string;
 
         // Current root note
-        float root; //TODO delete?
+        //float root; //TODO delete?
 
         // Underlying chord
         DiatonicChord* chord;
+
+        void resetState();
     public:
         Arp();// : Arp(8, DiatonicChord(1, 0, "Major", "Triad"), "Up", 1) {};
 

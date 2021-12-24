@@ -16,9 +16,8 @@
 using namespace jellybeans;
 
 Arp::Arp(){
+    resetState();
     maxSteps = 8;
-    step     = 0;
-    traversalIndex = 0;
     dacValue = 0.f;
     //clockCount  = 0;
     pattern = "Up";
@@ -30,9 +29,8 @@ Arp::Arp(){
 }
 
 Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int theClockDiv){
+    resetState();
     maxSteps = theMaxSteps;
-    step     = 0;
-    traversalIndex = 0;
     dacValue = 0.f;
     //clockCount  = 0;
     pattern = thePattern;
@@ -77,7 +75,13 @@ void Arp::updateTraversal(){
         }
     }    
 
+    resetState();
+}
+
+void Arp::resetState(){
     traversalIndex = 0;
+    step = 0;
+    newNote = false;
 }
 
 // Intended to be called every time a clock pulse is received
@@ -114,6 +118,7 @@ void Arp::updateStep(){
     traversalIndex = traversalIndex % static_cast<int>(traversal.size());
 
     this->updateString();
+    // step and traversalindex are not reset at this point
 }
 
 void Arp::updateString(){ // This is on hold til traversal's figured out
@@ -121,7 +126,7 @@ void Arp::updateString(){ // This is on hold til traversal's figured out
 
     for(int i = 0; i < chord->getLength(); i++){
         if (i == step){
-            string += allNotes[chord->getNoteAt(i)];
+            string += allNotes5Oct[chord->getNoteAt(i)]; //oob?
             string += " ";
         } else {
             string += "_ ";

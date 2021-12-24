@@ -69,9 +69,9 @@ DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, 
 
 void DiatonicChord::updateChord(){
     int degree;
-    int oct;
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at("Triad").size());
-  //int scaleLen = static_cast<int>(modeToSemitones.at(mode).size());
+    //int oct;
+    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size());
+    int scaleLen = static_cast<int>(modeToSemitones.at(mode).size());
     semis = std::vector<int>(chordLen);
     length = chordLen;
 
@@ -83,8 +83,15 @@ void DiatonicChord::updateChord(){
         // Offset by 1 since the values of the maps are 1-inedexed
         degree--;
 
+        // Offset notes in higher registers
+        int offset = 0;
+        while (degree + 1 > scaleLen) { // degree + 1?
+            degree -= scaleLen;
+            offset++;
+        }
+
         // Calculate the semitone value
-        semis[i] = modeToSemitones.at(mode)[degree]; //+ 12 * (oct + mOct->index) + mTonic->index;
+        semis[i] = modeToSemitones.at(mode)[degree] + 12 * offset; //+ 12 * (oct + mOct->index) + mTonic->index;
 
         // If the value exceeds our note range, bring it up/down an octave until it fits
         while (semis[i] > MAX_NOTE){
@@ -97,6 +104,29 @@ void DiatonicChord::updateChord(){
 
     this->updateString();
 }
+
+void DiatonicChord::transpose(int i) {
+    if (modeRoot + i < MIN_NOTE || modeRoot + i > MAX_NOTE){
+        return;
+    }
+    modeRoot += i;
+    updateChord();
+}
+
+// Displayed as a list of semitones e.g. "0 4 7"
+void DiatonicChord::updateString(){
+    string = "";
+    for(int i : semis) 
+        string += std::to_string(i) + " ";
+
+    // Other option I'm entertaining e.g "C# Triad"
+    // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
+    // string =  allNotes5Oct[root] + " " + voicing;
+}
+
+/*
+ * Setters
+ */
 
 void DiatonicChord::setRoot(int theRoot){
     root = theRoot;
@@ -116,28 +146,24 @@ void DiatonicChord::setRootByNote(int theRoot){
     updateChord();
 }
 
-void DiatonicChord::setModeRoot(int theModeRoot){
-    modeRoot = theModeRoot;
+void DiatonicChord::setModeRoot(int i){
+    modeRoot = i;
     updateChord();
 }
 
-void DiatonicChord::setMode(std::string theMode){
-    mode = theMode;
+void DiatonicChord::setMode(std::string s){
+    mode = s;
     updateChord();
 }
 
-void DiatonicChord::setVoicing(std::string theVoicing){
-    voicing = theVoicing;
+void DiatonicChord::setVoicing(std::string s){
+    voicing = s;
     updateChord();
 }
 
-void DiatonicChord::transpose(int i) {
-    if (modeRoot + i < MIN_NOTE || modeRoot + i > MAX_NOTE){
-        return;
-    }
-    modeRoot += i;
-    updateChord();
-}
+/*
+ * Getters
+ */
 
 int DiatonicChord::getNoteAt(int n){
     // If out of bounds, return the first note.
@@ -148,21 +174,10 @@ int DiatonicChord::getNoteAt(int n){
     return semis[n];
 }
 
-// Displayed as a list of semitones e.g. "0 4 7"
-void DiatonicChord::updateString(){
-    string = "";
-    for(int i : semis) 
-        string += std::to_string(i) + " ";
-
-    // Other option I'm entertaining e.g "C# Triad"
-    // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
-    // string =  allNotes5Oct[root] + " " + voicing;
+int DiatonicChord::getLength(){
+    return length;
 }
 
 std::string DiatonicChord::toString(){
     return string;
-}
-
-int DiatonicChord::getLength(){
-    return length;
 }

@@ -73,7 +73,7 @@ void updateOutputs();
 //void onClockPulseIn();
 void drawString(std::string, int, int);
 
-Arp* myArp;
+Arp* arp;
 
 std::array<MenuItem, 10> menuItems;
 
@@ -94,26 +94,27 @@ int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
 // Callback functions invoked whenever menu parameters are changed
 void cb(){
-    myArp->updateTraversal();
+    arp->updateTraversal();
 };
 
 void cbPattern(){
-    myArp->setPattern(mPattern->value());
-    myArp->updateTraversal();
+    arp->setPattern(mPattern->value());
+    arp->updateTraversal();
 };
 
 void cbVoicing(){
-    myArp->getChord()->setVoicing(mVoicing->value());
-    myArp->updateTraversal();
+    arp->getChord()->setVoicing(mVoicing->value());
+    updateOled();
+    arp->updateTraversal();
+    updateOled();
 };
-
 
 int main(void) {
     // Initialize hardware
     patch.Init();
 
     // Initialize arp
-    myArp = new Arp();
+    arp = new Arp();
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
@@ -218,7 +219,7 @@ void updateControls() {
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
     {
-        myArp->onClockPulse();
+        arp->onClockPulse();
     }
 }
 
@@ -233,7 +234,7 @@ void updateOled() {
     patch.display.Fill(false);  
 
     // Draw the top bar
-    drawString(myArp->toString(), 0, 0);
+    drawString(arp->toString(), 0, 0);
     patch.display.DrawLine(0, 11, 128, 11, true);
 
     // Draw the cursor indicator
@@ -243,7 +244,7 @@ void updateOled() {
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
-        debugString = myArp->getChord()->toString();
+        debugString = arp->getChord()->toString();
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         drawString(debugString, 2, 54);
@@ -263,9 +264,9 @@ void updateOled() {
 // Updates Patches' output values
 void updateOutputs()
 {
-    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, myArp->getDacValue());
+    patch.seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue());
 
-    dsy_gpio_write(&patch.gate_output, myArp->getNewNote());
+    dsy_gpio_write(&patch.gate_output, arp->getNewNote());
 }
 
 /*
