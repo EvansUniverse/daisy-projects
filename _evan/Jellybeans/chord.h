@@ -25,65 +25,46 @@ namespace jellybeans {
         // String representation of the chord
         std::string string;
 
-        // The diatonic distance, in relation to the root, of 
-        // each note in the chord (ascending order)
-        std::vector<int> notes;
-
         // Semitone value of each note in the chord
         std::vector<int> semis;
 
-        // Must be an element of mu::modes (theory.h)
+        // string ∈ theory.h::modes
         std::string mode;
 
-        // Root note of current mode
-        int modeRoot;
-
-        // Scale degree of the current root note
+        // Semitone value of the current root note
         int root;
 
+        // Number of notes in the chord
         int length;
 
-        // Must be an element of voicings
+        // ∈ theory.h::voicings
         std::string voicing;
     public:
 
         // Default is C major triad
-        DiatonicChord(); // : DiatonicChord(1, 0, "Major", "Triad") {};
+        DiatonicChord(); // : DiatonicChord(0, "Major", "Triad") {};
 
-        // @param chord root - scale degree  int from 0-7
-        // @param mode root - the note value, int from 0-12
-        // @param mode - an element of mu::allModes
-        // @param voicing - an element of mu::voicings
-        DiatonicChord(int, int, std::string, std::string);
+        // @param root - semitone value, 0-11
+        // @param mode - ∈ theory.h::allModes
+        // @param voicing - ∈ theory.h::voicings
+        DiatonicChord(int, std::string, std::string);
 
         // Updates the value of string, so that it only needs to be 
         // computed when necessary
         void updateString();
 
-        // @param the index of a note
-        // Sets the root of the chord to the given note. If it's a non-diatonic note, 
-        // transpose it up a semitone to become diatonic.
-        void setRootByNote(int);
-
-        // @param the scale degree of the desired root note, int from 0-7
-        void setRoot(int);
-
-        // @param the note value of the desired mode root, int from 0-12
-        void setModeRoot(int);
-
-        // @param an element of mu::allModes
-        void setMode(std::string);
-
-        // @param an element of mu::voicings
-        void setVoicing(std::string);
-
-        // Transposes all notes in the chord by the given number of semitones.
-        // If a note would fall out of register, do nothing.
-        void transpose(int);
-
         // Given the chord's properties, formulates the chord.
         // Call this every time a property of the chord is updated.
         void updateChord();
+
+        // @param semitone value the desired root note
+        void setRoot(int);
+
+        // @param string ∈ theory.h::allModes
+        void setMode(std::string);
+
+        // @param string ∈ theory.h::voicings
+        void setVoicing(std::string);
 
         // @return semis[n], or semis[0] if n is out of bounds
         int getNoteAt(int);

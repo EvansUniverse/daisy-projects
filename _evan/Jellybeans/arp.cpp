@@ -81,7 +81,7 @@ void Arp::updateTraversal(){
 void Arp::resetState(){
     traversalIndex = 0;
     step = 0;
-    newNote = false;
+    trig = false;
 }
 
 // Intended to be called every time a clock pulse is received
@@ -90,9 +90,9 @@ void Arp::onClockPulse(){
     // if (clockCount >= clockDiv){
     //     clockCount = 0;
 
-        // reset newNote
-        // if (newNote) { 
-        //     newNote = false;
+        // reset trig
+        // if (trig) { 
+        //     trig = false;
         // }
         this->updateStep();
     //}
@@ -111,7 +111,7 @@ void Arp::updateStep(){
     
     semi = chord->getNoteAt(step);
     
-    newNote = true;
+    trig = true;
     dacValue = semitoneToDac(semi);
     
     traversalIndex++;
@@ -141,9 +141,9 @@ void Arp::updateString(){
  * Getters
  */
 
-bool Arp::getNewNote(){
-    bool ret = newNote;
-    newNote = false;
+bool Arp::getTrig(){
+    bool ret = trig;
+    trig = false;
     return ret;
 }
 

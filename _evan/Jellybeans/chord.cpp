@@ -19,9 +19,8 @@
 using namespace jellybeans;
 
 DiatonicChord::DiatonicChord(){
-    root = 1;
+    root = 0;
     mode = "Major";
-    modeRoot = 0;
     voicing = "Triad";
 
     this->setRoot(1);
@@ -29,16 +28,19 @@ DiatonicChord::DiatonicChord(){
     this->setVoicing("Triad");
 }
 
-DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, std::string theVoicing){
+DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing){
     root = theRoot;
     mode = theMode;
-    modeRoot = theModeRoot;
     voicing = theVoicing;
 
     this->setRoot(theRoot);
     this->setMode(theMode);
     this->setVoicing(theVoicing);
 }
+
+/*
+ * Updaters
+ */
 
 void DiatonicChord::updateChord(){
     int degree;
@@ -63,7 +65,7 @@ void DiatonicChord::updateChord(){
         }
 
         // Calculate the semitone value
-        semis[i] = modeToSemitones.at(mode)[degree] + 12 * offset;
+        semis[i] = modeToSemitones.at(mode)[degree] + (12 * offset) + root;
 
         // If the value exceeds our note range, bring it up/down an octave until it fits
         while (semis[i] > MAX_NOTE){
@@ -77,19 +79,16 @@ void DiatonicChord::updateChord(){
     this->updateString();
 }
 
-void DiatonicChord::transpose(int i) {
-    if (modeRoot + i < MIN_NOTE || modeRoot + i > MAX_NOTE){
-        return;
-    }
-    modeRoot += i;
-    updateChord();
-}
-
-// Displayed as a list of semitones e.g. "0 4 7"
+// Displayed as a list of notes e.g. "C E G#"
 void DiatonicChord::updateString(){
     string = "";
-    for(int i : semis) 
-        string += std::to_string(i) + " ";
+     for(int i : semis) 
+        string += allNotes[i % 12] + " ";
+
+
+    // Other option I'm entertaining: list of semis e.g. "0 4 7"
+    // for(int i : semis) 
+    //     string += std::to_string(i) + " ";
 
     // Other option I'm entertaining e.g "C# Triad"
     // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
@@ -100,26 +99,8 @@ void DiatonicChord::updateString(){
  * Setters
  */
 
-void DiatonicChord::setRoot(int theRoot){
-    root = theRoot;
-    updateChord();
-}
-
-// TODO this is untested
-void DiatonicChord::setRootByNote(int theRoot){
-    // Quantize theRoot
-    if(!isDiatonic(theRoot, mode)){
-        theRoot == MAX_NOTE ? theRoot-- : theRoot++;
-    }
-
-    // Set root to the scale degree of theRoot
-    std::vector<int> s = modeToSemitones.at(mode);
-    theRoot = distance(s.begin(), std::find(s.begin(), s.end(), theRoot % 12)) + 1;
-    updateChord();
-}
-
-void DiatonicChord::setModeRoot(int i){
-    modeRoot = i;
+void DiatonicChord::setRoot(int i){
+    root = i;
     updateChord();
 }
 

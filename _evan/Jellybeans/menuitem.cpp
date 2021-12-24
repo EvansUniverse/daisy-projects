@@ -18,36 +18,18 @@ using namespace jellybeans;
 
 MenuItem::MenuItem(){};
 
-// aDefault must be a valid index in aValues
-MenuItem::MenuItem(std::string aName, std::vector<std::string> aValues, int aDefault, std::function<void ()> cb){
-    name = aName;
-    values = aValues;
-    index = aDefault;
-    onChangeCallback = cb;
-
-    // TODO: implement a menu class that contains a list of menuItems, it can track this
-    // For everything to line up neatly, each menu item's displayName 
-    // needs to be padded with enough spaces to be in line with the 
-    // end of the longest name, plus 1 additional space. The longest 
-    // menu item name is currently "Inversion" with 10 chars.
-    displayName = aName;
-    for (unsigned int i = 0; i < 10 - name.length(); i++) {
-        displayName += " ";
-    }
+MenuItem::MenuItem(std::string theTitle, std::vector<std::string> theValues, int theDefault, std::function<void ()> theCallback){
+    values   = theValues;
+    index    = theDefault;
+    title    = theTitle;
+    callback = theCallback;
 };
 
-std::string MenuItem::displayValue() {
-    return  displayName + values[index];
-};
-
-std::string MenuItem::value() {
-    return values[index];
-}
 
 void MenuItem::increment(){
     index++;
     index = index % values.size();
-    onChange();
+    callback();
 };
 
 void MenuItem::decrement(){
@@ -55,15 +37,18 @@ void MenuItem::decrement(){
     if (index < 0){
         index = values.size() - 1;
     }
-    onChange();
+    callback();
 };
 
 void MenuItem::setIndex(int i){
     index = i;
-    onChange();
+    callback();
 };
 
-// Executed every time this item's value is changed
-void MenuItem::onChange(){
-    onChangeCallback();
+std::string MenuItem::getDisplayString() {
+    return  title + getValue();
 };
+
+std::string MenuItem::getValue() {
+    return values[index];
+}

@@ -25,11 +25,12 @@ namespace jellybeans {
         // Current step index, 0 based
         int step;
 
-        // If true, a new note is being played this frame
-        bool newNote; 
+        // If true, a new note is being played this frame and a trigger
+        // should be sent out.
+        bool trig; 
 
         // The CV value currently being sent to Patches' DAC's output 1
-        // This is stored so that it's only calculated upon a change
+        // This is stored so that it's only calculated when necessary
         float dacValue;
 
         // Number of clock pulses that have been received since the last reset
@@ -61,7 +62,7 @@ namespace jellybeans {
 
         // @param maxSteps
         // @param chord
-        // @param pattern - must be an element of arpPatterns
+        // @param pattern - ∈ arpPatterns
         // @param clockDiv
         Arp(int, DiatonicChord*, std::string, int);
 
@@ -78,17 +79,15 @@ namespace jellybeans {
 
         std::string toString();
 
-        // Returns true if there's a new note to consume.
-        // Resets the "new note" bool, effectively telling the 
-        // arp "I've consumed the note"
-        bool getNewNote();
+        // Returns true if there's a new note trigger. Also resets the 
+        // trigger bool, effectively telling the arp "I've consumed the trigger"
+        bool getTrig();
 
         float getDacValue();
 
         DiatonicChord* getChord();
 
-        //void setMaxSteps(int);
-        //void setChord(DiatonicChord*);
+        // @param ∈ arpPatterns
         void setPattern(std::string);
     };
 

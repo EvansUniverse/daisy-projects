@@ -57,7 +57,7 @@ bool isEditing;
 
 // Given the 1V/oct and 0-5V range of the CV out port,
 // we are limited to a 5 octave register. Voicings span
-// up to 2 octaves and coarse tuning (mTonic) spans another,
+// up to 2 octaves and coarse tuning (mRoot) spans another,
 // leaving us 2 octaves of room for upwards transposition.
 //
 // Note that the indices of the elements are also their octave distances from 0
@@ -82,7 +82,7 @@ MenuItem *mPattern   = &menuItems[0];
 MenuItem *mDivision  = &menuItems[1];
 MenuItem *mVoicing   = &menuItems[2];
 MenuItem *mInversion = &menuItems[3];
-MenuItem *mTonic     = &menuItems[4];
+MenuItem *mRoot      = &menuItems[4];
 MenuItem *mMode      = &menuItems[5];
 MenuItem *mRhythm    = &menuItems[6];
 MenuItem *mOctRng    = &menuItems[7];
@@ -93,22 +93,25 @@ Parameter patternParam, divisionParam, voicingParam, inversionParam;
 int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
 // Callback functions invoked whenever menu parameters are changed
-void cb(){
-    arp->updateTraversal();
-};
+void cb(){};
 
 void cbPattern(){
-    arp->setPattern(mPattern->value());
+    arp->setPattern(mPattern->getValue());
     arp->updateTraversal();
 };
 
 void cbVoicing(){
-    arp->getChord()->setVoicing(mVoicing->value());
+    arp->getChord()->setVoicing(mVoicing->getValue());
     arp->updateTraversal();
 };
 
 void cbMode(){
-    arp->getChord()->setMode(mMode->value());
+    arp->getChord()->setMode(mMode->getValue());
+    arp->updateTraversal();
+};
+
+void cbRoot(){
+   // arp->getChord()->setRoot(mRoot->getValue());
     arp->updateTraversal();
 };
 
@@ -121,12 +124,12 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
-    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern); // TODO why does this initialize as down?
+    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern);
     menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
     menuItems[2] = MenuItem("Voicing  ", voicings,       0, cbVoicing);
     menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
-    menuItems[4] = MenuItem("Tonic    ", allNotes,       0, cb);
-    menuItems[5] = MenuItem("Mode     ", modes,          0, cb);
+    menuItems[4] = MenuItem("Root     ", allNotes,       0, cbRoot);
+    menuItems[5] = MenuItem("Mode     ", modes,          0, cbMode);
     menuItems[6] = MenuItem("N/A      ", arpRhythms,     0, cb); // Rhythm
     menuItems[7] = MenuItem("N/A      ", allOctaves,     0, cb); // Oct Rng
     menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);
@@ -257,7 +260,7 @@ void updateOled() {
     // Draw each menu item
     for(int i = menuPos; i < menuPos + listSize; i++){
         if (i < (int) menuItems.size()){
-            drawString(menuItems[i].displayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
+            drawString(menuItems[i].getDisplayString(), fontWidth, (i - menuPos) * fontHeight + 12);
         }    
     }
 
@@ -269,7 +272,7 @@ void updateOled() {
 void updateOutputs()
 {
     patch.seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue());
-    dsy_gpio_write(&patch.gate_output, arp->getNewNote());
+    dsy_gpio_write(&patch.gate_output, arp->getTrig());
 }
 
 /*

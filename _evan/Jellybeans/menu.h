@@ -8,29 +8,29 @@
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
-#pragma once
-#include <vector>
+// #pragma once
+// #include <vector>
 
 
-namespace jellybeans {
-    class Menu {
-    public:
-        std::vector<MenuItem> items;
+// namespace jellybeans {
+//     class Menu {
+//     public:
+//         std::vector<MenuItem> items;
 
-        // For everything to line up neatly, each menu item's displayName 
-        // needs to be padded with enough spaces to be in line with the 
-        // end of the longest name, plus 1 additional space. 
-        int longestName;
+//         // For everything to line up neatly, each menu item's displayName 
+//         // needs to be padded with enough spaces to be in line with the 
+//         // end of the longest name, plus 1 additional space. 
+//         int longestName;
 
-        // Font size should be scalable. Things like max char width can be obtained programatically
-        int screenWidth;
-        int screenHeight;
-        int fontWidth;
-        int fontHeight;
+//         // Font size should be scalable. Things like max char width can be obtained programatically
+//         int screenWidth;
+//         int screenHeight;
+//         int fontWidth;
+//         int fontHeight;
 
-        Menu();
+//         Menu();
 
-        // Create an empty menu item
-        void Append();
-    };
-}
+//         // Create an empty menu item
+//         void Append();
+//     };
+// }
