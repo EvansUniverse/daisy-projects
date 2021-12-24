@@ -126,7 +126,7 @@ void Arp::updateString(){ // This is on hold til traversal's figured out
 
     for(int i = 0; i < chord->getLength(); i++){
         if (i == step){
-            string += allNotes5Oct[chord->getNoteAt(i)]; //oob?
+            string += allNotes5Oct[chord->getNoteAt(i)];
             string += " ";
         } else {
             string += "_ ";

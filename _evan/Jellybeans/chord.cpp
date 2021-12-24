@@ -24,9 +24,9 @@ std::map<std::string, std::vector<int>> voicingToScaleDegrees {
     {"Triad",    std::vector<int>{1, 3, 5}},
     {"Triad+",   std::vector<int>{1, 3, 5, 8}},
     {"7th",      std::vector<int>{1, 3, 5, 7}},
-    {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
+    {"7th+",     std::vector<int>{1, 3, 5, 7, 8}}, // TODO: bug when switching from 7th to 7th+
     {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
+    {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}}, // TODO: bug when switching from 13th to 11th
     {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
     {"6th",      std::vector<int>{1, 3, 5, 6}},
     {"Sus2",     std::vector<int>{1, 2, 5}},

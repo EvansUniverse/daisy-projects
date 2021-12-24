@@ -104,9 +104,7 @@ void cbPattern(){
 
 void cbVoicing(){
     arp->getChord()->setVoicing(mVoicing->value());
-    updateOled();
     arp->updateTraversal();
-    updateOled();
 };
 
 int main(void) {
@@ -245,6 +243,7 @@ void updateOled() {
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
         debugString = arp->getChord()->toString();
+
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
         drawString(debugString, 2, 54);
@@ -265,7 +264,6 @@ void updateOled() {
 void updateOutputs()
 {
     patch.seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue());
-
     dsy_gpio_write(&patch.gate_output, arp->getNewNote());
 }
 

@@ -10,7 +10,8 @@
 
 #pragma once
 
-#include <cmath>
+//#include <cmath>
+#include <string>
 
 namespace jellybeans {
     // Converts a semitone value to data that can be supplied to Daisy Seed's DAC
@@ -21,7 +22,15 @@ namespace jellybeans {
     //
     // @param semi: an integer between 0-60 representing the number of semitones from low C
     float semitoneToDac(int semi) {
-        return round((semi / 12.f) * 819.2f);
+        if (semi == 0) { // DEBUG
+            return 0.f;
+        }
+
+        // TODO: Idk why, but values of 0 are about a half a semitone out of tune. Adding 25 here seems to fix this.
+        // I'll leave this hack here until someone on the forums can help me figure out a better equation.
+        //
+        // TODO: 25 is still a wee bit off, use the tuner to figure out a more precise offset.
+        return round((semi / 12.f) * 819.2f) + 25.f; 
     }
 
     // Converts a float from a libdaisy.Param's .Process() method to an int value, rounded down
