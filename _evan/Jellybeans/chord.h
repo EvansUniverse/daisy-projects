@@ -93,23 +93,4 @@ namespace jellybeans {
 
         std::string toString();
     };
-
-    // All possible chord voicings
-    const std::vector<std::string> voicings {
-        "Triad",
-        "Triad+",
-        "7th",
-        "7th+"
-        "9th",
-        "11th",
-        "13th",
-        "6th",
-        "Sus2",
-        "Sus4",
-        // disabled til its bug is fixed
-        //"Kenny B.",  // Kenny Barron chord 
-        "Power",
-        "Shell 1",
-        "Shell 2"
-    };
 }

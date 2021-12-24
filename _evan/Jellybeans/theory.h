@@ -16,7 +16,8 @@
 
 namespace jellybeans {
 
-    const int MAX_NOTE = 60;
+    // Temporarily moved down from 60 due to dac conversion bug
+    const int MAX_NOTE = 59;// 60;
     const int MIN_NOTE = 0;
 
     // Returns true if the given note is diatonic to the given mode
@@ -103,7 +104,8 @@ namespace jellybeans {
         "G#4",
         "A4",
         "A#4",
-        "B4"
+        // Temporarily removed due to dac conversion bug
+        // "B4"
     };
 
     // Note: Mode names are currently abbreviated due to 
@@ -130,6 +132,46 @@ namespace jellybeans {
         {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
         {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
     };
+
+    // Maps chord voicings to the scale degrees they contain (in relation to the chord's root note)
+    const std::map<std::string, std::vector<int>> voicingToScaleDegrees {
+        {"Triad",    std::vector<int>{1, 3, 5}},
+        {"Triad+",   std::vector<int>{1, 3, 5, 8}},
+        {"7th",      std::vector<int>{1, 3, 5, 7}},
+        {"7th+",     std::vector<int>{1, 3, 5, 7, 8}}, // TODO: bug when switching from 7th to 7th+
+        {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
+        {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}}, // TODO: bug when switching from 13th to 11th
+        {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
+        {"6th",      std::vector<int>{1, 3, 5, 6}},
+        {"Sus2",     std::vector<int>{1, 2, 5}},
+        {"Sus4",     std::vector<int>{1, 4, 5}},
+        // disabled til its bug is fixed
+        //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
+        {"Power",    std::vector<int>{1, 5}},
+        {"Power+",   std::vector<int>{1, 5, 8}},
+        {"Shell 1",  std::vector<int>{1, 7, 10}},
+        {"Shell 2",  std::vector<int>{1, 10, 14}},
+    };
+
+    // All possible chord voicings
+    const std::vector<std::string> voicings {
+        "Triad",
+        "Triad+",
+        "7th",
+        "7th+",
+        "9th",
+        "11th",
+        "13th",
+        "6th",
+        "Sus2",
+        "Sus4",
+        // disabled til its bug is fixed
+        //"Kenny B.",  // Kenny Barron chord 
+        "Power",
+        "Shell 1",
+        "Shell 2"
+    };
+
 
     const std::vector<std::string> allInversions {
         "None",

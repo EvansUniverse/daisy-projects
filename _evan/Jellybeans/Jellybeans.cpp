@@ -63,8 +63,8 @@ bool isEditing;
 // Note that the indices of the elements are also their octave distances from 0
 const std::vector<std::string> allOctaves {
     "0",
-    "+1", // TODO re-enable these once out-of-bounds notes have been handled
-    "+2"
+    //"+1", // TODO re-enable these once out-of-bounds notes have been handled
+   // "+2"
 };
 
 void updateControls();
@@ -83,7 +83,7 @@ MenuItem *mDivision  = &menuItems[1];
 MenuItem *mVoicing   = &menuItems[2];
 MenuItem *mInversion = &menuItems[3];
 MenuItem *mTonic     = &menuItems[4];
-MenuItem *mScale     = &menuItems[5];
+MenuItem *mMode      = &menuItems[5];
 MenuItem *mRhythm    = &menuItems[6];
 MenuItem *mOctRng    = &menuItems[7];
 MenuItem *mOct       = &menuItems[8];
@@ -107,6 +107,11 @@ void cbVoicing(){
     arp->updateTraversal();
 };
 
+void cbMode(){
+    arp->getChord()->setMode(mMode->value());
+    arp->updateTraversal();
+};
+
 int main(void) {
     // Initialize hardware
     patch.Init();
@@ -116,12 +121,12 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
-    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern);
+    menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern); // TODO why does this initialize as down?
     menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
     menuItems[2] = MenuItem("Voicing  ", voicings,       0, cbVoicing);
     menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
     menuItems[4] = MenuItem("Tonic    ", allNotes,       0, cb);
-    menuItems[5] = MenuItem("Scale    ", modes,          0, cb);
+    menuItems[5] = MenuItem("Mode     ", modes,          0, cb);
     menuItems[6] = MenuItem("N/A      ", arpRhythms,     0, cb); // Rhythm
     menuItems[7] = MenuItem("N/A      ", allOctaves,     0, cb); // Oct Rng
     menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);

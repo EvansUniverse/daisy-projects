@@ -121,13 +121,16 @@ void Arp::updateStep(){
     // step and traversalindex are not reset at this point
 }
 
-void Arp::updateString(){ // This is on hold til traversal's figured out
+// E.g. "_ _ C#_ _" or  "A _ _"
+void Arp::updateString(){
     string = "";
 
     for(int i = 0; i < chord->getLength(); i++){
         if (i == step){
-            string += allNotes5Oct[chord->getNoteAt(i)];
-            string += " ";
+            string += allNotes[chord->getNoteAt(i) % 12];
+            if (string.back() != '#'){
+                string += " ";
+            }
         } else {
             string += "_ ";
         }

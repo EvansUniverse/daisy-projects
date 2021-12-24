@@ -18,27 +18,6 @@
 
 using namespace jellybeans;
 
-
-// Maps voicings to the scale degrees they contain (in relation to the chord's root note)
-std::map<std::string, std::vector<int>> voicingToScaleDegrees {
-    {"Triad",    std::vector<int>{1, 3, 5}},
-    {"Triad+",   std::vector<int>{1, 3, 5, 8}},
-    {"7th",      std::vector<int>{1, 3, 5, 7}},
-    {"7th+",     std::vector<int>{1, 3, 5, 7, 8}}, // TODO: bug when switching from 7th to 7th+
-    {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-    {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}}, // TODO: bug when switching from 13th to 11th
-    {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
-    {"6th",      std::vector<int>{1, 3, 5, 6}},
-    {"Sus2",     std::vector<int>{1, 2, 5}},
-    {"Sus4",     std::vector<int>{1, 4, 5}},
-    // disabled til its bug is fixed
-    //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
-    {"Power",    std::vector<int>{1, 5}},
-    {"Power+",   std::vector<int>{1, 5, 8}},
-    {"Shell 1",  std::vector<int>{1, 7, 10}},
-    {"Shell 2",  std::vector<int>{1, 10, 14}},
-};
-
 DiatonicChord::DiatonicChord(){
     root = 1;
     mode = "Major";
@@ -48,9 +27,6 @@ DiatonicChord::DiatonicChord(){
     this->setRoot(1);
     this->setMode("Major");
     this->setVoicing("Triad");
-
-    string ="";
-    this->updateString();
 }
 
 DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, std::string theVoicing){
@@ -62,15 +38,11 @@ DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, 
     this->setRoot(theRoot);
     this->setMode(theMode);
     this->setVoicing(theVoicing);
-
-    string ="";
-    this->updateString();
 }
 
 void DiatonicChord::updateChord(){
     int degree;
-    //int oct;
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size());
+    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size()); // death occurs in one of these 3 lines
     int scaleLen = static_cast<int>(modeToSemitones.at(mode).size());
     semis = std::vector<int>(chordLen);
     length = chordLen;
@@ -83,15 +55,15 @@ void DiatonicChord::updateChord(){
         // Offset by 1 since the values of the maps are 1-inedexed
         degree--;
 
-        // Offset notes in higher registers
+        // Offset notes in higher octave registers
         int offset = 0;
-        while (degree + 1 > scaleLen) { // degree + 1?
+        while (degree + 1 > scaleLen) {
             degree -= scaleLen;
             offset++;
         }
 
         // Calculate the semitone value
-        semis[i] = modeToSemitones.at(mode)[degree] + 12 * offset; //+ 12 * (oct + mOct->index) + mTonic->index;
+        semis[i] = modeToSemitones.at(mode)[degree] + 12 * offset;
 
         // If the value exceeds our note range, bring it up/down an octave until it fits
         while (semis[i] > MAX_NOTE){
