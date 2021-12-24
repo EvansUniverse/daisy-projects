@@ -45,12 +45,12 @@ DiatonicChord::DiatonicChord(){
     modeRoot = 0;
     voicing = "Triad";
 
-    this->SetRoot(1);
-    this->SetMode("Major");
-    this->SetVoicing("Triad");
+    this->setRoot(1);
+    this->setMode("Major");
+    this->setVoicing("Triad");
 
     string ="";
-    this->UpdateString();
+    this->updateString();
 }
 
 DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, std::string theVoicing){
@@ -59,15 +59,15 @@ DiatonicChord::DiatonicChord(int theRoot, int theModeRoot, std::string theMode, 
     modeRoot = theModeRoot;
     voicing = theVoicing;
 
-    this->SetRoot(theRoot);
-    this->SetMode(theMode);
-    this->SetVoicing(theVoicing);
+    this->setRoot(theRoot);
+    this->setMode(theMode);
+    this->setVoicing(theVoicing);
 
     string ="";
-    this->UpdateString();
+    this->updateString();
 }
 
-void DiatonicChord::UpdateChord(){
+void DiatonicChord::updateChord(){
     int degree;
     int oct;
     int chordLen = static_cast<int>(voicingToScaleDegrees.at("Triad").size());
@@ -95,16 +95,16 @@ void DiatonicChord::UpdateChord(){
         }
     }
 
-    this->UpdateString();
+    this->updateString();
 }
 
-void DiatonicChord::SetRoot(int theRoot){
+void DiatonicChord::setRoot(int theRoot){
     root = theRoot;
-    UpdateChord();
+    updateChord();
 }
 
 // TODO this is untested
-void DiatonicChord::SetRootByNote(int theRoot){
+void DiatonicChord::setRootByNote(int theRoot){
     // Quantize theRoot
     if(!isDiatonic(theRoot, mode)){
         theRoot == MAX_NOTE ? theRoot-- : theRoot++;
@@ -113,33 +113,33 @@ void DiatonicChord::SetRootByNote(int theRoot){
     // Set root to the scale degree of theRoot
     std::vector<int> s = modeToSemitones.at(mode);
     theRoot = distance(s.begin(), std::find(s.begin(), s.end(), theRoot % 12)) + 1;
-    UpdateChord();
+    updateChord();
 }
 
-void DiatonicChord::SetModeRoot(int theModeRoot){
+void DiatonicChord::setModeRoot(int theModeRoot){
     modeRoot = theModeRoot;
-    UpdateChord();
+    updateChord();
 }
 
-void DiatonicChord::SetMode(std::string theMode){
+void DiatonicChord::setMode(std::string theMode){
     mode = theMode;
-    UpdateChord();
+    updateChord();
 }
 
-void DiatonicChord::SetVoicing(std::string theVoicing){
+void DiatonicChord::setVoicing(std::string theVoicing){
     voicing = theVoicing;
-    UpdateChord();
+    updateChord();
 }
 
-void DiatonicChord::Transpose(int i) {
+void DiatonicChord::transpose(int i) {
     if (modeRoot + i < MIN_NOTE || modeRoot + i > MAX_NOTE){
         return;
     }
     modeRoot += i;
-    UpdateChord();
+    updateChord();
 }
 
-int DiatonicChord::GetNoteAt(int n){
+int DiatonicChord::getNoteAt(int n){
     // If out of bounds, return the first note.
     // This behavior could be modified in the future.
     if (n >= length) {
@@ -149,7 +149,7 @@ int DiatonicChord::GetNoteAt(int n){
 }
 
 // Displayed as a list of semitones e.g. "0 4 7"
-void DiatonicChord::UpdateString(){
+void DiatonicChord::updateString(){
     string = "";
     for(int i : semis) 
         string += std::to_string(i) + " ";

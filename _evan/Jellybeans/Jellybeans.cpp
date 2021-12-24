@@ -67,11 +67,11 @@ const std::vector<std::string> allOctaves {
     "+2"
 };
 
-void UpdateControls();
-void UpdateOled();
-void UpdateOutputs();
-//void OnClockPulseIn();
-void DrawString(std::string, int, int);
+void updateControls();
+void updateOled();
+void updateOutputs();
+//void onClockPulseIn();
+void drawString(std::string, int, int);
 
 Arp* myArp;
 
@@ -92,14 +92,19 @@ MenuItem *mClockDiv  = &menuItems[9];
 Parameter patternParam, divisionParam, voicingParam, inversionParam;
 int patternCurCvVal, divisionCurCvVal, voicingCurCvVal, inversionCurCvVal;
 
-// Callback function invoked whenever a menu parameter is changed
+// Callback functions invoked whenever menu parameters are changed
 void cb(){
-    myArp->UpdateTraversal();
+    myArp->updateTraversal();
 };
 
 void cbPattern(){
     myArp->setPattern(mPattern->value());
-    myArp->UpdateTraversal();
+    myArp->updateTraversal();
+};
+
+void cbVoicing(){
+    myArp->getChord()->setVoicing(mVoicing->value());
+    myArp->updateTraversal();
 };
 
 
@@ -114,7 +119,7 @@ int main(void) {
     // Note that the positions of items 0-3 need to remain fixed
     menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern);
     menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
-    menuItems[2] = MenuItem("Voicing  ", voicings,       0, cb);
+    menuItems[2] = MenuItem("Voicing  ", voicings,       0, cbVoicing);
     menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
     menuItems[4] = MenuItem("Tonic    ", allNotes,       0, cb);
     menuItems[5] = MenuItem("Scale    ", modes,          0, cb);
@@ -143,14 +148,14 @@ int main(void) {
 
     // Main event loop
     while(1){
-        UpdateControls();
-        UpdateOled();
-        UpdateOutputs();
+        updateControls();
+        updateOled();
+        updateOutputs();
     }
 }
 
 // Handle any input to Patches' controls
-void UpdateControls() {
+void updateControls() {
     patch.ProcessAnalogControls();
     patch.ProcessDigitalControls();
 
@@ -159,25 +164,25 @@ void UpdateControls() {
     // Pattern
     curCvVal = static_cast<int>(patternParam.Process());
     if(curCvVal != patternCurCvVal){
-        menuItems[0].SetIndex(curCvVal);
+        menuItems[0].setIndex(curCvVal);
         patternCurCvVal = curCvVal;
     }
     // Division
     curCvVal = static_cast<int>(divisionParam.Process());
     if(curCvVal != divisionCurCvVal){
-        menuItems[1].SetIndex(curCvVal);
+        menuItems[1].setIndex(curCvVal);
         divisionCurCvVal = curCvVal;
     }
     // Voicing
     curCvVal = static_cast<int>(voicingParam.Process());
     if(curCvVal != voicingCurCvVal){
-        menuItems[2].SetIndex(curCvVal);
+        menuItems[2].setIndex(curCvVal);
         voicingCurCvVal = curCvVal;
     }
     // Inversion
     curCvVal = static_cast<int>(inversionParam.Process());
     if(curCvVal != inversionCurCvVal){
-        menuItems[3].SetIndex(curCvVal);
+        menuItems[3].setIndex(curCvVal);
         inversionCurCvVal = curCvVal;
     }
 
@@ -199,9 +204,9 @@ void UpdateControls() {
         // Update selected menu item's value
         int inc = patch.encoder.Increment();
         if (inc > 0){
-            menuItems[menuPos].Increment();
+            menuItems[menuPos].increment();
         } else if (inc < 0){
-            menuItems[menuPos].Decrement();
+            menuItems[menuPos].decrement();
         }
 
         isEditing = !patch.encoder.RisingEdge();
@@ -213,7 +218,7 @@ void UpdateControls() {
     // Currently, we'll just do 1 step per clock pulse
     if(patch.gate_input[0].Trig() || patch.gate_input[1].Trig())
     {
-        myArp->OnClockPulse();
+        myArp->onClockPulse();
     }
 }
 
@@ -223,32 +228,31 @@ void UpdateControls() {
 // With 7x10 font, this means it's limited to:
 //  - 18 chars horizontally (w/2p to spare)
 //  - 6 chars vertically (w/4p to spare)
-void UpdateOled() {
+void updateOled() {
     // Clear display
     patch.display.Fill(false);  
 
     // Draw the top bar
-    //DrawString(myArp.string, 0, 0);
+    drawString(myArp->toString(), 0, 0);
     patch.display.DrawLine(0, 11, 128, 11, true);
 
     // Draw the cursor indicator
-    DrawString(">", 0, 11);
+    drawString(">", 0, 11);
 
     int listSize = 5;
 
     if (debugMode){
         // If in debug mode, reserve the bottom menu item's space for debug data
-        // debugString = myArp->chord->toString();
-        debugString = myArp->toString();
+        debugString = myArp->getChord()->toString();
         listSize--;
         patch.display.DrawLine(0, 53, 128, 53, true);
-        DrawString(debugString, 2, 54);
+        drawString(debugString, 2, 54);
     }
 
     // Draw each menu item
     for(int i = menuPos; i < menuPos + listSize; i++){
         if (i < (int) menuItems.size()){
-            DrawString(menuItems[i].DisplayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
+            drawString(menuItems[i].displayValue(), fontWidth, (i - menuPos) * fontHeight + 12);
         }    
     }
 
@@ -257,7 +261,7 @@ void UpdateOled() {
 }
 
 // Updates Patches' output values
-void UpdateOutputs()
+void updateOutputs()
 {
     patch.seed.dac.WriteValue(DacHandle::Channel::ONE, myArp->getDacValue());
 
@@ -270,7 +274,7 @@ void UpdateOutputs()
 
 // Utility to perform a silly little dance where we set the cursor, 
 // convert a std::string to char*, and pass it to WriteString()
-void DrawString(std::string str, int x, int y){
+void drawString(std::string str, int x, int y){
     patch.display.SetCursor(x, y);
     char* cstr = &str[0];
     patch.display.WriteString(cstr, font, true);

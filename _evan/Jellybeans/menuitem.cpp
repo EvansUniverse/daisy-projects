@@ -23,7 +23,7 @@ MenuItem::MenuItem(std::string aName, std::vector<std::string> aValues, int aDef
     name = aName;
     values = aValues;
     index = aDefault;
-    myOnChangeCallback = cb;
+    onChangeCallback = cb;
 
     // TODO: implement a menu class that contains a list of menuItems, it can track this
     // For everything to line up neatly, each menu item's displayName 
@@ -36,7 +36,7 @@ MenuItem::MenuItem(std::string aName, std::vector<std::string> aValues, int aDef
     }
 };
 
-std::string MenuItem::DisplayValue() {
+std::string MenuItem::displayValue() {
     return  displayName + values[index];
 };
 
@@ -44,26 +44,26 @@ std::string MenuItem::value() {
     return values[index];
 }
 
-void MenuItem::Increment(){
+void MenuItem::increment(){
     index++;
     index = index % values.size();
-    OnChange();
+    onChange();
 };
 
-void MenuItem::Decrement(){
+void MenuItem::decrement(){
     index--;
     if (index < 0){
         index = values.size() - 1;
     }
-    OnChange();
+    onChange();
 };
 
-void MenuItem::SetIndex(int i){
+void MenuItem::setIndex(int i){
     index = i;
-    OnChange();
+    onChange();
 };
 
 // Executed every time this item's value is changed
-void MenuItem::OnChange(){
-    myOnChangeCallback();
+void MenuItem::onChange(){
+    onChangeCallback();
 };

@@ -19,16 +19,14 @@ namespace jellybeans {
     // Menu item whos value is an element of a list of predefined strings
     // They are also used to store settings
     class MenuItem {
-    public:
+    private:
         int index;
         std::string name;
         std::string displayName; // name with spaces appended
         std::vector<std::string> values;
 
-        // typedef void (*OnChangeCallback)();
-        // OnChangeCallback myOnChangeCallback;
-        std::function<void ()> myOnChangeCallback;
-
+        std::function<void ()> onChangeCallback;
+    public:
         MenuItem();
 
         // @param name of the menu that will be displayed on screen
@@ -37,17 +35,17 @@ namespace jellybeans {
         // @param callback function that runs every time the MenuItem's value is changed
         MenuItem(std::string, std::vector<std::string>, int , std::function<void ()>);
 
-        std::string DisplayValue();
+        std::string displayValue();
 
         std::string value();
 
-        void Increment();
+        void increment();
 
-        void Decrement();
+        void decrement();
 
-        void SetIndex(int);
+        void setIndex(int);
 
         // Executed every time this item's value is changed
-        void OnChange();
+        void onChange();
     };
 }

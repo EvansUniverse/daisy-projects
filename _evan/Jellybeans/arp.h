@@ -64,15 +64,15 @@ namespace jellybeans {
         Arp(int, DiatonicChord*, std::string, int);
 
         // Intended to be called every time a clock pulse is received
-        void OnClockPulse();
+        void onClockPulse();
     
         // Updates the arp traversal values based on the current pattern
-        void UpdateTraversal();
+        void updateTraversal();
 
         // Called every time the arp steps to the next note
-        void UpdateStep();
+        void updateStep();
 
-        void UpdateString();
+        void updateString();
 
         std::string toString();
 
@@ -82,6 +82,8 @@ namespace jellybeans {
         bool getNewNote();
 
         float getDacValue();
+
+        DiatonicChord* getChord();
 
         //void setMaxSteps(int);
         //void setChord(DiatonicChord*);

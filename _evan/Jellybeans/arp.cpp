@@ -26,7 +26,7 @@ Arp::Arp(){
     chord = new DiatonicChord();
     string = "EMPTY ARP";
 
-    this->UpdateTraversal();
+    this->updateTraversal();
 }
 
 Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int theClockDiv){
@@ -40,11 +40,11 @@ Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int t
     chord = theChord;
     string = "EMPTY ARP";
 
-    this->UpdateTraversal();
+    this->updateTraversal();
 };
 
 // Updates the arp traversal values based on the current pattern
-void Arp::UpdateTraversal(){
+void Arp::updateTraversal(){
     traversal = std::vector<int>{};
 
     if (pattern == "Down") {
@@ -81,7 +81,7 @@ void Arp::UpdateTraversal(){
 }
 
 // Intended to be called every time a clock pulse is received
-void Arp::OnClockPulse(){
+void Arp::onClockPulse(){
     // clockCount++;
     // if (clockCount >= clockDiv){
     //     clockCount = 0;
@@ -90,11 +90,11 @@ void Arp::OnClockPulse(){
         // if (newNote) { 
         //     newNote = false;
         // }
-        this->UpdateStep();
+        this->updateStep();
     //}
 }
 
-void Arp::UpdateStep(){
+void Arp::updateStep(){
     int semi;
     if (pattern == "Random"){
         // TODO this random method is biased, created a stronger random function
@@ -105,23 +105,23 @@ void Arp::UpdateStep(){
         step = traversal[traversalIndex];
     }
     
-    semi = chord->GetNoteAt(step);
+    semi = chord->getNoteAt(step);
     
     newNote = true;
-    dacValue = SemitoneToDac(semi);
+    dacValue = semitoneToDac(semi);
     
     traversalIndex++;
     traversalIndex = traversalIndex % static_cast<int>(traversal.size());
 
-    this->UpdateString();
+    this->updateString();
 }
 
-void Arp::UpdateString(){ // This is on hold til traversal's figured out
+void Arp::updateString(){ // This is on hold til traversal's figured out
     string = "";
 
     for(int i = 0; i < chord->getLength(); i++){
         if (i == step){
-            string += allNotes[chord->GetNoteAt(i)];
+            string += allNotes[chord->getNoteAt(i)];
             string += " ";
         } else {
             string += "_ ";
@@ -129,9 +129,9 @@ void Arp::UpdateString(){ // This is on hold til traversal's figured out
     }
 }
 
-std::string Arp::toString(){
-    return string;
-}
+/*
+ * Getters
+ */
 
 bool Arp::getNewNote(){
     bool ret = newNote;
@@ -143,6 +143,18 @@ float Arp::getDacValue(){
     return dacValue;
 }
 
-void Arp::setPattern(std::string p){
-    pattern = p;
+DiatonicChord* Arp::getChord(){
+    return chord;
+}
+
+std::string Arp::toString(){
+    return string;
+}
+
+/*
+ * Setters
+ */
+
+void Arp::setPattern(std::string s){
+    pattern = s;
 }

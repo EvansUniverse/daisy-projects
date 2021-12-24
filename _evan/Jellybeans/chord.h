@@ -43,9 +43,9 @@ namespace jellybeans {
 
         int length;
 
-    public:
-        // Must be an element of in mu::voicings (chord.h)
+        // Must be an element of voicings
         std::string voicing;
+    public:
 
         // Default is C major triad
         DiatonicChord(); // : DiatonicChord(1, 0, "Major", "Triad") {};
@@ -58,35 +58,35 @@ namespace jellybeans {
 
         // Updates the value of string, so that it only needs to be 
         // computed when necessary
-        void UpdateString();
+        void updateString();
 
         // @param the index of a note
         // Sets the root of the chord to the given note. If it's a non-diatonic note, 
         // transpose it up a semitone to become diatonic.
-        void SetRootByNote(int);
+        void setRootByNote(int);
 
         // @param the scale degree of the desired root note, int from 0-7
-        void SetRoot(int);
+        void setRoot(int);
 
         // @param the note value of the desired mode root, int from 0-12
-        void SetModeRoot(int);
+        void setModeRoot(int);
 
         // @param an element of mu::allModes
-        void SetMode(std::string);
+        void setMode(std::string);
 
         // @param an element of mu::voicings
-        void SetVoicing(std::string);
+        void setVoicing(std::string);
 
         // Transposes all notes in the chord by the given number of semitones.
         // If a note would fall out of register, do nothing.
-        void Transpose(int);
+        void transpose(int);
 
         // Given the chord's properties, formulates the chord.
         // Call this every time a property of the chord is updated.
-        void UpdateChord();
+        void updateChord();
 
         // @return semis[n], or semis[0] if n is out of bounds
-        int GetNoteAt(int);
+        int getNoteAt(int);
 
         // @return the number of notes in the chord
         int getLength();
