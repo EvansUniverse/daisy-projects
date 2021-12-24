@@ -19,23 +19,19 @@
 using namespace jellybeans;
 
 DiatonicChord::DiatonicChord(){
-    root = 0;
-    mode = "Major";
+    root    = 0;
+    octave  = 0;
+    mode    = "Major";
     voicing = "Triad";
-
-    this->setRoot(1);
-    this->setMode("Major");
-    this->setVoicing("Triad");
+    updateChord();
 }
 
-DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing){
-    root = theRoot;
-    mode = theMode;
+DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing, int theOctave){
+    root    = theRoot;
+    octave  = theOctave;
+    mode    = theMode;
     voicing = theVoicing;
-
-    this->setRoot(theRoot);
-    this->setMode(theMode);
-    this->setVoicing(theVoicing);
+    updateChord();
 }
 
 /*
@@ -54,26 +50,16 @@ void DiatonicChord::updateChord(){
         // Get the degree
         degree = voicingToScaleDegrees.at(voicing)[i];
 
-        // Offset by 1 since the values of the maps are 1-inedexed
-        degree--;
-
-        // Offset notes in higher octave registers
+        // Offset if note is in higher octave registers
         int offset = 0;
         while (degree + 1 > scaleLen) {
             degree -= scaleLen;
             offset++;
         }
 
-        // Calculate the semitone value
-        semis[i] = modeToSemitones.at(mode)[degree] + (12 * offset) + root;
-
-        // If the value exceeds our note range, bring it up/down an octave until it fits
-        while (semis[i] > MAX_NOTE){
-            semis[i] -= 12;
-        }
-        while (semis[i] < MIN_NOTE){
-            semis[i] += 12;
-        }
+        // Calculate the note's semitone value
+        semis[i] = modeToSemitones.at(mode)[degree-1] + (12 * offset) + (12 * octave) + root;
+        semis[i] = quantizeNoteToRange(semis[i]);
     }
 
     this->updateString();
@@ -96,25 +82,6 @@ void DiatonicChord::updateString(){
 }
 
 /*
- * Setters
- */
-
-void DiatonicChord::setRoot(int i){
-    root = i;
-    updateChord();
-}
-
-void DiatonicChord::setMode(std::string s){
-    mode = s;
-    updateChord();
-}
-
-void DiatonicChord::setVoicing(std::string s){
-    voicing = s;
-    updateChord();
-}
-
-/*
  * Getters
  */
 
@@ -133,4 +100,28 @@ int DiatonicChord::getLength(){
 
 std::string DiatonicChord::toString(){
     return string;
+}
+
+/*
+ * Setters
+ */
+
+void DiatonicChord::setRoot(int i){
+    root = i;
+    updateChord();
+}
+
+void DiatonicChord::setMode(std::string s){
+    mode = s;
+    updateChord();
+}
+
+void DiatonicChord::setVoicing(std::string s){
+    voicing = s;
+    updateChord();
+}
+
+void DiatonicChord::setOctave(int i){
+    octave = i;
+    updateChord();
 }

@@ -37,6 +37,11 @@ namespace jellybeans {
         // Number of notes in the chord
         int length;
 
+        // TODO: Use with caution, there is currently weak protection from 
+        // the octave bringing notes out of register. Notes will crudely be
+        // quantized into register.
+        int octave;
+
         // ∈ theory.h::voicings
         std::string voicing;
     public:
@@ -44,10 +49,11 @@ namespace jellybeans {
         // Default is C major triad
         DiatonicChord(); // : DiatonicChord(0, "Major", "Triad") {};
 
-        // @param root - semitone value, 0-11
-        // @param mode - ∈ theory.h::allModes
+        // @param root    - semitone value, 0-11
+        // @param mode    - ∈ theory.h::allModes
         // @param voicing - ∈ theory.h::voicings
-        DiatonicChord(int, std::string, std::string);
+        // @param octave  - valid index of theory::allOctaves
+        DiatonicChord(int, std::string, std::string, int);
 
         // Updates the value of string, so that it only needs to be 
         // computed when necessary
@@ -57,15 +63,6 @@ namespace jellybeans {
         // Call this every time a property of the chord is updated.
         void updateChord();
 
-        // @param semitone value the desired root note
-        void setRoot(int);
-
-        // @param string ∈ theory.h::allModes
-        void setMode(std::string);
-
-        // @param string ∈ theory.h::voicings
-        void setVoicing(std::string);
-
         // @return semis[n], or semis[0] if n is out of bounds
         int getNoteAt(int);
 
@@ -73,5 +70,17 @@ namespace jellybeans {
         int getLength();
 
         std::string toString();
+
+        // @param semitone value the desired root note
+        void setRoot(int);
+
+        // @param string ∈ theory.h::allModes
+        void setMode(std::string);
+
+        // @param valid index of theory::allOctaves
+        void setOctave(int);
+
+        // @param string ∈ theory.h::voicings
+        void setVoicing(std::string);
     };
 }

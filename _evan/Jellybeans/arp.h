@@ -33,13 +33,6 @@ namespace jellybeans {
         // This is stored so that it's only calculated when necessary
         float dacValue;
 
-        // Number of clock pulses that have been received since the last reset
-        //int clockCount;
-
-        // The arp's clock division (step to the next note every X clock pulses)
-        // TODO convert to int, out of say 256 notes per bar, so that we can use rapid pulses for fractional timing and swing
-        //int clockDiv;
-
         // Stores which arp note should be played at each next step.
         // Contains a list of indices of arpNotes
         std::vector<int> traversal;
@@ -49,9 +42,6 @@ namespace jellybeans {
 
         // String representation of the arp
         std::string string;
-
-        // Current root note
-        //float root; //TODO delete?
 
         // Underlying chord
         DiatonicChord* chord;
@@ -63,8 +53,7 @@ namespace jellybeans {
         // @param maxSteps
         // @param chord
         // @param pattern - ∈ arpPatterns
-        // @param clockDiv
-        Arp(int, DiatonicChord*, std::string, int);
+        Arp(int, DiatonicChord*, std::string);
 
         // Intended to be called every time a clock pulse is received
         void onClockPulse();
@@ -97,13 +86,5 @@ namespace jellybeans {
         "U+D In",
         "U+D Ex",
         "Random"
-    };
-
-    const std::vector<std::string> arpRhythms {
-        "None",
-        "Sw 25%",
-        "Sw 50%",
-        "Sw 75%",
-        "Sw 100%"
     };
 }

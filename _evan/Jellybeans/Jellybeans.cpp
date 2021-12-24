@@ -54,19 +54,6 @@ const int     fontHeight = 10;
 int  menuPos;
 bool isEditing;
 
-
-// Given the 1V/oct and 0-5V range of the CV out port,
-// we are limited to a 5 octave register. Voicings span
-// up to 2 octaves and coarse tuning (mRoot) spans another,
-// leaving us 2 octaves of room for upwards transposition.
-//
-// Note that the indices of the elements are also their octave distances from 0
-const std::vector<std::string> allOctaves {
-    "0",
-    //"+1", // TODO re-enable these once out-of-bounds notes have been handled
-   // "+2"
-};
-
 void updateControls();
 void updateOled();
 void updateOutputs();
@@ -97,7 +84,6 @@ void cb(){};
 
 void cbPattern(){
     arp->setPattern(mPattern->getValue());
-    arp->updateTraversal();
 };
 
 void cbVoicing(){
@@ -111,7 +97,12 @@ void cbMode(){
 };
 
 void cbRoot(){
-   // arp->getChord()->setRoot(mRoot->getValue());
+    arp->getChord()->setRoot(mRoot->getIndex());
+    arp->updateTraversal();
+};
+
+void cbOctave(){
+    arp->getChord()->setOctave(mOct->getIndex());
     arp->updateTraversal();
 };
 
@@ -124,16 +115,17 @@ int main(void) {
 
     // Initialize menu items
     // Note that the positions of items 0-3 need to remain fixed
+    // TODO: N/As are not yet implemented
     menuItems[0] = MenuItem("Pattern  ", arpPatterns,    0, cbPattern);
     menuItems[1] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Division
     menuItems[2] = MenuItem("Voicing  ", voicings,       0, cbVoicing);
     menuItems[3] = MenuItem("N/A      ", allInversions,  0, cb); // Inversion
     menuItems[4] = MenuItem("Root     ", allNotes,       0, cbRoot);
     menuItems[5] = MenuItem("Mode     ", modes,          0, cbMode);
-    menuItems[6] = MenuItem("N/A      ", arpRhythms,     0, cb); // Rhythm
+    menuItems[6] = MenuItem("N/A      ", emptyVect,      0, cb); // Rhythm
     menuItems[7] = MenuItem("N/A      ", allOctaves,     0, cb); // Oct Rng
-    menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cb);
-    menuItems[9] = MenuItem("Clock In ", allClockInDivs, 0, cb);
+    menuItems[8] = MenuItem("Octave   ", allOctaves,     0, cbOctave);
+    menuItems[9] = MenuItem("N/A      ", allClockInDivs, 0, cb); // Clock In
 
     // Initialize CV params
     patternParam.Init(patch.controls[0],   0.f, static_cast<float>(arpPatterns.size()),    Parameter::LINEAR);

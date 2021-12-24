@@ -17,7 +17,15 @@
 using namespace jellybeans; // TODO rm?
 
 namespace jellybeans {
-
+    int quantizeNoteToRange(int i) {
+        while (i > MAX_NOTE){
+            i -= 12;
+        }
+        while (i < MIN_NOTE){
+            i += 12;
+        }
+        return i;
+    }
 
     bool isDiatonic(int note, std::string mode){
         std::vector<int> v = modeToSemitones.at(mode);

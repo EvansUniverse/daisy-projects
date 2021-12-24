@@ -49,5 +49,6 @@ namespace jellybeans {
 
         std::string getDisplayString();
         std::string getValue();
+        int getIndex();
     };
 }

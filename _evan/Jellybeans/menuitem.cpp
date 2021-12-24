@@ -40,10 +40,18 @@ void MenuItem::decrement(){
     callback();
 };
 
+/*
+ * Setters
+ */
+
 void MenuItem::setIndex(int i){
     index = i;
     callback();
 };
+
+/*
+ * Getters
+ */
 
 std::string MenuItem::getDisplayString() {
     return  title + getValue();
@@ -51,4 +59,8 @@ std::string MenuItem::getDisplayString() {
 
 std::string MenuItem::getValue() {
     return values[index];
+}
+
+int MenuItem::getIndex(){
+    return index;
 }

@@ -19,22 +19,18 @@ Arp::Arp(){
     resetState();
     maxSteps = 8;
     dacValue = 0.f;
-    //clockCount  = 0;
     pattern = "Up";
-    //clockDiv = 1;
     chord = new DiatonicChord();
     string = "EMPTY ARP";
 
     this->updateTraversal();
 }
 
-Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern, int theClockDiv){
+Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern){
     resetState();
     maxSteps = theMaxSteps;
     dacValue = 0.f;
-    //clockCount  = 0;
     pattern = thePattern;
-    //clockDiv = theClockDiv;
     chord = theChord;
     string = "EMPTY ARP";
 
@@ -86,16 +82,7 @@ void Arp::resetState(){
 
 // Intended to be called every time a clock pulse is received
 void Arp::onClockPulse(){
-    // clockCount++;
-    // if (clockCount >= clockDiv){
-    //     clockCount = 0;
-
-        // reset trig
-        // if (trig) { 
-        //     trig = false;
-        // }
-        this->updateStep();
-    //}
+    this->updateStep();
 }
 
 void Arp::updateStep(){
@@ -165,4 +152,5 @@ std::string Arp::toString(){
 
 void Arp::setPattern(std::string s){
     pattern = s;
+    updateTraversal();
 }
