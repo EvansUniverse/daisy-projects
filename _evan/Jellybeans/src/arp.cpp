@@ -15,32 +15,29 @@
 
 using namespace jellybeans;
 
-Arp::Arp(){
+Arp::Arp() : Arp(8, "Up") {}
+
+Arp::Arp(int theMaxSteps, std::string thePattern){
     resetState();
-    maxSteps = 8;
+    maxSteps = theMaxSteps;
     dacValue = 0.f;
-    pattern = "Up";
+    pattern = thePattern;
     chord = new DiatonicChord();
     string = "EMPTY ARP";
 
     this->updateTraversal();
 }
 
-Arp::Arp(int theMaxSteps, DiatonicChord* theChord, std::string thePattern){
-    resetState();
-    maxSteps = theMaxSteps;
-    dacValue = 0.f;
-    pattern = thePattern;
-    chord = theChord;
-    string = "EMPTY ARP";
-
-    this->updateTraversal();
-};
+/*
+ * Updaters
+ */
 
 // Updates the arp traversal values based on the current pattern
 void Arp::updateTraversal(){
     traversal = std::vector<int>{};
 
+    // TODO: create a "one-off random" pattern that fills traversal with random values.
+    // this could givbe the user interesting results without being perma-random
     if (pattern == "Down") {
         for (int i = chord->getLength()-1; i >= 0; i--) {
             traversal.push_back(i);
@@ -124,9 +121,7 @@ void Arp::updateString(){
     }
 }
 
-/*
- * Getters
- */
+/* Getters */
 
 bool Arp::getTrig(){
     bool ret = trig;
@@ -146,9 +141,7 @@ std::string Arp::toString(){
     return string;
 }
 
-/*
- * Setters
- */
+/* Setters */
 
 void Arp::setPattern(std::string s){
     pattern = s;

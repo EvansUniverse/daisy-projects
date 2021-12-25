@@ -48,12 +48,12 @@ namespace jellybeans {
 
         void resetState();
     public:
-        Arp();// : Arp(8, DiatonicChord(1, 0, "Major", "Triad"), "Up", 1) {};
+        Arp();
 
         // @param maxSteps
         // @param chord
         // @param pattern - ∈ arpPatterns
-        Arp(int, DiatonicChord*, std::string);
+        Arp(int, std::string);
 
         // Intended to be called every time a clock pulse is received
         void onClockPulse();

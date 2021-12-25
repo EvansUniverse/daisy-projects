@@ -3,10 +3,12 @@ TARGET = Jellybeans
 
 # Sources
 CPP_SOURCES = Jellybeans.cpp \
-theory.cpp \
-menuitem.cpp \
-arp.cpp \
-chord.cpp
+src/theory.cpp \
+src/arp.cpp \
+src/chord.cpp \
+src/gui/menuitem.cpp \
+src/gui/menu.cpp \
+src/gui/patchGui.cpp
 
 
 # Library Locations

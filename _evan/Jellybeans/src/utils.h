@@ -31,9 +31,4 @@ namespace jellybeans {
         // TODO: 25 is still a wee bit off, use the tuner to figure out a more precise offset.
         return round((semi / 12.f) * 819.2f) + 25.f; 
     }
-
-    // Converts a float from a libdaisy.Param's .Process() method to an int value, rounded down
-    int paramValueToInt(float f) {
-        return static_cast<int>(f);
-    }
 }

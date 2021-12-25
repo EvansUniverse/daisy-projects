@@ -14,13 +14,17 @@
 #include <vector>
 #include <string>
 
-namespace jellybeans {
+namespace patch_gui {
 
     // Menu item whos value is an element of a list of predefined strings
     // They are also used to store settings
     class MenuItem {
     private:
         std::string title;
+
+        // String of spaces used by menu to make sure things line up neatly
+        // TODO compute programatically
+        std::string pad;
 
         // List of selectable values for this menuItem
         std::vector<std::string> values;
@@ -32,13 +36,15 @@ namespace jellybeans {
         // value is changed
         std::function<void ()> callback;
     public:
+        // Don't use
         MenuItem();
 
         // @param name of the menu that will be displayed on screen
+        // @param pad
         // @param list of possible values
-        // @param index of default value, must be a valid index // TODO maybe remove this?
+        // @param index of default value, must be a valid index
         // @param callback function that runs every time the MenuItem's value is changed
-        MenuItem(std::string, std::vector<std::string>, int , std::function<void ()>);
+        MenuItem(std::string, std::string, std::vector<std::string>, int , std::function<void ()>);
 
         // Increment/decrement index, call callback function
         void increment();
@@ -48,7 +54,10 @@ namespace jellybeans {
         void setIndex(int);
 
         std::string getDisplayString();
+        std::string getTitle();
         std::string getValue();
+        int size();
+        float floatSize();
         int getIndex();
     };
 }

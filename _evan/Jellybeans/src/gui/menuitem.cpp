@@ -14,17 +14,17 @@
 #include <vector>
 #include <functional>
 
-using namespace jellybeans;
+using namespace patch_gui;
 
 MenuItem::MenuItem(){};
 
-MenuItem::MenuItem(std::string theTitle, std::vector<std::string> theValues, int theDefault, std::function<void ()> theCallback){
+MenuItem::MenuItem(std::string theTitle, std::string thePad, std::vector<std::string> theValues, int theDefault, std::function<void ()> theCallback){
+    title    = theTitle;
+    pad      = thePad;
     values   = theValues;
     index    = theDefault;
-    title    = theTitle;
     callback = theCallback;
 };
-
 
 void MenuItem::increment(){
     index++;
@@ -40,21 +40,21 @@ void MenuItem::decrement(){
     callback();
 };
 
-/*
- * Setters
- */
+/* Setters */
 
 void MenuItem::setIndex(int i){
     index = i;
     callback();
 };
 
-/*
- * Getters
- */
+/* Getters */
 
 std::string MenuItem::getDisplayString() {
-    return  title + getValue();
+    return  title + pad + getValue();
+};
+
+std::string MenuItem::getTitle() {
+    return  title;
 };
 
 std::string MenuItem::getValue() {
@@ -63,4 +63,12 @@ std::string MenuItem::getValue() {
 
 int MenuItem::getIndex(){
     return index;
+}
+
+int MenuItem::size(){
+    return static_cast<int>(values.size());
+}
+
+float MenuItem::floatSize(){
+    return static_cast<float>(values.size());
 }
