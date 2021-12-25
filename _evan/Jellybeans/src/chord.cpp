@@ -18,13 +18,7 @@
 
 using namespace jellybeans;
 
-DiatonicChord::DiatonicChord(){
-    root    = 0;
-    octave  = 0;
-    mode    = "Major";
-    voicing = "Triad";
-    updateChord();
-}
+DiatonicChord::DiatonicChord() : DiatonicChord(0, "Major", "Triad", 0){}
 
 DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing, int theOctave){
     root    = theRoot;
@@ -34,9 +28,7 @@ DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVo
     updateChord();
 }
 
-/*
- * Updaters
- */
+/* Updaters */
 
 void DiatonicChord::updateChord(){
     int degree;
@@ -81,9 +73,7 @@ void DiatonicChord::updateString(){
     // string =  allNotes5Oct[root] + " " + voicing;
 }
 
-/*
- * Getters
- */
+/*  Getters */
 
 int DiatonicChord::getNoteAt(int n){
     // If out of bounds, return the first note.
@@ -102,9 +92,7 @@ std::string DiatonicChord::toString(){
     return string;
 }
 
-/*
- * Setters
- */
+/* Setters */
 
 void DiatonicChord::setRoot(int i){
     root = i;

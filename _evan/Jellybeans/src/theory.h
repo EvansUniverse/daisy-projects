@@ -179,10 +179,18 @@ namespace jellybeans {
 
     const std::vector<std::string> allInversions {
         "None",
+        "1st",
+        "2nd",
+        "3rd"
+    };
+
+    const std::vector<std::string> allDrops {
+        "None",
         "Drop 2",
         "Drop 3",
         "Drop 4"
     };
+
 
     const std::vector<std::string> allClockInDivs {
         // "1/2", // TODO figure out how to interpolate for fractional clock values

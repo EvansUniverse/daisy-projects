@@ -11,4 +11,4 @@
 #include "theory.h"
 #include "chord.h"
 #include "arp.h"
-#include "menuitem.h"
+#include "gui/gui.h"

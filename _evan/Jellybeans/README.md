@@ -1,31 +1,29 @@
 # :candy: Jellybeans :candy:
 Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 
+## Help! I'm not a programmer, I just want to put this on my Daisy Patch.
+// TODO place instructions on using compiled binary with Daisy web programmer here
+
 ## TODO
 ### Priority 1: Do asap
 
 ### Priority 2: Needed for initial release
-* CV in and knobs can alter their respective fields
 * Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
-* implement behavior for when a note would be played that's out of the semitone register. Likely just transpose values <0 up an octave and values >0 down an octave
 * persist settings upon startup
 * boot screen (disable during debug mode?)
-* split defs into a .h file
-* derive menus from map keys
-* use their instructions for setting up a new repo so that this isn't in a fork of their example repo
 
 ### Priotiry 3: Nice to haves
 * Settings submenu
 * Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
 * implement slides
-* make maps const (this causes other bugs that need to be ironed out)
 * fine tune setting for +/- 1 semitone?
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 * Is "Jellybeans.sln" needed?
+* Split graphics stuff out into separate lib
+* Separate diagnostics page that can monitor perf data on-unit
 
 
 ## Known Bugs
-* Root note of arps is (a semitone?) sharp
 * 5th note in kenny barron chords (both major and minor) resolve to octaves
 * Random order tends to bias root notes
 
@@ -152,23 +150,11 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 
 
 ## Development Phases
-### Phase -1
-* Takes clock (step) in
-* Outputs a fixed arpeggio with a configurable root
-
-
-### Phase 0
-* Takes clock and root in
-* Outputs 1 type of arpeggio
-
-
 ### Phase 1
 * Most arpeggiation features work
 
-
 ### Phase 2
-* Most basslines features work
-
+* Implement rhythm features and fractional timing
 
 ### Phase 3
 * Add extra features like virus-style patterns
@@ -204,7 +190,7 @@ From this project's root directory:
 4. Disconnect USB and power on the module.
 
 ### Using a debug probe
-//TODO
+Follow the official electrosmith instructions for accomplishing this with VSCode tasks.
 
 ### Additional resources
 https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment

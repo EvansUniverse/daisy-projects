@@ -14,8 +14,6 @@
 
 #include "theory.h"
 
-using namespace jellybeans; // TODO rm?
-
 namespace jellybeans {
     int quantizeNoteToRange(int i) {
         while (i > MAX_NOTE){
