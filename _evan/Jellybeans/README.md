@@ -146,6 +146,10 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 ### Priority 2: Needed for initial release
 * Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
 * fractional timing
+* varying rhythms
+* inversions
+* diatonic input - this will possibly require separate operation modes for diatonic/standalone
+* persist certain state on shutdown e.g. mode of operation
 
 ### Priority 3: Nice to haves & maybes
 * internal clock
