@@ -160,6 +160,8 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 * Separate diagnostics page that can monitor perf data on-unit
 * boot screen (disable during debug mode?), implemented in gui lib
+* seprate menus implemented in gui lib - maybe double clicking the encoder cycles menus
+* give bass more options (possibly implement as 2nd arp)
 
 ## Known Bugs
 * 5th note in kenny barron chords (both major and minor) resolve to octaves

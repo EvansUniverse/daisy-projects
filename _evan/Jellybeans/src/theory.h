@@ -29,6 +29,15 @@ namespace jellybeans {
     // @param the semitone value of a note
     int quantizeNoteToRange(int);
 
+    // Converts a semitone value to data that can be supplied to Daisy Seed's DAC
+    // for CV, using the function patch.seed.dac.WriteValue()
+    //
+    // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
+    // per volt or octave.
+    //
+    // @param semi: an integer between 0-60 representing the number of semitones from low C
+    float semitoneToDac(int);
+
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
     const std::vector<std::string> allNotes {
@@ -205,19 +214,4 @@ namespace jellybeans {
         "8",
         "16"
     };
-
-    // Given the 1V/oct and 0-5V range of the CV out port,
-    // we are limited to a 5 octave register. Voicings span
-    // up to 2 octaves and coarse tuning (mRoot) spans another,
-    // leaving us 2 octaves of room for upwards transposition.
-    //
-    // Note that the indices of the elements are also their octave distances from 0
-    const std::vector<std::string> allOctaves {
-        "0",
-        "+1",
-        "+2"
-    };
-
-    // DEBUG
-    const std::vector<std::string> emptyVect {"N/A"};
 }

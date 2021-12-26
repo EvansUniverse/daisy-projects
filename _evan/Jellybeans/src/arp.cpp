@@ -11,7 +11,6 @@
 #include "arp.h"
 #include "chord.h"
 #include "theory.h"
-#include "utils.h"
 
 using namespace jellybeans;
 

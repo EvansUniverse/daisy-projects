@@ -84,6 +84,10 @@ int DiatonicChord::getNoteAt(int n){
     return semis[n];
 }
 
+int DiatonicChord::getRoot(){
+    return root;
+}
+
 int DiatonicChord::getLength(){
     return length;
 }
