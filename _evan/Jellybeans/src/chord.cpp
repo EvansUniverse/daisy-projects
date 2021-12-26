@@ -21,10 +21,11 @@ using namespace jellybeans;
 DiatonicChord::DiatonicChord() : DiatonicChord(0, "Major", "Triad", 0){}
 
 DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing, int theOctave){
-    root    = theRoot;
-    octave  = theOctave;
-    mode    = theMode;
-    voicing = theVoicing;
+    root      = theRoot;
+    octave    = theOctave;
+    mode      = theMode;
+    voicing   = theVoicing;
+    inversion = 0;
     updateChord();
 }
 
@@ -32,19 +33,19 @@ DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVo
 
 void DiatonicChord::updateChord(){
     int degree;
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size()); // death occurs in one of these 3 lines
-    int scaleLen = static_cast<int>(modeToSemitones.at(mode).size());
+    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size());
+    int scaleLen = 7; // static_cast<int>(modeToSemitones.at(mode).size()); // TODO in the future, may need this for exotic scales
     semis = std::vector<int>(chordLen);
     length = chordLen;
 
-    // For each note in the chord
+    // Populate semis
     for (int i = 0; i < chordLen; i++){
         // Get the degree
         degree = voicingToScaleDegrees.at(voicing)[i];
 
         // Offset if note is in higher octave registers
         int offset = 0;
-        while (degree + 1 > scaleLen) {
+        while (degree > scaleLen) {
             degree -= scaleLen;
             offset++;
         }
@@ -52,6 +53,12 @@ void DiatonicChord::updateChord(){
         // Calculate the note's semitone value
         semis[i] = modeToSemitones.at(mode)[degree-1] + (12 * offset) + (12 * octave) + root;
         semis[i] = quantizeNoteToRange(semis[i]);
+    }
+
+    // Calculate inversion
+    for (int i = 0; i < inversion; i++){
+        semis.push_back(semis.front() + 12); 
+        semis.erase(semis.begin());
     }
 
     this->updateString();
@@ -115,5 +122,10 @@ void DiatonicChord::setVoicing(std::string s){
 
 void DiatonicChord::setOctave(int i){
     octave = i;
+    updateChord();
+}
+
+void DiatonicChord::setInversion(int i){
+    inversion = i;
     updateChord();
 }
