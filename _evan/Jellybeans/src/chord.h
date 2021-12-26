@@ -69,6 +69,9 @@ namespace jellybeans {
         // @return the number of notes in the chord
         int getLength();
 
+        // @return semitone value of the root
+        int getRoot();
+
         std::string toString();
 
         // @param semitone value the desired root note

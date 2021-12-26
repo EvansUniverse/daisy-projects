@@ -12,3 +12,28 @@
 #include "chord.h"
 #include "arp.h"
 #include "gui/gui.h"
+
+/* Menu values specific to Jellybeans */
+namespace jellybeans {
+    // Given the 1V/oct and 0-5V range of the CV out port,
+    // we are limited to a 5 octave register. Voicings span
+    // up to 2 octaves and coarse tuning (mRoot) spans another,
+    // leaving us 2 octaves of room for upwards transposition.
+    //
+    // Note that the indices of the elements are also their octave distances from 0
+    const std::vector<std::string> allOctaves {
+        "0",
+        "+1",
+        "+2",
+    };
+
+    const std::vector<std::string> allBassOctaves {
+        "0",
+        "+1",
+        "+2",
+        "+3",
+    };
+
+    // DEBUG
+    const std::vector<std::string> emptyVect {"N/A"};
+}
