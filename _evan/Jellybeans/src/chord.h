@@ -17,7 +17,6 @@
 #include "theory.h"
 
 namespace jellybeans {
-
     // Notes are represented as ints, as they correspond to mu::allNotes5Oct
     // For performance reasons, all functions assume valid input
     class DiatonicChord {
@@ -39,15 +38,18 @@ namespace jellybeans {
 
         // TODO: Use with caution, there is currently weak protection from 
         // the octave bringing notes out of register. Notes will crudely be
-        // quantized into register.
+        // quantized into register, which may not produce musical results.
         int octave;
 
         // ∈ theory.h::voicings
         std::string voicing;
-    public:
 
+        // 0 = uninverted
+        int inversion;
+
+    public:
         // Default is C major triad
-        DiatonicChord(); // : DiatonicChord(0, "Major", "Triad") {};
+        DiatonicChord();
 
         // @param root    - semitone value, 0-11
         // @param mode    - ∈ theory.h::allModes
@@ -85,5 +87,8 @@ namespace jellybeans {
 
         // @param string ∈ theory.h::voicings
         void setVoicing(std::string);
+
+        // @param valid index of theory.h::allInversions
+        void setInversion(int);
     };
 }

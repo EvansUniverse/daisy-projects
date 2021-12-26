@@ -62,6 +62,11 @@ void cbVoicing(){
     arp->updateTraversal();
 };
 
+void cbInversion(){
+    arp->getChord()->setInversion(menu->getItem("Inversion")->getIndex());
+    arp->updateTraversal();
+};
+
 void cbMode(){
     arp->getChord()->setMode(menu->getItem("Mode")->getValue());
     arp->updateTraversal();
@@ -86,6 +91,7 @@ void cbOctave(){
 };
 
 int main(void) {
+    // Initialize vars and objects
     patch = new DaisyPatch();
     patch->Init();
     arp  = new Arp();
@@ -96,11 +102,10 @@ int main(void) {
     gui->setDebug(true); // Uncomment this line to enable debug output
 
     // Initialize menu items
-    // Note that the positions of items 0-3 need to remain fixed
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
     menu->append("Division", "  ", allClockInDivs, 0, cb); // Disabled
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
-    menu->append("Inversion", " ", allInversions,  0, cb); // Disabled
+    menu->append("Inversion", " ", allInversions,  0, cbInversion);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
     menu->append("Rhythm", "    ", emptyVect,      0, cb); // Disabled
@@ -160,9 +165,9 @@ void updateOled(){
     gui->setHeaderStr(arp->toString());
 
     // Uncomment one of these lines to set debug output.
-    gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
-            " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
-    //gui->setDebugStr(arp->getChord()->toString());
+    //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
+    //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
+    gui->setDebugStr(arp->getChord()->toString());
 
     gui->render();
 }

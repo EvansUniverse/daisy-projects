@@ -17,7 +17,7 @@
 namespace jellybeans {
 
     // Temporarily moved down from 60 due to dac conversion bug
-    const int MAX_NOTE = 59;// 60;
+    const int MAX_NOTE = 59;
     const int MIN_NOTE = 0;
 
     // Returns true if the given note is diatonic to the given mode
@@ -151,9 +151,9 @@ namespace jellybeans {
         {"Triad",    std::vector<int>{1, 3, 5}},
         {"Triad+",   std::vector<int>{1, 3, 5, 8}},
         {"7th",      std::vector<int>{1, 3, 5, 7}},
-        {"7th+",     std::vector<int>{1, 3, 5, 7, 8}}, // TODO: bug when switching from 7th to 7th+
+        {"7th+",     std::vector<int>{1, 3, 5, 7, 8}},
         {"9th",      std::vector<int>{1, 3, 5, 7, 9}},
-        {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}}, // TODO: bug when switching from 13th to 11th
+        {"11th",     std::vector<int>{1, 3, 5, 7, 9, 11}},
         {"13th",     std::vector<int>{1, 3, 5, 7, 9, 11, 13}},
         {"6th",      std::vector<int>{1, 3, 5, 6}},
         {"Sus2",     std::vector<int>{1, 2, 5}},
@@ -193,12 +193,12 @@ namespace jellybeans {
         "3rd"
     };
 
-    const std::vector<std::string> allDrops {
-        "None",
-        "Drop 2",
-        "Drop 3",
-        "Drop 4"
-    };
+    // const std::vector<std::string> allDrops {
+    //     "None",
+    //     "Drop 2",
+    //     "Drop 3",
+    //     "Drop 4"
+    // };
 
 
     const std::vector<std::string> allClockInDivs {
