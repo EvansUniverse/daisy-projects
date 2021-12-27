@@ -2,37 +2,65 @@
 Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 
 ## Build Instructions
-### Help! I'm not a programmer, I just want to put this on my Daisy Patch.
-// TODO place instructions on using compiled binary with Daisy web programmer here
-### Local build 
-To build locally (for checking compilation, etc): `make`
 
-### Using a direct connection
+<!-- ### Help! I'm not a programmer, I just want to put this on my Daisy Patch.
+// TODO place instructions on using compiled binary with Daisy web programmer here -->
+
+<details>
+<summary><b>Debug probe from vscode (recommended way)</b></summary>
+
+From a vscode instance in this project's root directory:
+1. Connect the [ST LINK-V3 debug probe](https://www.electro-smith.com/daisy/stlink-v3mini) to Daisy
+2. With the eurorack module's power turned on, connect Daisy Seed via USB.
+3. Hit ctrl+p to bring up the command palette 
+4. Type `task build_and_program` and hit enter
+
+</details>
+
+<details>
+<summary><b>Direct USB -> Daisy connection from command line</b></summary>
+
 From this project's root directory:
 1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
 2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
 3. `make program-dfu`
 4. Disconnect USB and power on the module.
 
-### Using a debug probe
-Follow the official electrosmith instructions for accomplishing this with VSCode tasks.
+</details>
 
-### Additional resources
-https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment
+<details>
+<summary><b>Direct USB -> Daisy connection from vscode</b></summary>
+
+From a vscode instance in this project's root directory:
+From this project's root directory:
+1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
+2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
+3. Hit ctrl+p to bring up the command palette 
+4. Type `task build_and_program_dfu` and hit enter
+5. Disconnect USB and power on the module
+
+</details>
+
+<details>
+<summary><b> Check compilation with no Daisy </b></summary>
+From this project's root directory: `make`
+
+</details>
+
+For additional resources: [Official Daisy documentation](https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment)
 
 ## Usage
+
 ### Features
 * User selects a scale (root and quality) through the bmenu.
 * Receives clock through _Gate in 1_ 
 * Receives cv through _Ctrl 1_ which dictates the root note
-* Generates a diatonic arpeggio and sends pitch through _CV out 1 _ and _Gate out 1_
-* Arpeggiates these chord progressions and sends the output through _CV out 1_ and _Gate out 1_. 
 * Arpeggio settings are highly configurable and performable
-* Sends a bassline out through _CV out 2_
+* Sends a bass note out through _CV out 2_
 
 ### Controls
-* **Gate in 1:** Clock in
-* **Gate in 2:**
+* **Gate in 1:** Clock in 
+<!--* **Gate in 2:**-->
 * **Gate out 1:** Arpeggio gate out
 * **Ctrl 1:** Pattern
 * **Ctrl 2:** Rhythm
@@ -40,7 +68,7 @@ https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-E
 * **Ctrl 4:** Inversion
 * **Enc 1 (push):** Select alter/browse menu item 
 * **Enc 1 (rotate):** Alter/browse menu item
-* **Audio in 1:**
+<!--* **Audio in 1:**
 * **Audio in 2:**
 * **Audio in 3:**
 * **Audio in 4:**
@@ -49,15 +77,30 @@ https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-E
 * **Audio out 3:**
 * **Audio out 4:**
 * **MIDI in:** 
-* **MIDI out:** 
+* **MIDI out:** -->
 * **CV out 1:** Arpeggio pitch
 * **CV out 2:** Bass pitch
 
-
 ### Menu
 Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
-* Note division (_Ctrl 2)_
-    * 4 bars
+
+<details>
+<summary><b> Menu </b></summary>
+From this project's root directory: `make`
+
+* Pattern (_Ctrl 1)_
+    * Up
+    * Down
+    * Up + down inclusive
+    * Up + down exclusive
+* Pulse per note (_Ctrl 2)_
+    * 1
+    * 2
+    * 3
+    * 4
+    * 8
+    * 16
+    <!--* 4 bars
     * 2 bars
     * 1 bar
     * Half
@@ -65,30 +108,28 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 8th
     * 16th
     * 32nd
-    * 64th (maaaybe)
-* Chord voicing (_Ctrl 3)_
-    * Standard (triad)
-    * Power (root+5)
+    * 64th (maaaybe) -->
+* Voicing (_Ctrl 3)_
+    * Triad
+    * Triad+ (triad + root)
     * 7th
+    * 7th+ (7th + root)
+    * 9th
+    * 11th
+    * 13th
+    * 6th
     * Sus2
     * Sus4
-    * 6th
-    * Add9
-    * Add11
-    * Add13
-    * Kenny Barron
+    * Power (root+5)
+    * Shell 1
+    * Shell 2
+    <!--* Kenny Barron-->
 * Inversion (_Ctrl 4)_
-    * Standard
-    * Drop 2
-    * Drop 3
-    * Drop 4 (if there aren't enough notes, default to drop 3)
-* Order
-    * Up
-    * Down
-    * Up+down inc.
-    * Up+down exc.
-    * A number of fun virus-like patterns
-* Rhythm
+    * None
+    * 1st
+    * 2nd
+    * 3rd
+<!--* Rhythm
     * Straight
     * Dotted
     * Swing 25%
@@ -96,10 +137,20 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * Swing 75%
     * Swing 100%
     * A number of fun virus-like patterns
-    * Trig in (Plays a note when something is sent to trig in. Changes notes for every new trigger)
+    * Trig in (Plays a note when something is sent to trig in. Changes notes for every new trigger)-->
+* Root (any note)
+* Mode
+    * Major
+    * Dorian
+    * Phyrgian
+    * Lydian
+    * Mixolydian
+    * Minor
+    * Locrian
 * Arp octave range (-2 to +4)
-* Octave (-4 to +4)
-* Transpose (-12 to +12) (transposes bassline too)
+* Octave (0 to +3)
+* Bass octave (0 to +3)
+<!--* Clock PPQ (pulses per quarter)
 * Bass note division
     * Hold (this will play 1 sustained note until the next chord change)
     * 4 bars
@@ -139,10 +190,13 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * ¼
     * ⅛
     * 1/16
+-->
+
+
+</details>
 
 ## TODOs
 ### Planned features
-* Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
 * internal clock source
 * fractional timing
 * varying rhythms

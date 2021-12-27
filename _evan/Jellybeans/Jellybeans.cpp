@@ -143,7 +143,7 @@ void updateControls() {
     // Accept input from either GATE IN
     //
     // Currently, we'll just do 1 step per clock pulse
-    if(patch->gate_input[0].Trig() || patch->gate_input[1].Trig()){
+    if(patch->gate_input[0].Trig()){
         arp->onClockPulse();
     }
 }
