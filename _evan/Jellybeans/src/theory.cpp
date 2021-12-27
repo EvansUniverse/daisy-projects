@@ -8,6 +8,8 @@
  * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
  */
 
+
+
 #include <algorithm>
 #include <string> 
 #include <vector>
@@ -25,27 +27,31 @@ namespace jellybeans {
         return i;
     }
 
-    bool isDiatonic(int note, std::string mode){
-        std::vector<int> v = modeToSemitones.at(mode);
-        return std::find(v.begin(), v.end(), note % 12) != v.end();
-    };
+    // bool isDiatonic(int note, std::string mode){
+    //     std::vector<int> v = modeToSemitones.at(mode);
+    //     return std::find(v.begin(), v.end(), note % 12) != v.end();
+    // };
 
-    // Converts a semitone value to data that can be supplied to Daisy Seed's DAC
-    // for CV, using the function patch.seed.dac.WriteValue()
-    //
-    // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
-    // per volt or octave.
-    //
-    // @param semi: an integer between 0-60 representing the number of semitones from low C
     float semitoneToDac(int semi) {
         if (semi == 0) {
             return 0.f;
         }
 
-        // TODO: Idk why, but values of 0 are about a half a semitone out of tune. Adding 25 here and keeping 0
+        // !!! HACK !!!
+        // Idk why, but values of 0 are about a half a semitone out of tune. Adding 25 here and keeping 0
         // values as 0 seems to fix this. I'll leave this hack here until I figure out what he issue is.
+        // relevant thread: https://forum.electro-smith.com/t/bug-found-in-daisy-examples-patch-sequencer/2159/3
         //
-        // TODO: 25 is still a wee bit off, use the tuner to figure out a more precise offset.
+        // TODO: 25 is still a wee bit off, run more precise tests to figure out a more accurate offset.
         return round((semi / 12.f) * 819.2f) + 25.f; 
+    }
+
+    std::string floatToString(float f, uint8_t decimalPlaces){
+        for (uint8_t i = 0; i < decimalPlaces; i++) {
+            f = f * 10.;
+        }
+
+        // TODO add decimal point
+        return std::to_string(static_cast<int>(round(f)));
     }
 }

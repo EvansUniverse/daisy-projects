@@ -15,15 +15,13 @@
 #include <string>
 
 namespace jellybeans {
-
-    // Temporarily moved down from 60 due to dac conversion bug
-    const int MAX_NOTE = 59;
+    const int MAX_NOTE = 59; // Temporarily moved down from 60 due to dac conversion bug
     const int MIN_NOTE = 0;
 
     // Returns true if the given note is diatonic to the given mode
     // @param a note's index in semitones from C or C0
     // @param an element of mu::allModes
-    bool isDiatonic(int, std::string);
+    // bool isDiatonic(int, std::string);
 
     // If the note exceeds our note range, bring it up/down an octave until it fits
     // @param the semitone value of a note
@@ -37,6 +35,11 @@ namespace jellybeans {
     //
     // @param semi: an integer between 0-60 representing the number of semitones from low C
     float semitoneToDac(int);
+
+    // Converts float to string
+    // @param float
+    // @param decimalPlaces
+    std::string floatToString(float, uint8_t);
 
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
@@ -159,6 +162,8 @@ namespace jellybeans {
         {"Sus2",     std::vector<int>{1, 2, 5}},
         {"Sus4",     std::vector<int>{1, 4, 5}},
         // disabled til its bug is fixed
+        // bug is likely caused by some values in the KB chord being non-diatonic.
+        // might need to implement a # system or something to make it work
         //{"Kenny B.", std::vector<int>{1, 5, 9, 10, 14, 18}}, 
         {"Power",    std::vector<int>{1, 5}},
         {"Power+",   std::vector<int>{1, 5, 8}},
@@ -178,7 +183,8 @@ namespace jellybeans {
         "6th",
         "Sus2",
         "Sus4",
-        // disabled til its bug is fixed
+        // Some values in this chord don't render correctly, 
+        // Disabled til its bug is fixed
         //"Kenny B.",  // Kenny Barron chord 
         "Power",
         "Shell 1",
@@ -200,14 +206,15 @@ namespace jellybeans {
     //     "Drop 4"
     // };
 
+    const std::vector<std::string> allPPQs {
+        "4",
+    };
 
-    const std::vector<std::string> allClockInDivs {
-        // "1/2", // TODO figure out how to interpolate for fractional clock values
-        // "1/4",
-        // "1/8",
-        // "1/16",
-        // "1/32",
-        // "1/64",
+    const std::vector<std::string> allClockDivs {
+        "1/16",
+        "1/8",
+        "1/4",
+        "1/2", 
         "1",
         "2",
         "4",

@@ -34,13 +34,15 @@ using namespace daisysp;
 using namespace jellybeans;
 using namespace patch_gui;
 
-DaisyPatch* patch;
-PatchGui* gui;
-Arp* arp;
-Menu* menu;
 
-FontDef font = Font_7x10;
-int fontWidth = 7;
+DaisyPatch* patch;
+PatchGui*   gui;
+Arp*        arp;
+Menu*       menu;
+// Rhythm*     rhythm;
+
+FontDef font   = Font_7x10;
+int fontWidth  = 7;
 int fontHeight = 10;
 
 float bassDac;
@@ -90,20 +92,29 @@ void cbOctave(){
     arp->updateTraversal();
 };
 
+// Callback function invoked whenever the timer ticks
+// void cbRhythm(){
+//     if (rhythm->getTick()/64 == 0){
+//          arp->onClockPulse();
+//     }
+// };
+
 int main(void) {
     // Initialize vars and objects
-    patch = new DaisyPatch();
+    patch  = new DaisyPatch();
     patch->Init();
-    arp  = new Arp();
-    menu = new Menu();
-    gui  = new PatchGui(patch, menu, &font, fontWidth, fontHeight);
+    arp    = new Arp();
+    menu   = new Menu();
+    gui    = new PatchGui(patch, menu, &font, fontWidth, fontHeight);
+    //rhythm = new Rhythm(false, cbRhythm);
+
     bassDac = 0.f;
 
     gui->setDebug(true); // Uncomment this line to enable debug output
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
-    menu->append("Division", "  ", allClockInDivs, 0, cb); // Disabled
+    menu->append("Division", "  ", allClockDivs,   0, cb); // Disabled
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
     menu->append("Inversion", " ", allInversions,  0, cbInversion);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
@@ -111,7 +122,7 @@ int main(void) {
     menu->append("Rhythm", "    ", emptyVect,      0, cb); // Disabled
     menu->append("Oct Rng", "   ", allOctaves,     0, cb); // Disabled
     menu->append("Octave", "    ", allOctaves,     0, cbOctave);
-    menu->append("Clock In", "  ", allClockInDivs, 0, cb); // Disabled
+    menu->append("Clock PPQ", " ", allPPQs,        0, cb); // Disabled
     menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
 
     // Initialize CV params
@@ -125,25 +136,27 @@ int main(void) {
     //
     // Thanks, antisvin :P
     patch->StartAdc();
+    patch->seed.StartLog();
 
     // Main event loop
     while(1){
         updateControls();
         updateOled();
         updateOutputs();
+
+        // rhythm->update();
+        // patch->seed.system.Delay(5);
     }
 }
 
-// Handle any input to Patches' controls
+// Handle any input to Patches' hardware
 void updateControls() {
     patch->ProcessAnalogControls();
     patch->ProcessDigitalControls();
 
-    // Update step with respect to clock
-    // Accept input from either GATE IN
-    //
-    // Currently, we'll just do 1 step per clock pulse
-    if(patch->gate_input[0].Trig()){
+    // GATE IN 1 or GATE IN 2 -> clock pulse
+    if(patch->gate_input[0].Trig() || patch->gate_input[1].Trig()){
+        //rhythm->pulse();
         arp->onClockPulse();
     }
 }
@@ -168,6 +181,7 @@ void updateOled(){
     //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
     //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
     gui->setDebugStr(arp->getChord()->toString());
+    // gui->setDebugStr(rhythm->toString());
 
     gui->render();
 }
