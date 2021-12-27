@@ -7,7 +7,7 @@ Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 ### Local build 
 To build locally (for checking compilation, etc): `make`
 
-### Using a dirrect connection
+### Using a direct connection
 From this project's root directory:
 1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
 2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
@@ -141,28 +141,24 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1/16
 
 ## TODOs
-### Priority 1: Do asap
-
-### Priority 2: Needed for initial release
+### Planned features
 * Repo mirroring to github https://docs.gitlab.com/ee/user/project/repository/repository_mirroring.html
+* internal clock source
 * fractional timing
 * varying rhythms
-* inversions
 * diatonic input - this will possibly require separate operation modes for diatonic/standalone
 * persist certain state on shutdown e.g. mode of operation
+* boot screen (disable during debug mode?), implemented in gui lib
 
-### Priority 3: Nice to haves & maybes
-* internal clock
+### Nice to haves & maybes
 * Deep settings submenu (would have to implement submenus in gui lib)
 * Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
 * implement slides
 * fine tune setting for +/- 1 semitone?
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 * Separate diagnostics page that can monitor perf data on-unit
-* boot screen (disable during debug mode?), implemented in gui lib
 * seprate menus implemented in gui lib - maybe double clicking the encoder cycles menus
 * give bass more options (possibly implement as 2nd arp)
 
 ## Known Bugs
-* 5th note in kenny barron chords (both major and minor) resolve to octaves
 * Random order tends to bias root notes
