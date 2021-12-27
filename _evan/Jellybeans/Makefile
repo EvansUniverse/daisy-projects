@@ -8,7 +8,8 @@ src/arp.cpp \
 src/chord.cpp \
 src/gui/menuitem.cpp \
 src/gui/menu.cpp \
-src/gui/patchGui.cpp
+src/gui/patchGui.cpp \
+# src/rhythm.cpp 
 
 
 # Library Locations

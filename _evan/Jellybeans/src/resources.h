@@ -11,6 +11,7 @@
 #include "theory.h"
 #include "chord.h"
 #include "arp.h"
+//#include "rhythm.h"
 #include "gui/gui.h"
 
 /* Menu values specific to Jellybeans */
