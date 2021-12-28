@@ -13,5 +13,6 @@ For questions, comments, bug reports, feature requests, diatribes, etc. you can 
 * https://www.reddit.com/user/aromatic_raisin
 * Git issues
 
+Pull requests are welcome.
 
 As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)
