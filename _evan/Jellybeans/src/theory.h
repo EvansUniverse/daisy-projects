@@ -60,6 +60,12 @@ namespace jellybeans {
     // @return semitone value of that degree
     uint8_t scaleDegreeToNote(uint8_t, std::string, uint8_t);
 
+    // For printing scale degrees
+    //
+    // @param a scale degree 1-7
+    // @return roman numeral representation e.g. 4 -> "IV"
+    std::string intToNumeral(uint8_t i);
+
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
     const std::vector<std::string> allNotes {
@@ -140,6 +146,7 @@ namespace jellybeans {
         "A4",
         "A#4",
         "B4",
+        //"C5",
     };
 
     // Note: Mode names are currently abbreviated due to 

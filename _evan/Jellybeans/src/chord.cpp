@@ -72,23 +72,27 @@ void DiatonicChord::updateChord(){
     this->updateString();
 }
 
-// Displayed as a list of notes e.g. "C E G#"
 void DiatonicChord::updateString(){
-    string = "";
-    //  for(uint8_t i : semis) 
-    //     string += allNotes[i % 12] + " ";
-
     // Other option I'm entertaining: e.g. "A minor iii"
-   string += allNotes[modeRoot] + " " + std::to_string(degree) + " - ";
+   // string += allNotes[modeRoot] + " " + std::to_string(degree) + " - ";
+
+    string = allNotes[modeRoot];
+    if (string.length() <  2){
+        string += " ";
+    }
+    string += intToNumeral(degree + 1) + " ";
+     for(uint8_t i : semis) 
+        string += allNotes[i % 12] + " ";
 
     // Other option I'm entertaining: list of semis e.g. "0 4 7"
-    for(uint8_t i : semis) 
-        string += std::to_string(i) + " ";
+    // for(uint8_t i : semis) 
+    //     string += std::to_string(i) + " ";
 
     // Other option I'm entertaining: e.g "C# Triad"
     // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
     // string =  allNotes5Oct[degree] + " " + voicing;
 }
+
 
 /*  Getters */
 

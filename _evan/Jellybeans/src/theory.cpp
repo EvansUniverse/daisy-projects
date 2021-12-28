@@ -16,6 +16,14 @@
 
 #include "theory.h"
 
+/* private helpers */
+uint8_t cScaleEquivalent(uint8_t note, uint8_t modeRoot){
+    if (note < modeRoot){
+        note--;
+    }
+    return (note - modeRoot) % 12;
+}
+
 namespace jellybeans {
     int quantizeNoteToRange(int i) {
         while (i > MAX_NOTE){
@@ -28,8 +36,9 @@ namespace jellybeans {
     }
 
     uint8_t quantize(uint8_t note, std::string mode, uint8_t modeRoot){
-        int base = (note - modeRoot) % 12;
+        int base = cScaleEquivalent(note, modeRoot);
 
+        // See if that note is in the given mode
         const std::vector<int> v = modeToSemitones.at(mode);
         if (std::find(v.begin(), v.end(), base) == v.end()){
             // NOTE: This relies on the property that every non-diatonic note is 1 semitone
@@ -46,7 +55,7 @@ namespace jellybeans {
 
     uint8_t noteToScaleDegree(uint8_t note, std::string mode, uint8_t modeRoot){
         note = quantize(note, mode, modeRoot) % 12;
-        int base = (note - modeRoot) % 12;
+        int base = cScaleEquivalent(note, modeRoot);
         
         const std::vector<int> v = modeToSemitones.at(mode);
         for(uint8_t i = 0; i < v.size(); i++){
@@ -98,5 +107,26 @@ namespace jellybeans {
         std::string ret = std::to_string(static_cast<int>(round(f)));
         ret.insert(ret.end()-dec, 1, '.');
         return ret;
+    }
+
+    // TODO distinguish between lowercase and uppercase depending on quality
+    std::string intToNumeral(uint8_t i){
+        switch (i) {
+            case 1:
+                return "I  ";
+            case 2:
+                return "II ";
+            case 3:
+                return "III";
+            case 4:
+                return "IV ";
+            case 5:
+                return "V  ";
+            case 6:
+                return "VI ";
+            case 7:
+                return "VII";
+        }
+        return "N/A";
     }
 }

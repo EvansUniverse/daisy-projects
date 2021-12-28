@@ -35,7 +35,7 @@ using namespace jellybeans;
 using namespace patch_gui;
 
 // Change this to enable debug output
-const bool DEBUG_MODE = false;
+const bool DEBUG_MODE = true;
 
 DaisyPatch* patch;
 PatchGui*   gui;
@@ -51,6 +51,7 @@ float bassDac;
 uint8_t lastNote;
 uint8_t ppn;
 uint16_t pulseCounter;
+float debug;
 
 void updateControls();
 void updateOled();
@@ -177,6 +178,7 @@ void updateControls() {
 
     // Read v/oct from CTRL 4
     float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
+    debug = ctrl;
     //ctrl = ctrl * 5.f; //voltage, may use for monitoring later
     uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f));
 
@@ -187,7 +189,7 @@ void updateControls() {
     // was due to Keystep's output or Patches' input. I'll have to figure 
     // out a more elegant solution later. Possibly adding a "trim" param
     // or a device calibration feature.
-    i++;
+    //i--;
 
     // Check that a new cv value has been input, otherwise encoder input to
     // note in won't work. Might remove later and just let CTRL 4 handle it
@@ -227,7 +229,9 @@ void updateOled(){
         //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
         //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
         gui->setDebugStr(arp->getChord()->toString());
-        // gui->setDebugStr(rhythm->toString());    
+        // gui->setDebugStr(rhythm->toString()); 
+        //gui->setDebugStr(floatToString(debug, 3)); 
+
     }
 
     gui->render();
