@@ -18,12 +18,19 @@ using namespace patch_gui;
 
 MenuItem::MenuItem(){};
 
-MenuItem::MenuItem(std::string theTitle, std::string thePad, std::vector<std::string> theValues, int theDefault, std::function<void ()> theCallback){
+MenuItem::MenuItem(
+        std::string theTitle,
+        std::string thePad,
+        std::vector<std::string> theValues,
+        uint8_t theDefault,
+        std::function<void ()> theCallback
+){
     title    = theTitle;
     pad      = thePad;
     values   = theValues;
     index    = theDefault;
     callback = theCallback;
+    hidden   = false;
 };
 
 void MenuItem::increment(){
@@ -33,19 +40,28 @@ void MenuItem::increment(){
 };
 
 void MenuItem::decrement(){
-    index--;
-    if (index < 0){
+    if (index == 0){
         index = values.size() - 1;
+    } else {
+        index--;
     }
     callback();
 };
 
 /* Setters */
 
-void MenuItem::setIndex(int i){
+void MenuItem::setIndex(uint8_t i){
+    if (i > size() - 1) {
+        i = size() - 1;
+    }
     index = i;
     callback();
 };
+
+void MenuItem::setHidden(bool b){
+    hidden = b;
+};
+
 
 /* Getters */
 
@@ -61,14 +77,18 @@ std::string MenuItem::getValue() {
     return values[index];
 }
 
-int MenuItem::getIndex(){
+uint8_t MenuItem::getIndex(){
     return index;
 }
 
-int MenuItem::size(){
-    return static_cast<int>(values.size());
+uint8_t MenuItem::size(){
+    return static_cast<uint8_t>(values.size());
 }
 
 float MenuItem::floatSize(){
     return static_cast<float>(values.size());
 }
+
+bool MenuItem::getHidden(){
+    return hidden;
+};

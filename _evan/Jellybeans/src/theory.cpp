@@ -27,31 +27,76 @@ namespace jellybeans {
         return i;
     }
 
-    // bool isDiatonic(int note, std::string mode){
-    //     std::vector<int> v = modeToSemitones.at(mode);
-    //     return std::find(v.begin(), v.end(), note % 12) != v.end();
-    // };
+    uint8_t quantize(uint8_t note, std::string mode, uint8_t modeRoot){
+        int base = (note - modeRoot) % 12;
 
-    float semitoneToDac(int semi) {
-        if (semi == 0) {
-            return 0.f;
+        const std::vector<int> v = modeToSemitones.at(mode);
+        if (std::find(v.begin(), v.end(), base) == v.end()){
+            // NOTE: This relies on the property that every non-diatonic note is 1 semitone
+            // away from a diatonic note. I'll need to rework this if I implement exotic 
+            // scales with 3+ semitone distances.
+            if (note == 0){
+                note++;
+            } else {
+                note--;
+            }
+        }
+        return note;
+    };
+
+    uint8_t noteToScaleDegree(uint8_t note, std::string mode, uint8_t modeRoot){
+        note = quantize(note, mode, modeRoot) % 12;
+        int base = (note - modeRoot) % 12;
+        
+        const std::vector<int> v = modeToSemitones.at(mode);
+        for(uint8_t i = 0; i < v.size(); i++){
+            if (v[i] == base){
+                return i;
+            } 
         }
 
+        // If you've reached this line, there's a bug
+        return 1; 
+    }
+
+    uint8_t scaleDegreeToNote(uint8_t degree, std::string mode, uint8_t modeRoot){
+        const std::vector<int>* v = &(modeToSemitones.at(mode));
+        int base = v->at(degree);
+        return (base + modeRoot % 12); 
+       // return 1;
+    }
+
+    float semitoneToDac(int semi) {
+        // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
+        // per volt or octave.
+        const float DAC_UNITS_PER_OCT = 819.2f;
+
         // !!! HACK !!!
-        // Idk why, but values of 0 are about a half a semitone out of tune. Adding 25 here and keeping 0
-        // values as 0 seems to fix this. I'll leave this hack here until I figure out what he issue is.
+        // Idk why but values of 0 are about a half a semitone out of tune. Adding an offset of 25 to nonzero
+        // values seems to fix this. I'll leave this hack here until I figure out what he issue is.
         // relevant thread: https://forum.electro-smith.com/t/bug-found-in-daisy-examples-patch-sequencer/2159/3
         //
         // TODO: 25 is still a wee bit off, run more precise tests to figure out a more accurate offset.
-        return round((semi / 12.f) * 819.2f) + 25.f; 
+        if (semi == 0) {
+            return 0.f;
+        }
+        const float OFFSET = 25.f;
+    
+        return round((semi / 12.f) * DAC_UNITS_PER_OCT) + OFFSET; 
     }
 
-    std::string floatToString(float f, uint8_t decimalPlaces){
-        for (uint8_t i = 0; i < decimalPlaces; i++) {
+    // FIXME doesn't render 0
+    std::string floatToString(float f, uint8_t dec){
+        if (f == 0.) {
+            return "0";
+        }
+
+        for (uint8_t i = 0; i < dec; i++) {
             f = f * 10.;
         }
 
-        // TODO add decimal point
-        return std::to_string(static_cast<int>(round(f)));
+        std::string ret = std::to_string(static_cast<int>(round(f)));
+        ret.insert(ret.end()-dec, 1, '.');
+        return ret;
     }
 }

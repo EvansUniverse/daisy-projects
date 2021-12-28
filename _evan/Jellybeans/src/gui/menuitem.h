@@ -18,6 +18,8 @@ namespace patch_gui {
 
     // Menu item whos value is an element of a list of predefined strings
     // They are also used to store settings
+    //
+    // Currently does not support lengths > 255
     class MenuItem {
     private:
         std::string title;
@@ -30,11 +32,13 @@ namespace patch_gui {
         std::vector<std::string> values;
 
         // Position within values
-        int index;
+        uint8_t index;
 
         // Callback function to be executed every time this MenuItem's
         // value is changed
         std::function<void ()> callback;
+
+        bool hidden;
     public:
         // Don't use
         MenuItem();
@@ -44,20 +48,25 @@ namespace patch_gui {
         // @param list of possible values
         // @param index of default value, must be a valid index
         // @param callback function that runs every time the MenuItem's value is changed
-        MenuItem(std::string, std::string, std::vector<std::string>, int , std::function<void ()>);
+        MenuItem(std::string, std::string, std::vector<std::string>, uint8_t , std::function<void ()>);
 
         // Increment/decrement index, call callback function
         void increment();
         void decrement();
 
-        // @param desired index value, within bounds of len(values)
-        void setIndex(int);
+        // If given an illegal value, will convert it to the nearest legal value
+        // @param desired index value
+        void setIndex(uint8_t);
+
+        // @param if true, don't render
+        void setHidden(bool);
 
         std::string getDisplayString();
         std::string getTitle();
         std::string getValue();
-        int size();
+        uint8_t size();
         float floatSize();
-        int getIndex();
+        uint8_t getIndex();
+        bool getHidden();
     };
 }

@@ -18,12 +18,19 @@
 
 using namespace jellybeans;
 
-DiatonicChord::DiatonicChord() : DiatonicChord(0, "Major", "Triad", 0){}
+DiatonicChord::DiatonicChord() : DiatonicChord(0, "Major", 0, "Triad", 0){}
 
-DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVoicing, int theOctave){
-    root      = theRoot;
+DiatonicChord::DiatonicChord(
+        uint8_t     theModeRoot,
+        std::string theMode,
+        uint8_t     theDegree,
+        std::string theVoicing,
+        uint8_t     theOctave
+){
+    degree    = theDegree;
     octave    = theOctave;
     mode      = theMode;
+    modeRoot  = theModeRoot;
     voicing   = theVoicing;
     inversion = 0;
     updateChord();
@@ -32,33 +39,34 @@ DiatonicChord::DiatonicChord(int theRoot, std::string theMode, std::string theVo
 /* Updaters */
 
 void DiatonicChord::updateChord(){
-    int degree;
-    int chordLen = static_cast<int>(voicingToScaleDegrees.at(voicing).size());
-    int scaleLen = 7; // static_cast<int>(modeToSemitones.at(mode).size()); // TODO in the future, may need this for exotic scales
-    semis = std::vector<int>(chordLen);
-    length = chordLen;
+    length = static_cast<uint8_t>(voicingToScaleDegrees.at(voicing).size());
+    semis = std::vector<uint8_t>(length);
+
+    //uint8_t root = scaleDegreeToNote(degree, mode, modeRoot);
+
+    uint8_t noteDegree;
 
     // Populate semis
-    for (int i = 0; i < chordLen; i++){
-        // Get the degree
-        degree = voicingToScaleDegrees.at(voicing)[i];
+    for (uint8_t i = 0; i < length; i++){
+        noteDegree = (degree + voicingToScaleDegrees.at(voicing)[i]-1) % 7;
+        // Get the note
+        semis[i] = scaleDegreeToNote(noteDegree, mode, modeRoot);
 
-        // Offset if note is in higher octave registers
-        int offset = 0;
-        while (degree > scaleLen) {
-            degree -= scaleLen;
-            offset++;
+        // TODO octave modifier
+
+        // Make sure it's higher than the previous note
+        while (i > 0 && semis[i] < semis[i-1]) {
+            semis[i] += 12;
         }
 
-        // Calculate the note's semitone value
-        semis[i] = modeToSemitones.at(mode)[degree-1] + (12 * offset) + (12 * octave) + root;
-        semis[i] = quantizeNoteToRange(semis[i]);
+       semis[i] = quantizeNoteToRange(semis[i]);
     }
 
     // Calculate inversion
-    for (int i = 0; i < inversion; i++){
+    for (uint8_t i = 0; i < inversion; i++){
         semis.push_back(semis.front() + 12); 
         semis.erase(semis.begin());
+       // semis.back() = quantizeNoteToRange(semis.back());
     }
 
     this->updateString();
@@ -67,22 +75,24 @@ void DiatonicChord::updateChord(){
 // Displayed as a list of notes e.g. "C E G#"
 void DiatonicChord::updateString(){
     string = "";
-     for(int i : semis) 
-        string += allNotes[i % 12] + " ";
+    //  for(uint8_t i : semis) 
+    //     string += allNotes[i % 12] + " ";
 
+    // Other option I'm entertaining: e.g. "A minor iii"
+   string += allNotes[modeRoot] + " " + std::to_string(degree) + " - ";
 
     // Other option I'm entertaining: list of semis e.g. "0 4 7"
-    // for(int i : semis) 
-    //     string += std::to_string(i) + " ";
+    for(uint8_t i : semis) 
+        string += std::to_string(i) + " ";
 
-    // Other option I'm entertaining e.g "C# Triad"
+    // Other option I'm entertaining: e.g "C# Triad"
     // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
-    // string =  allNotes5Oct[root] + " " + voicing;
+    // string =  allNotes5Oct[degree] + " " + voicing;
 }
 
 /*  Getters */
 
-int DiatonicChord::getNoteAt(int n){
+uint8_t DiatonicChord::getNoteAt(uint8_t n){
     // If out of bounds, return the first note.
     // This behavior could be modified in the future.
     if (n >= length) {
@@ -91,11 +101,11 @@ int DiatonicChord::getNoteAt(int n){
     return semis[n];
 }
 
-int DiatonicChord::getRoot(){
-    return root;
+uint8_t DiatonicChord::getDegree(){
+    return degree;
 }
 
-int DiatonicChord::getLength(){
+uint8_t DiatonicChord::getLength(){
     return length;
 }
 
@@ -105,8 +115,21 @@ std::string DiatonicChord::toString(){
 
 /* Setters */
 
-void DiatonicChord::setRoot(int i){
-    root = i;
+void DiatonicChord::setDegreeByNote(uint8_t i){
+    degree = noteToScaleDegree(i, mode, modeRoot);
+    updateChord();
+}
+
+void DiatonicChord::setDegree(uint8_t i){
+    if (i >= scaleLen ){
+        i = scaleLen - 1;
+    }
+    degree = i;
+    updateChord();
+}
+
+void DiatonicChord::setModeRoot(uint8_t i){
+    modeRoot = i % 12;
     updateChord();
 }
 
@@ -120,12 +143,12 @@ void DiatonicChord::setVoicing(std::string s){
     updateChord();
 }
 
-void DiatonicChord::setOctave(int i){
+void DiatonicChord::setOctave(uint8_t i){
     octave = i;
     updateChord();
 }
 
-void DiatonicChord::setInversion(int i){
+void DiatonicChord::setInversion(uint8_t i){
     inversion = i;
     updateChord();
 }

@@ -14,13 +14,19 @@
 using namespace daisy;
 using namespace patch_gui;
 
-PatchGui::PatchGui(){}// : PatchGui(new DaisyPatch(), &Font_7x10, 7, 10){};
+PatchGui::PatchGui(){}
 
 // @param patch reference
 // @param FontDef
 // @param Font width
 // @param Font height
-PatchGui::PatchGui(DaisyPatch* thePatch, Menu* theMenu, FontDef* theFont, int theWidth, int theHeight){
+PatchGui::PatchGui(
+        DaisyPatch* thePatch,
+        Menu* theMenu,
+        FontDef* theFont,
+        uint8_t theWidth,
+        uint8_t theHeight
+){
     patch      = thePatch;
     menu       = theMenu;
     font       = theFont;
@@ -29,12 +35,12 @@ PatchGui::PatchGui(DaisyPatch* thePatch, Menu* theMenu, FontDef* theFont, int th
 
     isEditing = false;
 
-    cvParams = std::array<Parameter*, 4>{NULL, NULL, NULL, NULL};
-    cvVals = std::array<int, 4>{0, 0, 0, 0};
-    cvMenuItems = std::array<MenuItem*, 4>{NULL, NULL, NULL, NULL};
+    cvParams    = std::array<Parameter*, 4>{NULL, NULL, NULL, NULL};
+    cvVals      = std::array<uint16_t,   4>{0, 0, 0, 0};
+    cvMenuItems = std::array<MenuItem*,  4>{NULL, NULL, NULL, NULL};
 }
 
-void PatchGui::assignToCV(std::string title, int cvNum){
+void PatchGui::assignToCV(std::string title, uint8_t cvNum){
     cvNum--;
     Parameter* p = new Parameter();
     MenuItem* m = menu->getItem(title);
@@ -42,10 +48,10 @@ void PatchGui::assignToCV(std::string title, int cvNum){
     cvParams[cvNum] = p;
     p->Init(patch->controls[cvNum], 0.f, static_cast<float>(m->floatSize()), Parameter::LINEAR);
     cvMenuItems[cvNum] = m;
-    cvVals[cvNum] = static_cast<int>(p->Process());
+    cvVals[cvNum] = static_cast<uint16_t>(p->Process());
 }
 
-void PatchGui::drawString(std::string str, int x, int y){
+void PatchGui::drawString(std::string str, uint8_t x, uint8_t y){
     patch->display.SetCursor(x, y);
     char* cstr = &str[0];
     patch->display.WriteString(cstr, *font, true);
@@ -53,9 +59,9 @@ void PatchGui::drawString(std::string str, int x, int y){
 
 void PatchGui::updateControls(){
     // Process CV input
-    for (int i = 0; i < 4; i++){
+    for (uint8_t i = 0; i < 4; i++){
         if (cvParams[i] !=  NULL) {
-            int curCvVal = static_cast<int>(cvParams[i]->Process());
+            uint16_t curCvVal = static_cast<uint16_t>(cvParams[i]->Process());
             if(curCvVal != cvVals[i]){
                 cvMenuItems[i]->setIndex(curCvVal);
                 cvVals[i] = curCvVal;
@@ -97,10 +103,10 @@ void PatchGui::render(){
     // Draw the cursor indicator
     drawString(">", 0, fontHeight + 1);
 
-    int headerCount = 1; //TODO set for header vect
+    uint8_t headerCount = 1; //TODO set for header vect
 
     // Number of menu items that will fit on the screen
-    int listSize = (SCREEN_HEIGHT - (headerCount * fontHeight)) / fontHeight; 
+    uint8_t listSize = (SCREEN_HEIGHT - (headerCount * fontHeight)) / fontHeight; 
 
     if (debug){
         // If in debug mode, reserve the bottom menu item's space for debug data
@@ -110,7 +116,7 @@ void PatchGui::render(){
     }
 
     // Draw each menu item
-    for(int i = menu->getIndex(); i < menu->getIndex() + listSize; i++){
+    for(uint8_t i = menu->getIndex(); i < menu->getIndex() + listSize; i++){
         if (i < menu->size()){
             drawString(
                     menu->getItem(i)->getDisplayString(), 

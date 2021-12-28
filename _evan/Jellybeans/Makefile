@@ -11,6 +11,8 @@ src/gui/menu.cpp \
 src/gui/patchGui.cpp \
 # src/rhythm.cpp 
 
+# src/rhythm.cpp 
+
 
 # Library Locations
 LIBDAISY_DIR = ../../libdaisy

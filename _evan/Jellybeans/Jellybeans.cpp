@@ -42,10 +42,11 @@ Menu*       menu;
 // Rhythm*     rhythm;
 
 FontDef font   = Font_7x10;
-int fontWidth  = 7;
-int fontHeight = 10;
+uint8_t fontWidth  = 7;
+uint8_t fontHeight = 10;
 
 float bassDac;
+uint8_t lastNote;
 
 void updateControls();
 void updateOled();
@@ -76,13 +77,13 @@ void cbMode(){
 
 // Compute a new bass CV value
 void cbBassOct(){
-    int semi = arp->getChord()->getRoot();
+    int semi = arp->getChord()->getDegree();
     semi += 12 * menu->getItem("Bass Oct")->getIndex();
     bassDac = semitoneToDac(semi);
 };
 
 void cbRoot(){
-    arp->getChord()->setRoot(menu->getItem("Root")->getIndex());
+    arp->getChord()->setModeRoot(menu->getItem("Root")->getIndex());
     arp->updateTraversal();
     cbBassOct();
 };
@@ -90,6 +91,12 @@ void cbRoot(){
 void cbOctave(){
     arp->getChord()->setOctave(menu->getItem("Octave")->getIndex());
     arp->updateTraversal();
+};
+
+void cbNoteIn(){
+    arp->getChord()->setDegreeByNote(menu->getItem("Note In")->getIndex());
+    arp->updateTraversal();
+    cbBassOct();
 };
 
 // Callback function invoked whenever the timer ticks
@@ -109,27 +116,30 @@ int main(void) {
     //rhythm = new Rhythm(false, cbRhythm);
 
     bassDac = 0.f;
+    lastNote = 0;
 
     gui->setDebug(true); // Uncomment this line to enable debug output
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
-    menu->append("Division", "  ", allClockDivs,   0, cb); // Disabled
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
     menu->append("Inversion", " ", allInversions,  0, cbInversion);
+    menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
-    menu->append("Rhythm", "    ", emptyVect,      0, cb); // Disabled
-    menu->append("Oct Rng", "   ", allOctaves,     0, cb); // Disabled
+    // menu->append("Rhythm", "    ", emptyVect,      0, cb); 
+    // menu->append("Oct Rng", "   ", allOctaves,     0, cb);
     menu->append("Octave", "    ", allOctaves,     0, cbOctave);
-    menu->append("Clock PPQ", " ", allPPQs,        0, cb); // Disabled
+    // menu->append("Clock In", "  ", allClockInDivs, 0, cb);
     menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
+    menu->append("PPN", "       ", allPPNs,        0, cb); // Disabled
 
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
-    gui->assignToCV("Division",  2);
-    gui->assignToCV("Voicing",   3);
-    gui->assignToCV("Inversion", 4);
+    gui->assignToCV("Voicing",   2);
+    gui->assignToCV("Inversion", 3);
+    //gui->assignToCV("Root",      4);
+
 
     // "In case if you wondered, the fucking thing starts the circular DMA transfer
     // that receives ADC readings from knobs / CV inputs."
@@ -145,7 +155,6 @@ int main(void) {
         updateOutputs();
 
         // rhythm->update();
-        // patch->seed.system.Delay(5);
     }
 }
 
@@ -154,9 +163,29 @@ void updateControls() {
     patch->ProcessAnalogControls();
     patch->ProcessDigitalControls();
 
-    // GATE IN 1 or GATE IN 2 -> clock pulse
-    if(patch->gate_input[0].Trig() || patch->gate_input[1].Trig()){
-        //rhythm->pulse();
+    // Read v/oct from CTRL 4
+    float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
+    //ctrl = ctrl * 5.f; //voltage, may use for monitoring later
+    uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f));
+
+    // !!! HACK !!!
+    // Voltage inputs from my Arturia Keystep were all a few hundredths
+    // of a volt shy of what their volt/oct values should theoretically
+    // be, resulting in everything to be a semitone flat. Not sure if this 
+    // was due to Keystep's output or Patches' input. I'll have to figure 
+    // out a more elegant solution later. Possibly adding a "trim" param
+    // or a device calibration feature.
+    i++;
+
+    // Check that a new cv value has been input, otherwise encoder input to
+    // note in won't work. Might remove later and just let CTRL 4 handle it
+    if(i !=  lastNote){
+        lastNote = i;
+        menu->getItem("Note In")->setIndex(i);
+    }
+    
+    // GATE IN 1 -> clock pulse
+    if(patch->gate_input[0].Trig()){
         arp->onClockPulse();
     }
 }
