@@ -1,5 +1,3 @@
-!/_evan/Jellybeans/build/Jellybeans.bin
-
 *.obj
 *.exe
 *.dll
@@ -124,7 +122,11 @@ core/build
 cube/Daisy_Seed_Rev2/
 cube/Daisy_Seed_Rev3/
 /**/VisualGDB
-/**/build
+## Evan's modifications ##
+# /**/build
+/**/build/*
+!/_evan/**/build/*.bin
+##########################
 bin/
 .visualgdb
 VisualGDBCache
@@ -132,4 +134,3 @@ vs/*.log
 MyProjects/
 .cortex-debug.registers.state.json
 .cortex-debug.peripherals.state.json
-
