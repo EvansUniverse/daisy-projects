@@ -7,6 +7,22 @@ Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 // TODO place instructions on using compiled binary with Daisy web programmer here -->
 
 <details>
+<summary><b>Daisy web programmer</b></summary>
+
+From the [Daisy web programmer](https://electro-smith.github.io/Programmer/):
+1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
+2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
+3. Download [build/Jellybeans.bin](build/Jellybeans.bin)
+4. In the web programmer, click "connect". Select "DFU in FS mode"
+6. Click "choose file" and select `Jellybeans.bin`
+7. Click "program"
+
+Check out [this post](https://forum.electro-smith.com/t/welcome-to-daisy-get-started-here/15) for troubleshooting and more info. I've tested this in Chrome compatibility with other browsers may vary.
+
+</details>
+
+
+<details>
 <summary><b>Debug probe from vscode (recommended way)</b></summary>
 
 From a vscode instance in this project's root directory:
@@ -47,7 +63,7 @@ From this project's root directory: `make`
 
 </details>
 
-For additional resources: [Official Daisy documentation](https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment)
+Note that you might have to run additional tasks to re-build the binary. For additional resources: [Official Daisy documentation](https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment)
 
 ## Usage
 
