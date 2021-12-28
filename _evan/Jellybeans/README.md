@@ -3,11 +3,8 @@ Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
 
 ## Build Instructions
 
-<!-- ### Help! I'm not a programmer, I just want to put this on my Daisy Patch.
-// TODO place instructions on using compiled binary with Daisy web programmer here -->
-
 <details>
-<summary><b>Daisy web programmer</b></summary>
+<summary><b>"I'm not a developer, I just want to use the darn program!" (Daisy web programmer)</b></summary>
 
 From the [Daisy web programmer](https://electro-smith.github.io/Programmer/):
 1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
@@ -23,7 +20,7 @@ Check out [this post](https://forum.electro-smith.com/t/welcome-to-daisy-get-sta
 
 
 <details>
-<summary><b>Debug probe from vscode (recommended way)</b></summary>
+<summary><b>Debug probe from vscode (recommended for devs)</b></summary>
 
 From a vscode instance in this project's root directory:
 1. Connect the [ST LINK-V3 debug probe](https://www.electro-smith.com/daisy/stlink-v3mini) to Daisy
