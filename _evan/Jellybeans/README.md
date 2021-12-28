@@ -1,5 +1,15 @@
 # :candy: Jellybeans :candy:
-Diatonic arpeggio generator for the Electrosmith Daisy Patch eurorack module
+Quantizing diatonic arpeggiator for the Electrosmith Daisy Patch eurorack module.
+
+### What does it do?
+Jellybeans is an arpeggiator with special features. The user configures a scale and sends in v/oct root input, then Jellybeans arpeggiates the diatonic chord with that root. This is great for creating a sense of "chord progressions" on eurorack.
+
+### Features
+* Arpeggiator
+* Configurable scale (root and quality)
+* Quantizes v/oct input
+* Lots of arpeggator options (chord voicings, inversions)
+* Sends a bass note (root) out through _CV out 2_
 
 ## Build Instructions
 
@@ -64,21 +74,22 @@ Note that you might have to run additional tasks to re-build the binary. For add
 
 ## Usage
 
-### Features
-* User selects a scale (root and quality) through the bmenu.
-* Receives clock through _Gate in 1_ 
-* Receives cv through _Ctrl 1_ which dictates the root note
-* Arpeggio settings are highly configurable and performable
-* Sends a bass note out through _CV out 2_
+### TL;DR
+* Send v/oct to `CTRL 4`
+* Send note triggers to `GATE IN 1`
+* Use `ENC 1` to navigate the menu (push down to toggle between scrolling and editing)
+* Set your scale
+* The arpeggiator will send v/oct to `OUT 1`, triggers to `GATE OUT 1` and bass v/oct to `OUT 2`
+
 
 ### Controls
-* **Gate in 1:** Clock in 
+* **Gate in 1:** Trigger in 
 <!--* **Gate in 2:**-->
-* **Gate out 1:** Arpeggio gate out
+* **Gate out 1:** Trigger out
 * **Ctrl 1:** Pattern
-* **Ctrl 2:** Rhythm
-* **Ctrl 3:** Time Division
-* **Ctrl 4:** Inversion
+* **Ctrl 2:** Voicing
+* **Ctrl 3:** Inversion
+* **Ctrl 4:** v/oct
 * **Enc 1 (push):** Select alter/browse menu item 
 * **Enc 1 (rotate):** Alter/browse menu item
 <!--* **Audio in 1:**
@@ -91,8 +102,8 @@ Note that you might have to run additional tasks to re-build the binary. For add
 * **Audio out 4:**
 * **MIDI in:** 
 * **MIDI out:** -->
-* **CV out 1:** Arpeggio pitch
-* **CV out 2:** Bass pitch
+* **CV out 1:** Arpeggio v/oct
+* **CV out 2:** Bass v/oct
 
 ### Menu
 Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
@@ -122,13 +133,6 @@ From this project's root directory: `make`
     * 1st
     * 2nd
     * 3rd
-* PPN (Pulse per note)
-    * 1
-    * 2
-    * 3
-    * 4
-    * 8
-    * 16
 * Volt / octave (_Ctrl 4)_
     <!--* 4 bars
     * 2 bars
@@ -157,10 +161,17 @@ From this project's root directory: `make`
     * Mixolydian
     * Minor
     * Locrian
-* Arp octave range (-2 to +4)
-* Octave (0 to +3)
+* Octave (0 to +2)
 * Bass octave (0 to +3)
-<!--* Clock PPQ (pulses per quarter)
+* PPN (Pulse per note)
+    * 1
+    * 2
+    * 3
+    * 4
+    * 8
+    * 16
+<!--
+* Arp octave range (-2 to +4)
 * Bass note division
     * Hold (this will play 1 sustained note until the next chord change)
     * 4 bars
@@ -213,10 +224,8 @@ From this project's root directory: `make`
 * +/- 1 semitone trim
 
 ### Nice to haves & maybes
-* Deep settings submenu (would have to implement submenus in gui lib)
-* Add some sort of "inversion+oct displacement" setting that can create, for example, shell chords from 7ths
-* implement slides
-* fine tune setting for +/- 1 semitone?
+* Add some sort of "inversion+oct displacement" setting
+* slides (per-step portamento)
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
 * Separate diagnostics page that can monitor perf data on-unit
 * seprate menus implemented in gui lib - maybe double clicking the encoder cycles menus
