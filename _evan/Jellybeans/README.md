@@ -201,6 +201,8 @@ From this project's root directory: `make`
     * ⅛
     * 1/16 -->
 
+</details>
+
 ## TODOs
 ### Planned features
 * internal clock source
