@@ -242,8 +242,11 @@ From this project's root directory: `make`
 * CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
 
 ## Contact me
-For bug reports, feature requests, diatribes, etc. you can reach out to me via:
+For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
 * evansuniversemusic@gmail.com
 * https://github.com/EvansUniverse
 * https://www.reddit.com/user/aromatic_raisin
 * Git issues
+
+
+As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)

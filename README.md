@@ -7,8 +7,11 @@ For instructions on how to build any of my projects, check the `README.md` file 
 For more info, check out [the official Daisy examples repo](https://github.com/electro-smith/DaisyExamples).
 
 ## Contact me
-For bug reports, feature requests, diatribes, etc. you can reach out to me via:
+For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
 * evansuniversemusic@gmail.com
 * https://github.com/EvansUniverse
 * https://www.reddit.com/user/aromatic_raisin
 * Git issues
+
+
+As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)
