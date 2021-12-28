@@ -23,23 +23,42 @@ namespace jellybeans {
     // @param an element of mu::allModes
     // bool isDiatonic(int, std::string);
 
-    // If the note exceeds our note range, bring it up/down an octave until it fits
     // @param the semitone value of a note
+    // @return if the note exceeds our range, bring it up/down an octave until it fits
     int quantizeNoteToRange(int);
 
-    // Converts a semitone value to data that can be supplied to Daisy Seed's DAC
-    // for CV, using the function patch.seed.dac.WriteValue()
+    // Converts 
     //
-    // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
-    // per volt or octave.
-    //
-    // @param semi: an integer between 0-60 representing the number of semitones from low C
+    // @param semi: semitone value corresponding to theory::allNotes5Oct
+    // @return value that can be supplied to Daisy Seed's DAC for CV out 
+    //         using the function patch.seed.dac.WriteValue()
     float semitoneToDac(int);
 
-    // Converts float to string
     // @param float
     // @param decimalPlaces
+    // @return string representation of the float e.g. (1.041, 2) -> "1.04"
     std::string floatToString(float, uint8_t);
+
+    // Quantizes a note to a mode. Always quantizes down, unless the note is 0, 
+    // in which case it quantizes up.
+    //
+    // @param semitone value
+    // @param mode
+    // @param mode root
+    // @return semitone value of the quantized note
+    uint8_t quantize(uint8_t, std::string, uint8_t);
+
+    // @param semitone value
+    // @param mode
+    // @param mode root
+    // @return 0-indexed scale degree of the given note (quantized)
+    uint8_t noteToScaleDegree(uint8_t, std::string, uint8_t);
+
+    // @param 0-indexed scale degree (<6)
+    // @param mode
+    // @param mode root
+    // @return semitone value of that degree
+    uint8_t scaleDegreeToNote(uint8_t, std::string, uint8_t);
 
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
@@ -60,7 +79,7 @@ namespace jellybeans {
 
     // Note that the indices of these elements also correspond to
     // their semitone distances from C0.
-    const std::array<std::string, 60> allNotes5Oct {
+    const std::vector<std::string> allNotes5Oct {
         "C0",
         "C#0",
         "D0",
@@ -120,8 +139,7 @@ namespace jellybeans {
         "G#4",
         "A4",
         "A#4",
-        // Temporarily removed due to dac conversion bug
-        // "B4"
+        "B4",
     };
 
     // Note: Mode names are currently abbreviated due to 
@@ -210,15 +228,15 @@ namespace jellybeans {
         "4",
     };
 
-    const std::vector<std::string> allClockDivs {
-        "1/16",
-        "1/8",
-        "1/4",
-        "1/2", 
+    const std::vector<std::string> allPPNs {
+        // "1/16", // Fractional values will be added when rhythm is fixed
+        // "1/8",
+        // "1/4",
+        // "1/2", 
         "1",
         "2",
         "4",
         "8",
-        "16"
+        "16",
     };
-}
+} // namespace jellybeans

@@ -22,10 +22,10 @@ namespace patch_gui {
         std::vector<MenuItem*> items;
 
         // Allows O(log(n)) retrieval by name
-        std::map<std::string, int> itemNameToIndex;
+        std::map<std::string, uint8_t> itemNameToIndex;
 
         // Currently selected menu item (will appear at the top of the list)
-        int index;
+        uint8_t index;
     public:
         Menu();
 
@@ -35,20 +35,20 @@ namespace patch_gui {
         // @param list of possible values
         // @param index of default value, must be a valid index
         // @param callback function that runs every time the MenuItem's value is changed
-        void append(std::string, std::string, std::vector<std::string>, int , std::function<void ()>);
+        void append(std::string, std::string, std::vector<std::string>, uint8_t , std::function<void ()>);
 
-        int size();
+        uint8_t size();
 
         // @param name
         MenuItem* getItem(std::string);
 
         // @param index
-        MenuItem* getItem(int);
+        MenuItem* getItem(uint8_t);
 
         // @return the currently selected item
         MenuItem* getItem();
 
-        int getIndex();
+        uint8_t getIndex();
 
         // If given an out of bounds value, sets it to the nearest in-bounds value.
         // @param index

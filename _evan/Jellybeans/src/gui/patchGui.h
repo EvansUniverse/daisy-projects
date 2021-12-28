@@ -72,8 +72,8 @@ namespace patch_gui {
         bool isEditing;
     
         FontDef* font;
-        int fontWidth;
-        int fontHeight;
+        uint8_t fontWidth;
+        uint8_t fontHeight;
 
         std::string headerStr; // TODO make this a vect to accomodate multiple headers
         std::string debugStr;
@@ -81,12 +81,12 @@ namespace patch_gui {
 
         // Used to assigning cv values to parameters
         std::array<Parameter*, 4> cvParams;
-        std::array<int,       4> cvVals;
-        std::array<MenuItem*, 4> cvMenuItems;
+        std::array<uint16_t,   4> cvVals;
+        std::array<MenuItem*,  4> cvMenuItems;
     public:
         // I'll probably use these later
-        const int SCREEN_WIDTH = 128;
-        const int SCREEN_HEIGHT = 64;
+        const uint8_t SCREEN_WIDTH = 128;
+        const uint8_t SCREEN_HEIGHT = 64;
 
         // Don't use this
         PatchGui();
@@ -95,7 +95,7 @@ namespace patch_gui {
         // @param FontDef
         // @param fontWidth
         // @param fontHeight
-        PatchGui(DaisyPatch*, Menu*, FontDef*, int, int);
+        PatchGui(DaisyPatch*, Menu*, FontDef*, uint8_t, uint8_t);
 
         // Utility to perform a silly little dance where we set the cursor, 
         // convert a std::string to char*, and pass it to WriteString()
@@ -103,7 +103,7 @@ namespace patch_gui {
         // @param string
         // @param x coordinate
         // @param y coordinate
-        void drawString(std::string, int, int);
+        void drawString(std::string, uint8_t, uint8_t);
 
         // Updates menu position, selection, etc. based upon
         // input from Patches' controls.
@@ -123,7 +123,7 @@ namespace patch_gui {
         // Assigns a parameter to a cv value
         // @param title - must be a valid title of a menuItem in menu
         // @param cv value (1-4)
-        void assignToCV(std::string, int);
+        void assignToCV(std::string, uint8_t);
 
         void setHeaderStr(std::string);
         void setDebugStr(std::string);

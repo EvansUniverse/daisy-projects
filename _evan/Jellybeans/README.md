@@ -85,7 +85,7 @@ For additional resources: [Official Daisy documentation](https://github.com/elec
 Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
 
 <details>
-<summary><b> Menu </b></summary>
+<summary><b> Full menu </b></summary>
 From this project's root directory: `make`
 
 * Pattern (_Ctrl 1)_
@@ -93,13 +93,30 @@ From this project's root directory: `make`
     * Down
     * Up + down inclusive
     * Up + down exclusive
-* Pulse per note (_Ctrl 2)_
+    * Random
+* Voicing (_Ctrl 2)_
+    * Triad
+    * Triad+ (triad + root)
+    * 7th
+    * Sus2
+    * Sus4
+    * Power (root+5)
+    * Shell 1
+    * Shell 2
+    <!--* Kenny Barron-->
+* Inversion (_Ctrl 3)_
+    * None
+    * 1st
+    * 2nd
+    * 3rd
+* PPN (Pulse per note)
     * 1
     * 2
     * 3
     * 4
     * 8
     * 16
+* Volt / octave (_Ctrl 4)_
     <!--* 4 bars
     * 2 bars
     * 1 bar
@@ -109,26 +126,6 @@ From this project's root directory: `make`
     * 16th
     * 32nd
     * 64th (maaaybe) -->
-* Voicing (_Ctrl 3)_
-    * Triad
-    * Triad+ (triad + root)
-    * 7th
-    * 7th+ (7th + root)
-    * 9th
-    * 11th
-    * 13th
-    * 6th
-    * Sus2
-    * Sus4
-    * Power (root+5)
-    * Shell 1
-    * Shell 2
-    <!--* Kenny Barron-->
-* Inversion (_Ctrl 4)_
-    * None
-    * 1st
-    * 2nd
-    * 3rd
 <!--* Rhythm
     * Straight
     * Dotted
@@ -189,20 +186,16 @@ From this project's root directory: `make`
     * ½
     * ¼
     * ⅛
-    * 1/16
--->
-
-
-</details>
+    * 1/16 -->
 
 ## TODOs
 ### Planned features
 * internal clock source
 * fractional timing
 * varying rhythms
-* diatonic input - this will possibly require separate operation modes for diatonic/standalone
 * persist certain state on shutdown e.g. mode of operation
 * boot screen (disable during debug mode?), implemented in gui lib
+* +/- 1 semitone trim
 
 ### Nice to haves & maybes
 * Deep settings submenu (would have to implement submenus in gui lib)
@@ -215,4 +208,4 @@ From this project's root directory: `make`
 * give bass more options (possibly implement as 2nd arp)
 
 ## Known Bugs
-* Random order tends to bias root notes
+* CTRL 4 can't set root note to C0, lowest is C#0. This is due to a hack in Jellybeans.cpp::updateControls()

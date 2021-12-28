@@ -17,45 +17,54 @@
 #include "theory.h"
 
 namespace jellybeans {
-    // Notes are represented as ints, as they correspond to mu::allNotes5Oct
-    // For performance reasons, all functions assume valid input
+
+    // Stores a mode information and uses it to generate chords of 
+    // the specified degree and voicing.
     class DiatonicChord {
     private:
         // String representation of the chord
         std::string string;
 
         // Semitone value of each note in the chord
-        std::vector<int> semis;
+        std::vector<uint8_t> semis;
+
+        // Semitone value of the current mode's root note
+        uint8_t modeRoot;
 
         // string ∈ theory.h::modes
         std::string mode;
 
-        // Semitone value of the current root note
-        int root;
+        // Scale degree the current chord's root note
+        uint8_t degree;
 
         // Number of notes in the chord
-        int length;
+        uint8_t length;
 
         // TODO: Use with caution, there is currently weak protection from 
         // the octave bringing notes out of register. Notes will crudely be
         // quantized into register, which may not produce musical results.
-        int octave;
+        uint8_t octave;
 
         // ∈ theory.h::voicings
         std::string voicing;
 
         // 0 = uninverted
-        int inversion;
+        uint8_t inversion;
+
+        // TODO in the future, may need to set it dynamically for exotic scales
+        // e.g. static_cast<uint8_t>(modeToSemitones.at(mode).size());
+        const uint8_t scaleLen = 7;
 
     public:
         // Default is C major triad
         DiatonicChord();
 
-        // @param root    - semitone value, 0-11
-        // @param mode    - ∈ theory.h::allModes
-        // @param voicing - ∈ theory.h::voicings
-        // @param octave  - valid index of theory::allOctaves
-        DiatonicChord(int, std::string, std::string, int);
+        // @param modeRoot - semitone value, 0-11
+        // @param mode     - ∈ theory.h::allModes
+        // @param degree   - scale degree of mode, 0-6
+        // @param voicing  - ∈ theory.h::voicings
+        // @param octave   - valid index of theory::allOctaves
+        DiatonicChord(uint8_t, std::string, uint8_t, std::string, uint8_t);
 
         // Updates the value of string, so that it only needs to be 
         // computed when necessary
@@ -66,29 +75,35 @@ namespace jellybeans {
         void updateChord();
 
         // @return semis[n], or semis[0] if n is out of bounds
-        int getNoteAt(int);
+        uint8_t getNoteAt(uint8_t);
 
-        // @return the number of notes in the chord
-        int getLength();
+        uint8_t getLength();
 
-        // @return semitone value of the root
-        int getRoot();
+        uint8_t getDegree();
+
+        uint8_t getModeRoot();
 
         std::string toString();
 
-        // @param semitone value the desired root note
-        void setRoot(int);
+        // @param desired scale degree of mode, 0-6
+        void setDegree(uint8_t);
+
+        // @param semitone value of desired scale degree
+        void setDegreeByNote(uint8_t);
+    
+        // @param modeRoot - semitone value, 0-11
+        void setModeRoot(uint8_t);
 
         // @param string ∈ theory.h::allModes
         void setMode(std::string);
 
         // @param valid index of theory::allOctaves
-        void setOctave(int);
+        void setOctave(uint8_t);
 
         // @param string ∈ theory.h::voicings
         void setVoicing(std::string);
 
         // @param valid index of theory.h::allInversions
-        void setInversion(int);
+        void setInversion(uint8_t);
     };
 }
