@@ -239,3 +239,11 @@ From this project's root directory: `make`
 
 ## Known Bugs
 * CTRL 4 can't set root note to C0, lowest is C#0. This is due to a hack in Jellybeans.cpp::updateControls()
+* CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
+
+## Contact me
+For bug reports, feature requests, diatribes, etc. you can reach out to me via:
+* evansuniversemusic@gmail.com
+* https://github.com/EvansUniverse
+* https://www.reddit.com/user/aromatic_raisin
+* Git issues
