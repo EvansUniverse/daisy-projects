@@ -2,13 +2,13 @@
 Quantizing diatonic arpeggiator for the Electrosmith Daisy Patch eurorack module.
 
 ### What does it do?
-Jellybeans is an arpeggiator with special features. The user configures a scale and sends in v/oct root input, then Jellybeans arpeggiates the diatonic chord with that root. This is great for creating a sense of "chord progressions" on eurorack.
+Jellybeans is an arpeggiator with special features. The user configures a scale and sends in v/oct root input, then Jellybeans arpeggiates the diatonic chord with that root. This is great for creating quasi chord progressions with eurorack's chiefly monophonic sound sources.
 
 ### Features
 * Arpeggiator
 * Configurable scale (root and quality)
 * Quantizes v/oct input
-* Lots of arpeggator options (chord voicings, inversions)
+* Lots of arpeggator options (chord voicings, inversions, clock divisions)
 * Sends a bass note (root) out through _CV out 2_
 
 ## Build Instructions
@@ -133,7 +133,19 @@ From this project's root directory: `make`
     * 1st
     * 2nd
     * 3rd
-* Volt / octave (_Ctrl 4)_
+* PPN (Pulse per note)
+    * 1
+    * 2
+    * 3
+    * 4
+    * 5
+    * 6
+    * 7
+    * 8
+    * 16
+    * 32
+    * 64
+* Octave (0 to +2)
     <!--* 4 bars
     * 2 bars
     * 1 bar
@@ -161,15 +173,9 @@ From this project's root directory: `make`
     * Mixolydian
     * Minor
     * Locrian
-* Octave (0 to +2)
 * Bass octave (0 to +3)
-* PPN (Pulse per note)
-    * 1
-    * 2
-    * 3
-    * 4
-    * 8
-    * 16
+* Volt / octave (_Ctrl 4)_
+
 <!--
 * Arp octave range (-2 to +4)
 * Bass note division

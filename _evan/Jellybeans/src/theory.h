@@ -229,14 +229,23 @@ namespace jellybeans {
     };
 
     const std::vector<std::string> allPPNs {
-        // "1/16", // Fractional values will be added when rhythm is fixed
+        // Fractional values will be added when rhythm is fixed
+        // "1/16",
         // "1/8",
         // "1/4",
         // "1/2", 
         "1",
         "2",
+        // I figured the non-power-of-two values might be cool for polymetric timing.
+        // I'll remove/adjust them based on how well they work.
+        "3", 
         "4",
+        "5",
+        "6",
+        "7",
         "8",
         "16",
+        "32",
+        "64",
     };
 } // namespace jellybeans

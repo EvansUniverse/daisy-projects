@@ -34,6 +34,8 @@ using namespace daisysp;
 using namespace jellybeans;
 using namespace patch_gui;
 
+// Change this to enable debug output
+const bool DEBUG_MODE = false;
 
 DaisyPatch* patch;
 PatchGui*   gui;
@@ -41,12 +43,14 @@ Arp*        arp;
 Menu*       menu;
 // Rhythm*     rhythm;
 
-FontDef font   = Font_7x10;
+FontDef font      = Font_7x10;
 uint8_t fontWidth  = 7;
 uint8_t fontHeight = 10;
 
 float bassDac;
 uint8_t lastNote;
+uint8_t ppn;
+uint16_t pulseCounter;
 
 void updateControls();
 void updateOled();
@@ -54,7 +58,7 @@ void updateOutputs();
 
 /* Callback functions invoked whenever menu parameters are changed */
 
-void cb(){};
+// void cb(){};
 
 void cbPattern(){
     arp->setPattern(menu->getItem("Pattern")->getValue());  // TODO make the titles of each menuItem const
@@ -99,6 +103,11 @@ void cbNoteIn(){
     cbBassOct();
 };
 
+void cbPPN(){
+    ppn = std::stoi((menu->getItem("PPN")->getValue()));
+    pulseCounter = 0;
+};
+
 // Callback function invoked whenever the timer ticks
 // void cbRhythm(){
 //     if (rhythm->getTick()/64 == 0){
@@ -117,22 +126,25 @@ int main(void) {
 
     bassDac = 0.f;
     lastNote = 0;
+    ppn = 1;
+    pulseCounter = 0;
 
-    gui->setDebug(true); // Uncomment this line to enable debug output
+    gui->setDebug(DEBUG_MODE);
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
     menu->append("Inversion", " ", allInversions,  0, cbInversion);
-    menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
+    menu->append("PPN", "       ", allPPNs,        0, cbPPN); // Pulses per note
+    menu->append("Octave", "    ", allOctaves,     0, cbOctave);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
     // menu->append("Rhythm", "    ", emptyVect,      0, cb); 
     // menu->append("Oct Rng", "   ", allOctaves,     0, cb);
-    menu->append("Octave", "    ", allOctaves,     0, cbOctave);
     // menu->append("Clock In", "  ", allClockInDivs, 0, cb);
     menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
-    menu->append("PPN", "       ", allPPNs,        0, cb); // Disabled
+    menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
+    
 
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
@@ -186,7 +198,11 @@ void updateControls() {
     
     // GATE IN 1 -> clock pulse
     if(patch->gate_input[0].Trig()){
-        arp->onClockPulse();
+        pulseCounter++;
+        if (pulseCounter == ppn){
+            arp->onClockPulse();
+        }
+        pulseCounter = pulseCounter % ppn;  
     }
 }
 
@@ -206,11 +222,13 @@ void updateOled(){
     gui->updateControls();
     gui->setHeaderStr(arp->toString());
 
-    // Uncomment one of these lines to set debug output.
-    //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
-    //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
-    gui->setDebugStr(arp->getChord()->toString());
-    // gui->setDebugStr(rhythm->toString());
+    // Keeping a few useful debug outputs here
+    if (DEBUG_MODE){
+        //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
+        //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
+        gui->setDebugStr(arp->getChord()->toString());
+        // gui->setDebugStr(rhythm->toString());    
+    }
 
     gui->render();
 }
