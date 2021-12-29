@@ -62,6 +62,9 @@ void DiatonicChord::updateChord(){
        semis[i] = quantizeNoteToRange(semis[i]);
     }
 
+    // Update root
+    root = semis[0];
+
     // Calculate inversion
     for (uint8_t i = 0; i < inversion; i++){
         semis.push_back(semis.front() + 12); 
@@ -73,24 +76,15 @@ void DiatonicChord::updateChord(){
 }
 
 void DiatonicChord::updateString(){
-    // Other option I'm entertaining: e.g. "A minor iii"
-   // string += allNotes[modeRoot] + " " + std::to_string(degree) + " - ";
+    string = scaleDegreeToNumeral();
 
-    string = allNotes[modeRoot];
-    if (string.length() <  2){
-        string += " ";
-    }
-    string += intToNumeral(degree + 1) + " ";
-     for(uint8_t i : semis) 
-        string += allNotes[i % 12] + " ";
+    // To be enabled for debug purposes: e.g. "C E G"
+    // for(uint8_t i : semis) 
+    //     string += allNotes[i % 12] + " ";
 
-    // Other option I'm entertaining: list of semis e.g. "0 4 7"
+    // To be enabled for debug purposes: e.g. "0 4 7"
     // for(uint8_t i : semis) 
     //     string += std::to_string(i) + " ";
-
-    // Other option I'm entertaining: e.g "C# Triad"
-    // TODO make this more accurate/robust (i.e. "A minor triad" instead of "A triad")
-    // string =  allNotes5Oct[degree] + " " + voicing;
 }
 
 
@@ -107,6 +101,10 @@ uint8_t DiatonicChord::getNoteAt(uint8_t n){
 
 uint8_t DiatonicChord::getDegree(){
     return degree;
+}
+
+uint8_t DiatonicChord::getRoot(){
+    return root;
 }
 
 uint8_t DiatonicChord::getLength(){
@@ -155,4 +153,108 @@ void DiatonicChord::setOctave(uint8_t i){
 void DiatonicChord::setInversion(uint8_t i){
     inversion = i;
     updateChord();
+}
+
+/* Helpers */
+
+std::string DiatonicChord::scaleDegreeToNumeral(){
+    std::string res = allNotes[getRoot() % 12];
+
+    // Get the mode degree
+    uint8_t i;
+    for(i = 0; i < modes.size(); i++){
+        if (modes[i] == mode){
+            break;
+        } 
+    }
+
+    uint8_t majEquivalent = (degree + i) % 7;
+
+    // // toLower() or subtracting the ascii value would be more elegant but 
+    // // this is more efficient.
+    // if(majEquivalent == 0 || majEquivalent == 3 || majEquivalent == 4){
+    //     // Capitalize
+    //     switch (degree) {
+    //     case 0:
+    //         res = "I";
+    //         break;
+    //     case 1:
+    //         res = "II";
+    //         break;
+    //     case 2:
+    //         res = "III";
+    //         break;
+    //     case 3:
+    //         res = "IV";
+    //         break;
+    //     case 4:
+    //         res = "V";
+    //         break;
+    //     case 5:
+    //         res = "VI";
+    //         break;
+    //     case 6:
+    //         res = "VII";
+    //         break;
+    //     }   
+    // } else {
+    //     // Don't capitalize
+    //     switch (degree) {
+    //     case 0:
+    //         res = "i";
+    //         break;
+    //     case 1:
+    //         res = "ii";
+    //         break;
+    //     case 2:
+    //         res = "iii";
+    //         break;
+    //     case 3:
+    //         res = "iv";
+    //         break;
+    //     case 4:
+    //         res = "v";
+    //         break;
+    //     case 5:
+    //         res = "vi";
+    //         break;
+    //     case 6:
+    //         res = "vii";
+    //         break;
+    //     }   
+    // }
+
+    if (voicing == "Power"){
+        res += "5";
+    } else if ((voicing == "Triad" || voicing == "Triad+") && majEquivalent == 6){
+        res += "dim";
+    } else if (voicing == "Sus2"){
+        res += "sus2";
+    } else if (voicing == "Sus4"){
+        res += "sus4";
+    } else if ((voicing == "7th" || voicing == "7th+" || voicing == "Shell 1" || voicing == "Shell 2") && majEquivalent == 4) {
+        res += "7";
+    } else if (majEquivalent == 0 || majEquivalent == 3 || majEquivalent == 4){
+        res += "maj";
+    } else if (majEquivalent == 1 || majEquivalent == 2 || majEquivalent == 5 || majEquivalent == 6){
+        res += "min";
+    }
+
+    if ((voicing == "7th" || voicing == "7th+" || voicing == "Shell 1" || voicing == "Shell 2") && majEquivalent != 4){
+         res += "7"; 
+    } else if (voicing == "9th"){
+        res += "9";
+    } else if (voicing == "11th"){
+        res += "11";
+    } else if (voicing == "13th"){
+        res += "13";
+    } else if (voicing == "6th"){
+        res += "6";
+    }
+
+    if (majEquivalent == 6 && (voicing != "Sus2" && voicing != "Sus4" && voicing != "Power" && voicing != "Shell 1" && voicing != "Shell 2" && voicing != "Triad" && voicing != "Triad+")) {
+        res += "b5";
+    }
+
+    return res;
 }

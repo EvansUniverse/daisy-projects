@@ -115,7 +115,7 @@ void Arp::updateString(){
                 string += " ";
             }
         } else {
-            string += "_ ";
+            string += ". ";
         }
     }
 }

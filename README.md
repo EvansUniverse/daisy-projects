@@ -9,7 +9,6 @@ For more info, check out [the official Daisy examples repo](https://github.com/e
 ## Contact me
 For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
 * evansuniversemusic@gmail.com
-* https://github.com/EvansUniverse
 * https://www.reddit.com/user/aromatic_raisin
 * Git issues
 
