@@ -34,7 +34,7 @@ namespace jellybeans {
         // string ∈ theory.h::modes
         std::string mode;
 
-        // Scale degree the current chord's root note
+        // Scale degree the current chord's root note (0-indexed)
         uint8_t degree;
 
         // Number of notes in the chord
@@ -45,6 +45,8 @@ namespace jellybeans {
         // quantized into register, which may not produce musical results.
         uint8_t octave;
 
+        uint8_t root;
+
         // ∈ theory.h::voicings
         std::string voicing;
 
@@ -54,6 +56,9 @@ namespace jellybeans {
         // TODO in the future, may need to set it dynamically for exotic scales
         // e.g. static_cast<uint8_t>(modeToSemitones.at(mode).size());
         const uint8_t scaleLen = 7;
+
+        // @return roman numeral representation e.g. (4, "Major") -> "IV"
+        std::string scaleDegreeToNumeral();
 
     public:
         // Default is C major triad
@@ -82,6 +87,9 @@ namespace jellybeans {
         uint8_t getDegree();
 
         uint8_t getModeRoot();
+
+        // @return root, semitone value, 0-659
+        uint8_t getRoot();
 
         std::string toString();
 

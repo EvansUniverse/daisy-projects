@@ -16,14 +16,6 @@
 
 #include "theory.h"
 
-/* private helpers */
-uint8_t cScaleEquivalent(uint8_t note, uint8_t modeRoot){
-    if (note < modeRoot){
-        note--;
-    }
-    return (note - modeRoot) % 12;
-}
-
 namespace jellybeans {
     int quantizeNoteToRange(int i) {
         while (i > MAX_NOTE){
@@ -72,7 +64,6 @@ namespace jellybeans {
         const std::vector<int>* v = &(modeToSemitones.at(mode));
         int base = v->at(degree);
         return (base + modeRoot % 12); 
-       // return 1;
     }
 
     float semitoneToDac(int semi) {
@@ -108,25 +99,13 @@ namespace jellybeans {
         ret.insert(ret.end()-dec, 1, '.');
         return ret;
     }
+}
 
-    // TODO distinguish between lowercase and uppercase depending on quality
-    std::string intToNumeral(uint8_t i){
-        switch (i) {
-            case 1:
-                return "I  ";
-            case 2:
-                return "II ";
-            case 3:
-                return "III";
-            case 4:
-                return "IV ";
-            case 5:
-                return "V  ";
-            case 6:
-                return "VI ";
-            case 7:
-                return "VII";
-        }
-        return "N/A";
+/* Helpers */
+
+uint8_t cScaleEquivalent(uint8_t note, uint8_t modeRoot){
+    if (note < modeRoot){
+        note--;
     }
+    return (note - modeRoot) % 12;
 }

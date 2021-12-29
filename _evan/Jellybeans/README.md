@@ -237,18 +237,25 @@ From this project's root directory: `make`
 * Separate diagnostics page that can monitor perf data on-unit
 * seprate menus implemented in gui lib - maybe double clicking the encoder cycles menus
 * give bass more options (possibly implement as 2nd arp)
+* automated semver
 
 ## Known Bugs
 * CTRL 4 can't set root note to C0, lowest is C#0. This is due to a hack in Jellybeans.cpp::updateControls()
 * CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
 
+## Contributing
+Pull requests are welcome.
+
+This project adheres to [semantic versioning](https://semver.org/). Before merging:
+* Update [CHANGELOG.md](CHANGELOG.md)
+* Update the `VERSION` variable in [Jellybeans.cpp](Jellybeans.cpp)
+* Add a copy of `build/Jellybeans.bin` to `old_builds` and name it like so: `Jellybeans_1-0-0.bin`
+
+
+As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)
+
 ## Contact me
 For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
 * evansuniversemusic@gmail.com
-* https://github.com/EvansUniverse
 * https://www.reddit.com/user/aromatic_raisin
 * Git issues
-
-Pull requests are welcome.
-
-As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)

@@ -35,7 +35,8 @@ using namespace jellybeans;
 using namespace patch_gui;
 
 // Change this to enable debug output
-const bool DEBUG_MODE = true;
+const bool DEBUG_MODE = false;
+const std::string VERSION = "1.0.0";
 
 DaisyPatch* patch;
 PatchGui*   gui;
@@ -43,23 +44,20 @@ Arp*        arp;
 Menu*       menu;
 // Rhythm*     rhythm;
 
-FontDef font      = Font_7x10;
+uint8_t  lastNote;
+uint8_t  ppn;
+uint16_t pulseCounter;
+float    bassDac;
+
+FontDef font       = Font_7x10;
 uint8_t fontWidth  = 7;
 uint8_t fontHeight = 10;
-
-float bassDac;
-uint8_t lastNote;
-uint8_t ppn;
-uint16_t pulseCounter;
-float debug;
 
 void updateControls();
 void updateOled();
 void updateOutputs();
 
 /* Callback functions invoked whenever menu parameters are changed */
-
-// void cb(){};
 
 void cbPattern(){
     arp->setPattern(menu->getItem("Pattern")->getValue());  // TODO make the titles of each menuItem const
@@ -78,24 +76,26 @@ void cbInversion(){
 void cbMode(){
     arp->getChord()->setMode(menu->getItem("Mode")->getValue());
     arp->updateTraversal();
+    //cbBassOct();
 };
 
 // Compute a new bass CV value
 void cbBassOct(){
-    int semi = arp->getChord()->getDegree();
+    int semi = arp->getChord()->getRoot();
     semi += 12 * menu->getItem("Bass Oct")->getIndex();
     bassDac = semitoneToDac(semi);
 };
 
 void cbRoot(){
     arp->getChord()->setModeRoot(menu->getItem("Root")->getIndex());
-    arp->updateTraversal();
-    cbBassOct();
+    //arp->updateTraversal();
+    //cbBassOct();
 };
 
 void cbOctave(){
     arp->getChord()->setOctave(menu->getItem("Octave")->getIndex());
     arp->updateTraversal();
+    //cbBassOct();
 };
 
 void cbNoteIn(){
@@ -120,17 +120,23 @@ int main(void) {
     // Initialize vars and objects
     patch  = new DaisyPatch();
     patch->Init();
-    arp    = new Arp();
-    menu   = new Menu();
-    gui    = new PatchGui(patch, menu, &font, fontWidth, fontHeight);
+    arp = new Arp();
+    menu = new Menu();
+
+    uint8_t numHeaders = 2;
+    if (DEBUG_MODE){
+        // Add an extra header for debug output
+        numHeaders++;
+    }
+    gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, numHeaders);
     //rhythm = new Rhythm(false, cbRhythm);
+
+    gui->drawStartupScreen("Jellybeans", VERSION, 1500);
 
     bassDac = 0.f;
     lastNote = 0;
     ppn = 1;
     pulseCounter = 0;
-
-    gui->setDebug(DEBUG_MODE);
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
@@ -140,33 +146,26 @@ int main(void) {
     menu->append("Octave", "    ", allOctaves,     0, cbOctave);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
-    // menu->append("Rhythm", "    ", emptyVect,      0, cb); 
     // menu->append("Oct Rng", "   ", allOctaves,     0, cb);
-    // menu->append("Clock In", "  ", allClockInDivs, 0, cb);
     menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
     menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
     
-
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
     gui->assignToCV("Voicing",   2);
     gui->assignToCV("Inversion", 3);
-    //gui->assignToCV("Root",      4);
-
 
     // "In case if you wondered, the fucking thing starts the circular DMA transfer
     // that receives ADC readings from knobs / CV inputs."
     //
     // Thanks, antisvin :P
     patch->StartAdc();
-    patch->seed.StartLog();
 
     // Main event loop
     while(1){
         updateControls();
         updateOled();
         updateOutputs();
-
         // rhythm->update();
     }
 }
@@ -178,11 +177,9 @@ void updateControls() {
 
     // Read v/oct from CTRL 4
     float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
-    debug = ctrl;
-    //ctrl = ctrl * 5.f; //voltage, may use for monitoring later
     uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f));
 
-    // !!! HACK !!!
+    // !!! HACK !!! (Currently disabled)
     // Voltage inputs from my Arturia Keystep were all a few hundredths
     // of a volt shy of what their volt/oct values should theoretically
     // be, resulting in everything to be a semitone flat. Not sure if this 
@@ -222,16 +219,15 @@ void updateOutputs()
 
 void updateOled(){
     gui->updateControls();
-    gui->setHeaderStr(arp->toString());
+    gui->setHeader(arp->toString(), 0);
+    gui->setHeader(arp->getChord()->toString(), 1);
 
     // Keeping a few useful debug outputs here
     if (DEBUG_MODE){
-        //gui->setDebugStr("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
-        //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())));
-        gui->setDebugStr(arp->getChord()->toString());
-        // gui->setDebugStr(rhythm->toString()); 
-        //gui->setDebugStr(floatToString(debug, 3)); 
-
+        // gui->setHeader("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
+        //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())), 2);
+        // gui->setHeader(rhythm->toString(), 2); 
+        // gui->setHeader(floatToString(debug, 3), 2); 
     }
 
     gui->render();

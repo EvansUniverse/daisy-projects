@@ -25,15 +25,20 @@ PatchGui::PatchGui(
         Menu* theMenu,
         FontDef* theFont,
         uint8_t theWidth,
-        uint8_t theHeight
+        uint8_t theHeight,
+        uint8_t numHeaders
 ){
     patch      = thePatch;
     menu       = theMenu;
     font       = theFont;
     fontWidth  = theWidth;
     fontHeight = theHeight;
+    isEditing  = false;
 
-    isEditing = false;
+    headers = std::vector<std::string>(numHeaders);
+    for (uint8_t i = 0; i < headers.size(); i++){
+        headers[i] = "";
+    }
 
     cvParams    = std::array<Parameter*, 4>{NULL, NULL, NULL, NULL};
     cvVals      = std::array<uint16_t,   4>{0, 0, 0, 0};
@@ -57,6 +62,26 @@ void PatchGui::drawString(std::string str, uint8_t x, uint8_t y){
     patch->display.WriteString(cstr, *font, true);
 }
 
+void PatchGui::drawStartupScreen(std::string s, std::string v, uint32_t t){
+    patch->display.Fill(false);
+
+    // Draw s inside a rectangle
+    uint8_t len = s.size() * fontWidth;
+    uint8_t x = (SCREEN_WIDTH - len)/2;
+    uint8_t y = (SCREEN_HEIGHT - fontHeight)/2;
+    drawString(s, x, y+2);
+    patch->display.DrawRect(x-5, y-5, SCREEN_WIDTH - x + 5, SCREEN_HEIGHT - y + 5, true);
+
+    // Draw v
+    len = v.size() * fontWidth;
+    x = (SCREEN_WIDTH - len)/2;
+    y = SCREEN_HEIGHT - fontHeight;
+    drawString(v, x, y);
+
+    patch->display.Update();
+    patch->DelayMs(t);
+}
+
 void PatchGui::updateControls(){
     // Process CV input
     for (uint8_t i = 0; i < 4; i++){
@@ -66,7 +91,6 @@ void PatchGui::updateControls(){
                 cvMenuItems[i]->setIndex(curCvVal);
                 cvVals[i] = curCvVal;
             }
-        
         }
     }
 
@@ -93,58 +117,44 @@ void PatchGui::updateControls(){
 //  - 18 chars horizontally (w/2p to spare)
 //  - 6 chars vertically (w/4p to spare)
 void PatchGui::render(){
+    uint8_t y = 0;
+
     // Clear display
     patch->display.Fill(false);  
 
-    // Draw the top bar
-    drawString(headerStr, 0, 0);
-    patch->display.DrawLine(0, fontHeight + 1, SCREEN_WIDTH, fontHeight + 1, true);
+    // Draw headers
+    for (uint8_t i = 0; i < headers.size(); i++){
+        drawString(headers[i], 0, y);
+        y += fontHeight + 1;
+    }
 
-    // Draw the cursor indicator
-    drawString(">", 0, fontHeight + 1);
+    // Draw line under headers
+    patch->display.DrawLine(0, y, SCREEN_WIDTH, y, true);
 
-    uint8_t headerCount = 1; //TODO set for header vect
-
-    // Number of menu items that will fit on the screen
-    uint8_t listSize = (SCREEN_HEIGHT - (headerCount * fontHeight)) / fontHeight; 
-
-    if (debug){
-        // If in debug mode, reserve the bottom menu item's space for debug data
-        listSize--;
-        patch->display.DrawLine(0, 53, 128, 53, true);
-        drawString(debugStr, 2, 54);
+    // Draw cursor indicator
+    y++;
+    if (isEditing){
+        drawString("*", 0, y);
+    } else {
+        drawString(">", 0, y);
     }
 
     // Draw each menu item
-    for(uint8_t i = menu->getIndex(); i < menu->getIndex() + listSize; i++){
-        if (i < menu->size()){
-            drawString(
-                    menu->getItem(i)->getDisplayString(), 
-                    fontWidth, 
-                    (i - menu->getIndex()) * fontHeight + fontHeight + 2
-            );
+    uint8_t listSize = (SCREEN_HEIGHT - y) / fontHeight; 
+    y++;
+    for(uint8_t i = 0; i < listSize; i++){
+        if (menu->getIndex() + i < menu->size()){
+            drawString(menu->getItem(menu->getIndex() + i)->getDisplayString(), fontWidth, y);
+            y += fontHeight;
         }    
     }
+    //drawString(std::to_string(listSize) + " " + std::to_string(y) + "         ", 0, 0);
 
     // Write display buffer to OLED
     patch->display.Update();
 }
 
-void PatchGui::renderDebug(){
-    patch->display.Fill(false);  
-    patch->display.DrawLine(0, 53, 128, 53, true);
-    drawString(debugStr, 2, 54);
-    patch->display.Update();
-}
 
-void PatchGui::setHeaderStr(std::string s){
-    headerStr = s;
-}
-
-void PatchGui::setDebugStr(std::string s){
-    debugStr = s;
-}
-
-void PatchGui::setDebug(bool b){
-    debug = b;
+void PatchGui::setHeader(std::string s, uint8_t i){
+    headers[i] = s;
 }

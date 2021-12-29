@@ -52,18 +52,6 @@ namespace patch_gui {
      * |   MenuItem4      value   |
      * ----------------------------
      * 
-     * There's also a toggle-able debug mode. When enabled, It will
-     *  be displayed at the bottom in lieu of the last menu item:
-     * ----------------------------
-     * | Header string            |
-     * |--------------------------|
-     * | > MenuItem1      value   |
-     * |   MenuItem2      value   |
-     * |   MenuItem3      value   |
-     * |   MenuItem4      value   |
-     * |--------------------------|
-     * | Debug string             |
-     * ----------------------------
      */
     class PatchGui {
     private:
@@ -75,9 +63,7 @@ namespace patch_gui {
         uint8_t fontWidth;
         uint8_t fontHeight;
 
-        std::string headerStr; // TODO make this a vect to accomodate multiple headers
-        std::string debugStr;
-        bool debug;
+        std::vector<std::string> headers;
 
         // Used to assigning cv values to parameters
         std::array<Parameter*, 4> cvParams;
@@ -92,10 +78,11 @@ namespace patch_gui {
         PatchGui();
 
         // @param thePatch
-        // @param FontDef
+        // @param fontDef
         // @param fontWidth
         // @param fontHeight
-        PatchGui(DaisyPatch*, Menu*, FontDef*, uint8_t, uint8_t);
+        // @param numHeaders
+        PatchGui(DaisyPatch*, Menu*, FontDef*, uint8_t, uint8_t, uint8_t);
 
         // Utility to perform a silly little dance where we set the cursor, 
         // convert a std::string to char*, and pass it to WriteString()
@@ -104,6 +91,11 @@ namespace patch_gui {
         // @param x coordinate
         // @param y coordinate
         void drawString(std::string, uint8_t, uint8_t);
+
+        // @param main string, drawn inside a rectangle center screen
+        // @param version string, drawn below (supply "" to display nothing)
+        // @param duration (ms)
+        void drawStartupScreen(std::string, std::string, uint32_t);
 
         // Updates menu position, selection, etc. based upon
         // input from Patches' controls.
@@ -116,17 +108,13 @@ namespace patch_gui {
         // Call this each frame.
         void render();
 
-        // Call this to render the debug string without re-rendering the whole gui.
-        // Useful for println debugging.
-        void renderDebug();
-
         // Assigns a parameter to a cv value
         // @param title - must be a valid title of a menuItem in menu
         // @param cv value (1-4)
         void assignToCV(std::string, uint8_t);
 
-        void setHeaderStr(std::string);
-        void setDebugStr(std::string);
-        void setDebug(bool);
+        // @param header string
+        // @param header number (0-indexed)
+        void setHeader(std::string, uint8_t);
     };
 }

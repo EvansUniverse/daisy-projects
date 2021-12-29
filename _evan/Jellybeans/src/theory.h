@@ -60,12 +60,6 @@ namespace jellybeans {
     // @return semitone value of that degree
     uint8_t scaleDegreeToNote(uint8_t, std::string, uint8_t);
 
-    // For printing scale degrees
-    //
-    // @param a scale degree 1-7
-    // @return roman numeral representation e.g. 4 -> "IV"
-    std::string intToNumeral(uint8_t i);
-
     // Note that the indices of these elements also correspond to
     // their semitone distances from C.
     const std::vector<std::string> allNotes {
@@ -155,22 +149,22 @@ namespace jellybeans {
     // TODO support exotic modes
     const std::vector<std::string> modes {
         "Major",
-        "Minor",
         "Dorian",
         "Phyrgi", // Phyrgian
         "Lydian",
         "Mixo",   // Mixolydian
+        "Minor",
         "Locri",  // Locrian
     };
 
     // Maps scale names to their first octave of semitone values
     const std::map<std::string, std::vector<int>> modeToSemitones {
         {"Major",  std::vector<int>{0, 2, 4, 5, 7, 9, 11}},
-        {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
         {"Dorian", std::vector<int>{0, 2, 3, 5, 7, 9, 10}},
         {"Phyrgi", std::vector<int>{0, 1, 3, 5, 7, 9, 10}},
         {"Lydian", std::vector<int>{0, 2, 4, 6, 7, 9, 11}},
         {"Mixo",   std::vector<int>{0, 2, 4, 5, 7, 9, 10}},
+        {"Minor",  std::vector<int>{0, 2, 3, 5, 7, 8, 10}},
         {"Locri",  std::vector<int>{0, 1, 3, 5, 6, 8, 10}},
     };
 
@@ -256,3 +250,10 @@ namespace jellybeans {
         "64",
     };
 } // namespace jellybeans
+
+/* Helpers */
+
+// @param note
+// @param modeRoot
+// @return C scale equivalent of that note in that mode
+uint8_t cScaleEquivalent(uint8_t, uint8_t);
