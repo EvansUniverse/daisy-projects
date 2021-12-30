@@ -3,20 +3,19 @@ TARGET = Jellybeans
 
 # Sources
 CPP_SOURCES = Jellybeans.cpp \
-src/theory.cpp \
-src/arp.cpp \
-src/chord.cpp \
-src/gui/menuitem.cpp \
-src/gui/menu.cpp \
-src/gui/patchGui.cpp
+../lib/ev_theory/theory.cpp \
+../lib/ev_theory/arp.cpp \
+../lib/ev_theory/chord.cpp \
+../lib/ev_theory/rhythm.cpp \
+../lib/ev_gui/menuItem.cpp \
+../lib/ev_gui/menuItemInt.cpp \
+../lib/ev_gui/menu.cpp \
+../lib/ev_gui/patchGui.cpp
 
-# src/rhythm.cpp 
-
-
-# Library Locations
+# Electrosmith library Locations
 LIBDAISY_DIR = ../../libdaisy
 DAISYSP_DIR = ../../DaisySP
 
-# Core location, and generic Makefile.
+# Core location and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
-include $(SYSTEM_FILES_DIR)/Makefile
+include $(SYSTEM_FILES_DIR)/Makefile	

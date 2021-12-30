@@ -1,11 +1,23 @@
 /* 
- * Copyright (C) 2021 Evan Pernu - All Rights Reserved
+ * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
  * 
- * You should have received a copy of the GNU AGPLv3 license with
- * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
- * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
+ * This program is part of "Evan's Daisy Projects".
+ * 
+ * "Evan's Daisy Projects" is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 #pragma once
@@ -14,25 +26,26 @@
 #include <vector>
 #include <string>
 
-namespace jellybeans {
-    const int MAX_NOTE = 59; // Temporarily moved down from 60 due to dac conversion bug
+namespace ev_theory {
+    // Max possible notes 1v/oct for a 0-5v range is 60
+    const int MAX_NOTE = 59;
     const int MIN_NOTE = 0;
-
-    // Returns true if the given note is diatonic to the given mode
-    // @param a note's index in semitones from C or C0
-    // @param an element of mu::allModes
-    // bool isDiatonic(int, std::string);
 
     // @param the semitone value of a note
     // @return if the note exceeds our range, bring it up/down an octave until it fits
     int quantizeNoteToRange(int);
 
-    // Converts 
-    //
     // @param semi: semitone value corresponding to theory::allNotes5Oct
-    // @return value that can be supplied to Daisy Seed's DAC for CV out 
+    // @return value that can be supplied to Daisy's DAC for CV out 
     //         using the function patch.seed.dac.WriteValue()
     float semitoneToDac(int);
+
+    // Used for adding offsets to pre-existing DAC values.
+    //
+    // @param cent value
+    // @return value that can be supplied to Daisy's DAC for CV out 
+    //         using the function patch.seed.dac.WriteValue()
+    float centsToDac(int cents);
 
     // @param float
     // @param decimalPlaces
@@ -202,8 +215,6 @@ namespace jellybeans {
         "6th",
         "Sus2",
         "Sus4",
-        // Some values in this chord don't render correctly, 
-        // Disabled til its bug is fixed
         //"Kenny B.",  // Kenny Barron chord 
         "Power",
         "Shell 1",
@@ -218,38 +229,7 @@ namespace jellybeans {
         "3rd"
     };
 
-    // const std::vector<std::string> allDrops {
-    //     "None",
-    //     "Drop 2",
-    //     "Drop 3",
-    //     "Drop 4"
-    // };
-
-    const std::vector<std::string> allPPQs {
-        "4",
-    };
-
-    const std::vector<std::string> allPPNs {
-        // Fractional values will be added when rhythm is fixed
-        // "1/16",
-        // "1/8",
-        // "1/4",
-        // "1/2", 
-        "1",
-        "2",
-        // I figured the non-power-of-two values might be cool for polymetric timing.
-        // I'll remove/adjust them based on how well they work.
-        "3", 
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "16",
-        "32",
-        "64",
-    };
-} // namespace jellybeans
+} // namespace ev_theory
 
 /* Helpers */
 
