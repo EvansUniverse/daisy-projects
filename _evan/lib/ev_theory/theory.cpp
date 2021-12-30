@@ -1,14 +1,24 @@
 /* 
- * Copyright (C) 2021 Evan Pernu - All Rights Reserved
+ * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
  * 
- * You should have received a copy of the GNU AGPLv3 license with
- * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
- * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
+ * This program is part of "Evan's Daisy Projects".
+ * 
+ * "Evan's Daisy Projects" is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-
-
 
 #include <algorithm>
 #include <string> 
@@ -16,7 +26,7 @@
 
 #include "theory.h"
 
-namespace jellybeans {
+namespace ev_theory {
     int quantizeNoteToRange(int i) {
         while (i > MAX_NOTE){
             i -= 12;
@@ -85,6 +95,14 @@ namespace jellybeans {
         return round((semi / 12.f) * DAC_UNITS_PER_OCT) + OFFSET; 
     }
 
+    float centsToDac(int cents) {
+        // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
+        // per volt or octave.
+        const float DAC_UNITS_PER_SEMI = 819.2f/12.f;
+    
+        return round(DAC_UNITS_PER_SEMI * cents * .01f); 
+    }
+
     // FIXME doesn't render 0
     std::string floatToString(float f, uint8_t dec){
         if (f == 0.) {
@@ -99,7 +117,7 @@ namespace jellybeans {
         ret.insert(ret.end()-dec, 1, '.');
         return ret;
     }
-}
+} // namespace ev_theory
 
 /* Helpers */
 

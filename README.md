@@ -1,17 +1,29 @@
-# Evan's Daisy Projects :smile:
+# :blossom: Evan's Daisy Projects :blossom:
+This is a fork of Daisy_Examples containing all of my own projects:
+* [Jellybeans](_evan/Jellybeans/) - Diatonic quantizing arpeggiator for Daisy Patch
+* [ev_gui](_evan/lib/ev_gui) - Gui with scrollable menu for Daisy Patch
+* [ev_theory](_evan/lib/ev_theory) - Various musical functionalities for Daisy development
 
-This is a fork of Daisy_Examples containing all of my own projects, which are in the `_evan` directory.
-
-For instructions on how to build any of my projects, check the `README.md` file in `_evan/<project_name>`
+For build instructions, check the `README.md` file in `_evan/<project_name>`
 
 For more info, check out [the official Daisy examples repo](https://github.com/electro-smith/DaisyExamples).
 
+## Projects
+* [Jellybeans](_evan/Jellybeans/)
+* [ev_gui](_evan/lib/ev_gui)
+* [ev_theory](_evan/lib/ev_theory)
+
+## Contributing
+See [CONTRIBUTING.md](_evan/CONTRIBUTING.md)
+
 ## Contact me
-For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
-* evansuniversemusic@gmail.com
-* https://www.reddit.com/user/aromatic_raisin
-* Git issues
+See [CONTACT.md](_evan/CONTACT_ME.md)
 
-Pull requests are welcome.
+## License
+### For everything in the [_evan/](_evan/) directory
+Author: Evan Pernu
+GNU GPL 3.0 - see [_evan/LICENSE.md](_evan/LICENSE.md).
 
-As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)
+### For everything else
+Author: Electrosmith
+MIT - see [LICENSE](LICENSE)

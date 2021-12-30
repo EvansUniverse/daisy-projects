@@ -73,15 +73,12 @@ From this project's root directory: `make`
 
 Note that you might have to run additional tasks to re-build the binary. For additional resources: [Official Daisy documentation](https://github.com/electro-smith/DaisyWiki/wiki/1.-Setting-Up-Your-Development-Environment)
 
-## Usage
-
+## Usage Instructions
 ### TL;DR
-* Send v/oct to `CTRL 4`
-* Send note triggers to `GATE IN 1`
 * Use `ENC 1` to navigate the menu (push down to toggle between scrolling and editing)
-* Set your scale
+* Set the note in with the menu or send v/oct to `CTRL 4`
+* Set BPM in the menu or send quarter note tempo to `GATE IN 1`
 * The arpeggiator will send v/oct to `OUT 1`, triggers to `GATE OUT 1` and bass v/oct to `OUT 2`
-
 
 ### Controls
 * **Gate in 1:** Trigger in 
@@ -109,17 +106,13 @@ Note that you might have to run additional tasks to re-build the binary. For add
 ### Menu
 Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
 
-<details>
-<summary><b> Full menu </b></summary>
-From this project's root directory: `make`
-
-* Pattern (_Ctrl 1)_
+* **Pattern** (_Ctrl 1)_: Pattern the arp will play notes in
     * Up
     * Down
-    * Up + down inclusive
-    * Up + down exclusive
+    * Up + down inclusive (plays the last note on the way up and the way down e.g. C->E->G->G->E->C)
+    * Up + down exclusive (play the last note only on the way up e.g. C->E->G->E->C)
     * Random
-* Voicing (_Ctrl 2)_
+* **Voicing** (_Ctrl 2)_
     * Triad
     * Triad+ (triad + root)
     * 7th
@@ -129,12 +122,19 @@ From this project's root directory: `make`
     * Shell 1
     * Shell 2
     <!--* Kenny Barron-->
-* Inversion (_Ctrl 3)_
+* **Inversion** (_Ctrl 3)_
     * None
     * 1st
     * 2nd
     * 3rd
-* PPN (Pulse per note)
+* **Click Division**: Division that the arp will play notes at
+    * 1/128
+    * 1/64
+    * 1/32
+    * 1/16
+    * 1/8
+    * 1/4
+    * 1/2
     * 1
     * 2
     * 3
@@ -146,7 +146,7 @@ From this project's root directory: `make`
     * 16
     * 32
     * 64
-* Octave (0 to +2)
+    * 128
     <!--* 4 bars
     * 2 bars
     * 1 bar
@@ -165,8 +165,9 @@ From this project's root directory: `make`
     * Swing 100%
     * A number of fun virus-like patterns
     * Trig in (Plays a note when something is sent to trig in. Changes notes for every new trigger)-->
-* Root (any note)
-* Mode
+* **Root**: Root note of the quantizer's scale
+    * Any note
+* **Mode**: Mode of the quantizer's scale
     * Major
     * Dorian
     * Phyrgian
@@ -174,8 +175,19 @@ From this project's root directory: `make`
     * Mixolydian
     * Minor
     * Locrian
-* Bass octave (0 to +3)
-* Volt / octave (_Ctrl 4)_
+* **Octave**: Transposes the arp by x octaves
+    * 0 to +2
+* **Bass octave**: Transposes the bass by x octaves
+    * 0 to +3
+* **BPM**: BPM of the internal clock (overriden by input to GATE IN 1)
+    * 20-500
+* **In Tune**: alters incoming notes by a semitone
+    * -12 to 12
+* **In Tune**: alters incoming notes by a semitone
+    * -12 to 12
+* **Note in** (_Ctrl 4)_: The note being fed to the quantizer
+    * Any note in a 5 octave register C0-B4
+    * Can select a value or supply volt/octave
 
 <!--
 * Arp octave range (-2 to +4)
@@ -219,18 +231,14 @@ From this project's root directory: `make`
     * ⅛
     * 1/16 -->
 
-</details>
-
 ## TODOs
 ### Planned features
-* internal clock source
-* fractional timing
-* varying rhythms
+* octave accurate to note in
+* varying rhythms (implemented as a StepSequencer class)
 * persist certain state on shutdown e.g. mode of operation
-* boot screen (disable during debug mode?), implemented in gui lib
-* +/- 1 semitone trim
 
 ### Nice to haves & maybes
+* multi-octave arpeggiation
 * Add some sort of "inversion+oct displacement" setting
 * slides (per-step portamento)
 * Add other piano-inspired patterns/features e.g. adding a low root+5th or low root or high root. Maybe add  a "reinforce" option that adds these things without having to have separate "7th+oct" voicings
@@ -238,24 +246,23 @@ From this project's root directory: `make`
 * seprate menus implemented in gui lib - maybe double clicking the encoder cycles menus
 * give bass more options (possibly implement as 2nd arp)
 * automated semver
+* changing clock divs maintains timing
+* add a "pick up where you left off" option to the arp so that it doesn't restart at the root change voicing, etc
+* varying fonts on startup screen. add a drawWithFont() function to gui lib
+    * maybe not, since flash space is at a premium and importing a font is large. ill have to test this and see how much flash it costs.
+* minecraft-esque fun message on startup screen
+    * again, barring space concerns. maybe could read these from a file
+* figure out how to make the binary smaller so i can fit more features
 
 ## Known Bugs
-* CTRL 4 can't set root note to C0, lowest is C#0. This is due to a hack in Jellybeans.cpp::updateControls()
 * CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
 
 ## Contributing
-Pull requests are welcome.
-
-This project adheres to [semantic versioning](https://semver.org/). Before merging:
-* Update [CHANGELOG.md](CHANGELOG.md)
-* Update the `VERSION` variable in [Jellybeans.cpp](Jellybeans.cpp)
-* Add a copy of `build/Jellybeans.bin` to `old_builds` and name it like so: `Jellybeans_1-0-0.bin`
-
-
-As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code :)
+See [CONTRIBUTING.md](../CONTRIBUTING.md)
 
 ## Contact me
-For questions, comments, bug reports, feature requests, diatribes, etc. you can reach me via:
-* evansuniversemusic@gmail.com
-* https://www.reddit.com/user/aromatic_raisin
-* Git issues
+See [CONTACT.md](../CONTACT_ME.md)
+
+## License
+Author: Evan Pernu
+GNU GPL 3.0 - see [../LICENSE.md](../LICENSE.md).

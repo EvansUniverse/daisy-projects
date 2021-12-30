@@ -203,9 +203,11 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/src/per/qspi.h ../../libdaisy/src/util/VoctCalibration.h \
  ../../libdaisy/src/util/WaveTableLoader.h ../../libdaisy/src/sys/fatfs.h \
  ../../libdaisy/src/util/WavWriter.h \
- ../../libdaisy/src/dev/oled_ssd130x.h src/resources.h src/theory.h \
- src/chord.h src/arp.h src/gui/gui.h src/gui/menu.h src/gui/menuitem.h \
- src/gui/patchGui.h
+ ../../libdaisy/src/dev/oled_ssd130x.h resources.h \
+ ../lib/ev_theory/theory.h ../lib/ev_theory/chord.h \
+ ../lib/ev_theory/arp.h ../lib/ev_theory/rhythm.h ../lib/ev_gui/gui.h \
+ ../lib/ev_gui/menu.h ../lib/ev_gui/menuItem.h \
+ ../lib/ev_gui/menuItemInt.h ../lib/ev_gui/patchGui.h
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h:
 ../../libdaisy/Drivers/CMSIS/Include/core_cm7.h:
@@ -446,11 +448,13 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/sys/fatfs.h:
 ../../libdaisy/src/util/WavWriter.h:
 ../../libdaisy/src/dev/oled_ssd130x.h:
-src/resources.h:
-src/theory.h:
-src/chord.h:
-src/arp.h:
-src/gui/gui.h:
-src/gui/menu.h:
-src/gui/menuitem.h:
-src/gui/patchGui.h:
+resources.h:
+../lib/ev_theory/theory.h:
+../lib/ev_theory/chord.h:
+../lib/ev_theory/arp.h:
+../lib/ev_theory/rhythm.h:
+../lib/ev_gui/gui.h:
+../lib/ev_gui/menu.h:
+../lib/ev_gui/menuItem.h:
+../lib/ev_gui/menuItemInt.h:
+../lib/ev_gui/patchGui.h:

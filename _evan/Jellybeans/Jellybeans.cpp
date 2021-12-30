@@ -1,12 +1,23 @@
 /* 
- * Copyright (C) 2021 Evan Pernu - All Rights Reserved
+ * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
  * 
- * You should have received a copy of the GNU AGPLv3 license with
- * this file (LICENSE.md). If not, please write to: evanpernu@gmail.com, 
- * or visit: https://www.gnu.org/licenses/agpl-3.0.en.html
+ * This program is part of "Evan's Daisy Projects".
+ * 
+ * "Evan's Daisy Projects" is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as published
+ * by the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
  * ====================================================
  * =   __       _        _                            =
@@ -17,14 +28,13 @@
  * =                |___/                             =
  * ====================================================
  * 
- * 
- * Jellybeans is an arpeggiator eurorack module designed for the 
- * Electrosmith Daisy Patch platform.
+ * Jellybeans is a diatonic quanitizing arpeggiator designed
+ * for the Electrosmith Daisy Patch eurorack module.
  */
 
 #include "daisysp.h"
 #include "daisy_patch.h"
-#include "src/resources.h"
+#include "resources.h"
 
 #include <string>
 #include <array>
@@ -33,21 +43,49 @@ using namespace daisy;
 using namespace daisysp;
 using namespace jellybeans;
 using namespace patch_gui;
+using namespace ev_theory;
 
-// Change this to enable debug output
+/*
+ * Update this with each change
+ */
+const std::string VERSION = "1.1.0";
+
+/*
+ * Change this to enable debug output
+ */
 const bool DEBUG_MODE = false;
-const std::string VERSION = "1.0.0";
 
 DaisyPatch* patch;
 PatchGui*   gui;
 Arp*        arp;
 Menu*       menu;
-// Rhythm*     rhythm;
+Rhythm*     rhythm;
 
-uint8_t  lastNote;
-uint8_t  ppn;
-uint16_t pulseCounter;
-float    bassDac;
+// Previous note in's semitone value
+uint8_t lastNote;
+
+// Used to track time divisions
+// TODO factor this out into a rhythm sequencer library
+uint16_t divMax;
+uint16_t divCounter;
+
+// DAC output value of bass note
+float bassDac;
+
+// Offset applied to inbound notes (semitones)
+int8_t       inTune;
+const int8_t MIN_IN_TUNE = -12;
+const int8_t MAX_IN_TUNE = 12;
+
+// Offset applied to outbound note CVs (cents)
+float        arpOutTune;
+float        bassOutTune;
+const int8_t MIN_OUT_TUNE = -100;
+const int8_t MAX_OUT_TUNE =  100;
+
+// Tracks the blinking icon next to bpm
+int       blink;
+const int BLINK_FRAMES = 35;
 
 FontDef font       = Font_7x10;
 uint8_t fontWidth  = 7;
@@ -73,12 +111,6 @@ void cbInversion(){
     arp->updateTraversal();
 };
 
-void cbMode(){
-    arp->getChord()->setMode(menu->getItem("Mode")->getValue());
-    arp->updateTraversal();
-    //cbBassOct();
-};
-
 // Compute a new bass CV value
 void cbBassOct(){
     int semi = arp->getChord()->getRoot();
@@ -86,16 +118,22 @@ void cbBassOct(){
     bassDac = semitoneToDac(semi);
 };
 
+void cbMode(){
+    arp->getChord()->setMode(menu->getItem("Mode")->getValue());
+    arp->updateTraversal();
+    cbBassOct();
+};
+
 void cbRoot(){
     arp->getChord()->setModeRoot(menu->getItem("Root")->getIndex());
-    //arp->updateTraversal();
-    //cbBassOct();
+    arp->updateTraversal();
+    cbBassOct();
 };
 
 void cbOctave(){
     arp->getChord()->setOctave(menu->getItem("Octave")->getIndex());
     arp->updateTraversal();
-    //cbBassOct();
+    cbBassOct();
 };
 
 void cbNoteIn(){
@@ -104,56 +142,101 @@ void cbNoteIn(){
     cbBassOct();
 };
 
-void cbPPN(){
-    ppn = std::stoi((menu->getItem("PPN")->getValue()));
-    pulseCounter = 0;
+void cbClockDiv(){
+    if(menu->getItem("Clock")->getIndex() == 0){
+        // Internal: timing is determined by clock divisions
+        divMax = clockDivTo256ths.at((menu->getItem("Clock Div")->getValue()));
+    } else {
+        // External: timing is determined by pulses per note.
+        // Fractional clock values will just be set to 1.
+        divMax = std::max(clockDivTo256ths.at(menu->getItem("Clock Div")->getValue())/256, 1);
+    }
+    divCounter = 0;
 };
 
-// Callback function invoked whenever the timer ticks
-// void cbRhythm(){
-//     if (rhythm->getTick()/64 == 0){
-//          arp->onClockPulse();
-//     }
-// };
+void cbClockMode(){
+    bool internal = (menu->getItem("Clock")->getIndex() == 0);
+    rhythm->setClock(internal);
+    cbClockDiv();
+};
+
+void cbBPM(){
+    rhythm->setBPM(menu->getItem("BPM")->getIndex());
+}
+
+void cbInTune(){
+    inTune = menu->getItem("In Tune")->getIndex();
+}
+
+void cbArpOutTune(){
+    arpOutTune = centsToDac(menu->getItem("Arp Tune")->getIndex());
+}
+
+void cbBassOutTune(){
+    bassOutTune = centsToDac(menu->getItem("Bass Tune")->getIndex());
+}
+
+// Invoked whenever the timer ticks
+void cbRhythm(){
+    divCounter++;
+    divCounter = divCounter % divMax;
+    if(divCounter == 0){
+       arp->onClockPulse();
+    }
+};
 
 int main(void) {
     // Initialize vars and objects
-    patch  = new DaisyPatch();
+    patch = new DaisyPatch();
     patch->Init();
-    arp = new Arp();
-    menu = new Menu();
+    arp   = new Arp();
+    menu  = new Menu();
 
-    uint8_t numHeaders = 2;
+    uint8_t numHeaders = 4;
     if (DEBUG_MODE){
         // Add an extra header for debug output
         numHeaders++;
     }
     gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, numHeaders);
-    //rhythm = new Rhythm(false, cbRhythm);
+    rhythm = new Rhythm(true, cbRhythm);
 
-    gui->drawStartupScreen("Jellybeans", VERSION, 1500);
+    if (!DEBUG_MODE){
+        // Boot screen gets annoying during development
+        gui->drawStartupScreen("Jellybeans", VERSION, 1500);
+    }
 
-    bassDac = 0.f;
-    lastNote = 0;
-    ppn = 1;
-    pulseCounter = 0;
+    bassDac    = 0.f;
+    lastNote   = 0;
+    divMax     = clockDivTo256ths.at("1/4");
+    divCounter = 0;
+    blink      = 0;
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
     menu->append("Inversion", " ", allInversions,  0, cbInversion);
-    menu->append("PPN", "       ", allPPNs,        0, cbPPN); // Pulses per note
+    menu->append("Clock Div", " ", clockDivs,      5, cbClockDiv);
     menu->append("Octave", "    ", allOctaves,     0, cbOctave);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
-    // menu->append("Oct Rng", "   ", allOctaves,     0, cb);
     menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
+    menu->append("BPM", "       ", Rhythm::MIN_BPM, Rhythm::MAX_BPM, 120, cbBPM);
+    menu->append("Clock", "     ", clockModes,     0, cbClockMode);
     menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
+    menu->append("In Tune", "   ", MIN_IN_TUNE,  MAX_IN_TUNE,  0, cbInTune);
+    menu->append("Arp Tune", "  ", MIN_OUT_TUNE, MAX_OUT_TUNE, 0, cbArpOutTune);
+    menu->append("Bass Tune", " ", MIN_OUT_TUNE, MAX_OUT_TUNE, 0, cbBassOutTune);
     
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
     gui->assignToCV("Voicing",   2);
     gui->assignToCV("Inversion", 3);
+
+    // "Prime" menu items
+    cbBPM();
+    cbInTune();
+    cbArpOutTune();
+    cbBassOutTune();
 
     // "In case if you wondered, the fucking thing starts the circular DMA transfer
     // that receives ADC readings from knobs / CV inputs."
@@ -166,7 +249,7 @@ int main(void) {
         updateControls();
         updateOled();
         updateOutputs();
-        // rhythm->update();
+        rhythm->update();
     }
 }
 
@@ -177,16 +260,8 @@ void updateControls() {
 
     // Read v/oct from CTRL 4
     float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
-    uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f));
-
-    // !!! HACK !!! (Currently disabled)
-    // Voltage inputs from my Arturia Keystep were all a few hundredths
-    // of a volt shy of what their volt/oct values should theoretically
-    // be, resulting in everything to be a semitone flat. Not sure if this 
-    // was due to Keystep's output or Patches' input. I'll have to figure 
-    // out a more elegant solution later. Possibly adding a "trim" param
-    // or a device calibration feature.
-    //i--;
+    uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f) + inTune);
+    i = quantizeNoteToRange(i); // TODO this may be redundant
 
     // Check that a new cv value has been input, otherwise encoder input to
     // note in won't work. Might remove later and just let CTRL 4 handle it
@@ -196,38 +271,48 @@ void updateControls() {
     }
     
     // GATE IN 1 -> clock pulse
+    blink--;
     if(patch->gate_input[0].Trig()){
-        pulseCounter++;
-        if (pulseCounter == ppn){
-            arp->onClockPulse();
-        }
-        pulseCounter = pulseCounter % ppn;  
+        blink = BLINK_FRAMES;
+        rhythm->pulse();
     }
 }
 
 void updateOutputs()
 {
     // Arp CV -> CV OUT 1
-    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue());
+    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue() + arpOutTune);
 
     // Arp Gate -> GATE OUT 1
     dsy_gpio_write(&patch->gate_output, arp->getTrig());
 
     // Bass CV -> CV OUT 2
-    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, bassDac);
+    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, bassDac + bassOutTune); //TODO handle overflow/udnerflow balues
 }
 
 void updateOled(){
     gui->updateControls();
-    gui->setHeader(arp->toString(), 0);
-    gui->setHeader(arp->getChord()->toString(), 1);
 
-    // Keeping a few useful debug outputs here
+    // Display a blinking '.' on every clock pulse in
+    std::string h2 = "";
+    if (blink > 0) {
+        h2 += ".";
+    }
+    h2 += rhythm->bpmToString();
+
+    // Set headers
+    gui->setHeader(arp->toString(), 0);
+    gui->setHeader(h2, 1);
+    gui->setHeader(arp->getChord()->toString(), 2);
+
+    // Keeping a few useful debug outputs here in case I need them later
     if (DEBUG_MODE){
         // gui->setHeader("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
         //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())), 2);
-        // gui->setHeader(rhythm->toString(), 2); 
-        // gui->setHeader(floatToString(debug, 3), 2); 
+        //gui->setHeader(rhythm->toString(), 2); 
+        //gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
+        gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
+        gui->setHeader(std::to_string(menu->getItem("BPM")->getIndex()), 2);
     }
 
     gui->render();
