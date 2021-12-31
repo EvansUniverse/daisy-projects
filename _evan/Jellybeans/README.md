@@ -1,7 +1,8 @@
 # :candy: Jellybeans :candy:
 Quantizing diatonic arpeggiator for the Electrosmith Daisy Patch eurorack module.
 
-[![Click here for the demo video](img.youtube.com/vi/7cRScZM9cCY/0.jpg)](https://www.youtube.com/watch?v=7cRScZM9cCY&ab_channel=Evan%27sUniverse)
+### Demo video
+[![Click here for the demo video](https://img.youtube.com/vi/7cRScZM9cCY/0.jpg)](https://www.youtube.com/watch?v=7cRScZM9cCY&ab_channel=Evan%27sUniverse)
 
 ### What does it do?
 Jellybeans is an arpeggiator with special features. The user configures a scale and sends in v/oct root input, then Jellybeans quantizes and arpeggiates the diatonic chord with that root. This is great for approximating chord progressions with eurorack's chiefly monophonic sound sources.
