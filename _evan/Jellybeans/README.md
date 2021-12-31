@@ -232,12 +232,17 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1/16 -->
 
 ## TODOs
-### Planned features
-* octave accurate to note in
-* varying rhythms (implemented as a StepSequencer class)
-* persist certain state on shutdown e.g. mode of operation
+### High priority
+* octave changes according to note in. currently it only quantizes one octave.
 
-### Nice to haves & maybes
+### Definitely planned for the future
+* varying rhythms, similar to the Access Virus TI2's arp (implemented as a StepSequencer class)
+* persist certain state on shutdown e.g. mode of operation
+* user can select which cv input maps to which parameter
+* Add alternate modes of operation
+    * "quantizer only" mode where arp is completetly disabled and it acts as a pure quantizer
+
+### Maybe, if I have the time
 * multi-octave arpeggiation
 * Add some sort of "inversion+oct displacement" setting
 * slides (per-step portamento)
@@ -253,9 +258,11 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 * minecraft-esque fun message on startup screen
     * again, barring space concerns. maybe could read these from a file
 * figure out how to make the binary smaller so i can fit more features
+* quantizer + offset mode https://forum.electro-smith.com/t/jellybeans-diatonic-quantizing-arpeggiator-for-daisy-patch/2178/2?u=evan
 
 ## Known Bugs
 * CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
+* Doesn't properly detect chords for some scales other than C major
 
 ## Contributing
 See [CONTRIBUTING.md](../CONTRIBUTING.md)
