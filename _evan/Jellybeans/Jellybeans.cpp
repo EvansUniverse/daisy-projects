@@ -48,7 +48,7 @@ using namespace ev_theory;
 /*
  * Update this with each change
  */
-const std::string VERSION = "1.1.0";
+const std::string VERSION = "1.2.0";
 
 /*
  * Change this to enable debug output
@@ -109,6 +109,7 @@ void cbVoicing(){
 void cbInversion(){
     arp->getChord()->setInversion(menu->getItem("Inversion")->getIndex());
     arp->updateTraversal();
+
 };
 
 // Compute a new bass CV value
@@ -192,12 +193,7 @@ int main(void) {
     arp   = new Arp();
     menu  = new Menu();
 
-    uint8_t numHeaders = 4;
-    if (DEBUG_MODE){
-        // Add an extra header for debug output
-        numHeaders++;
-    }
-    gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, numHeaders);
+    gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, 4);
     rhythm = new Rhythm(true, cbRhythm);
 
     if (!DEBUG_MODE){
@@ -261,7 +257,7 @@ void updateControls() {
     // Read v/oct from CTRL 4
     float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
     uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f) + inTune);
-    i = quantizeNoteToRange(i); // TODO this may be redundant
+    //i = quantizeNoteToRange(i); // TODO this may be redundant
 
     // Check that a new cv value has been input, otherwise encoder input to
     // note in won't work. Might remove later and just let CTRL 4 handle it
@@ -304,6 +300,7 @@ void updateOled(){
     gui->setHeader(arp->toString(), 0);
     gui->setHeader(h2, 1);
     gui->setHeader(arp->getChord()->toString(), 2);
+//    gui->setHeader(allNotes5Oct.at(lastNote), 3);
 
     // Keeping a few useful debug outputs here in case I need them later
     if (DEBUG_MODE){
@@ -311,8 +308,9 @@ void updateOled(){
         //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())), 2);
         //gui->setHeader(rhythm->toString(), 2); 
         //gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
-        gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
-        gui->setHeader(std::to_string(menu->getItem("BPM")->getIndex()), 2);
+        //gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
+       // gui->setHeader(std::to_string(menu->getItem("BPM")->getIndex()), 2);
+      // gui->setHeader(std::to_string(arp->getChord()->getOctave()), 2);
     }
 
     gui->render();

@@ -11,3 +11,7 @@
 * Set trim via menu for cv in, arp out, and bass out 
 ### Changed
 * Split theory and gui out into separate libs
+## [1.2.0] - 12/31/2021
+### Fixed
+* Bug that was limiting output notes to one octave
+* Bug that was causing weird behavior in scales other than C

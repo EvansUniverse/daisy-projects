@@ -57,6 +57,7 @@ namespace ev_theory {
         // quantized into register, which may not produce musical results.
         uint8_t octave;
 
+        // Semitone value of the chord's root note
         uint8_t root;
 
         // ∈ theory.h::voicings
@@ -102,6 +103,9 @@ namespace ev_theory {
 
         // @return root, semitone value, 0-659
         uint8_t getRoot();
+
+        // @return 0-4
+        uint8_t getOctave();
 
         std::string toString();
 

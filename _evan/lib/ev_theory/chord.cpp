@@ -54,24 +54,17 @@ void DiatonicChord::updateChord(){
     length = static_cast<uint8_t>(voicingToScaleDegrees.at(voicing).size());
     semis = std::vector<uint8_t>(length);
 
-    //uint8_t root = scaleDegreeToNote(degree, mode, modeRoot);
-
     uint8_t noteDegree;
 
-    // Populate semis
+    // Determine the semitone value of each note in semis
     for (uint8_t i = 0; i < length; i++){
-        noteDegree = (degree + voicingToScaleDegrees.at(voicing)[i]-1) % 7;
-        // Get the note
+        // Get scale degree
+        noteDegree = (degree + voicingToScaleDegrees.at(voicing)[i]-1) % 7; 
+        // Convert it to a semitone value
         semis[i] = scaleDegreeToNote(noteDegree, mode, modeRoot);
-
-        // TODO octave modifier
-
-        // Make sure it's higher than the previous note
-        while (i > 0 && semis[i] < semis[i-1]) {
-            semis[i] += 12;
-        }
-
-       semis[i] = quantizeNoteToRange(semis[i]);
+        // Add octave modifier and quantize to range
+        //semis[i] = quantizeNoteToRange(semis[i] + 12 * octave);
+        semis[i] = semis[i] + 12 * octave;
     }
 
     // Update root
@@ -81,20 +74,38 @@ void DiatonicChord::updateChord(){
     for (uint8_t i = 0; i < inversion; i++){
         semis.push_back(semis.front() + 12); 
         semis.erase(semis.begin());
-       // semis.back() = quantizeNoteToRange(semis.back());
+        semis.back() = quantizeNoteToRange(semis.back());
     }
 
-    this->updateString();
+    // For each note, make sure it's higher than the previous one, if  possible. 
+    // Also make sure it's unidentical to the previous note by shifting it up an
+    // octave. If shifting up would bring the note out of range, shift down instead.
+    for (uint8_t i = 0; i < length; i++){
+        while (i > 0 && semis[i] <= semis[i-1]) {
+            if (semis[i] + 12 <= MAX_NOTE){
+                semis[i] += 12;
+            } else {
+                break;
+            }
+        }
+        if (i > 0 && semis[i] == semis[i-1] && semis[i] - 12 >= MIN_NOTE){
+            semis[i] -= 12;
+        }  
+    }
+
+    updateString();
 }
 
 void DiatonicChord::updateString(){
     string = scaleDegreeToNumeral();
 
-    // To be enabled for debug purposes: e.g. "C E G"
-    // for(uint8_t i : semis) 
-    //     string += allNotes[i % 12] + " ";
+    // // To be enabled for debug purposes: e.g. "C E G"
+    // // for(uint8_t i : semis) 
+    // //     string += allNotes[i % 12] + " ";
 
-    // To be enabled for debug purposes: e.g. "0 4 7"
+    // To be enabled for debug purposes
+    // string = "o " + std::to_string(octave) + " r " + std::to_string(root) + " m " + std::to_string(modeRoot) + " d " + std::to_string(degree);
+    // // e.g. "0 4 7"
     // for(uint8_t i : semis) 
     //     string += std::to_string(i) + " ";
 }
@@ -123,6 +134,10 @@ uint8_t DiatonicChord::getLength(){
     return length;
 }
 
+uint8_t DiatonicChord::getOctave(){
+    return octave;
+}
+
 std::string DiatonicChord::toString(){
     return string;
 }
@@ -130,6 +145,9 @@ std::string DiatonicChord::toString(){
 /* Setters */
 
 void DiatonicChord::setDegreeByNote(uint8_t i){
+    setOctave(quantize(i, mode, modeRoot) / 12);
+    i = quantizeNoteToRange(i);
+    
     degree = noteToScaleDegree(i, mode, modeRoot);
     updateChord();
 }
@@ -159,6 +177,8 @@ void DiatonicChord::setVoicing(std::string s){
 
 void DiatonicChord::setOctave(uint8_t i){
     octave = i;
+
+
     updateChord();
 }
 
@@ -182,6 +202,9 @@ std::string DiatonicChord::scaleDegreeToNumeral(){
 
     uint8_t majEquivalent = (degree + i) % 7;
 
+    // Decided not to display numeral scale degrees but I'll leave this here in case I want it later
+    // 'cause it was a pain to write.
+    //
     // // toLower() or subtracting the ascii value would be more elegant but 
     // // this is more efficient.
     // if(majEquivalent == 0 || majEquivalent == 3 || majEquivalent == 4){

@@ -15,10 +15,16 @@ Jellybeans is an arpeggiator with special features. The user configures a scale 
 * Sends a bass note (root) out through _CV out 2_
 * Inspired by piano chord voicings, WMD Arpitecht, and the Access Virus TI2's arpeggiator
 
+### Tips and tricks
+* Send a note CV to CTRL 4 and recieve from CV OUT 2 to use Jellybeans as a plain 'ol quantizer
+* If notes from the arp would go out of range, it will transpose them back into range in a musically pleasing way. Play with those high octaves to get some interesting results!
+
 ## Build Instructions
 
 <details>
 <summary><b>"I'm not a developer, I just want to use the darn program!" (Daisy web programmer)</b></summary>
+
+Note: If this is your first time installing anything on your Daisy, I recommend that you start by installing blink [(official instructions)](https://forum.electro-smith.com/t/welcome-to-daisy-get-started-here/15) as a way to learn the Daisy web programmer.
 
 From the [Daisy web programmer](https://electro-smith.github.io/Programmer/):
 1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
@@ -28,7 +34,7 @@ From the [Daisy web programmer](https://electro-smith.github.io/Programmer/):
 6. Click "choose file" and select `Jellybeans.bin`
 7. Click "program"
 
-Check out [this post](https://forum.electro-smith.com/t/welcome-to-daisy-get-started-here/15) for troubleshooting and more info. I've tested this in Chrome compatibility with other browsers may vary.
+I've tested this in Chrome, compatibility with other browsers may vary.
 
 </details>
 
@@ -235,17 +241,17 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1/16 -->
 
 ## TODOs
-### High priority
-* octave changes according to note in. currently it only quantizes one octave.
-
 ### Definitely planned for the future
 * varying rhythms, similar to the Access Virus TI2's arp (implemented as a StepSequencer class)
 * persist certain state on shutdown e.g. mode of operation
 * user can select which cv input maps to which parameter
 * Add alternate modes of operation
     * "quantizer only" mode where arp is completetly disabled and it acts as a pure quantizer
+* MIDI support (MIDI output and clock in)
+* if two identical notes would be played in a row, move the second one up/down an octave. this will make inversions sound more musical
 
 ### Maybe, if I have the time
+* Display flats instead of sharps when appropriate
 * multi-octave arpeggiation
 * Add some sort of "inversion+oct displacement" setting
 * slides (per-step portamento)
@@ -264,8 +270,8 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 * quantizer + offset mode https://forum.electro-smith.com/t/jellybeans-diatonic-quantizing-arpeggiator-for-daisy-patch/2178/2?u=evan
 
 ## Known Bugs
-* CV values jitter when knob is stuck between 2 values. Need to implement hysteresis
-* Doesn't properly detect chords for some scales other than C major
+* CV values jitter when knob is stuck between 2 values. Need to implement hysteresis https://forum.electro-smith.com/t/petal-potentiometer-noise/1797/2?u=evan
+* Trying to set the 3r header in ev_gui::PatchGui causes a crash on startup
 
 ## Contributing
 See [CONTRIBUTING.md](../CONTRIBUTING.md)
