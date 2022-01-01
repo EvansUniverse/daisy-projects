@@ -33,7 +33,7 @@ namespace ev_theory {
 
     // @param the semitone value of a note
     // @return if the note exceeds our range, bring it up/down an octave until it fits
-    int quantizeNoteToRange(int);
+    uint8_t quantizeNoteToRange(int8_t);
 
     // @param semi: semitone value corresponding to theory::allNotes5Oct
     // @return value that can be supplied to Daisy's DAC for CV out 

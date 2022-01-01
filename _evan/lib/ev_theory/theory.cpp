@@ -27,12 +27,15 @@
 #include "theory.h"
 
 namespace ev_theory {
-    int quantizeNoteToRange(int i) {
-        while (i > MAX_NOTE){
-            i -= 12;
-        }
-        while (i < MIN_NOTE){
-            i += 12;
+    uint8_t quantizeNoteToRange(int8_t i) {
+        while (true) {
+            if (i > MAX_NOTE){
+                i -= 12;
+            } else if (i < MIN_NOTE){
+                i += 12;
+            } else {
+                break;
+            }
         }
         return i;
     }
@@ -42,16 +45,27 @@ namespace ev_theory {
 
         // See if that note is in the given mode
         const std::vector<int> v = modeToSemitones.at(mode);
-        if (std::find(v.begin(), v.end(), base) == v.end()){
-            // NOTE: This relies on the property that every non-diatonic note is 1 semitone
-            // away from a diatonic note. I'll need to rework this if I implement exotic 
-            // scales with 3+ semitone distances.
-            if (note == 0){
-                note++;
-            } else {
-                note--;
+        //if (std::find(v.begin(), v.end(), base) == v.end()){
+
+        for (uint8_t i = 0; i < v.size(); i++){
+            if(v[i] == base) {
+                // If the note is diatonic, return it immediately
+                return note;
             }
         }
+
+        // If the note isn't diatonic, quantize it. Move 1 semitone down if possible,
+        // otherwise 1 up.
+        //
+        // NOTE: This relies on the property that every non-diatonic note is 1 semitone
+        // away from a diatonic note. I'll need to rework this if I implement exotic 
+        // scales with 3+ semitone distances.
+        if (note == MIN_NOTE){
+            note++;
+        } else {
+            note--;
+        }
+        
         return note;
     };
 
@@ -73,7 +87,7 @@ namespace ev_theory {
     uint8_t scaleDegreeToNote(uint8_t degree, std::string mode, uint8_t modeRoot){
         const std::vector<int>* v = &(modeToSemitones.at(mode));
         int base = v->at(degree);
-        return (base + modeRoot % 12); 
+        return (base + modeRoot) % 12; 
     }
 
     float semitoneToDac(int semi) {
@@ -122,8 +136,5 @@ namespace ev_theory {
 /* Helpers */
 
 uint8_t cScaleEquivalent(uint8_t note, uint8_t modeRoot){
-    if (note < modeRoot){
-        note--;
-    }
-    return (note - modeRoot) % 12;
+    return (note + 12 - modeRoot) % 12;
 }
