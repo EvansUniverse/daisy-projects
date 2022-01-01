@@ -48,7 +48,7 @@ using namespace ev_theory;
 /*
  * Update this with each change
  */
-const std::string VERSION = "1.2.0";
+const std::string VERSION = "1.3.0";
 
 /*
  * Change this to enable debug output
@@ -75,13 +75,17 @@ float bassDac;
 // Offset applied to inbound notes (semitones)
 int8_t       inTune;
 const int8_t MIN_IN_TUNE = -12;
-const int8_t MAX_IN_TUNE = 12;
+const int8_t MAX_IN_TUNE =  12;
 
-// Offset applied to outbound note CVs (cents)
+// Offsets applied to outbound note CVs (cents)
 float        arpOutTune;
 float        bassOutTune;
 const int8_t MIN_OUT_TUNE = -100;
 const int8_t MAX_OUT_TUNE =  100;
+int16_t      bassOctMod;
+int16_t      arpOctMod;
+const int8_t MIN_OCT_MOD  = -4;
+const int8_t MAX_OCT_MOD  =  4;
 
 // Tracks the blinking icon next to bpm
 int       blink;
@@ -94,6 +98,13 @@ uint8_t fontHeight = 10;
 void updateControls();
 void updateOled();
 void updateOutputs();
+
+// Compute a new bass CV value
+void updateBassNote(){
+    int semi = arp->getChord()->getRoot();
+    semi += SEMIS_PER_OCT * menu->getItem("Bass Oct")->getIndex();
+    bassDac = semitoneToDac(semi);
+};
 
 /* Callback functions invoked whenever menu parameters are changed */
 
@@ -112,35 +123,30 @@ void cbInversion(){
 
 };
 
-// Compute a new bass CV value
-void cbBassOct(){
-    int semi = arp->getChord()->getRoot();
-    semi += 12 * menu->getItem("Bass Oct")->getIndex();
-    bassDac = semitoneToDac(semi);
-};
-
 void cbMode(){
     arp->getChord()->setMode(menu->getItem("Mode")->getValue());
     arp->updateTraversal();
-    cbBassOct();
+    updateBassNote();
 };
 
 void cbRoot(){
     arp->getChord()->setModeRoot(menu->getItem("Root")->getIndex());
     arp->updateTraversal();
-    cbBassOct();
+    updateBassNote();
 };
 
-void cbOctave(){
-    arp->getChord()->setOctave(menu->getItem("Octave")->getIndex());
-    arp->updateTraversal();
-    cbBassOct();
+void cbArpOct(){
+    arpOctMod = semitoneToDac(menu->getItem("Arp Oct")->getIndex() * SEMIS_PER_OCT);
+};
+
+void cbBassOct(){
+    bassOctMod = semitoneToDac(menu->getItem("Bass Oct")->getIndex() * SEMIS_PER_OCT);
 };
 
 void cbNoteIn(){
     arp->getChord()->setDegreeByNote(menu->getItem("Note In")->getIndex());
     arp->updateTraversal();
-    cbBassOct();
+    updateBassNote();
 };
 
 void cbClockDiv(){
@@ -206,16 +212,18 @@ int main(void) {
     divMax     = clockDivTo256ths.at("1/4");
     divCounter = 0;
     blink      = 0;
+    arpOctMod  = 0.f;
+    bassOctMod = 0.f;
 
     // Initialize menu items
     menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
     menu->append("Voicing", "   ", voicings,       0, cbVoicing);
     menu->append("Inversion", " ", allInversions,  0, cbInversion);
     menu->append("Clock Div", " ", clockDivs,      5, cbClockDiv);
-    menu->append("Octave", "    ", allOctaves,     0, cbOctave);
+    menu->append("Arp Oct", "   ", MIN_OCT_MOD, MAX_OCT_MOD, 0, cbArpOct);
     menu->append("Root", "      ", allNotes,       0, cbRoot);
     menu->append("Mode", "      ", modes,          0, cbMode);
-    menu->append("Bass Oct", "  ", allBassOctaves, 0, cbBassOct);
+    menu->append("Bass Oct", "  ", MIN_OCT_MOD, MAX_OCT_MOD, 0, cbBassOct);
     menu->append("BPM", "       ", Rhythm::MIN_BPM, Rhythm::MAX_BPM, 120, cbBPM);
     menu->append("Clock", "     ", clockModes,     0, cbClockMode);
     menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
@@ -277,13 +285,15 @@ void updateControls() {
 void updateOutputs()
 {
     // Arp CV -> CV OUT 1
-    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, arp->getDacValue() + arpOutTune);
+    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, 
+            prepareDacValForOutput(arp->getDacValue() + arpOutTune + arpOctMod));
 
     // Arp Gate -> GATE OUT 1
     dsy_gpio_write(&patch->gate_output, arp->getTrig());
 
     // Bass CV -> CV OUT 2
-    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, bassDac + bassOutTune); //TODO handle overflow/udnerflow balues
+    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, 
+            prepareDacValForOutput(bassDac + bassOutTune + bassOctMod));
 }
 
 void updateOled(){

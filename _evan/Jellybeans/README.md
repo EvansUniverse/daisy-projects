@@ -248,7 +248,6 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 * Add alternate modes of operation
     * "quantizer only" mode where arp is completetly disabled and it acts as a pure quantizer
 * MIDI support (MIDI output and clock in)
-* if two identical notes would be played in a row, move the second one up/down an octave. this will make inversions sound more musical
 
 ### Maybe, if I have the time
 * Display flats instead of sharps when appropriate

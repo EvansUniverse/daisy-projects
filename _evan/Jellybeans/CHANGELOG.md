@@ -15,3 +15,6 @@
 ### Fixed
 * Bug that was limiting output notes to one octave
 * Bug that was causing weird behavior in scales other than C
+## [1.3.0] - 12/31/2021
+### Changed
+* Reworked octave modifiers to behave more like a user would expect

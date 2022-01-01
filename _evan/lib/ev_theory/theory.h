@@ -31,6 +31,19 @@ namespace ev_theory {
     const int MAX_NOTE = 59;
     const int MIN_NOTE = 0;
 
+    // In Daisy Seed's DAC, 0=0v and 4095=5v. 4095/5=819, meaning 819 (dac units?)
+    // per volt or octave.
+    const float DAC_UNITS_PER_OCT = 819.2f;
+    const float DAC_UNITS_PER_SEMI = DAC_UNITS_PER_OCT/12.f;
+
+    // In Daisy Seed's DAC, 0=0v and 4095=5v.
+    const int16_t MIN_DAC_VALUE = 0;
+    const int16_t MAX_DAC_VALUE = 4095;
+
+    // This one's pretty obvious but making it a constant makes the code a bit more
+    // readable.
+    const uint8_t SEMIS_PER_OCT = 12;
+
     // @param the semitone value of a note
     // @return if the note exceeds our range, bring it up/down an octave until it fits
     uint8_t quantizeNoteToRange(int8_t);
@@ -38,14 +51,32 @@ namespace ev_theory {
     // @param semi: semitone value corresponding to theory::allNotes5Oct
     // @return value that can be supplied to Daisy's DAC for CV out 
     //         using the function patch.seed.dac.WriteValue()
-    float semitoneToDac(int);
+    int16_t semitoneToDac(int16_t);
 
     // Used for adding offsets to pre-existing DAC values.
     //
     // @param cent value
     // @return value that can be supplied to Daisy's DAC for CV out 
     //         using the function patch.seed.dac.WriteValue()
-    float centsToDac(int cents);
+    int16_t centsToDac(int16_t);
+
+    // **IMPORTANT** 
+    // Before sending any outputs from semitoneToDac and/or centsToDac to the output, you'll need to run
+    // them through this function.
+    //
+    // Brings out-of-range values within range. Does so by octave increments so that the resulting value
+    // still sounds musical.
+    //
+    // Adds an offset (described below) to the value.
+    //
+    // !!! HACK !!!
+    // Idk why but values of 0 are about a half a semitone out of tune. Adding an offset of 25 to nonzero
+    // values seems to fix this. I'll leave this hack here until I figure out what he issue is.
+    // relevant thread: https://forum.electro-smith.com/t/bug-found-in-daisy-examples-patch-sequencer/2159/3
+    //
+    // TODO: 25 is still a wee bit off, run more precise tests to figure out a more accurate offset.
+    uint16_t prepareDacValForOutput(int16_t);
+    const uint8_t DAC_OFFSET_FOR_NONZERO_VALUES = 25;
 
     // @param float
     // @param decimalPlaces
@@ -221,14 +252,12 @@ namespace ev_theory {
         "Shell 2"
     };
 
-
     const std::vector<std::string> allInversions {
         "None",
         "1st",
         "2nd",
         "3rd"
     };
-
 } // namespace ev_theory
 
 /* Helpers */
