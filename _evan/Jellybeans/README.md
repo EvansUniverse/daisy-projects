@@ -250,9 +250,6 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1/16 -->
 
 ## TODOs
-### Priority #1
-* Binary size takes up 99.88% of the Daisy Seed's 128kb flash. I'll have to figure out a way to fix this before I'll be able to add literally anything else.
-
 ### Definitely planned for the future
 * more elementary rhythmic variations such as 1->5->3->7
 * varying rhythms, similar to the Access Virus TI2's arp (implemented as a StepSequencer class)
@@ -261,6 +258,7 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
 * Move QSPI save/load stuff to the gui lib
 
 ### Maybe, if I have the time
+* automate the creation of version tagged .bin files
 * use persistent_storage isntead of qspi https://github.com/electro-smith/libDaisy/pull/396
 * Display flats instead of sharps when appropriate
 * multi-octave arpeggiation

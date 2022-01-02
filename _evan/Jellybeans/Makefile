@@ -16,6 +16,9 @@ CPP_SOURCES = Jellybeans.cpp \
 LIBDAISY_DIR = ../../libdaisy
 DAISYSP_DIR = ../../DaisySP
 
+# Compiler flag to optimize for binary size. Reduces bin size by ~10%
+OPT = -Os
+
 # Core location and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core
 include $(SYSTEM_FILES_DIR)/Makefile	
