@@ -18,3 +18,18 @@
 ## [1.3.0] - 12/31/2021
 ### Changed
 * Reworked octave modifiers to behave more like a user would expect
+## [1.4.0] - 1/1/2022
+### Added
+* Added "quantizer only" mode, activated by settings the "Op Mode" menu item to "Quant". quantized output will be sent through both CV outs.
+* The following settings are saved in persistent storage and recalled when Jellybeans is booted up:
+    * Clock Div
+    * Arp Oct
+    * Root
+    * Mode
+    * Bass Oct
+    * BPM
+    * Clock Mode
+    * Op Mode
+    * In Tune
+    * Arp Tune
+    * Bass Tune

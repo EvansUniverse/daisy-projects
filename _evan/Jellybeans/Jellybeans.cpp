@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * Copyright (C) 2021, 2022 Evan Pernu. Author: Evan Pernu
  * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
@@ -39,6 +39,25 @@
 #include <string>
 #include <array>
 
+// 0: OpMode - Mode of operation
+//     0: Arp: Standard mode
+//     1: Quant: Disable the arp completely; act as a quantizer. The incoming note
+//               from CTRL 4 will be quantized and sent out throuhg CV OUT 1.
+#define RAM_OP_MODE 0
+#define RAM_BPM 1
+#define RAM_ROOT 2
+#define RAM_MODE 3
+#define RAM_CLOCK_DIV 4
+#define RAM_CLOCK_MODE 5
+#define RAM_IN_TUNE 6
+#define RAM_ARP_TUNE 7
+#define RAM_BASS_TUNE 8
+#define RAM_ARP_OCT 9
+#define RAM_BASS_OCT 10
+// Used to determine if this is a fresh install of Jellybeans, in which case default
+// settings will be written to QSPI.
+#define RAM_IS_INIT 11 
+
 using namespace daisy;
 using namespace daisysp;
 using namespace jellybeans;
@@ -48,13 +67,19 @@ using namespace ev_theory;
 /*
  * Update this with each change
  */
-const std::string VERSION = "1.3.0";
+const std::string VERSION = "1.4.0";
 
 /*
  * Change this to enable debug output
  */
 const bool DEBUG_MODE = false;
 
+// Some settings are stored in QSPI memory and persisted on startup
+const uint8_t SETTINGS_BUFF_SIZE = 12;
+uint8_t DSY_QSPI_BSS settings_qspi[SETTINGS_BUFF_SIZE];
+uint8_t settings_ram[SETTINGS_BUFF_SIZE];
+
+// State objects
 DaisyPatch* patch;
 PatchGui*   gui;
 Arp*        arp;
@@ -99,6 +124,35 @@ void updateControls();
 void updateOled();
 void updateOutputs();
 
+// Copy the values in settings_ram (volatile) to settings_qspi (non-volatile)
+void saveSettingsToQSPI(){
+    size_t size = sizeof(settings_qspi);
+    size_t address = (size_t)settings_qspi;
+    patch->seed.qspi.Erase(address, address + size);
+    patch->seed.qspi.Write(address, size, (uint8_t*)settings_ram);
+}
+
+void loadQSPISettingsToRAM(){
+    memcpy(settings_ram, settings_qspi, sizeof(settings_ram));
+}
+
+// Called when there's a fresh install of Jellybeans
+void saveDefaultSettingsToQSPI(){
+    settings_ram[RAM_CLOCK_DIV]  = 5;
+    settings_ram[RAM_ARP_OCT]    = 0;
+    settings_ram[RAM_ROOT]       = 0;
+    settings_ram[RAM_MODE]       = 0;
+    settings_ram[RAM_BASS_OCT]   = 0;
+    settings_ram[RAM_BPM]        = 120;
+    settings_ram[RAM_CLOCK_MODE] = 0;
+    settings_ram[RAM_OP_MODE]    = 0;
+    settings_ram[RAM_IN_TUNE]    = 0 - MIN_IN_TUNE;
+    settings_ram[RAM_ARP_TUNE]   = 0 - MIN_OUT_TUNE;
+    settings_ram[RAM_BASS_TUNE]  = 0 - MIN_OUT_TUNE;
+    settings_ram[RAM_IS_INIT]    = 42;
+    saveSettingsToQSPI();
+}
+
 // Compute a new bass CV value
 void updateBassNote(){
     int semi = arp->getChord()->getRoot();
@@ -124,23 +178,35 @@ void cbInversion(){
 };
 
 void cbMode(){
+    settings_ram[RAM_MODE] = menu->getItem("Mode")->getIndex();
+    saveSettingsToQSPI();
+
     arp->getChord()->setMode(menu->getItem("Mode")->getValue());
     arp->updateTraversal();
     updateBassNote();
 };
 
 void cbRoot(){
-    arp->getChord()->setModeRoot(menu->getItem("Root")->getIndex());
+    settings_ram[RAM_ROOT] = menu->getItem("Root")->getIndex();
+    saveSettingsToQSPI();
+
+    arp->getChord()->setModeRoot(settings_ram[RAM_ROOT]);
     arp->updateTraversal();
     updateBassNote();
 };
 
 void cbArpOct(){
-    arpOctMod = semitoneToDac(menu->getItem("Arp Oct")->getIndex() * SEMIS_PER_OCT);
+    settings_ram[RAM_ARP_OCT] = menu->getItem("Arp Oct")->getIndex();
+    saveSettingsToQSPI();
+
+    arpOctMod = semitoneToDac(settings_ram[RAM_ARP_OCT] * SEMIS_PER_OCT);
 };
 
 void cbBassOct(){
-    bassOctMod = semitoneToDac(menu->getItem("Bass Oct")->getIndex() * SEMIS_PER_OCT);
+    settings_ram[RAM_BASS_OCT] = menu->getItem("Bass Oct")->getIndex();
+    saveSettingsToQSPI();
+
+    bassOctMod = semitoneToDac(settings_ram[RAM_BASS_OCT] * SEMIS_PER_OCT);
 };
 
 void cbNoteIn(){
@@ -150,7 +216,10 @@ void cbNoteIn(){
 };
 
 void cbClockDiv(){
-    if(menu->getItem("Clock")->getIndex() == 0){
+    settings_ram[RAM_CLOCK_DIV] = menu->getItem("Clock Div")->getIndex();
+    saveSettingsToQSPI();
+
+    if(settings_ram[RAM_CLOCK_MODE] == 0){
         // Internal: timing is determined by clock divisions
         divMax = clockDivTo256ths.at((menu->getItem("Clock Div")->getValue()));
     } else {
@@ -162,25 +231,45 @@ void cbClockDiv(){
 };
 
 void cbClockMode(){
-    bool internal = (menu->getItem("Clock")->getIndex() == 0);
-    rhythm->setClock(internal);
+    settings_ram[RAM_CLOCK_MODE] = menu->getItem("Clock")->getIndex();
+    rhythm->setClock(settings_ram[RAM_CLOCK_MODE] == 0);
     cbClockDiv();
+    // cbClockDiv() already calls saveSettingsToQSPI(), so no need to call it in this function.
+};
+
+void cbOpMode(){
+    settings_ram[RAM_OP_MODE] = menu->getItem("Op Mode")->getIndex();
+    saveSettingsToQSPI();
 };
 
 void cbBPM(){
-    rhythm->setBPM(menu->getItem("BPM")->getIndex());
+    settings_ram[RAM_BPM] = menu->getItem("BPM")->getIndex();
+    saveSettingsToQSPI();
+
+    rhythm->setBPM(settings_ram[RAM_BPM]);
 }
 
 void cbInTune(){
     inTune = menu->getItem("In Tune")->getIndex();
+
+    // Since settings must be uints, need to add an offset to ensure 
+    // the vlue written is > 0. 
+    settings_ram[RAM_IN_TUNE] = inTune - MIN_IN_TUNE;
+    saveSettingsToQSPI();
 }
 
 void cbArpOutTune(){
     arpOutTune = centsToDac(menu->getItem("Arp Tune")->getIndex());
+
+    settings_ram[RAM_ARP_TUNE] = menu->getItem("Arp Tune")->getIndex() - MIN_OUT_TUNE;
+    saveSettingsToQSPI();
 }
 
 void cbBassOutTune(){
     bassOutTune = centsToDac(menu->getItem("Bass Tune")->getIndex());
+
+    settings_ram[RAM_BASS_TUNE] = menu->getItem("Bass Tune")->getIndex() - MIN_OUT_TUNE;
+    saveSettingsToQSPI();
 }
 
 // Invoked whenever the timer ticks
@@ -192,6 +281,7 @@ void cbRhythm(){
     }
 };
 
+
 int main(void) {
     // Initialize vars and objects
     patch = new DaisyPatch();
@@ -201,6 +291,14 @@ int main(void) {
 
     gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, 4);
     rhythm = new Rhythm(true, cbRhythm);
+
+    loadQSPISettingsToRAM();
+
+    // If the RAM_IS_INIT setting isn't 42, we know that Jellybeans doesn't have settings
+    // here and we should use default settings.
+    if (settings_ram[RAM_IS_INIT] != 42){
+        saveDefaultSettingsToQSPI();
+    } 
 
     if (!DEBUG_MODE){
         // Boot screen gets annoying during development
@@ -216,20 +314,21 @@ int main(void) {
     bassOctMod = 0.f;
 
     // Initialize menu items
-    menu->append("Pattern", "   ", arpPatterns,    0, cbPattern);
-    menu->append("Voicing", "   ", voicings,       0, cbVoicing);
-    menu->append("Inversion", " ", allInversions,  0, cbInversion);
-    menu->append("Clock Div", " ", clockDivs,      5, cbClockDiv);
-    menu->append("Arp Oct", "   ", MIN_OCT_MOD, MAX_OCT_MOD, 0, cbArpOct);
-    menu->append("Root", "      ", allNotes,       0, cbRoot);
-    menu->append("Mode", "      ", modes,          0, cbMode);
-    menu->append("Bass Oct", "  ", MIN_OCT_MOD, MAX_OCT_MOD, 0, cbBassOct);
-    menu->append("BPM", "       ", Rhythm::MIN_BPM, Rhythm::MAX_BPM, 120, cbBPM);
-    menu->append("Clock", "     ", clockModes,     0, cbClockMode);
-    menu->append("Note In", "   ", allNotes5Oct,   0, cbNoteIn);
-    menu->append("In Tune", "   ", MIN_IN_TUNE,  MAX_IN_TUNE,  0, cbInTune);
-    menu->append("Arp Tune", "  ", MIN_OUT_TUNE, MAX_OUT_TUNE, 0, cbArpOutTune);
-    menu->append("Bass Tune", " ", MIN_OUT_TUNE, MAX_OUT_TUNE, 0, cbBassOutTune);
+    menu->append("Pattern", "   ", arpPatterns,                      0,                                          cbPattern);
+    menu->append("Voicing", "   ", voicings,                         0,                                          cbVoicing);
+    menu->append("Inversion", " ", allInversions,                    0,                                          cbInversion);
+    menu->append("Clock Div", " ", clockDivs,                        settings_ram[RAM_CLOCK_DIV],                cbClockDiv);
+    menu->append("Arp Oct", "   ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_ARP_OCT],                  cbArpOct);
+    menu->append("Root", "      ", allNotes,                         settings_ram[RAM_ROOT],                     cbRoot);
+    menu->append("Mode", "      ", modes,                            settings_ram[RAM_MODE],                     cbMode);
+    menu->append("Bass Oct", "  ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_BASS_OCT],                 cbBassOct);
+    menu->append("BPM", "       ", Rhythm::MIN_BPM, Rhythm::MAX_BPM, settings_ram[RAM_BPM],                      cbBPM);
+    menu->append("Clock", "     ", clockModes,                       settings_ram[RAM_CLOCK_MODE],               cbClockMode);
+    menu->append("Op Mode", "   ", opModes,                          settings_ram[RAM_OP_MODE],                  cbOpMode);
+    menu->append("Note In", "   ", allNotes5Oct,                     0,                                          cbNoteIn);
+    menu->append("In Tune", "   ", MIN_IN_TUNE,     MAX_IN_TUNE,     settings_ram[RAM_IN_TUNE] + MIN_IN_TUNE,    cbInTune);
+    menu->append("Arp Tune", "  ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_ARP_TUNE] + MIN_OUT_TUNE,  cbArpOutTune);
+    menu->append("Bass Tune", " ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_BASS_TUNE] + MIN_OUT_TUNE, cbBassOutTune);
     
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
@@ -241,6 +340,10 @@ int main(void) {
     cbInTune();
     cbArpOutTune();
     cbBassOutTune();
+    cbMode();
+    cbRoot();
+    cbClockMode(); // NOTE: cvClockMode() calls cbClockDiv()
+
 
     // "In case if you wondered, the fucking thing starts the circular DMA transfer
     // that receives ADC readings from knobs / CV inputs."
@@ -284,16 +387,29 @@ void updateControls() {
 
 void updateOutputs()
 {
-    // Arp CV -> CV OUT 1
-    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, 
-            prepareDacValForOutput(arp->getDacValue() + arpOutTune + arpOctMod));
+    uint16_t dac1 = 0;
+    uint16_t dac2 = 0;
+    bool gate1 = false;
+    
+    switch (settings_ram[RAM_OP_MODE]){
+        case 0:
+            // Arp CV -> CV OUT 1
+            dac1 = arp->getDacValue() + arpOutTune + arpOctMod;
+            // Bass CV -> CV OUT 2
+            dac2 = bassDac + bassOutTune + bassOctMod;
+            // Arp Gate -> GATE OUT 1
+            gate1 = arp->getTrig();
+            break;
 
-    // Arp Gate -> GATE OUT 1
-    dsy_gpio_write(&patch->gate_output, arp->getTrig());
+        case 1:
+            dac1 = bassDac + arpOutTune + arpOctMod;
+            dac2 = bassDac + bassOutTune + bassOctMod;
+            break;
+    } 
 
-    // Bass CV -> CV OUT 2
-    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, 
-            prepareDacValForOutput(bassDac + bassOutTune + bassOctMod));
+    dsy_gpio_write(&patch->gate_output, gate1);
+    patch->seed.dac.WriteValue(DacHandle::Channel::ONE, prepareDacValForOutput(dac1));
+    patch->seed.dac.WriteValue(DacHandle::Channel::TWO, prepareDacValForOutput(dac2));
 }
 
 void updateOled(){

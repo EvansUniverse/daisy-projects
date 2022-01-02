@@ -10,6 +10,6 @@ As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would gr
 
 ### Semver
 This project adheres to [semantic versioning](https://semver.org/). Here are my definitions of the different change types:
-* Minor change (0.0.x): Doesn't change controls or behavior of the module. Bug fixes, cosmetic improvements, etc. If the user created a patch with the previous firmware, they should be able to flash the new firmware and have their patch behave exactly the same way.
+* Minor change (0.0.x): Doesn't change controls or behavior of the module. Bug fixes, cosmetic improvements, non-behavior-altering features, etc. If the user created a patch with the previous firmware, they should be able to flash the new firmware and have their patch behave exactly the same way.
 * Major change (0.x.0): Changes controls or behavior of the module.
 * Breaking change (x.0.0): Either a complete and utter overhaul of the software, or a change to the hardware.

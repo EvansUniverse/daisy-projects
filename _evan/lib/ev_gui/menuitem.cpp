@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * Copyright (C) 2021, 2022 Evan Pernu. Author: Evan Pernu
  * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
