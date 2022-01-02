@@ -33,3 +33,5 @@
     * In Tune
     * Arp Tune
     * Bass Tune
+## [1.4.1] - 1/2/2022
+* Change compiler optimization flag to reduce binary size

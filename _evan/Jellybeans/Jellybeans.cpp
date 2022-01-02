@@ -67,7 +67,7 @@ using namespace ev_theory;
 /*
  * Update this with each change
  */
-const std::string VERSION = "1.4.0";
+const std::string VERSION = "1.4.1";
 
 /*
  * Change this to enable debug output
