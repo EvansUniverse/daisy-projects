@@ -22,8 +22,10 @@ See [CONTACT.md](_evan/CONTACT_ME.md)
 ## License
 ### For everything in the [_evan/](_evan/) directory
 Author: Evan Pernu
+
 GNU GPL 3.0 - see [_evan/LICENSE.md](_evan/LICENSE.md).
 
 ### For everything else
 Author: Electrosmith
+
 MIT - see [LICENSE](LICENSE)

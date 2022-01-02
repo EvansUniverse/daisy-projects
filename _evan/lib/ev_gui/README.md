@@ -26,4 +26,5 @@ See [CONTACT.md](../CONTACT_ME.md)
 
 ## License
 Author: Evan Pernu
+
 GNU GPL 3.0 - see [../LICENSE.md](../LICENSE.md).

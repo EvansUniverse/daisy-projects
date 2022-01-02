@@ -113,7 +113,7 @@ Note that you might have to run additional tasks to re-build the binary. For add
 * **CV out 2:** Bass v/oct
 
 ### Menu
-Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. (Items that are controlled by the ctrl knobs cannot be selected in this way, to prevent the knob position from mismatching with the value. Maybe.)
+Organized as a vertical scrollable menu. Rotating the encoder scrolls to the next menu item. Pushing encoder in highlights the currently selected item, in which case rotating it edits the value. Items marked with a '(p)' are persisted when the device is powered off.
 
 * **Pattern** (_Ctrl 1)_: Pattern the arp will play notes in
     * Up
@@ -136,7 +136,7 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1st
     * 2nd
     * 3rd
-* **Click Division**: Division that the arp will play notes at
+* **Click Division** (p): Division that the arp will play notes at
     * 1/128
     * 1/64
     * 1/32
@@ -174,9 +174,13 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * Swing 100%
     * A number of fun virus-like patterns
     * Trig in (Plays a note when something is sent to trig in. Changes notes for every new trigger)-->
-* **Root**: Root note of the quantizer's scale
+* **Arp Oct** (p): Transposes arp output by x octaves
+    * -4 to +4
+* **Bass Oct** (p): Transposes bass output by x octaves
+    * -4 to +4
+* **Root** (p): Root note of the quantizer's scale
     * Any note
-* **Mode**: Mode of the quantizer's scale
+* **Mode** (p): Mode of the quantizer's scale
     * Major
     * Dorian
     * Phyrgian
@@ -184,19 +188,24 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * Mixolydian
     * Minor
     * Locrian
-* **Octave**: Transposes the arp by x octaves
-    * 0 to +2
-* **Bass octave**: Transposes the bass by x octaves
-    * 0 to +3
-* **BPM**: BPM of the internal clock (overriden by input to GATE IN 1)
+* **BPM** (p): BPM of the internal clock (overriden by input to GATE IN 1)
     * 20-500
-* **In Tune**: alters incoming notes by a semitone
-    * -12 to 12
-* **In Tune**: alters incoming notes by a semitone
-    * -12 to 12
+* **Clock** (p): Clock mode
+    * BPM: Keep an internal clock. If clock is coming in through GATE IN 1, it will detect tempo. Otherwise BPM can be adjusted in the menu.
+    * PerTrig: Don't use a clock, instead advance the arp by 1 step each time a trigger is revieved through GATE IN 1.
+* **Op Mode** (p): Mode of operation
+    * Arp: Standard mode
+    * Quant: Disable the arp completely; act as a quantizer. The incoming note from CTRL 4 will be quantized and sent out throuhg CV OUT 1.
 * **Note in** (_Ctrl 4)_: The note being fed to the quantizer
     * Any note in a 5 octave register C0-B4
     * Can select a value or supply volt/octave
+* **In Tune** (p): alters incoming notes by +/- 12 semitones
+    * -12 to 12
+* **Arp Tune** (p): alters outgoing arp notes by a +/- 100 cents
+    * -100 to 100
+* **Bass Tune** (p): alters outgoing bass notes by a +/- 100 cents
+    * -100 to 100
+
 
 <!--
 * Arp octave range (-2 to +4)
@@ -241,15 +250,18 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * 1/16 -->
 
 ## TODOs
+### Priority #1
+* Binary size takes up 99.88% of the Daisy Seed's 128kb flash. I'll have to figure out a way to fix this before I'll be able to add literally anything else.
+
 ### Definitely planned for the future
+* more elementary rhythmic variations such as 1->5->3->7
 * varying rhythms, similar to the Access Virus TI2's arp (implemented as a StepSequencer class)
-* persist certain state on shutdown e.g. mode of operation
 * user can select which cv input maps to which parameter
-* Add alternate modes of operation
-    * "quantizer only" mode where arp is completetly disabled and it acts as a pure quantizer
 * MIDI support (MIDI output and clock in)
+* Move QSPI save/load stuff to the gui lib
 
 ### Maybe, if I have the time
+* use persistent_storage isntead of qspi https://github.com/electro-smith/libDaisy/pull/396
 * Display flats instead of sharps when appropriate
 * multi-octave arpeggiation
 * Add some sort of "inversion+oct displacement" setting
@@ -267,6 +279,7 @@ Organized as a vertical scrollable menu. Rotating the encoder scrolls to the nex
     * again, barring space concerns. maybe could read these from a file
 * figure out how to make the binary smaller so i can fit more features
 * quantizer + offset mode https://forum.electro-smith.com/t/jellybeans-diatonic-quantizing-arpeggiator-for-daisy-patch/2178/2?u=evan
+* alternate mode where the user selects a scale degree per note and can noodle with them similar to elektron arps
 
 ## Known Bugs
 * CV values jitter when knob is stuck between 2 values. Need to implement hysteresis https://forum.electro-smith.com/t/petal-potentiometer-noise/1797/2?u=evan
@@ -280,4 +293,5 @@ See [CONTACT.md](../CONTACT_ME.md)
 
 ## License
 Author: Evan Pernu
+
 GNU GPL 3.0 - see [../LICENSE.md](../LICENSE.md).

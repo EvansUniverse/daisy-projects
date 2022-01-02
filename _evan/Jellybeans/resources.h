@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2021 Evan Pernu. Author: Evan Pernu
+ * Copyright (C) 2021, 2022 Evan Pernu. Author: Evan Pernu
  * 
  * You may use, distribute and modify this code under the
  * terms of the GNU AGPLv3 license.
@@ -28,9 +28,16 @@
 
 /* Menu values specific to Jellybeans */
 namespace jellybeans {
+
+    // Order must match order of OpMode
+    const std::vector<std::string> opModes {
+        "Arp",
+        "Quant",
+    };
+
     const std::vector<std::string> clockModes {
         "BPM",
-        "PerTrig"
+        "PerTrig",
     };
 
     const std::vector<std::string> clockDivs {
