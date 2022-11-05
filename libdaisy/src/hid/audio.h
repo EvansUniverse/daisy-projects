@@ -5,6 +5,20 @@
 
 namespace daisy
 {
+/** @brief Audio Engine Handle
+ *  @ingroup audio 
+ *  @details This class allows for higher level access to an audio engine.
+ *           If you're using a SOM like the DaisySeed or DaisyPatchSM (or any 
+ *            board that includes one of those objects) then the intialization
+ *            is already taken  care of.
+ *           If you're setting up your own custom hardware, or need to make changes
+ *           you will have to take the following steps:
+ *             1. Create and Initialize an SaiHandle or two depending on your requirements
+ *             2. Initialize the Audio Handle with the desired settings and the Initialized SaiHandle
+ *             3. If the connected codec requires special configuration or initialization, do so
+ *             4. Write a callback method using either the AudioCallback or the InterleavingAudioCallback format
+ *             5. Start the Audio using one of the StartAudio function
+ */
 class AudioHandle
 {
   public:
@@ -12,9 +26,28 @@ class AudioHandle
     /** TODO: Figure out how to get samplerate in here. */
     struct Config
     {
-        size_t                        blocksize;
+        /** number of samples to process per callback */
+        size_t blocksize;
+
+        /**< Sample rate of audio */
         SaiHandle::Config::SampleRate samplerate;
-        float                         postgain;
+
+        /** factor for adjustment before and after callback for hardware that may have extra headroom */
+        float postgain;
+
+        /** factor for additional one-sided compensation to audio path for hardware that may
+         *  have unequal input/output ranges
+         */
+        float output_compensation;
+
+        /** Sets default values for config struct */
+        Config()
+        : blocksize(48),
+          samplerate(SaiHandle::Config::SampleRate::SAI_48KHZ),
+          postgain(1.f),
+          output_compensation(1.f)
+        {
+        }
     };
 
     enum class Result
@@ -26,17 +59,17 @@ class AudioHandle
     /** Non-Interleaving input buffer
      * Buffer arranged by float[chn][sample] 
      * const so that the user can't modify the input
-    */
+     */
     typedef const float* const* InputBuffer;
 
     /** Non-Interleaving output buffer
      * Arranged by float[chn][sample] 
-    */
+     */
     typedef float** OutputBuffer;
 
     /** Type for a Non-Interleaving audio callback 
-   * Non-Interleaving audio callbacks in daisy will be of this type
-  */
+     * Non-Interleaving audio callbacks in daisy will be of this type
+     */
     typedef void (*AudioCallback)(InputBuffer  in,
                                   OutputBuffer out,
                                   size_t       size);
@@ -53,8 +86,8 @@ class AudioHandle
     typedef float* InterleavingOutputBuffer;
 
     /** Interleaving Audio Callback 
-   * Interleaving audio callbacks in daisy must be of this type
-  */
+     * Interleaving audio callbacks in daisy must be of this type
+     */
     typedef void (*InterleavingAudioCallback)(InterleavingInputBuffer  in,
                                               InterleavingOutputBuffer out,
                                               size_t                   size);
@@ -102,6 +135,14 @@ class AudioHandle
      ** 
      ** \param val Gain adjustment amount. The hardware will clip at the reciprical of this value. */
     Result SetPostGain(float val);
+
+    /** Sets an additional amount of gain compensation to perform at the end of the callback
+     ** Useful if the hardware input/output levels are not equal.
+     **
+     ** \param val To calcuate the value, measure the input signal, then measure the output signal
+     ** (with this set to default value of 1.0).
+     ** Then calculate val as: val = 1 / (vout / vin); */
+    Result SetOutputCompensation(float val);
 
     /** Starts the Audio using the non-interleaving callback. */
     Result Start(AudioCallback callback);

@@ -6,7 +6,7 @@ CPP_SOURCES = Jellybeans.cpp \
 ../lib/ev_theory/theory.cpp \
 ../lib/ev_theory/arp.cpp \
 ../lib/ev_theory/chord.cpp \
-../lib/ev_theory/rhythm.cpp \
+../lib/ev_theory/tempo.cpp \
 ../lib/ev_gui/menuItem.cpp \
 ../lib/ev_gui/menuItemInt.cpp \
 ../lib/ev_gui/menu.cpp \

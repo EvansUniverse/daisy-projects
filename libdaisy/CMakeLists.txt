@@ -32,6 +32,7 @@ add_library(${TARGET} STATIC
     ${MODULE_DIR}/daisy_petal.cpp
     ${MODULE_DIR}/daisy_field.cpp
     ${MODULE_DIR}/daisy_versio.cpp
+    ${MODULE_DIR}/daisy_legio.cpp
     ${MODULE_DIR}/daisy_patch_sm.cpp
     ${MODULE_DIR}/sys/system.cpp
     ${MODULE_DIR}/dev/sr_595.cpp
@@ -57,6 +58,7 @@ add_library(${TARGET} STATIC
     ${MODULE_DIR}/per/qspi.cpp
     ${MODULE_DIR}/dev/sdram.cpp
     ${MODULE_DIR}/per/spi.cpp
+    ${MODULE_DIR}/per/spiMultislave.cpp
     ${MODULE_DIR}/per/tim.cpp
     ${MODULE_DIR}/per/uart.cpp
     ${MODULE_DIR}/ui/AbstractMenu.cpp

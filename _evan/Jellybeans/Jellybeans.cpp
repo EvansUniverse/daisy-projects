@@ -39,6 +39,8 @@
 #include <string>
 #include <array>
 
+/* Indices of certain settings in settings_ram */
+
 // 0: OpMode - Mode of operation
 //     0: Arp: Standard mode
 //     1: Quant: Disable the arp completely; act as a quantizer. The incoming note
@@ -61,18 +63,19 @@
 using namespace daisy;
 using namespace daisysp;
 using namespace jellybeans;
-using namespace patch_gui;
+using namespace ev_gui;
 using namespace ev_theory;
 
 /*
  * Update this with each change
  */
-const std::string VERSION = "1.4.1";
+const std::string VERSION = "1.5.0";
 
 /*
  * Change this to enable debug output
  */
-const bool DEBUG_MODE = false;
+const bool DEBUG_MODE = true;
+std::string debugStr = ""; // Use for debugging
 
 // Some settings are stored in QSPI memory and persisted on startup
 const uint8_t SETTINGS_BUFF_SIZE = 12;
@@ -84,13 +87,12 @@ DaisyPatch* patch;
 PatchGui*   gui;
 Arp*        arp;
 Menu*       menu;
-Rhythm*     rhythm;
+Tempo*     tempo;
 
 // Previous note in's semitone value
 uint8_t lastNote;
 
 // Used to track time divisions
-// TODO factor this out into a rhythm sequencer library
 uint16_t divMax;
 uint16_t divCounter;
 
@@ -232,7 +234,7 @@ void cbClockDiv(){
 
 void cbClockMode(){
     settings_ram[RAM_CLOCK_MODE] = menu->getItem("Clock")->getIndex();
-    rhythm->setClock(settings_ram[RAM_CLOCK_MODE] == 0);
+    tempo->setClock(settings_ram[RAM_CLOCK_MODE] == 0);
     cbClockDiv();
     // cbClockDiv() already calls saveSettingsToQSPI(), so no need to call it in this function.
 };
@@ -243,10 +245,10 @@ void cbOpMode(){
 };
 
 void cbBPM(){
-    settings_ram[RAM_BPM] = menu->getItem("BPM")->getIndex();
+    settings_ram[RAM_BPM] = menu->getItem("Intnl BPM")->getIndex();
     saveSettingsToQSPI();
 
-    rhythm->setBPM(settings_ram[RAM_BPM]);
+    tempo->setBPM(static_cast<float>(settings_ram[RAM_BPM]));
 }
 
 void cbInTune(){
@@ -273,7 +275,7 @@ void cbBassOutTune(){
 }
 
 // Invoked whenever the timer ticks
-void cbRhythm(){
+void cbTempo(){
     divCounter++;
     divCounter = divCounter % divMax;
     if(divCounter == 0){
@@ -281,16 +283,15 @@ void cbRhythm(){
     }
 };
 
-
 int main(void) {
-    // Initialize vars and objects
+    // Initialize state objects
     patch = new DaisyPatch();
     patch->Init();
     arp   = new Arp();
-    menu  = new Menu();
-
-    gui = new PatchGui(patch, menu, &font, fontWidth, fontHeight, 4);
-    rhythm = new Rhythm(true, cbRhythm);
+    menu  = new Menu(1);
+    gui   = new PatchGui(patch, menu, &font, fontWidth, fontHeight, 4);
+    tempo = new Tempo(true, cbTempo);
+    tempo->windowSize = 16;
 
     loadQSPISettingsToRAM();
 
@@ -314,28 +315,28 @@ int main(void) {
     bassOctMod = 0.f;
 
     // Initialize menu items
-    menu->append("Pattern", "   ", arpPatterns,                      0,                                          cbPattern);
-    menu->append("Voicing", "   ", voicings,                         0,                                          cbVoicing);
-    menu->append("Inversion", " ", allInversions,                    0,                                          cbInversion);
-    menu->append("Clock Div", " ", clockDivs,                        settings_ram[RAM_CLOCK_DIV],                cbClockDiv);
-    menu->append("Arp Oct", "   ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_ARP_OCT],                  cbArpOct);
-    menu->append("Root", "      ", allNotes,                         settings_ram[RAM_ROOT],                     cbRoot);
-    menu->append("Mode", "      ", modes,                            settings_ram[RAM_MODE],                     cbMode);
-    menu->append("Bass Oct", "  ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_BASS_OCT],                 cbBassOct);
-    menu->append("BPM", "       ", Rhythm::MIN_BPM, Rhythm::MAX_BPM, settings_ram[RAM_BPM],                      cbBPM);
-    menu->append("Clock", "     ", clockModes,                       settings_ram[RAM_CLOCK_MODE],               cbClockMode);
-    menu->append("Op Mode", "   ", opModes,                          settings_ram[RAM_OP_MODE],                  cbOpMode);
-    menu->append("Note In", "   ", allNotes5Oct,                     0,                                          cbNoteIn);
-    menu->append("In Tune", "   ", MIN_IN_TUNE,     MAX_IN_TUNE,     settings_ram[RAM_IN_TUNE] + MIN_IN_TUNE,    cbInTune);
-    menu->append("Arp Tune", "  ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_ARP_TUNE] + MIN_OUT_TUNE,  cbArpOutTune);
-    menu->append("Bass Tune", " ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_BASS_TUNE] + MIN_OUT_TUNE, cbBassOutTune);
+    menu->append(0, "Pattern", "   ", arpPatterns,                      0,                                          cbPattern);
+    menu->append(0, "Voicing", "   ", voicings,                         0,                                          cbVoicing);
+    menu->append(0, "Inversion", " ", allInversions,                    0,                                          cbInversion);
+    menu->append(0, "Clock Div", " ", clockDivs,                        settings_ram[RAM_CLOCK_DIV],                cbClockDiv);
+    menu->append(0, "Arp Oct", "   ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_ARP_OCT],                  cbArpOct);
+    menu->append(0, "Root", "      ", allNotes,                         settings_ram[RAM_ROOT],                     cbRoot);
+    menu->append(0, "Mode", "      ", modes,                            settings_ram[RAM_MODE],                     cbMode);
+    menu->append(0, "Bass Oct", "  ", MIN_OCT_MOD,     MAX_OCT_MOD,     settings_ram[RAM_BASS_OCT],                 cbBassOct);
+    menu->append(0, "Intnl BPM", " ", Tempo::MIN_BPM, Tempo::MAX_BPM,   settings_ram[RAM_BPM],                      cbBPM);
+    menu->append(0, "Clock", "     ", clockModes,                       settings_ram[RAM_CLOCK_MODE],               cbClockMode);
+    menu->append(0, "Op Mode", "   ", opModes,                          settings_ram[RAM_OP_MODE],                  cbOpMode);
+    menu->append(0, "Note In", "   ", allNotes5Oct,                     0,                                          cbNoteIn);
+    menu->append(0, "In Tune", "   ", MIN_IN_TUNE,     MAX_IN_TUNE,     settings_ram[RAM_IN_TUNE] + MIN_IN_TUNE,    cbInTune);
+    menu->append(0, "Arp Tune", "  ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_ARP_TUNE] + MIN_OUT_TUNE,  cbArpOutTune);
+    menu->append(0, "Bass Tune", " ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_BASS_TUNE] + MIN_OUT_TUNE, cbBassOutTune);
     
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
     gui->assignToCV("Voicing",   2);
     gui->assignToCV("Inversion", 3);
 
-    // "Prime" menu items
+    // "Prime" the menu items
     cbBPM();
     cbInTune();
     cbArpOutTune();
@@ -348,15 +349,15 @@ int main(void) {
     // "In case if you wondered, the fucking thing starts the circular DMA transfer
     // that receives ADC readings from knobs / CV inputs."
     //
-    // Thanks, antisvin :P
+    // Thanks, Antisvin :P
     patch->StartAdc();
-
+    
     // Main event loop
     while(1){
         updateControls();
         updateOled();
         updateOutputs();
-        rhythm->update();
+        tempo->update();
     }
 }
 
@@ -368,7 +369,8 @@ void updateControls() {
     // Read v/oct from CTRL 4
     float ctrl = patch->GetKnobValue((DaisyPatch::Ctrl)3);
     uint8_t i = static_cast<uint8_t>(std::round(ctrl*60.f) + inTune);
-    //i = quantizeNoteToRange(i); // TODO this may be redundant
+    debugStr = std::to_string(i);
+    i = quantizeNoteToRange(i);
 
     // Check that a new cv value has been input, otherwise encoder input to
     // note in won't work. Might remove later and just let CTRL 4 handle it
@@ -376,12 +378,23 @@ void updateControls() {
         lastNote = i;
         menu->getItem("Note In")->setIndex(i);
     }
-    
+
+    // GATE IN 2 -> new note trig
+    if(patch->gate_input[1].Trig()){
+        divCounter = 0;
+        arp->resetPosition();
+        // tempo->forceTick(); // TODO figure out why I thought this was a good idea
+    }
+
     // GATE IN 1 -> clock pulse
     blink--;
     if(patch->gate_input[0].Trig()){
-        blink = BLINK_FRAMES;
-        rhythm->pulse();
+        tempo->pulse();
+
+        // Blink on quarter notes
+        if(tempo->pulseCount % 4 == 0){
+            blink = BLINK_FRAMES;
+        }
     }
 }
 
@@ -392,7 +405,7 @@ void updateOutputs()
     bool gate1 = false;
     
     switch (settings_ram[RAM_OP_MODE]){
-        case 0:
+        case 0: // Arpeggiator (default mode)
             // Arp CV -> CV OUT 1
             dac1 = arp->getDacValue() + arpOutTune + arpOctMod;
             // Bass CV -> CV OUT 2
@@ -401,10 +414,16 @@ void updateOutputs()
             gate1 = arp->getTrig();
             break;
 
-        case 1:
+        case 1: // Quantizer + octave switch
             dac1 = bassDac + arpOutTune + arpOctMod;
             dac2 = bassDac + bassOutTune + bassOctMod;
             break;
+
+        case 2: // Octave switch only
+            dac1 = bassDac + arpOctMod;
+            dac2 = bassDac + bassOctMod;
+            break;
+
     } 
 
     dsy_gpio_write(&patch->gate_output, gate1);
@@ -420,23 +439,26 @@ void updateOled(){
     if (blink > 0) {
         h2 += ".";
     }
-    h2 += rhythm->bpmToString();
+    h2 += tempo->bpmToString();
 
     // Set headers
     gui->setHeader(arp->toString(), 0);
     gui->setHeader(h2, 1);
     gui->setHeader(arp->getChord()->toString(), 2);
-//    gui->setHeader(allNotes5Oct.at(lastNote), 3);
+    // gui->setHeader(allNotes5Oct.at(lastNote), 3);
 
     // Keeping a few useful debug outputs here in case I need them later
     if (DEBUG_MODE){
+        //gui->setHeader("Han shot first.", 2);
         // gui->setHeader("CV1: " + std::to_string(static_cast<int>(bassDac)) + 
         //        " CV2: " + std::to_string(static_cast<int>(arp->getDacValue())), 2);
-        //gui->setHeader(rhythm->toString(), 2); 
+        //gui->setHeader(tempo->toString(), 2); 
         //gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
+        //gui->setHeader(std::to_string(patch->GetKnobValue((DaisyPatch::Ctrl)3)), 2);
         //gui->setHeader(std::to_string(divCounter) + " " + std::to_string(divMax), 2); 
-       // gui->setHeader(std::to_string(menu->getItem("BPM")->getIndex()), 2);
+       // gui->setHeader(std::to_string(menu->getItem("Intnl BPM)->getIndex()), 2);
       // gui->setHeader(std::to_string(arp->getChord()->getOctave()), 2);
+      //gui->setHeader(debugStr, 2);
     }
 
     gui->render();

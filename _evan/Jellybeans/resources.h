@@ -23,7 +23,7 @@
 #include "../lib/ev_theory/theory.h"
 #include "../lib/ev_theory/chord.h"
 #include "../lib/ev_theory/arp.h"
-#include "../lib/ev_theory/rhythm.h"
+#include "../lib/ev_theory/tempo.h"
 #include "../lib/ev_gui/gui.h"
 
 /* Menu values specific to Jellybeans */
@@ -33,47 +33,12 @@ namespace jellybeans {
     const std::vector<std::string> opModes {
         "Arp",
         "Quant",
+        "Oct",
     };
 
     const std::vector<std::string> clockModes {
         "BPM",
         "PerTrig",
-    };
-
-    const std::vector<std::string> clockDivs {
-        "1/128",
-        "1/64",
-        "1/32",
-        "1/16",
-        "1/8",
-        "1/4",
-        "1/2", 
-        "1",
-        "2",
-        "4",
-        "8",
-        "16",
-        "32",
-        "64",
-        "128",
-    };
-
-    const std::map<std::string, int> clockDivTo256ths {
-        {"1/128", 2},
-        {"1/64",  4},
-        {"1/32",  8},
-        {"1/16",  16},
-        {"1/8",   32},
-        {"1/4",   64},
-        {"1/2",   128},
-        {"1",     256},
-        {"2",     512},
-        {"4",     1024},
-        {"8",     2048},
-        {"16",    4096},
-        {"32",    8192},
-        {"64",    16384},
-        {"128",   32768},
     };
 
     // Given the 1V/oct and 0-5V range of the CV out port,

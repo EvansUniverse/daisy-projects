@@ -27,6 +27,7 @@ daisy_patch \
 daisy_petal \
 daisy_field \
 daisy_versio \
+daisy_legio \
 daisy_patch_sm \
 sys/fatfs \
 sys/system \
@@ -55,6 +56,7 @@ per/i2c \
 per/rng \
 per/qspi \
 per/spi \
+per/spiMultislave \
 per/tim \
 per/uart \
 ui/UI \

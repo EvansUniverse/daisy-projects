@@ -120,6 +120,8 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../DaisySP/Source/Effects/pitchshifter.h \
  ../../DaisySP/Source/Effects/sampleratereducer.h \
  ../../DaisySP/Source/Effects/tremolo.h \
+ ../../DaisySP/Source/Effects/wavefolder.h \
+ ../../DaisySP/Source/Utility/dcblock.h \
  ../../DaisySP/Source/Filters/allpass.h \
  ../../DaisySP/Source/Filters/atone.h \
  ../../DaisySP/Source/Filters/biquad.h \
@@ -138,7 +140,6 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../DaisySP/Source/PhysicalModeling/resonator.h \
  ../../DaisySP/Source/PhysicalModeling/pluck.h \
  ../../DaisySP/Source/PhysicalModeling/PolyPluck.h \
- ../../DaisySP/Source/Utility/dcblock.h \
  ../../DaisySP/Source/PhysicalModeling/KarplusString.h \
  ../../DaisySP/Source/PhysicalModeling/stringvoice.h \
  ../../DaisySP/Source/Synthesis/blosc.h \
@@ -162,18 +163,19 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/src/per/tim.h ../../libdaisy/src/per/qspi.h \
  ../../libdaisy/src/per/dac.h ../../libdaisy/src/per/gpio.h \
  ../../libdaisy/src/dev/leddriver.h ../../libdaisy/src/per/i2c.h \
- ../../libdaisy/src/dev/sdram.h ../../libdaisy/src/dev/sr_4021.h \
- ../../libdaisy/src/sys/system.h ../../libdaisy/src/hid/audio.h \
- ../../libdaisy/src/per/sai.h ../../libdaisy/src/util/unique_id.h \
- ../../libdaisy/src/per/adc.h ../../libdaisy/src/per/uart.h \
- ../../libdaisy/src/hid/midi.h ../../libdaisy/src/util/ringbuffer.h \
- ../../libdaisy/src/hid/MidiEvent.h ../../libdaisy/src/hid/usb_midi.h \
- ../../libdaisy/src/hid/usb.h ../../libdaisy/src/hid/encoder.h \
- ../../libdaisy/src/hid/switch.h ../../libdaisy/src/hid/switch3.h \
- ../../libdaisy/src/hid/ctrl.h ../../libdaisy/src/hid/gatein.h \
- ../../libdaisy/src/hid/parameter.h ../../libdaisy/src/hid/logger.h \
- ../../libdaisy/src/hid/logger_impl.h ../../libdaisy/src/hid/usb_host.h \
- ../../libdaisy/src/per/sdmmc.h ../../libdaisy/src/per/spi.h \
+ ../../libdaisy/src/dev/mpr121.h ../../libdaisy/src/dev/sdram.h \
+ ../../libdaisy/src/dev/sr_4021.h ../../libdaisy/src/sys/system.h \
+ ../../libdaisy/src/hid/audio.h ../../libdaisy/src/per/sai.h \
+ ../../libdaisy/src/util/unique_id.h ../../libdaisy/src/per/adc.h \
+ ../../libdaisy/src/per/uart.h ../../libdaisy/src/hid/midi.h \
+ ../../libdaisy/src/util/ringbuffer.h ../../libdaisy/src/hid/MidiEvent.h \
+ ../../libdaisy/src/hid/usb_midi.h ../../libdaisy/src/hid/usb.h \
+ ../../libdaisy/src/hid/encoder.h ../../libdaisy/src/hid/switch.h \
+ ../../libdaisy/src/hid/switch3.h ../../libdaisy/src/hid/ctrl.h \
+ ../../libdaisy/src/hid/gatein.h ../../libdaisy/src/hid/parameter.h \
+ ../../libdaisy/src/hid/logger.h ../../libdaisy/src/hid/logger_impl.h \
+ ../../libdaisy/src/hid/usb_host.h ../../libdaisy/src/per/sdmmc.h \
+ ../../libdaisy/src/per/spi.h ../../libdaisy/src/per/spiMultislave.h \
  ../../libdaisy/src/per/rng.h ../../libdaisy/src/hid/disp/display.h \
  ../../libdaisy/src/util/oled_fonts.h \
  ../../libdaisy/src/hid/disp/graphics_common.h \
@@ -184,10 +186,12 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/src/sys/ffconf.h ../../libdaisy/src/util/bsp_sd_diskio.h \
  ../../libdaisy/src/hid/led.h ../../libdaisy/src/hid/rgb_led.h \
  ../../libdaisy/src/util/color.h ../../libdaisy/src/dev/sr_595.h \
- ../../libdaisy/src/dev/codec_pcm3060.h \
- ../../libdaisy/src/dev/codec_wm8731.h \
+ ../../libdaisy/src/dev/apds9960.h ../../libdaisy/src/dev/codec_pcm3060.h \
+ ../../libdaisy/src/dev/codec_wm8731.h ../../libdaisy/src/dev/dps310.h \
  ../../libdaisy/src/dev/lcd_hd44780.h ../../libdaisy/src/dev/mcp23x17.h \
- ../../libdaisy/src/dev/max11300.h ../../libdaisy/src/ui/ButtonMonitor.h \
+ ../../libdaisy/src/dev/max11300.h ../../libdaisy/src/dev/tlv493d.h \
+ ../../libdaisy/src/dev/neopixel.h ../../libdaisy/src/dev/neotrellis.h \
+ ../../libdaisy/src/dev/icm20948.h ../../libdaisy/src/ui/ButtonMonitor.h \
  ../../libdaisy/src/ui/UiEventQueue.h \
  ../../libdaisy/src/ui/../util/FIFO.h \
  ../../libdaisy/src/ui/../util/scopedirqblocker.h \
@@ -205,9 +209,10 @@ build/Jellybeans.o: Jellybeans.cpp \
  ../../libdaisy/src/util/WavWriter.h \
  ../../libdaisy/src/dev/oled_ssd130x.h resources.h \
  ../lib/ev_theory/theory.h ../lib/ev_theory/chord.h \
- ../lib/ev_theory/arp.h ../lib/ev_theory/rhythm.h ../lib/ev_gui/gui.h \
+ ../lib/ev_theory/arp.h ../lib/ev_theory/tempo.h ../lib/ev_gui/gui.h \
  ../lib/ev_gui/menu.h ../lib/ev_gui/menuItem.h \
- ../lib/ev_gui/menuItemInt.h ../lib/ev_gui/patchGui.h
+ ../lib/ev_gui/menuItemInt.h ../lib/ev_gui/patchGui.h \
+ ../lib/ev_gui/fieldGui.h ../../libdaisy/src/daisy_field.h
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h7xx.h:
 ../../libdaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h750xx.h:
 ../../libdaisy/Drivers/CMSIS/Include/core_cm7.h:
@@ -332,6 +337,8 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../DaisySP/Source/Effects/pitchshifter.h:
 ../../DaisySP/Source/Effects/sampleratereducer.h:
 ../../DaisySP/Source/Effects/tremolo.h:
+../../DaisySP/Source/Effects/wavefolder.h:
+../../DaisySP/Source/Utility/dcblock.h:
 ../../DaisySP/Source/Filters/allpass.h:
 ../../DaisySP/Source/Filters/atone.h:
 ../../DaisySP/Source/Filters/biquad.h:
@@ -352,7 +359,6 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../DaisySP/Source/PhysicalModeling/resonator.h:
 ../../DaisySP/Source/PhysicalModeling/pluck.h:
 ../../DaisySP/Source/PhysicalModeling/PolyPluck.h:
-../../DaisySP/Source/Utility/dcblock.h:
 ../../DaisySP/Source/PhysicalModeling/KarplusString.h:
 ../../DaisySP/Source/PhysicalModeling/stringvoice.h:
 ../../DaisySP/Source/Synthesis/blosc.h:
@@ -383,6 +389,7 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/per/gpio.h:
 ../../libdaisy/src/dev/leddriver.h:
 ../../libdaisy/src/per/i2c.h:
+../../libdaisy/src/dev/mpr121.h:
 ../../libdaisy/src/dev/sdram.h:
 ../../libdaisy/src/dev/sr_4021.h:
 ../../libdaisy/src/sys/system.h:
@@ -407,6 +414,7 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/hid/usb_host.h:
 ../../libdaisy/src/per/sdmmc.h:
 ../../libdaisy/src/per/spi.h:
+../../libdaisy/src/per/spiMultislave.h:
 ../../libdaisy/src/per/rng.h:
 ../../libdaisy/src/hid/disp/display.h:
 ../../libdaisy/src/util/oled_fonts.h:
@@ -422,11 +430,17 @@ build/Jellybeans.o: Jellybeans.cpp \
 ../../libdaisy/src/hid/rgb_led.h:
 ../../libdaisy/src/util/color.h:
 ../../libdaisy/src/dev/sr_595.h:
+../../libdaisy/src/dev/apds9960.h:
 ../../libdaisy/src/dev/codec_pcm3060.h:
 ../../libdaisy/src/dev/codec_wm8731.h:
+../../libdaisy/src/dev/dps310.h:
 ../../libdaisy/src/dev/lcd_hd44780.h:
 ../../libdaisy/src/dev/mcp23x17.h:
 ../../libdaisy/src/dev/max11300.h:
+../../libdaisy/src/dev/tlv493d.h:
+../../libdaisy/src/dev/neopixel.h:
+../../libdaisy/src/dev/neotrellis.h:
+../../libdaisy/src/dev/icm20948.h:
 ../../libdaisy/src/ui/ButtonMonitor.h:
 ../../libdaisy/src/ui/UiEventQueue.h:
 ../../libdaisy/src/ui/../util/FIFO.h:
@@ -452,9 +466,11 @@ resources.h:
 ../lib/ev_theory/theory.h:
 ../lib/ev_theory/chord.h:
 ../lib/ev_theory/arp.h:
-../lib/ev_theory/rhythm.h:
+../lib/ev_theory/tempo.h:
 ../lib/ev_gui/gui.h:
 ../lib/ev_gui/menu.h:
 ../lib/ev_gui/menuItem.h:
 ../lib/ev_gui/menuItemInt.h:
 ../lib/ev_gui/patchGui.h:
+../lib/ev_gui/fieldGui.h:
+../../libdaisy/src/daisy_field.h:

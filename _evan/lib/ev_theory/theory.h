@@ -46,8 +46,10 @@ namespace ev_theory {
 
     // @param the semitone value of a note
     // @return if the note exceeds our range, bring it up/down an octave until it fits
-    uint8_t quantizeNoteToRange(int8_t);
+    int8_t quantizeNoteToRange(int16_t);
 
+    // NOTE: passing this function an int8_t will cause an overflow issue. Use int16_t.
+    //
     // @param semi: semitone value corresponding to theory::allNotes5Oct
     // @return value that can be supplied to Daisy's DAC for CV out 
     //         using the function patch.seed.dac.WriteValue()
@@ -70,13 +72,24 @@ namespace ev_theory {
     // Adds an offset (described below) to the value.
     //
     // !!! HACK !!!
-    // Idk why but values of 0 are about a half a semitone out of tune. Adding an offset of 25 to nonzero
-    // values seems to fix this. I'll leave this hack here until I figure out what he issue is.
+    // Idk why but values of 0 are about a half a semitone out of tune on Daisy Patch. Adding an offset of 25 to
+    // nonzero values seems to fix this. I'll leave this hack here until I figure out what he issue is.
     // relevant thread: https://forum.electro-smith.com/t/bug-found-in-daisy-examples-patch-sequencer/2159/3
+    //
+    // Update: This appears to be a hardware issue, seems like telling Daisy Patch or Field (could be other devices too,
+    // these are just the ones I've personally tested) to output a voltage of 0, e.g. `seed.dac.WriteValue(DacHandle::Channel::ONE, 0));`
+    // results in it outputting a voltage of about .04 - This results in audio output for the lowest note to be out of tune. 
+    // Options to fix this are either disable the lowest note or add an offset of about 25 to all other notes to compensate.
     //
     // TODO: 25 is still a wee bit off, run more precise tests to figure out a more accurate offset.
     uint16_t prepareDacValForOutput(int16_t);
     const uint8_t DAC_OFFSET_FOR_NONZERO_VALUES = 25;
+
+    // Brings out-of-range values within range. Does so by octave increments so that the resulting value
+    // still sounds musical.
+    //
+    // Same thing as prepareDacValForOutput() but without adding the offset
+    uint16_t quantizeDacValToRange(int16_t);
 
     // @param float
     // @param decimalPlaces
@@ -257,6 +270,60 @@ namespace ev_theory {
         "1st",
         "2nd",
         "3rd"
+    };
+
+    const std::vector<std::string> clockDivs {
+        "1/128",
+        "1/64",
+        "1/32",
+        "1/16",
+        "1/8",
+        "1/4",
+        "1/2", 
+        "1",
+        "2",
+        "4",
+        "8",
+        "16",
+        "32",
+        "64",
+        "128",
+    };
+
+    const std::map<std::string, int> clockDivTo256ths {
+        {"1/128", 2},
+        {"1/64",  4},
+        {"1/32",  8},
+        {"1/16",  16},
+        {"1/8",   32},
+        {"1/4",   64},
+        {"1/2",   128},
+        {"1",     256},
+        {"2",     512},
+        {"4",     1024},
+        {"8",     2048},
+        {"16",    4096},
+        {"32",    8192},
+        {"64",    16384},
+        {"128",   32768},
+    };
+
+    const std::map<int, std::string> conv256thToClockDiv {
+        {2,     "1/128"},
+        {4,     "1/64"},
+        {8,     "1/32"},
+        {16,    "1/16"},
+        {32,    "1/8"},
+        {64,    "1/4"},
+        {128,   "1/2"},
+        {256,   "1"},
+        {512,   "2"},
+        {1024,  "4"},
+        {2048,  "8"},
+        {4096,  "16"},
+        {8192,  "32"},
+        {16384, "64"},
+        {32768, "128"},
     };
 } // namespace ev_theory
 

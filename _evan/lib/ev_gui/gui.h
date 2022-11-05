@@ -24,3 +24,4 @@
 #include "menuItem.h"
 #include "menuItemInt.h"
 #include "patchGui.h"
+#include "fieldGui.h"

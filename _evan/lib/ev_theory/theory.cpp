@@ -27,7 +27,7 @@
 #include "theory.h"
 
 namespace ev_theory {
-    uint8_t quantizeNoteToRange(int8_t i) {
+    int8_t quantizeNoteToRange(int16_t i) {
         while (i > MAX_NOTE){
             i -= SEMIS_PER_OCT;
         }
@@ -97,18 +97,22 @@ namespace ev_theory {
         return round(DAC_UNITS_PER_SEMI * cents * .01f); 
     }
 
-    uint16_t prepareDacValForOutput(int16_t i){
+    uint16_t quantizeDacValToRange(int16_t i){
         while (i < MIN_DAC_VALUE) {
             i += DAC_UNITS_PER_OCT;
         }
-        if (i == 0) {
-            return 0;
-        }
-
-        i += DAC_OFFSET_FOR_NONZERO_VALUES;
         while (i > MAX_DAC_VALUE) {
             i -= DAC_UNITS_PER_OCT;
         }
+        return i;
+    }
+
+    uint16_t prepareDacValForOutput(int16_t i){
+        i = quantizeDacValToRange(i);
+        if (i != 0) {
+            i += DAC_OFFSET_FOR_NONZERO_VALUES;
+        }
+
         return i;
     };
 
