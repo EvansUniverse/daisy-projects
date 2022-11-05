@@ -1,12 +1,14 @@
 # Contributing
-Thank you for your interest in contributing :) Pull requests are welcome.
+Thank you for your interest in contributing :)
 
-As you can probably tell, I'm pretty new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism or advice on my code.
+Pull requests are welcome. Please run drastic changes by [me](CONTACT_ME.md) before starting on your PR. If you need a place to start, there are TODO items listed in the README.md of each project.
+
+As you can probably tell, I'm relatively new to C++, embedded, and Daisy. I would greatly appreciate any constructive criticism, advice, or code reviews.
 
 ### Before merging
 * Update `_evan/<project_name>/CHANGELOG.md` according to [Keep a Changelog's format](https://keepachangelog.com/en/1.0.0/). 
-* Update the `VERSION` variable in `_evan/<project_name>/<project name>.cpp`.
-* Add a copy of `_evan/<project_name>/build/<project name>.bin` to `old_builds` and rename it like so: `<project name>_1-0-0.bin`.
+* For projects not in [lib/](lib/), update the `VERSION` variable in `_evan/<project_name>/<project name>.cpp`.
+* For projects not in [lib/](lib/), add a copy of `_evan/<project_name>/build/<project name>.bin` to `old_builds` and rename it like so: `<project name>_1-0-0.bin`.
 
 ### Semver
 This project adheres to [semantic versioning](https://semver.org/). Here are my definitions of the different change types:

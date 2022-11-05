@@ -27,7 +27,7 @@
 #include <vector>
 #include <functional>
 
-using namespace patch_gui;
+using namespace ev_gui;
 
 MenuItemInt::MenuItemInt(
         std::string theTitle,
@@ -43,6 +43,8 @@ MenuItemInt::MenuItemInt(
     max      = theMax;
     index    = theDefault;
     callback = theCallback;
+    notch    = 0;
+    notchLen = 0;
 };
 
 void MenuItemInt::increment(){
@@ -62,8 +64,26 @@ void MenuItemInt::decrement(){
 /* Setters */
 
 void MenuItemInt::setIndex(int16_t i){
-    index = i;
+    if(i >= notch - notchLen && i <= notch + notchLen){
+        index = notch;
+    } else {
+        index = i;
+    }
+    
     callback();
+};
+
+void MenuItemInt::setIndexByFloat(float i){
+    // C++ float->int casting always rounds down, add 0.5 to round both ways
+    index = min + static_cast<uint16_t>((i * (floatSize() + 0.5f)));
+    callback();
+};
+
+void MenuItemInt::setMax(int16_t i){
+    max = i;
+    if(index > max){
+        index = max;
+    }
 };
 
 /* Getters */
@@ -78,4 +98,8 @@ std::string MenuItemInt::getValue() {
 
 uint32_t MenuItemInt::size(){
     return std::abs(max - min);
+}
+
+int16_t MenuItemInt::getMin(){
+    return min;
 }

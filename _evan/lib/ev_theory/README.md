@@ -1,9 +1,10 @@
 # :musical_score: Theory :musical_score:
 Various musical functionalities for the Electrosmith Daisy platform.
-* [rhythm](rhythm.h) - Metronome/tempo with BPM detection
+* [tempo](tempo.h) - Metronome/tempo with BPM detection
 * [chord](chord.h) - Chord with lots of options for modifications and extensions
 * [arp](arp.h) - Arpeggiator
-* [theory](theory.h) - General purpose utilities pertaining Daisy and music theory: notes, quantization, note -> voltage conversion, etc.
+* [theory](theory.h) - General purpose utilities pertaining Daisy and music theory: notes, quantization, note -> voltage conversion, etc. Honestly, a better name for it would be "utils".
+* [midi](midi.h) - MIDI functionalities (that aren't covered by LibDaisy)
 
 For more documentation, read the `.h` files.
 

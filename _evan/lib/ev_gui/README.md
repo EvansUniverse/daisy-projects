@@ -1,22 +1,17 @@
 # :desktop_computer: Patch GUI :desktop_computer:
-Simple UI System for ElectrosmithDaisy Patch with a scrollable menu.
+UI Systems for Electrosmith Daisy Patch and Field.
 
-It looks like this:
-```
-----------------------------
-| Header 1        Header 2 |
-|--------------------------|
-| > MenuItem1      value   |
-|   MenuItem2      value   |
-|   MenuItem3      value   |
-|   MenuItem4      value   |
-|   MenuItem5      value   |
-----------------------------
-```
-See [patchGui.h](patchGui.h) for more documentation.
+See [patchGui.h](patchGui.h) and [fieldGui.h](fieldGui.h) for more documentation.
 
 ## Build Instructions
-See [Jellybeans](../../Jellybeans/) for an implementation example
+See [Jellybeans](../../Jellybeans/) and [Omakase](../../Omakase/) for implementation examples of `patchGui` and [Gumdrops](../../Gumdrops/) for an example of `fieldGui`.
+
+## Known Bugs
+* PatchGui crashes when attempting to render a page with only one item (possibly <4 items?)
+* FieldGui screen flickers (solution: this is most likely caused by patch->display.Update(); being called more than once per event loop, or in more than one place.)
+
+## TODO 
+* make menuItemInt header only
 
 ## Contributing
 See [CONTRIBUTING.md](../CONTRIBUTING.md)

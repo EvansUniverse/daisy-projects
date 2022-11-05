@@ -26,13 +26,26 @@
 #include <string>
 #include <vector>
 
-using namespace patch_gui;
+using namespace ev_gui;
 
-Menu::Menu(){
+Menu::Menu(uint8_t numPages){
     index = 0;
+    page = 0;
+
+    for(uint8_t i = 0; i < numPages; i++){
+        std::map<std::string, uint8_t> m;
+        itemNameToIndex.push_back(m);
+
+        std::vector<MenuItem*> v;
+        pages.push_back(v);
+
+        pageNames.push_back("");
+        hiddenPages.push_back(false);
+    }
 }
 
 void Menu::append(
+        uint8_t thePage,
         std::string theTitle,
         std::string thePad,
         std::vector<std::string> theValues,
@@ -40,11 +53,12 @@ void Menu::append(
         std::function<void ()> theCallback
 ){
     MenuItem* m = new MenuItem(theTitle, thePad, theValues, theDefault, theCallback);
-    items.push_back(m);
-    itemNameToIndex[m->getTitle()] = static_cast<uint8_t>(items.size()-1);
+    pages[thePage].push_back(m);
+    itemNameToIndex[thePage][m->getTitle()] = static_cast<uint8_t>(pages[thePage].size()-1);
 }
 
 void Menu::append(
+        uint8_t thePage,
         std::string theTitle,
         std::string thePad,
         int16_t theMin,
@@ -53,13 +67,14 @@ void Menu::append(
         std::function<void ()> theCallback
 ){
     MenuItem* m = new MenuItemInt(theTitle, thePad, theMin, theMax, theDefault, theCallback);
-    items.push_back(m);
-    itemNameToIndex[m->getTitle()] = static_cast<uint8_t>(items.size()-1);
+    pages[thePage].push_back(m);
+    itemNameToIndex[thePage][m->getTitle()] = static_cast<uint8_t>(pages[thePage].size()-1);
 }
 
 /* Setters */
 
-// TODO consider a "wraparound" behavior where scrolling past the end takes you back to the beginning
+// TODO consider a "wraparound" behavior where scrolling past the end takes you back
+// to the beginning (maybe make it a configurable option)
 void Menu::setIndex(int i){
     if (i >= size()){
         i = size() - 1;
@@ -72,19 +87,31 @@ void Menu::setIndex(int i){
 /* Getters */
 
 uint8_t Menu::size(){
-    return static_cast<uint8_t>(items.size());
+    return static_cast<uint8_t>(pages[page].size());
+}
+
+uint8_t Menu::size(uint8_t p){
+    return static_cast<uint8_t>(pages[p].size());
 }
 
 MenuItem* Menu::getItem(std::string name){
-    return items[itemNameToIndex.at(name)];
+    return pages[page][itemNameToIndex[page].at(name)];
+}
+
+MenuItem* Menu::getItem(uint8_t p, std::string name){
+    return pages[p][itemNameToIndex[p].at(name)];
 }
 
 MenuItem* Menu::getItem(uint8_t i){
-    return items[i];
+    return pages[page][i];
+}
+
+MenuItem* Menu::getItem(uint8_t i, uint8_t p){
+    return pages[p][i];
 }
 
 MenuItem* Menu::getItem(){
-    return items[index];
+    return pages[page][index];
 }
 
 uint8_t Menu::getIndex(){

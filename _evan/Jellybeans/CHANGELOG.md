@@ -34,4 +34,21 @@
     * Arp Tune
     * Bass Tune
 ## [1.4.1] - 1/2/2022
+### Changed
 * Change compiler optimization flag to reduce binary size
+## [1.5.0] - 9/25/2022
+### Changed
+* Updated codebase for compatibility with newest ev_theory and ev_gui changes
+### Added
+* New note triggers via GATE IN 2
+### Fixed
+* 1.4.1 had a compilation error
+* Bug that interpreted note inputs > C5 as B4
+* Arp is now correctly reset when a new note is received
+## [1.5.1] - 11/4/2022
+### Added
+* Oct switch only mode
+### Changed
+* Clock input now needs to be 16th notes. This allows for greater tempo sync precision.
+### Fixed
+* Tempo should play much nicer with external clock sources now

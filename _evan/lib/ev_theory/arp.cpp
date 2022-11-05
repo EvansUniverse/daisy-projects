@@ -26,11 +26,10 @@
 
 using namespace ev_theory;
 
-Arp::Arp() : Arp(8, "Up") {}
+Arp::Arp() : Arp("Up") {}
 
-Arp::Arp(int theMaxSteps, std::string thePattern){
+Arp::Arp(std::string thePattern){
     resetState();
-    maxSteps = theMaxSteps;
     dacValue = 0.f;
     pattern = thePattern;
     chord = new DiatonicChord();
@@ -86,6 +85,11 @@ void Arp::resetState(){
     traversalIndex = 0;
     step = 0;
     trig = false;
+}
+
+void Arp::resetPosition(){
+    traversalIndex = 0;
+    step = 0;
 }
 
 // Intended to be called every time a clock pulse is received

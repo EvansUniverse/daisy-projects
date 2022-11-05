@@ -28,9 +28,6 @@
 namespace ev_theory {
     class Arp {
     private:
-        // Maximum arp steps
-        int maxSteps;
-
         // Tracks the current position in arpTraversal
         int traversalIndex;
 
@@ -57,15 +54,11 @@ namespace ev_theory {
 
         // Underlying chord
         DiatonicChord* chord;
-
-        void resetState();
     public:
         Arp();
 
-        // @param maxSteps
-        // @param chord
         // @param pattern - ∈ arpPatterns
-        Arp(int, std::string);
+        Arp(std::string);
 
         // Intended to be called every time a clock pulse is received
         void onClockPulse();
@@ -90,6 +83,10 @@ namespace ev_theory {
 
         // @param ∈ arpPatterns
         void setPattern(std::string);
+
+        void resetState();
+
+        void resetPosition();
     };
 
     const std::vector<std::string> arpPatterns {
