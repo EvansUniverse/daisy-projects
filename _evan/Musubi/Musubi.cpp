@@ -146,7 +146,7 @@ using namespace ev_dsp;
 /*
  * Update this with each code change
  */
-const std::string VERSION = "0.0.1";
+const std::string VERSION = "1.0.0";
 
 /*
  * Change this to enable debug behavior during development (shorter popups, etc.)
