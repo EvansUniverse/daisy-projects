@@ -1,7 +1,8 @@
 # :blossom: Evan's Daisy Projects :blossom:
 This is a fork of Daisy_Examples containing all of my own projects & libraries:
-* [Jellybeans](_evan/Jellybeans/) - Diatonic quantizing arpeggiator for Daisy Patch
-* [Omakase](_evan/Omakase/) - 4-channel stereo performance mixer for Daisy Patch
+* [Musubi](_evan/Musubi/) - Oscillator processing swiss army knife for Daisy Patch
+* [Jellybeans](_evan/Jellybeans/) - Diatonic quantizing arpeggiator for Daisy Patch (currently being overhauled, please use build 1.4.2)
+* [Omakase](_evan/Omakase/) - 4-channel stereo performance mixer for Daisy Patch (CURRENTLY INCOMPLETE)
 * [Gumdrops](_evan/Gumdrops/) - Step sequencer for Daisy Field (CURRENTLY INCOMPLETE)
 * [ev_dsp](_evan/lib/ev_dsp) - Library with various audio processing functionalities for Daisy
 * [ev_gui](_evan/lib/ev_gui) - Library with a gui systems for Daisy Patch and Daisy Field
