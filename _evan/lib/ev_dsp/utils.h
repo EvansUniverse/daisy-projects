@@ -23,31 +23,85 @@
 #pragma once
 
 namespace ev_dsp {
-    float quantize(float min, float max, float input){
-        if (input < min){
-            input = min;
-        } else if (input > max){
-            input = max;
+    template <typename T> T constrain(T min, T max, T i)
+    {
+        if (i < min){
+            return min;
+        } else if (i > max){
+            return max;
         }
-        return input;
+        return i;
     }
 
-    // uint16_t quantize(uint16_t min, uint16_t max, uint16_t input){
-    //     if (input < min){
-    //         input = min;
-    //     } else if (input > max){
-    //         input = max;
-    //     }
-    //     return input;
-    // }
-
-    int16_t quantize(int16_t min, int16_t max, int16_t input){
-        if (input < min){
-            input = min;
-        } else if (input > max){
-            input = max;
-        }
-        return input;
+    template <typename T> T max(T x, T y)
+    {
+        return (x > y) ? x : y;
     }
-   
+
+    template <typename T> T min(T x, T y)
+    {
+        return (x < y) ? x : y;
+    }
+
+    // Constrains between 0 and 1000 (prevents invalid knob value)
+    uint16_t constrain_afx(uint16_t i){ 
+        return constrain((uint16_t) 0, (uint16_t)  1000, i);
+    }
+
+    // TODO: piecewiseLinear is probably better, maybe just nix this
+    //
+    // Scales the input values at a rate determined by the given breakpoints and multipliers.
+    // This allows the entire range of a settings knob to be fine-tuned to musically pleasing numbers.
+    //   For example, let b = {5, 10} and m = {10, 20}
+    //   psuedoExponential(4,  b, m, 2) = 4
+    //   psuedoExponential(9,  b, m, 2) = 5 + 4*10 = 45
+    //   psuedoExponential(20, b, m, 2) = 5 + 5*10 + 10*20 = 255 
+    //
+    // @param input: the value to scale
+    // @param breakpoints: list of values at which input scales at a different level.
+    // @param multipliers: list of multipliers for each breakpoint. Must have same length as breakpoints.
+    // @param the length of breakpoints and multipliers
+    float psuedoExponential(float input, float breakpoints[], float multipliers[], uint8_t len){
+        float add = 0;
+        for(uint8_t i = 0; i < len; i++){
+            if (input < breakpoints[i]){
+                return input + add;
+            }
+            add += multipliers[i] * (input - breakpoints[i]);
+        } 
+        return input + add;
+    }
+
+    // Piecewise f(x)=m*x function
+    // This allows the entire range of a settings knob to be fine-tuned to musically pleasing numbers.
+    //   For example, let b = {10, 20, 30}, t = {20, 200, 2000}
+    //   piecewiseLinear(5, b, t, 2)  = 10
+    //   piecewiseLinear(15, b, t, 2) = 120 
+    //   piecewiseLinear(25, b, t, 2) = 1200
+    //
+    // @param input
+    // @param breakpoints
+    // @param targets
+    // @param len: the length of breakpoints & targets (must be the same)
+    float piecewiseLinear(uint16_t input, uint16_t breakpoints[], float targets[], uint8_t len){
+        if (input >= breakpoints[len-1]) {
+            return targets[len-1];
+        }
+
+        uint8_t i;
+        for(i = 0; i < len; i++){
+            if (input <= breakpoints[i]){
+                break;
+            }
+        }
+
+        float prev_break = breakpoints[i];
+        float prev_sum = 0;
+        if (i > 0) {
+            prev_sum = targets[i-1];
+        }
+        float ret = (((float) (input - prev_break))/((float) breakpoints[i])) * targets[i] + prev_sum;
+        //return min(targets[len], ret);
+        return ret;
+    }
 } // namespace ev_dsp

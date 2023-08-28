@@ -20,8 +20,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#define SHORT_HOLD_DURATION_MS 300
-#define LONG_HOLD_DURATION_MS 2500
+#define SHORT_HOLD_DURATION_MS 250
+#define LONG_HOLD_DURATION_MS 1250
 #define HOLD_BAR_WIDTH 24
 #define HOLD_BAR_HEIGHT 4
 
@@ -52,8 +52,11 @@ PatchGui::PatchGui(
     didHold    = false;
     timeHeld   = 0.f;
     cvCatch    = false;
-    zoneB      = theMenu->getNumPages()-1;
+    zoneB      = theMenu->getNumPages();
     isZoneB    = false;
+    rememberIndex = true;
+    oldIndex = 0;
+
     drawHoldBar = false;
 
     pageMode = menu->getNumPages() > 1;
@@ -96,6 +99,16 @@ void PatchGui::drawString(std::string str, uint8_t x, uint8_t y){
     patch->display.WriteString(cstr, *font, true);
 }
 
+void PatchGui::drawKnob(uint8_t x, uint8_t y, uint8_t r, float level){
+    // This offset allows the knob to end at 7:00 and 5:00, instead of 6:00. Looks better.
+    float offset = 0.4;
+    patch->display.DrawCircle(x, y, r, true);
+    float t = (TWOPI_F - offset*2) * (-level) - offset;
+    int8_t x1 = (int8_t) (r * sin(t));
+    int8_t y1 = (int8_t) (r * cos(t));
+    patch->display.DrawLine(x, y, x+x1, y+y1, true);
+}
+
 void PatchGui::drawStartupScreen(std::string s, std::string v, uint32_t t){
     patch->display.Fill(false);
 
@@ -122,6 +135,17 @@ void PatchGui::updateControls(){
         if (cvParams[i] !=  NULL) {
             float  curCvVal = cvParams[i]->Process();
 
+            // If catch is disabled, page mode is enabled, and the current CV value is more than 2% different than the previous value, "catch" the knob.
+            // This prevents parameter values from immediately changing when the page is changed.
+            //
+            // TODO 2% may be too low, play with it a bit
+            if(!cvCatch && pageMode && !cvIsCaught[i]){
+                float k = patch->GetKnobValue((daisy::DaisyPatch::Ctrl) i);
+                if (k > prevPageCvVals[i] + .02f || k < prevPageCvVals[i] - .02f){
+                    cvIsCaught[i] = true;
+                }
+            }
+
             // !!! HACK !!!
             // The cv values received by patches pots aren't a perfect 0.0 - 1.0; it differs a bit each device
             // (I've tested on 3) but is somewhere roughly around 0.005 - 0.98. In order to compensate for this
@@ -135,7 +159,7 @@ void PatchGui::updateControls(){
                 curCvVal = menu->getItem(i)->floatSize();
             }
 
-            // If the current CV value is within 3% of the current menuItem value, "catch" the knob
+            // If catch is enabled and the current CV value is within 3% of the current menuItem value, "catch" the knob
             float catchTolerance = 0.03f * menu->getItem(i)->floatSize();
             if(cvCatch && !cvIsCaught[i]
                     && curCvVal + menu->getItem(i)->getMin() <= menu->getItem(i)->getFloatIndex() + catchTolerance
@@ -144,7 +168,7 @@ void PatchGui::updateControls(){
                 cvIsCaught[i] = true;
             }
 
-            if(((cvCatch && cvIsCaught[i]) || !cvCatch) && std::abs(curCvVal - static_cast<float>(cvVals[i])) > (HYSTERESIS_THRESH * menu->getItem(i)->floatSize())){
+            if((cvIsCaught[i] || (!cvCatch && !pageMode)) && std::abs(curCvVal - static_cast<float>(cvVals[i])) > (HYSTERESIS_THRESH * menu->getItem(i)->floatSize())){
                 cvMenuItems[i]->setIndex(static_cast<uint16_t>(curCvVal) + menu->getItem(i)->getMin());
                 cvVals[i] = curCvVal;
             }
@@ -235,7 +259,12 @@ void PatchGui::pageBack(){ // TODO factor this into menu
 
 void PatchGui::setPage(uint8_t i, bool b){
     menu->setPage(i);
+    setAllIsCaught(false);
 
+    for (uint8_t j = 0; j < 4; j++){
+        prevPageCvVals[j] = patch->GetKnobValue((daisy::DaisyPatch::Ctrl) j);
+    }
+    
     while(menu->getIsHidden(menu->getPage())){
         if(b){
             menu->setPage(i + 1);
@@ -252,10 +281,18 @@ void PatchGui::setPage(uint8_t i, bool b){
 //  - 18 chars horizontally (w/2p to spare)
 //  - 6 chars vertically (w/4p to spare)
 void PatchGui::render(){
-    uint8_t y = 0;
-
     // Clear display
-    patch->display.Fill(false);  
+    patch->display.Fill(false);
+
+    drawMenu();
+    drawOverlays();
+
+    // Write display buffer to OLED
+    patch->display.Update();
+}
+
+void PatchGui::drawMenu(){
+    uint8_t y = 0;
 
     // Draw headers
     for (uint8_t i = 0; i < headers.size(); i++){
@@ -305,12 +342,33 @@ void PatchGui::render(){
         }    
     }
 
+}
+
+void PatchGui::drawOverlays(){
+    uint8_t y;
+    uint8_t x;
+
+    // Draw hold graphic
+    if(drawHoldBar && patch->encoder.Pressed()){
+        patch->display.DrawRect(SCREEN_WIDTH - 2 - HOLD_BAR_WIDTH, 2, SCREEN_WIDTH - 2, HOLD_BAR_HEIGHT + 2, false, true);
+        patch->display.DrawRect(SCREEN_WIDTH - 2 - HOLD_BAR_WIDTH, 2, SCREEN_WIDTH - 2, HOLD_BAR_HEIGHT + 2, true, false);
+
+        float pxPerMsHeld = static_cast<float>(HOLD_BAR_WIDTH)/ static_cast<float>(LONG_HOLD_DURATION_MS);
+        uint8_t holdPx;
+        if(didHold){
+            holdPx = HOLD_BAR_WIDTH;
+        } else {
+            holdPx = static_cast<uint8_t>(pxPerMsHeld * timeHeld);
+        }
+        patch->display.DrawRect(SCREEN_WIDTH - 2 - HOLD_BAR_WIDTH, 2, SCREEN_WIDTH - 2 - HOLD_BAR_WIDTH + holdPx, HOLD_BAR_HEIGHT + 2, true, true);
+    }
+
     // Draw popup
     if(popupRemainingCycles > 0)
     {
         popupRemainingCycles--;
 
-        uint8_t x;
+        
         if(popupType){
             // Banner
             patch->display.DrawRect(4, 4, 124, fontHeight + 6, false, true);
@@ -330,9 +388,6 @@ void PatchGui::render(){
             y += fontHeight;
         }
     }
-
-    // Write display buffer to OLED
-    patch->display.Update();
 }
 
 
@@ -387,7 +442,11 @@ void PatchGui::keepPopup(){
 void PatchGui::changeZones(){
     if(zoneB > 0){
         isZoneB = !isZoneB;
-        if(isZoneB){
+        if (rememberIndex){
+            uint8_t i = menu->getPage();
+            setPage(oldIndex);
+            oldIndex = i;
+        } else if (isZoneB){
             setPage(zoneB);
         } else {
             setPage(0);

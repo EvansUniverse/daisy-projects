@@ -119,6 +119,7 @@ void DaisyPatch::ProcessAnalogControls()
         controls[i].Process();
     }
 }
+
 float DaisyPatch::GetKnobValue(Ctrl k)
 {
     return (controls[k].Value());

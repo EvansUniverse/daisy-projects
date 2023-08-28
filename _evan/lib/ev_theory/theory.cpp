@@ -42,7 +42,7 @@ namespace ev_theory {
         return (note + SEMIS_PER_OCT - modeRoot) % SEMIS_PER_OCT;
     }
 
-    uint8_t quantize(uint8_t note, std::string mode, uint8_t modeRoot){
+    uint8_t constrain(uint8_t note, std::string mode, uint8_t modeRoot){
         int base = cScaleEquivalent(note, modeRoot);
 
         const std::vector<int> v = modeToSemitones.at(mode);
@@ -69,7 +69,7 @@ namespace ev_theory {
     };
 
     uint8_t noteToScaleDegree(uint8_t note, std::string mode, uint8_t modeRoot){
-        note = quantize(note, mode, modeRoot) % SEMIS_PER_OCT;
+        note = constrain(note, mode, modeRoot) % SEMIS_PER_OCT;
         int base = cScaleEquivalent(note, modeRoot);
         
         const std::vector<int> v = modeToSemitones.at(mode);
@@ -116,7 +116,6 @@ namespace ev_theory {
         return i;
     };
 
-    // FIXME doesn't render 0
     // Used for debug display
     std::string floatToString(float f, uint8_t dec){
         if (f == 0.) {

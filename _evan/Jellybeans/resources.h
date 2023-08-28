@@ -56,4 +56,18 @@ namespace jellybeans {
         "+2",
         "+3",
     };
+
+    const std::vector<std::string> allBpmSnaps {
+        "Off",
+        "1",
+        ".1",
+        ".01",
+    };
+
+    const std::vector<float> bpmSnapToFloat {
+        100,
+        1,
+        0.1,
+        0.01,
+    };
 }

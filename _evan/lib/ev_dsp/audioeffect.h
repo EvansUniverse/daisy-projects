@@ -30,8 +30,8 @@ using namespace daisy;
 using namespace daisysp;
 
 namespace ev_dsp {
-    static const int16_t AFX_MIN_LEVEL = 0;
-    static const int16_t AFX_MAX_LEVEL = 1000;
+    static const uint16_t AFX_MIN_LEVEL = 0;
+    static const uint16_t AFX_MAX_LEVEL = 1000;
 
     // 1/AFX_MAX_LEVEL 
     // Multiply a level value by this to get a percentage float
@@ -40,25 +40,22 @@ namespace ev_dsp {
     // Parent class for audio effects, will allow some interchangeability between them  
     class AudioEffect {
     public:
-        // Percentage volume level
-        // 0 <= level <= 1.0
+        // Percentage volume level (0 - 1.0)
         float level;
 
-        // Percentage wet
-        // 0 <= wet <= 1.0
+        // Percentage wet (0 - 1.0)
         float wet;
 
-        static constexpr float ratio = .001;  // TODO rm
+        // Percentage dry (0 - 1.0)
+        float dry;
+
+        //static constexpr float ratio = .001;  // TODO rm
         float samplerate;
 
-        AudioEffect(){
-            level = AFX_MIN_LEVEL;
-        };
+        AudioEffect(){};
 
         // @param patch->AudioSampleRate()
-        AudioEffect(float samplerate){
-            level = AFX_MIN_LEVEL;
-        };
+        AudioEffect(float samplerate){};
 
         // Processes audio in mono
         //
@@ -84,23 +81,20 @@ namespace ev_dsp {
         // @param audio in R
         virtual void processAudio(float &outl, float &outr, float in){};
 
-        // @param a value between AFX_MIN_LEVEL and AFX_MAX_LEVEL
-        void setLevel(int16_t i){
-            level = quantize(AFX_MIN_LEVEL, AFX_MAX_LEVEL, i) * AFX_RATIO;
+        // @param (0 - 1000)
+        void setLevel(uint16_t i){
+            level = min(AFX_MAX_LEVEL, i) * AFX_RATIO;
         };
 
-        // 0 <= i <= 1000
+        // @param (0 - 1000)
         void setWet(uint16_t i){
-            wet = quantize(AFX_MIN_LEVEL, AFX_MAX_LEVEL, i) * AFX_RATIO;
+            wet = min(AFX_MAX_LEVEL, i) * AFX_RATIO;
         }
 
-        float getWetAudio(float f){
-            return AFX_RATIO * level * f;
-        };
-
-        float getDryAudio(float f){
-            return AFX_RATIO * (AFX_MAX_LEVEL - level) * f;
-        };
+        // @param (0 - 1000)
+        void setDry(uint16_t i){
+            dry = min(AFX_MAX_LEVEL, i) * AFX_RATIO;
+        }
     };
 
 } // namespace ev_dsp

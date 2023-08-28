@@ -30,7 +30,12 @@ using namespace daisy;
 
 namespace ev_gui {
     const static float   HYSTERESIS_THRESH = 0.005;
+    
+    const static uint8_t SCREEN_WIDTH_QUARTER = 32;
+    const static uint8_t SCREEN_WIDTH_HALF = 64;
+    const static uint8_t SCREEN_WIDTH_3_QUARTERS = 96;
     const static uint8_t SCREEN_WIDTH = 128;
+
     const static uint8_t SCREEN_HEIGHT = 64;
 
     /*
@@ -125,9 +130,12 @@ namespace ev_gui {
         // Used to assigning cv values to parameters & hysteresis
         std::array<Parameter*, 4> cvParams;
         std::array<float,      4> cvVals;
+        std::array<float,      4> prevPageCvVals;
         std::array<MenuItem*,  4> cvMenuItems;
 
         // Tracks whether or not each CV has been "caught" for knob catch behavior
+        // If in page mode with catch disabled, it is used to track whether or not
+        // the knob has changed since the page was changed.
         std::array<bool, 4> cvIsCaught;
         bool cvCatch;
 
@@ -154,6 +162,8 @@ namespace ev_gui {
         // If 0, there is only 1 zone
         uint8_t zoneB;
         bool isZoneB;
+        uint8_t oldIndex;
+        bool rememberIndex;
 
         // Contains each line of text to be displayed in the popup
         //
@@ -194,6 +204,14 @@ namespace ev_gui {
         // @param y coordinate
         void drawString(std::string, uint8_t, uint8_t);
 
+        // Draws a "knob" on the screen. It will have an indicator at 12:00 that moves as the level moves
+        //
+        // @param x coordinate of center
+        // @param y coordinate of center
+        // @param radius
+        // @param level (0-1.0)
+        void drawKnob(uint8_t, uint8_t, uint8_t, float);
+
         // @param main string, drawn inside a rectangle center screen
         // @param version string, drawn below (supply "" to display nothing)
         // @param duration (ms)
@@ -209,6 +227,19 @@ namespace ev_gui {
         //
         // Call this each frame.
         void render();
+
+        // Draws only the header and menu items.
+        // Mostly used as an internal helper, you
+        // probably shouldn't be calling this...
+        void drawMenu();
+
+        // Draws only the overlays. Will draw over the
+        // current display. Use this instead of render()
+        // if you want to have  something custom on the
+        // screen but still get the popups and loading bar.
+        //
+        // Call this each frame.
+        void drawOverlays();
 
         // Assigns a parameter to a cv value
         // @param a valid title of a menuItem in menu
@@ -285,8 +316,26 @@ namespace ev_gui {
         // @param page number (0-indexed)
         void setPage(uint8_t i){ setPage(i, true); };
 
+        // Must be called once at startup, after the initial menu it populated
+        //
+        // @param page number (0-indexed)
+        void setInitialPage(uint8_t i){
+            // CV inputs sometimes spike when patch boots up, causing false triggers of catch behavior,
+            // so we wait briefly for any CV spikes to come and pass.
+            patch->DelayMs(100);
+
+            patch->ProcessAnalogControls();
+            setPage(i);
+        }
+
         // @param menu index at which zone B will start
-        void setZoneB(uint8_t i){ zoneB = i; };
+        void setZoneB(uint8_t i){ 
+            zoneB = i; 
+            oldIndex = zoneB;
+        };
+
+        // @param if true, menu will remember where it was in the previous zone when switching zones
+        void setRememberIndexOnZoneSwitch(bool b){ rememberIndex = b; };
 
         // @param index
         // @param isHidden

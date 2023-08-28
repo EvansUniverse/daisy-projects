@@ -99,7 +99,7 @@ namespace ev_dsp {
 
         // @param 0 <= i <= 1000
         void setLevel(uint8_t ch, uint16_t i){
-            levels[ch] = quantize(AFX_MIN_LEVEL, AFX_MAX_LEVEL, i) * AFX_RATIO;
+            levels[ch] = constrain(AFX_MIN_LEVEL, AFX_MAX_LEVEL, i) * AFX_RATIO;
         }
     };
 } // namespace ev_dsp

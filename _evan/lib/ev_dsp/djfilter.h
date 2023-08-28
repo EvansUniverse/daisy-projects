@@ -24,11 +24,17 @@
 
 #include "daisysp.h"
 #include "daisy_patch.h"
+#include "filter.h"
+#include "utils.h"
 
 using namespace daisy;
 using namespace daisysp;
 
 namespace ev_dsp {
+    const float DJF_MIN_FREQ = 70;
+    const uint8_t LEN_DJF = 10;
+    uint16_t BREAKS_DJF[LEN_DJF] = {100, 200, 300, 400, 500, 600, 700, 800, 900, 1000};
+    float TARGS_DJF[LEN_DJF] = {50, 75, 125, 200, 300, 500, 1000, 2000, 4500, 9000};
     
     // Emulates the LPF/HPF combo filter on a DJ mixer (mono)
     class DjFilter {
@@ -47,16 +53,8 @@ namespace ev_dsp {
         // 0 to 1000: high pass filter
         int16_t level;
 
-        // Freq values < 1 cause svf to crash
-        // Realistically, though, anything under 40 doesn't make an audible change
-        static constexpr float DJF_MIN_FREQ = 40;
-
         float maxFreq;
 
-        // Used for exponential knob behavior
-        float coefficient;
-
-        // TODO used for debugging, might remove later as it's redundant
         float freq;
 
         // If true, the filter won't dip into frequency ranges that mute the incoming signal
@@ -71,24 +69,12 @@ namespace ev_dsp {
 
         // @param patch->AudioSampleRate()
         DjFilter(float samplerate){
-            level = 0;
-
-            // svf's max frequency is samplerate/3 (which is 48,000/3=16,000 on patch)
-            // everything from about 7000 and up doesn't make much of a difference so
-            // to keep things musical, we'll reduce the max freq 
-            maxFreq = (samplerate / 3) * .6;
-
-            // freq = (coefficient * level)^2
-            // --> maxFreq = (coefficient * DJF_MAX_LEVEL)^2
-            // --> coefficient = sqrt(maxFreq)/DJF_MAX_LEVEL
-            coefficient = std::sqrt(maxFreq) / DJF_MAX_LEVEL;
-
             filter = new Svf();
             filter->Init(samplerate);
-            filter->SetRes(0.3f); // TODO play with this number
+            filter->SetRes(0.3f);
             filter->SetDrive(0.0f);
-            filter->SetFreq(maxFreq);
 
+            setLevel(0);
             dontMute = true;
             isMuting = false;
         };
@@ -98,6 +84,11 @@ namespace ev_dsp {
         float processAudio(float f){
             if(isMuting){
                 return 0.f;
+            }
+
+            if(level > -5 && level < 5){
+                // If level is close enough to 0, don't touch the incoming audio
+                return f;
             }
 
             filter->Process(f);
@@ -110,17 +101,21 @@ namespace ev_dsp {
             }
         }
 
+        // @param audio out L
+        // @param audio out R
+        // @param audio in L
+        // @param audio in R
+        virtual void processAudio(float &outL, float &outR, float inL, float inR){
+            outL = processAudio(inL);
+            outR = processAudio(inR);
+        };
+
         // Sets filter frequency based on "level" aka knob position
         //
         // @param a value between -1000 and 1000
         void setLevel(int16_t i){
-            if(i > DJF_MAX_LEVEL){
-                level = DJF_MAX_LEVEL;
-            } else if (i < DJF_MIN_LEVEL) {
-                level = DJF_MIN_LEVEL;
-            } else {
-                level = i;
-            }
+            i = constrain(DJF_MIN_LEVEL, DJF_MAX_LEVEL, i);
+            level = i;
 
             // Set the filter frequency relative to the "knob" position
             if (i < 0){
@@ -129,56 +124,25 @@ namespace ev_dsp {
                 i = DJF_MAX_LEVEL + i;
             }
 
-            // freq = (lpfCoefficient * level)^2
-            freq = (coefficient * i) * (coefficient * i);
+            freq = piecewiseLinear(i, BREAKS_DJF, TARGS_DJF, LEN_DJF);
             
-            if(dontMute){
-                // Add DJF_MIN_FREQ ensures that the filter doesn't dip into unusably low hz ranges
-                freq += DJF_MIN_FREQ;
-            } else {
+            if(level < 0){
+              // Ensure that the LPF doesn't dip into inaudibly low hz ranges
+              freq += DJF_MIN_FREQ;
+            }
+
+            if (!dontMute) {    
                 // Ensure that values sufficiently close to muting the signal fully mute the signal
                 isMuting = level > DJF_MAX_LEVEL * 0.95 || level < DJF_MIN_LEVEL * 0.95;
             }
             
-            filter->SetFreq(freq);
+            // Frequencies <1 cause SVF to crash
+            filter->SetFreq(max(freq, MIN_SVF_FREQ));
         };
 
         // @param a value between 0 and 1000
         int16_t getLevel(){
             return level;
-        };
-    };
-
-    // Basically just a wrapper that groups 2 dj filters
-    class StereoDjFilter {
-    public: 
-        DjFilter* djfL;
-        DjFilter* djfR;
-
-        // Don't use
-        StereoDjFilter(){};
-
-        // @param patch->AudioSampleRate()
-        StereoDjFilter(float samplerate){
-            djfL = new DjFilter(samplerate);
-            djfR = new DjFilter(samplerate);
-        };
-
-        // @param audio out L
-        // @param audio out R
-        // @param audio in L
-        // @param audio in R
-        virtual void processAudio(float &outL, float &outR, float inL, float inR){
-            outL = djfL->processAudio(inL);
-            outR = djfR->processAudio(inR);
-        };
-
-        // Sets filter frequency based on "level" aka knob position
-        //
-        // @param a value between -1000 and 1000
-        void setLevel(int16_t i){
-            djfL->setLevel(i);
-            djfR->setLevel(i);
         };
     };
 } // namespace ev_dsp

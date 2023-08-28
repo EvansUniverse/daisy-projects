@@ -11,3 +11,7 @@
 ## [1.2.1]
 ### Added
 * Multi-page menu for patch
+## [1.2.2]
+### Added
+* Various features for Musubi
+* Menu can now remember old page upon zone change
