@@ -1,4 +1,4 @@
 # Changelog
-## [0.0.0] - 8/2/2023
+## [1.0.0] - 8/28/2023
 ### Changed
-* Initialized project
+* First stable build
