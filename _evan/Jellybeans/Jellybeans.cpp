@@ -46,7 +46,9 @@
 //     1: Quant: Disable the arp completely; act as a quantizer. The incoming note
 //               from CTRL 4 will be quantized and sent out throuhg CV OUT 1.
 #define RAM_OP_MODE 0
-#define RAM_BPM 1
+// Used to determine if this is a fresh install of Jellybeans, in which case default
+// settings will be written to QSPI.
+#define RAM_IS_INIT 1
 #define RAM_ROOT 2
 #define RAM_MODE 3
 #define RAM_CLOCK_DIV 4
@@ -56,9 +58,8 @@
 #define RAM_BASS_TUNE 8
 #define RAM_ARP_OCT 9
 #define RAM_BASS_OCT 10
-// Used to determine if this is a fresh install of Jellybeans, in which case default
-// settings will be written to QSPI.
-#define RAM_IS_INIT 11 
+#define RAM_BPM 11
+#define RAM_SNAP_BPM 12
 
 using namespace daisy;
 using namespace daisysp;
@@ -66,19 +67,22 @@ using namespace jellybeans;
 using namespace ev_gui;
 using namespace ev_theory;
 
-/*
- * Update this with each change
- */
-const std::string VERSION = "1.5.0";
+/* DEBUGGING VARIABLES */
 
-/*
- * Change this to enable debug output
- */
+// Change to true to enable debug output
 const bool DEBUG_MODE = true;
-std::string debugStr = ""; // Use for debugging
+
+// Displayed at top of screen, change this to display stuff on the device
+std::string debugStr = "";
+
+// Change to true to reset QSPI to default values on startup (for debugging)
+const bool RESET_QSPI = true;
+
+/* Update this with each change */
+const std::string VERSION = "1.5.3dev1";
 
 // Some settings are stored in QSPI memory and persisted on startup
-const uint8_t SETTINGS_BUFF_SIZE = 12;
+const uint8_t SETTINGS_BUFF_SIZE = 13;
 uint8_t DSY_QSPI_BSS settings_qspi[SETTINGS_BUFF_SIZE];
 uint8_t settings_ram[SETTINGS_BUFF_SIZE];
 
@@ -118,6 +122,8 @@ const int8_t MAX_OCT_MOD  =  4;
 int       blink;
 const int BLINK_FRAMES = 35;
 
+float snapBpm;
+
 FontDef font       = Font_7x10;
 uint8_t fontWidth  = 7;
 uint8_t fontHeight = 10;
@@ -152,6 +158,7 @@ void saveDefaultSettingsToQSPI(){
     settings_ram[RAM_ARP_TUNE]   = 0 - MIN_OUT_TUNE;
     settings_ram[RAM_BASS_TUNE]  = 0 - MIN_OUT_TUNE;
     settings_ram[RAM_IS_INIT]    = 42;
+    settings_ram[RAM_SNAP_BPM]   = 0;
     saveSettingsToQSPI();
 }
 
@@ -274,6 +281,13 @@ void cbBassOutTune(){
     saveSettingsToQSPI();
 }
 
+void cbSnapBpm(){
+    settings_ram[RAM_SNAP_BPM] = menu->getItem("Snap BPM")->getIndex();
+    saveSettingsToQSPI();
+
+    snapBpm = bpmSnapToFloat.at(settings_ram[RAM_SNAP_BPM]);
+}
+
 // Invoked whenever the timer ticks
 void cbTempo(){
     divCounter++;
@@ -297,7 +311,7 @@ int main(void) {
 
     // If the RAM_IS_INIT setting isn't 42, we know that Jellybeans doesn't have settings
     // here and we should use default settings.
-    if (settings_ram[RAM_IS_INIT] != 42){
+    if (settings_ram[RAM_IS_INIT] != 42 || RESET_QSPI){
         saveDefaultSettingsToQSPI();
     } 
 
@@ -330,6 +344,7 @@ int main(void) {
     menu->append(0, "In Tune", "   ", MIN_IN_TUNE,     MAX_IN_TUNE,     settings_ram[RAM_IN_TUNE] + MIN_IN_TUNE,    cbInTune);
     menu->append(0, "Arp Tune", "  ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_ARP_TUNE] + MIN_OUT_TUNE,  cbArpOutTune);
     menu->append(0, "Bass Tune", " ", MIN_OUT_TUNE,    MAX_OUT_TUNE,    settings_ram[RAM_BASS_TUNE] + MIN_OUT_TUNE, cbBassOutTune);
+    menu->append(0, "Snap BPM", "  ", allBpmSnaps,                      settings_ram[RAM_SNAP_BPM],                 cbSnapBpm);
     
     // Initialize CV params
     gui->assignToCV("Pattern",   1);
@@ -344,6 +359,7 @@ int main(void) {
     cbMode();
     cbRoot();
     cbClockMode(); // NOTE: cvClockMode() calls cbClockDiv()
+    cbSnapBpm();
 
 
     // "In case if you wondered, the fucking thing starts the circular DMA transfer

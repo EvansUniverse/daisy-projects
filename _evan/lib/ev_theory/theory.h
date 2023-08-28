@@ -82,6 +82,8 @@ namespace ev_theory {
     // Options to fix this are either disable the lowest note or add an offset of about 25 to all other notes to compensate.
     //
     // TODO: 25 is still a wee bit off, run more precise tests to figure out a more accurate offset.
+    //
+    // @param a DAC value. Usable range is 0-4095, which outputs 0v-5v
     uint16_t prepareDacValForOutput(int16_t);
     const uint8_t DAC_OFFSET_FOR_NONZERO_VALUES = 25;
 
@@ -103,7 +105,7 @@ namespace ev_theory {
     // @param mode
     // @param mode root
     // @return semitone value of the quantized note
-    uint8_t quantize(uint8_t, std::string, uint8_t);
+    uint8_t constrain(uint8_t, std::string, uint8_t);
 
     // @param semitone value
     // @param mode

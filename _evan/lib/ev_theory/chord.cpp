@@ -145,7 +145,7 @@ std::string DiatonicChord::toString(){
 /* Setters */
 
 void DiatonicChord::setDegreeByNote(uint8_t i){
-    setOctave(quantize(i, mode, modeRoot) / 12);
+    setOctave(constrain(i, mode, modeRoot) / 12);
     i = quantizeNoteToRange(i);
     
     degree = noteToScaleDegree(i, mode, modeRoot);

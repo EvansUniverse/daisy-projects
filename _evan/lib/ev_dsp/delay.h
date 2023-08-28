@@ -22,14 +22,17 @@
 
 #pragma once
 
+#include "utils.h"
 #include "daisysp.h"
 #include "daisy_patch.h"
 #include "audioeffect.h"
+#include "filter.h"
 
 using namespace daisy;
 using namespace daisysp;
 
-#define INT_MAX_DELAY ((size_t)(10.0f * 48000.0f))
+#define INT_MAX_DELAY ((size_t)(.65f * 48000.0f)) // Samplerate (1 second) = 48000
+#define FEEDBACK_POLLING_COEFF 0.0002f
 
 namespace ev_dsp {
 
@@ -38,16 +41,15 @@ namespace ev_dsp {
         static const size_t MAX_DELAY = INT_MAX_DELAY; // TODO const
 
         float feedback;
-        float time;
-        float smoothedTime;
+        float currentDelay;
 
-        float hpf;
+        bool pingPong;
 
         DelayLine<float, INT_MAX_DELAY>* delayR;
         DelayLine<float, INT_MAX_DELAY>* delayL;
 
-        Svf* filterL;
-        Svf* filterR;
+        Svf* hpf;
+        Svf* lpf;
 
         // Don't use
         StereoDelay(){};
@@ -55,63 +57,144 @@ namespace ev_dsp {
         StereoDelay(float sampleRate, DelayLine<float, INT_MAX_DELAY>* l, DelayLine<float, INT_MAX_DELAY>* r){
             delayL = l;
             delayR = r;
-
             samplerate = sampleRate;
 
-            delayL->SetDelay(samplerate * 0.8f); // half second delay
-            delayR->SetDelay(samplerate * 0.8f); // half second delay
-            feedback = 0.3;
-            level = AFX_MAX_LEVEL;
+            pingPong = false;
 
-            filterL = new Svf();
-            filterL->Init(sampleRate);
-            filterL->SetRes(0.0f); // TODO play with this number
-            filterL->SetDrive(0.0f);
+            hpf = new Svf();
+            hpf->Init(sampleRate);
+            hpf->SetRes(0.0f);
+            hpf->SetDrive(0.0f);
 
-            filterR = new Svf();
-            filterR->Init(sampleRate);
-            filterR->SetRes(0.0f); // TODO play with this number
-            filterR->SetDrive(0.0f);
+            lpf = new Svf();
+            lpf->Init(sampleRate);
+            lpf->SetRes(0.0f);
+            lpf->SetDrive(0.0f);
 
-            setHpf(0.f);
+            setHpf(0);
+            setLpf(0);
+            setLevel(0);
+            setFeedback(200);
+
+            clear();
         };
 
         // @param audio in
         // @return audio out
         void processAudio(float &outl, float &outr, float inl, float inr){
-            fonepole(smoothedTime, time, 0.0005f);
-            delayL->SetDelay(smoothedTime);
-            delayR->SetDelay(smoothedTime);
+            delayL->SetDelay(currentDelay);
+            delayR->SetDelay(currentDelay);
 
-            float delsigL = delayL->Read();
-            float delsigR = delayR->Read();
+            float readL = delayL->Read();
+            float readR = delayR->Read();
 
-            delayL->Write(inl + (delsigL * feedback));
-            delayR->Write(inr + (delsigR * feedback));
+            if(pingPong){
+                // Ping-pong delay writes incoming audio to only one delay line, then they take
+                // turns writing to each other:
+                //
+                //             out L      out R
+                //               ^          ^
+                //               |          |
+                // L+R in --> L line --> R line --
+                //               ^                |
+                //               |                |
+                //               ------------------
+                delayL->Write((feedback * readR) + inl);
+                delayR->Write(feedback * readL);
+            } else {
+                // Conversely, normal stereo delay maintains 2 separate delay lines that
+                // read and write from themselves:
+                //
+                //             out L
+                //               ^ 
+                //               |
+                // L in --> L line ----
+                //               ^    |
+                //               |    |
+                //               ------
+                //
+                //             out R
+                //               ^ 
+                //               |
+                // R in --> R line ----  
+                //               ^    |
+                //               |    |
+                //               ------
+                delayL->Write((feedback * readL) + inl);
+                delayR->Write((feedback * readR) + inr);
+            }
 
-            filterR->Process(delsigR);
-            filterL->Process(delsigL);
+            outl = readL * wet;
+            outr = readR * wet;
 
-            outr = filterR->High();
-            outl = filterL->High();
+            // Apply filters
+            hpf->Process(outr);
+            outr = hpf->High();
+            hpf->Process(outl);
+            outl = hpf->High();
+
+            lpf->Process(outr);
+            outr = lpf->Low();
+            lpf->Process(outl);
+            outl = lpf->Low();
         };
 
-        void setHpf(float f){
-            hpf = f;
-            filterL->SetFreq(f);
-            filterR->SetFreq(f);
+        // Musically useful one-knob control of wet and feedback
+        //
+        // @param 0 - 1000
+        void setLevel(uint16_t i){
+            level = i;
+            if(i < 20){
+                // If the knob is low enough, just mute
+                wet = 0;
+                return;
+            }
+            
+            float l = min(AFX_MAX_LEVEL, i) * AFX_RATIO;
+
+            // Wet should always be a bit quieter than dry,
+            // but not so quiet that it's barely audible
+            wet = constrain(0.15f, 0.9f, l);
+
+            // Feedback should never be high enough to go infinite,
+            // and never low enough to not be distinguishable
+            feedback = constrain(0.1f, 0.95f, l);
         };
 
+        // @param cutoff (0 - 1000)
+        void setHpf(uint16_t l){
+            hpf->SetFreq(getSvfFreq(l));
+        };
+
+        // @param cutoff (0 - 1000)
+        void setLpf(uint16_t l){
+            lpf->SetFreq(getSvfFreq(1000 - l));
+        };
+
+        // Sets time as a fraction of the max delay length
+        //
         // @param 0 <= i <= 1000
         void setTime(int16_t i){
-            float k = i * .001f;
-            time = (0.001f + (k * k) * 5.0f) * samplerate;
+            currentDelay = max(0.05f, i * .001f) * INT_MAX_DELAY;
+            clear(); // Prevents artifacts & crashes
         };
 
         // @param 0 <= i <= 1000
         void setFeedback(int16_t i){
             feedback = i * .001f;
         };
+
+        // @param if true, enable ping-pong
+        void setPingPong(bool b){
+            pingPong = b;
+            clear();
+        }
+
+        // Clear contents of delay lines, which will mute the delay
+        void clear(){
+            delayL->Reset();
+            delayR->Reset();
+        }
     };
 } // namespace ev_dsp
 

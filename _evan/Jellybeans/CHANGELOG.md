@@ -52,3 +52,6 @@
 * Clock input now needs to be 16th notes. This allows for greater tempo sync precision.
 ### Fixed
 * Tempo should play much nicer with external clock sources now
+## [1.5.2] - 11/5/2022
+### Changed
+* Upgraded libDaisy/DaisySP

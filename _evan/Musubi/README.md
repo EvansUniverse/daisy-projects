@@ -1,75 +1,148 @@
-Oscillator processing utility & monosynth
+# :rice_ball: Musubi :rice_ball:
+A one-stop-shop for all of your oscillator processing needs.
+- Envelope generator
+- VCA
+- VCF
+- Multi-FX (reverb, delay, distortion, DJ filter)
 
-Envelope generator, filter, and 3-band EQ that acts as a one-stop-shop for processing your oscillator. It can also supply its own oscillator and act as a monosynth.
+## Installation Instructions
+Head over to [BUILD_INSTRUCTIONS.md](../BUILD_INSTRUCTIONS.md) for detailed build instructions.
 
-Signal flow:
+## Usage Instructions
+### Controls
+* `CTRL 1-4`: Controls the corresponding on-screen menu options
+* `ENC 1`
+    - Rotate to change menu page
+    - Press to load saved settings & state
+    - Briefy hold to save current settings & state
+    - Hold until the on-screen loading bar completes to change between the main menu and the settings menus
+* `IN 1-4`: Oscillator inputs
+* `OUT 1`, `OUT 2`: Stereo master output
+* `OUT 3`, `OUT 4`: Stereo master output (identical)
+* `GATE IN 1`: Trigger/gate input
+* `CV OUT 1`: Envelope output #1 (0-5v CV for the envelope, can be attenuated in settings)
+* `CV OUT 2`: Envelope output #2
 
-1. Oscillator (selectable waveform from the basic types sine, square, tri, saw. Or, if we wanna be fancy, smooth morphing between them. optimize for bass, probably 2 oscs. octave/pitch control)
-2. Envelope generator (AR or ASR with A/R shaping (concave/convex))
-3. VCA
-4. Lowpass filter (possibly with selectable algorithm)
-5. 3 band eq and/or static multimode filter (selectable between all the useful standard types libdaisy offers)
+### Signal flow
+1. Oscillator inputs
+2. Mixer ("Levels")
+3. Panning
+4. VCA (amplitude/volume envelope)
+5. Distortion (if distortion is set to pre-filter)
+6. VCF (filter envelope)
+7. Distortion (if distortion is set to post-filter)
+8. DJ filter 
+7. Delay
+8. Reverb
+
+### Menu
+**Main menu Pages**
+1. Env 
+    1. Attack
+    2. Hold
+    3. Release
+    4. Cutoff frequency (having access to it here allows this to be the default "performance page")
+3. LPF
+    1. Drive
+    2. Filter envelope amount
+    3. Resonance
+    4. Cutoff frequency
+4. FX
+    1. DJ filter
+    2. Reverb amount (feedback + mix)
+    3. Delay amount (feedback + mix)
+    4. Delay time
+4. Env
+    1. Attack shape
+    2. Release shape
+    3. Toggle cascade
+    4. Toggle VCA
+
+**Settings menu pages**
+1. Volume
+    1. Ch1
+    2. Ch2
+    3. Ch3
+    4. Ch4
+2. Panning
+    1. Ch1
+    2. Ch2
+    3. Ch3
+    4. Ch4
+3. Misc
+    1. Gate/trig toggle
+        - Gate: Envelope will hold for as long as the gate input is high
+        - Trig: Envelope will only hold for as long as the hold setting
+    2. Filter type
+        - Normal: A digital filter from the DaisySP library (svf)
+        - Moog: A moog ladder filter emulation
+    3. Env out 1 level (attenuates the envelope output to `GATE OUT 1`)
+    4. Env out 2 level
+4. Reverb
+    1. HPF level
+    2. LPF level
+    3. 
+    4. Predelay
+5. Delay
+    1. HPF level
+    2. LPF level
+    3. 
+    4. Toggle ping pong
+6. Distortion
+    1. Type (algorithm)
+        - Bypass
+        - Tanh
+        - Atan
+        - HardClip
+        - SoftClip
+        - Saturate
+        - Bitcrush
+6. System
+    1. 
+    <!-- Output routing options, concerning Patches 4 audio outputs.  Entries prefixed with 'mx' will have the selected inputs bypass the envelope generator and fx. This allows musubi to be simultaneously used as a mixer and an EG. It's a bit of a wierd function but we might as well make use of Patches many IO jacks. If enabled (not "None"), outputs 3/4 will instead be  
+        1. stereo  2 stereo outs (1+2, 3+4)
+        2. mono    4 mono outs (1, 2, 3, 4)
+        3. mx 1    channel 1 bypasses EG. 2 stereo outs: 1+2 is EG output, 3+4 is mixer output
+        4. mx 1-2
+        5. mx 1-3
+        6. mx 1-4 -->
+    2. 
+    3. 
+    4. Factory reset: Set this to "Yes", save the settings by briefly holding `ENC`, then reboot. This will reset all settings to their factory defaults.
 
 
-=================================================================================================================================================================
-Notes from original doc:
-=================================================================================================================================================================
+## TODO
+### Need
+* bitcrush needs work
+* add a downsammpling distortion option, maybe merge it with bitcrush
 
-Envelope + filter, because for some reason nobody’s ever built one 
-Also has a 3-band EQ (post filter) because fuck you, sound shaping
-Envelope can be routed to either volume or filter
-Selectable filter type, HP/LP/4-pole, 8-pole, etc
-Filter drive
-Output is gain normalized (driving the filter and cranking the EQ does not result in much of a volume change, making it safe to fuck with in a live situation)
-Selectable envelope contour, like quadrax
-Might opt AHR env type instead of ADSR, less knobs and more practical for modular
-Maybe add support for multiple channels, since daisy 
-Daisy controls
-Page 1: main, performance settings (heck, you won’t even have to leave this page for a lot of use cases)
-Cv1 - A
-Cv2 - H
-Cv3 - R
-Cv4 - Freq
-Enc push - Toggle routing (volume/filter)
-Page 2: “set and forget” settings
-Cv1 - Env contour
-Cv2 - Filter Resonance
-Cv3 - Filter Type
-LP 4-pole
-LP 8-pole
-Possibly different emulations (e.g. ladder, DSI) but for now we’ll just do digital
-HP
-Cv4 - Filter Drive
-Enc push -
-Page 3: EQ
-Cv1 - Low
-Cv2 - High
-Cv3 - Low freq (also where mid begins)
-Cv4 - Hi freq (also where mid ends)
-Enc push - 
-Page last: menu (maybe)
-New ui idea: first few pages are cycled by knob. Once last (menu) page is scrolled to, it uses the classic evan ui controls and scrolling up past the top returns to the other menu pages.
+### Want
+* each distortion algo should lower output volume as drive increases to prevent earbleed
+* output 1s2m by default
+* reset pop up is too short
+* consider end-of-chain limiter to prevent earbleed, particularly when drive is high
+* pick a consistent name for shape/curve/contour/whatever and rename all vars to match it
 
-Hardware controls
-A fader/pot
-H fader/pot
-R fader/pot
-Env routing switch (filter/env)
-Env contour pot
-Filter freq pot
-Filter resonance pot
-Filter type selector (or could be clever and use a pot like blades, or could use a button to cycle. Actually button to cycle with color coded labels on faceplate seems like a good option)
-Filter drive pot
-EQ low fader/pot
-EQ hi fader/pot
-EQ mid fader/pot
-EQ low freq pot (also where mid begins)
-EQ hi freq pot (also where mid ends)
-Audio in level LED
-Audio out level LED
-Audio in jack (probably mono but consider stereo)
-Audio out jack (probably mono but consider stereo, research osc modules to see)
-Trigger in jack
-Gate in jack (when used, H gets overridden)
-Could add CV in jacks for other things like freq, drive, etc to modular-ify it more but tbh that defies the purpose of this module (a manually performed or set-and-forget one stop shop for osc processing) so I’ll probably just opt not too (which has the benefit of keeping cost down) and ignore the complaints
+### If I can get side loading to work (currently not enough binary space for these)
+* if no external oscs are supplied, musubi should act as a monosynth. Could also add 1 osc per channel (up to 4)
+* Chorus & phaser, for them dubtastic stabs (either will add a 2nd fx page or just hide them away in the "more settings" menu)
+* Add more filter types
+* import clouds reverb
+* clockable delay
+* audio meters page in settings, shows 1 bar for each input/output channel. Maybe display average of the past 1ms of audio or something like that
+* add this disto: https://dsp.stackexchange.com/questions/13142/digital-distortion-effect-algorithm
 
+## Known Bugs
+* If you play with resonance too much it crashes (might be fixed? havent seen it in a while)
+* Sometimes crashes when playing with the delay time
+
+## Contributing
+See [CONTRIBUTING.md](../CONTRIBUTING.md)
+
+## Contact me
+See [CONTACT.md](../CONTACT_ME.md)
+
+## License
+Author: Evan Pernu
+
+GNU GPL 3.0 - see [../LICENSE.md](../LICENSE.md).

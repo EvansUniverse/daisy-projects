@@ -29,8 +29,14 @@
 using namespace daisy;
 using namespace daisysp;
 
+#define BREAKS_TAN_LEN 5
+#define BREAKS_CLIP_LEN 3
+float BREAKS_TAN[5] = {0.2, 0.4, 0.6, 0.8, 0.9};
+float MULTS_TAN[5] = {1.1, 1.3, 1.6, 2, 3};
+float BREAKS_CLIP[3] = {0.5, 0.7, 0.9};
+float MULTS_CLIP[3] = {1.1, 1.3, 2};
+
 namespace ev_dsp {
-    const uint8_t DIST_DEFAULT_TYPE = 1;
 
     const std::vector<std::string> distAlgos {
         "Bypass",
@@ -40,16 +46,24 @@ namespace ev_dsp {
         "SoftClip",
         "Saturate",
         "Bitcrush",
-        "7",
     };
 
-    
+    enum DistType{
+        bypass,
+        tan_h,
+        a_tan,
+        hard_clip,
+        soft_clip,
+        saturate,
+        bitcrush
+    };
+
     // Audio distortion/saturation with multiple algorithms
     class Distortion: public AudioEffect {
     public:
         Fold* fold;
 
-        uint8_t algorithm;
+        DistType type;
         uint16_t drive;
         uint16_t tone;
         float vol;
@@ -66,7 +80,7 @@ namespace ev_dsp {
 
             setLevel(AFX_MAX_LEVEL);
             setDrive(AFX_MIN_LEVEL);
-            setType(DIST_DEFAULT_TYPE);
+            setType(tan_h);
 
             bit_depth_   = 8;
             crush_rate_  = 10000;
@@ -80,50 +94,52 @@ namespace ev_dsp {
         // @param audio in
         // @return audio out
         float processAudio(float f){
-            if(drive == 0){
+            if(drive < 5){
+                // Sufficiently low knob values should bypass
                 return f;
             }
 
-            float r = f; // Keep f in case we need its original value later
-            float d;
+            // In most places, drive is calculated then signal is multiplied by drive before being fed into distortion function
+            // At this point, 0 <= d <= 1
+            float d = drive * .01f;
 
-            switch(algorithm){
-                case 0: //bypass
+            // Keep f in case we need its original value later
+            float r = f;
+
+            switch(type){
+                case bypass: 
                 {
                     break;
                 }
-                case 1: // tanh
-                    // Signal is multiplied by drive before being fed into distortion algorithm
-                    // 1.0 <= drive <= 51.0
-                    d = 1.0f + (drive * .05f);
-                    r = tanh(r * drive);
+                case tan_h:
+                    d = 1.f + psuedoExponential(d, BREAKS_TAN, MULTS_TAN, BREAKS_TAN_LEN);
+                    r = tanh(r * d);
                     break;
-                case 2: // atan
-                    // Signal is multiplied by drive before being fed into distortion algorithm
-                    // 1.0 <= drive <= 51.0
-                    d = 1.0f + (drive * .05f);
+                case a_tan:
+                    d = 1.f + psuedoExponential(d, BREAKS_TAN, MULTS_TAN, BREAKS_TAN_LEN);
                     r = HALFPI_F * atan(r * d);
                     break;
-                case 3: // hard clip
-                    d = 1.0f + (drive * .2f);
+                case hard_clip:
+                    d = 1.f + psuedoExponential(d, BREAKS_CLIP, MULTS_CLIP, BREAKS_CLIP_LEN);
                     r = r * d;
                     if(r > 1.f){
                         r = 1.f;
                     }
+
+                    // Hard clip gets particularly loud, tame the signal a bit as the drive increases
+                    r = r * (1.f - 0.4 * (drive/1000.f));
                     break;
-                case 4: // soft clip
-                    d = 1.0f + (drive * .2f);
-                    r = r * d;
-                    r = SoftClip(r);
+                case soft_clip:
+                    d = 1.0f + psuedoExponential(d, BREAKS_CLIP, MULTS_CLIP, BREAKS_CLIP_LEN);
+                    r = SoftClip(r * d);
                     break;
-                case 5: // soft saturate
-                    d = 1.0f + (drive * .2f);
-                    r = r * d;
-                    r = soft_saturate(r, 1.0);
+                case saturate:
+                    d = 1.0f + psuedoExponential(d, BREAKS_CLIP, MULTS_CLIP, BREAKS_CLIP_LEN);
+                    r = soft_saturate(r * d, 1.0);
                     break;
-                case 6: // bitcrush/srr
+                case bitcrush:
                     // Most of this code was stolen from DaisySp but calling pow()
-                    // added like 5% to the binary size so I've modified it
+                    // added 5% to the binary size so I've modified it
                     float foldamt = samplerate / crush_rate_;
                     float out;
                     out = r * 65536.0f;
@@ -135,17 +151,20 @@ namespace ev_dsp {
                     out = fold->Process(out);
                     out /= 65536.0;
                     r = out;
-                break;
+                    break;
             }
 
             return r;
         };
 
         // @param algorithm number, by index in ev_dsp::distAlgos
-        void setType(uint8_t i){
-            algorithm = i;
+        void setType(DistType d){
+            type = d;
         };
 
+        // Tone will affect the sound of the distortion for the following algorithms:
+        // - bitcrush/srr: adjusts bit depth
+        //
         // @param 0 <= i <= 1000
         void setTone(uint16_t i){
             tone = i;
@@ -158,7 +177,8 @@ namespace ev_dsp {
             }
         };
         
-
+        // Sets the drive amount. Values < 5 will bypass the distortion.
+        //
         // @param 0 <= i <= 1000
         void setDrive(uint16_t i){
             drive = i;

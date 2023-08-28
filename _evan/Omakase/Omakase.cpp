@@ -351,7 +351,7 @@ void cbDelay4(){ cbDelay(3); };
 
 void cbDlyFdbk(){
     settings_ram[RAM_DLY_FDBK] = menu->getItem(0, PAGE_DLY_CFG)->getIndex();
-    delaySend->setFeedback(settings_ram[RAM_DLY_FDBK] * .001);
+    delaySend->setFeedback(settings_ram[RAM_DLY_FDBK] * .001); // bug? setFeedback already divides by 1000
 }
 
 void cbDlyTime(){

@@ -73,6 +73,7 @@ namespace ev_gui {
         // @param a float between 0-1
         virtual void setIndexByFloat(float);
 
+        // Does nothing for a vector menu item
         virtual void setNotch(int16_t n, uint16_t l){};
 
         virtual std::string getDisplayString();

@@ -8,7 +8,7 @@ Note: If this is your first time installing anything on your Daisy, I recommend 
 From the [Daisy web programmer](https://electro-smith.github.io/Programmer/):
 1. With the eurorack module's power turned off, connect Daisy Seed via USB. If you're re-building, you'll need to briefly disconnect and then reconnect to reset things.
 2. Put Daisy into bootloader mode by holding the BOOT button down, and then pressing the RESET button. Once you release the RESET button, you can also let go of the BOOT button. 
-3. Download `build/project_name.bin`
+3. Download `_evan/project_name/build/project_name.bin`, where `project_name` is the name of the program you want, i.e. `Jellybeans`.
 4. In the web programmer, click "connect". Select "DFU in FS mode"
 6. Click "choose file" and select `project_name.bin`
 7. Click "program"
@@ -21,8 +21,6 @@ I've tested this in Chrome, compatibility with other browsers may vary.
 <details>
 <summary><b>Debug probe from vscode (recommended for devs)</b></summary>
 This is the recommended process for devs because it allows for debugging capabilities and it doesn't require Daisy to be reconnected and reset each time you build.
-
-
 
 From a vscode instance in the desired project's directory (for example, `_evan/Jellybeans` to build Jellybeans):
 1. Connect the [ST LINK-V3 debug probe](https://www.electro-smith.com/daisy/stlink-v3mini) to Daisy

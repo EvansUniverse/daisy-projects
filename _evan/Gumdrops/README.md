@@ -29,15 +29,14 @@ If you are a developer, head on over to [BUILD_INSTRUCTIONS.md](../BUILD_INSTRUC
 * Gumdrops is a basic step sequencer. Each page has 16 steps. There can be up to 8 pages. The current page is shown on the LEDs above the numbered knobs. 
 * The LED buttons display the current page of steps. Press a button to enable that step.
 * Hold a button to edit that step using the numbered knobs. You can hold multiple 
-* There is an on-screen menu, you can edit it with the numbered knobs. The menu has multiple pages. Press `SW1` to cycle pages.
+* There is an on-screen menu, you can edit it with the numbered knobs. The menu has multiple pages. Press `SW1` while holding `SW2` to cycle pages.
 * Gumdrops can store 16 patterns. To change the current pattern, hold `SW2` and select one of the LED buttons.
-* Hold `SW2` and press `SW1` to save the current pattern. It will persist when you restart the device.
-* Gumdrops can live record notes using either gate/CV data from `GATE IN` and `CV IN 1` or note data from `MIDI IN`. Recording will overdub any current notes. Hold `SW1` and press `SW2` to start live recording. Press `SW1` when you're finished recording.
-* Gumdrops can set its own clock in the menu, or receive external clock by sending 1/4 note pulses to `CV IN 4`
-* The `Humanize` setting randomizes note times to make it sound less robotic.
+* Press `SW1` to save the current pattern. It will persist when you restart the device.
+<!-- * Gumdrops can live record notes using either gate/CV data from `GATE IN` and `CV IN 1` or note data from `MIDI IN`. Recording will overdub any current notes. Hold `SW1` and press `SW2` to start live recording. Press `SW1` when you're finished recording. -->
+* Gumdrops can set its own clock in the menu, or receive external clock by sending 1/16 note pulses to `CV IN 4`
+<!-- * The `Humanize` setting randomizes note times to make it sound less robotic. -->
 * Notes are output to `CV OUT 1` and `GATE OUT 1` as well as the MIDI output jack.
-* Each note has a CV setting that can be used to control things like velocity. It is output to `CV OUT 2`
-
+* Each note has a second CV value that can be used to control things like velocity. It is output to `CV OUT 2`
 
 ### Controls
 <!-- * **Gate in:** 
@@ -103,7 +102,7 @@ Items marked with a '(p)' are persisted when the pattern is saved.
 * **BPM:** (p): BPM of the internal clock (overriden by input to GATE IN 1)
     * 20-500
 
-#### Menu mode
+<!-- #### Menu mode
 Knobs edit the on-screen values. LED buttons show and select the menu pages.
 Items marked with a '(p)' are persisted when the device is powered off.
 * **Save:** Save all banks
@@ -127,7 +126,7 @@ Items marked with a '(p)' are persisted when the device is powered off.
     * If 0 is selected, send to all channels
 * **MIDI Rx Ch:** (p) MIDI input channel
     * 0-16
-    * If 0 is selected, receive from all channels
+    * If 0 is selected, receive from all channels -->
 
 ## TODOs
 * change clock output to 16ths for jb
