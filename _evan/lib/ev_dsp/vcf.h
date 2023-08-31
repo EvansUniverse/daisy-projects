@@ -68,7 +68,8 @@ namespace ev_dsp {
             outl = inl;
             outr = inr;
 
-            // Prevents clicking when the sound abruptly starts or ends.
+            // Prevents clicking when the sound abruptly starts or ends, regardless of whether
+            // or not VCA is turned on
             outl = outl * env->getTaperLevel();
             outr = outr * env->getTaperLevel();
 
@@ -104,7 +105,7 @@ namespace ev_dsp {
 
         // @return the level the filter would be at during the envelope's peak (0-1000)
         uint16_t getEnvLvl(){
-            int16_t l = lpf->getFreq() + ((lpfEnv - 500) * 2);
+            int16_t l = lpf->getLevel() + ((lpfEnv - 500) * 2);
             l = constrain((int16_t) 0, (int16_t) 1000, l);
             return (uint16_t) l;
         }

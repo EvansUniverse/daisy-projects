@@ -33,3 +33,4 @@
 #include "envelope.h"
 #include "filter.h"
 #include "vcf.h"
+#include "meter.h"
