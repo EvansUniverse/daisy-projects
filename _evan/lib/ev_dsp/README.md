@@ -11,11 +11,13 @@ Various sound processing functionalities for the Electrosmith Daisy platform.
 * [channel](channel.h) - Mixer style channel strip with multiple send destinations
 * [noise](noise.h) - Noise generator with a filter sweep
 * [envelope](envelope.h) - Generates an envelope
+* [vcf](vcf.h) - container for VCA, VCF, and EG 
+* [meter](meter.h) - Lightweight tool for monitoring percieved volume
 
 For more documentation, read the `.h` files.
 
 ## Usage
-See [Omakase](../../Omakase/) for an implementation example
+See [Musubi](../../Musubi/) for an implementation example
 
 ## Known bugs
 * None... for now

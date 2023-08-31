@@ -100,13 +100,12 @@
 #define RAM_S_DST_PRE_LPF 40
 //#define RAM_S_DST_      41
 
-#define RAM_S_SYS_OUTS 42
-// #define RAM_S_SYS_ 43 // Placeholder
-// #define RAM_S_SYS_ 44 // Placeholder
-// #define RAM_S_SYS_RESET 45 // Probably don't need this, implementation-wise
+#define RAM_S_SYS_OUTS   42
+#define RAM_S_SYS_ENV_ON 43 
+#define RAM_S_SYS_CATCH  44
 
 // number of settings to be stored in QSPI, ergo size of settings_ram
-#define SETTINGS_BUFF_SIZE 43
+#define SETTINGS_BUFF_SIZE 45
 
 // Page numbers for each setting
 #define PAGE_EG2 0
@@ -125,7 +124,6 @@
 
 #define NUM_CHANNELS 4
 
-// TODO play with these numbers to get the most musical results
 #define MAX_ATTACK 45000
 #define MAX_HOLD 50000
 #define MAX_RELEASE 60000
@@ -135,6 +133,9 @@
 
 #define MIN_LVL -1000
 #define MAX_LVL 1000
+
+// Having a slightly nonzero min attack prevents unpleasant clicks at minimum attack level
+#define MIN_ATK 30
 
 using namespace daisy;
 using namespace daisysp;
@@ -146,7 +147,7 @@ using namespace ev_dsp;
 /*
  * Update this with each code change
  */
-const std::string VERSION = "1.0.0";
+const std::string VERSION = "1.1.0";
 
 /*
  * Change this to enable debug behavior during development (shorter popups, etc.)
@@ -158,6 +159,11 @@ const bool DEBUG_MODE = true;
  */
 const bool DEBUG_MSG = false;
 std::string debugStr = "DEBUG_STR";
+
+/*
+ * Change this to force a factory reset on startup (useful if your save data is corrupt)
+ */
+const bool FORCE_FACTORY_RESET = false;
 
 // Some settings are stored in QSPI memory and persisted on startup
 int16_t DSY_QSPI_BSS settings_qspi[SETTINGS_BUFF_SIZE];
@@ -171,6 +177,8 @@ StereoVcf*  vcf;
 DjFilter* djf;
 Pan* pans[NUM_CHANNELS];
 Distortion* dist;
+VolumeMeter* in_meters[NUM_CHANNELS];
+VolumeMeter* out_meter;
 
 // Output levels, multiplies the input signal at the start of the signal chain.
 // 0.0 <= levels[x] <= 1.0
@@ -188,11 +196,6 @@ StereoDelay* delay;
 FontDef font       = Font_7x10;
 uint8_t fontWidth  = 7;
 uint8_t fontHeight = 10;
-
-// 0.5 -> 1.0 is positive
-// 0.5 -> 0.0 is negative
-// 0.5 is no env
-float filterEnv;
 
 float env1Scale;
 float env2Scale;
@@ -252,7 +255,7 @@ void saveDefaultSettingsToQSPI(){
     settings_ram[RAM_S_DLY_ANALOG] = 0;
     settings_ram[RAM_S_DLY_PONG]   = 0;
 
-    settings_ram[RAM_S_DST_TYPE]    = 0;
+    settings_ram[RAM_S_DST_TYPE]    = 1;
     settings_ram[RAM_S_DST_TONE]    = 0;
     settings_ram[RAM_S_DST_PRE_LPF] = 0;
 
@@ -261,7 +264,9 @@ void saveDefaultSettingsToQSPI(){
     settings_ram[RAM_S_ENV_1_LVL] = 1000;
     settings_ram[RAM_S_ENV_2_LVL] = 1000;
 
-    settings_ram[RAM_S_SYS_OUTS]  = 0;
+    settings_ram[RAM_S_SYS_OUTS]   = 0;
+    settings_ram[RAM_S_SYS_ENV_ON] = 0;
+    settings_ram[RAM_S_SYS_CATCH]  = 0;
 
     for(uint8_t i = 0; i < NUM_CHANNELS; i++){
         settings_ram[RAM_S_PAN + i] = DEFAULT_PAN - MIN_PAN;
@@ -315,11 +320,16 @@ void loadQSPISettingsToState(){
     menu->getItem(2, PAGE_S_DST)->setIndex(settings_ram[RAM_S_DST_PRE_LPF]);
 
     menu->getItem(0, PAGE_S_SYS)->setIndex(settings_ram[RAM_S_SYS_OUTS]);
+    menu->getItem(1, PAGE_S_SYS)->setIndex(settings_ram[RAM_S_SYS_CATCH]);
+    menu->getItem(2, PAGE_S_SYS)->setIndex(settings_ram[RAM_S_SYS_ENV_ON]);
 
     for(uint8_t ch = 0; ch < NUM_CHANNELS; ch++){
         menu->getItem(ch, PAGE_S_LVL)->setIndex(settings_ram[RAM_S_LVL + ch] + MIN_LVL);
         menu->getItem(ch, PAGE_S_PAN)->setIndex(settings_ram[RAM_S_PAN + ch] + MIN_PAN);
     }
+
+    // un-catch knobs once loaded
+    gui->setAllIsCaught(false);
 }
 
 /* Envelope */
@@ -522,6 +532,15 @@ void cbSysReset(){
     }
 }
 
+void cbSysCatch(){
+    settings_ram[RAM_S_SYS_CATCH] = menu->getItem(1, PAGE_S_SYS)->getIndex();
+    gui->setCvCatch(settings_ram[RAM_S_SYS_CATCH]);
+}
+
+void cbSysEnvOn(){
+    settings_ram[RAM_S_SYS_ENV_ON] = menu->getItem(2, PAGE_S_SYS)->getIndex();
+}
+
 void cbOutput(){
    settings_ram[RAM_S_SYS_OUTS] = menu->getItem(0, PAGE_S_SYS)->getIndex();
 }
@@ -555,17 +574,13 @@ void updateOutputs() {
 }
 
 void drawEnvPage(){
-    // Draw line under headers
-    uint16_t y = 2*fontHeight + 1;
-    //patch->display.DrawLine(0, y, SCREEN_WIDTH, y, true);
-
     // Draw attack segment, which consists of 4 line segments that we will extract from env
-    y+=4;
+    uint16_t y = 2 * fontHeight + 12;
     uint16_t maxY = SCREEN_HEIGHT-y;
     uint16_t eX1, eY1;
     uint16_t eX2 = 0;
     uint16_t eY2 = SCREEN_HEIGHT;
-
+    
     for (uint8_t i = 0; i < 4; i++){
         eX1 = eX2;
         eY1 = eY2;
@@ -609,13 +624,10 @@ void drawEnvPage(){
 }
 
 void drawFilterPage(){
-    uint8_t x, y, y2, maxX;
-    
-    // Draw knob for drive
-    gui->drawKnob(10, 19, 7, settings_ram[RAM_DST_DRIVE]/1000.f);
+    uint8_t x, y, y2;
+    uint8_t maxX = SCREEN_WIDTH - 16;
 
     // Draw an env indicator at the bottom of the screen, at the point which the env would take the filter
-    maxX = SCREEN_WIDTH - 16;
     if(vcf->getEnvLvl() != 500){
         x = (uint8_t) ((vcf->getEnvLvl()/1000.f) * maxX);
         patch->display.DrawLine(x, SCREEN_HEIGHT-6, x, SCREEN_HEIGHT, true);
@@ -627,30 +639,49 @@ void drawFilterPage(){
     x = (uint8_t) ((vcf->lpf->getTrueLevel()/1000.f) * maxX);
     y = SCREEN_HEIGHT - 20;
     patch->display.DrawLine(0, y, x, y, true);
-    y2 = y - (settings_ram[RAM_LPF_RES]/1000.f) * 20;
+    y2 = y - (settings_ram[RAM_LPF_RES]/1000.f) * 15;
     patch->display.DrawLine(x, y, x+4, y2, true);
-    x += 4;
-    patch->display.DrawLine(x, y2, x+4, SCREEN_HEIGHT, true);
+    patch->display.DrawLine(x+4, y2, x+8, SCREEN_HEIGHT, true);
+
+    // Draw filter level indicator
+    x = (uint8_t) ((vcf->lpf->getLevel()/1000.f) * maxX);
+    patch->display.DrawLine(x, SCREEN_HEIGHT-4, x, SCREEN_HEIGHT, true);
 }
 
-void drawMfxPage(){
-    // Draw DJ filter
-    gui->drawKnob(14, 30, 12, settings_ram[RAM_MFX_DJF]/2000.f);
+void drawMeter(uint8_t x, uint8_t y, VolumeMeter* m){
+    uint8_t w = 8;
+    uint8_t h = 50;
+    patch->display.DrawRect(x, y - (h * m->read()), x + w, y,  true, true);
+}
 
-    // Draw verb
-    gui->drawKnob(47, 50, 12, settings_ram[RAM_MFX_VERB_MIX]/1000.f);
+void drawMixer(){
+    drawMeter(3,   SCREEN_HEIGHT, in_meters[0]);
+    drawMeter(29,  SCREEN_HEIGHT, in_meters[1]);
+    drawMeter(45,  SCREEN_HEIGHT, in_meters[2]);
+    drawMeter(71,  SCREEN_HEIGHT, in_meters[3]);
+    drawMeter(114, SCREEN_HEIGHT, out_meter);
+}
 
-    // Draw delay
-    gui->drawKnob(81, 30, 12, settings_ram[RAM_MFX_DELAY_MIX]/1000.f);
+void drawHeaderKnobs(uint8_t spacing, float a, float b, float c, float d){
+    uint8_t r = 7;
+    uint8_t y = 19;
+    uint8_t x1 = 10;
+    uint8_t x2 = x1+spacing;
+    uint8_t x3 = x2+spacing;
+    uint8_t x4 = x3+spacing;
 
-    // Draw delay time
-    gui->drawKnob(114, 50, 12, settings_ram[RAM_MFX_DELAY_LEN]/1000.f);
+    gui->drawKnob(x1, y, r, a);
+    gui->drawKnob(x2, y, r, b);
+    gui->drawKnob(x3, y, r, c);
+    gui->drawKnob(x4, y, r, d);
 }
 
 const std::string EG1_OPTS = "Atk  Hld  Rel  LPF";
-const std::string EG2_OPTS = "Atk  Rel  Chn  VCA";
+const std::string EG2_OPTS = "ShA  ShR  Chn  VCA";
 const std::string LPF_OPTS = "Drv  Env  Res  Frq";
 const std::string MFX_OPTS = "DJF  Vrb  Dly  Tim";
+const std::string LVL_OPTS = "Volume";
+const std::string PAN_OPTS = "Pan";
 
 void updateOled(){
     gui->updateControls();
@@ -663,28 +694,62 @@ void updateOled(){
     switch(menu->getPage()){
     case PAGE_EG1:{
         gui->drawString(EG1_OPTS, 0, 0);
-
-        // Draw a horizontal bar for LPF
-        uint8_t y = fontHeight+1;
-        uint8_t x = 101;
-        uint8_t x2 = x + ((uint8_t) ((menu->getItem(3, PAGE_EG1)->getIndex()/1000.f) * 27.f)); 
-        patch->display.DrawRect(x, y, x2, y + 3, true, true);
-
+        drawHeaderKnobs(
+            34,
+            settings_ram[RAM_ENV_A]    / 1000.f,
+            settings_ram[RAM_ENV_H]    / 1000.f,
+            settings_ram[RAM_ENV_R]    / 1000.f,
+            settings_ram[RAM_LPF_FREQ] / 1000.f
+        );
         drawEnvPage();
         break;}
     case PAGE_EG2:
         gui->drawString(EG2_OPTS, 0, 0);
-        gui->drawString(menu->getItem(2, PAGE_EG2)->getValue(), SCREEN_WIDTH_HALF, fontHeight+1);
-        gui->drawString(menu->getItem(3, PAGE_EG2)->getValue(), SCREEN_WIDTH_3_QUARTERS, fontHeight+1);
+        gui->drawKnob(10, 19, 7, settings_ram[RAM_ENV_A_SHAPE] / 1000.f);
+        gui->drawKnob(44, 19, 7, settings_ram[RAM_ENV_R_SHAPE] / 1000.f);
+        gui->drawString(menu->getItem(2, PAGE_EG2)->getValue(), 70, fontHeight+1);
+        gui->drawString(menu->getItem(3, PAGE_EG2)->getValue(), 105, fontHeight+1);
         drawEnvPage();
         break;
     case PAGE_LPF:
         gui->drawString(LPF_OPTS, 0, 0);
+        drawHeaderKnobs(
+            34,
+            settings_ram[RAM_DST_DRIVE] / 1000.f,
+            settings_ram[RAM_LPF_ENV]   / 1000.f,
+            settings_ram[RAM_LPF_RES]   / 1000.f,
+            settings_ram[RAM_LPF_FREQ]  / 1000.f
+        );
         drawFilterPage();
         break;
     case PAGE_MFX:
         gui->drawString(MFX_OPTS, 0, 0);
-        drawMfxPage();
+        gui->drawKnob(14,  30, 12, settings_ram[RAM_MFX_DJF]/2000.f);
+        gui->drawKnob(47,  50, 12, settings_ram[RAM_MFX_VERB_MIX]/1000.f);
+        gui->drawKnob(81,  30, 12, settings_ram[RAM_MFX_DELAY_MIX]/1000.f);
+        gui->drawKnob(114, 50, 12, settings_ram[RAM_MFX_DELAY_LEN]/1000.f);
+        break;
+    case PAGE_S_LVL:
+        gui->drawString(LVL_OPTS, 0, 0);
+        drawHeaderKnobs(
+            26,
+            settings_ram[RAM_S_LVL  ] / 2000.f,
+            settings_ram[RAM_S_LVL+1] / 2000.f,
+            settings_ram[RAM_S_LVL+2] / 2000.f,
+            settings_ram[RAM_S_LVL+3] / 2000.f
+        );
+        drawMixer();
+        break;
+    case PAGE_S_PAN:
+        gui->drawString(PAN_OPTS, 0, 0);
+        drawHeaderKnobs(
+            26,
+            settings_ram[RAM_S_PAN  ] / 100.f,
+            settings_ram[RAM_S_PAN+1] / 100.f,
+            settings_ram[RAM_S_PAN+2] / 100.f,
+            settings_ram[RAM_S_PAN+3] / 100.f
+        );
+        drawMixer();
         break;
     default:
         gui->render();
@@ -696,7 +761,6 @@ void updateOled(){
 
     // Draw debug info over whatever's beneath it
     if(DEBUG_MSG){
-        debugStr = floatToString(vcf->env->taperLevel, 4);
         uint8_t dx = 0;
         uint8_t dy = 0;
         patch->display.DrawRect(dx, dy, dx+SCREEN_WIDTH, dy+12, false, true);
@@ -709,7 +773,7 @@ void updateOled(){
 
 static void AudioCallback(AudioHandle::InputBuffer hwIn,
         AudioHandle::OutputBuffer hwOut, size_t size){
-
+    
     // Iterate through the audio buffer
    for(size_t i = 0; i < size; i++){
         vcf->env->tick();
@@ -723,8 +787,10 @@ static void AudioCallback(AudioHandle::InputBuffer hwIn,
             float o;
             // In order to leave headroom for send effects, we lower the volume of the input a bit
             o = hwIn[ch][i] * levels[ch];
+            in_meters[ch]->processAudio(o);
 
             pans[ch]->processAudio(fxL, fxR, o);
+
             outL += fxL; // TODO maybe get rid of these, gotta confirm that all processAudio functions don't modify the input var
             outR += fxR;
         }
@@ -738,9 +804,11 @@ static void AudioCallback(AudioHandle::InputBuffer hwIn,
         }
 
         // VCF
-        vcf->processAudio(fxL, fxR, outL, outR);
-        outL = fxL;
-        outR = fxR;
+        if(settings_ram[RAM_S_SYS_ENV_ON]){
+            vcf->processAudio(fxL, fxR, outL, outR);
+            outL = fxL;
+            outR = fxR;
+        }
 
         // Distortion (post-filter)
         if(!settings_ram[RAM_S_DST_PRE_LPF]){
@@ -764,6 +832,8 @@ static void AudioCallback(AudioHandle::InputBuffer hwIn,
         reverb->processAudio(fxL, fxR, outL, outR); 
         outL = fxL;
         outR = fxR;
+
+        out_meter->processAudio(outL + outR); // TODO make sure im summing correctly
         
         // AUDIO OUT 1/2 = output L/R
         hwOut[0][i] = outL;
@@ -822,9 +892,11 @@ int main(void) {
 
     for(uint8_t i = 0; i < NUM_CHANNELS; i++){
         pans[i] = new Pan();
+        in_meters[i] = new VolumeMeter();
     }
 
-    
+    out_meter = new VolumeMeter();
+
     loadQSPISettingsToRAM();
 
     // Draw startup message(s)
@@ -838,7 +910,7 @@ int main(void) {
 
     // If the RAM_IS_INIT setting isn't NOT_FRESH_BOOT_VAL, we know that we don't have settings
     // here and we should use default settings.
-    if (settings_ram[RAM_IS_INIT] != NOT_FRESH_BOOT_VAL){
+    if (settings_ram[RAM_IS_INIT] != NOT_FRESH_BOOT_VAL || FORCE_FACTORY_RESET){
         gui->setPopup(msgFreshBoot, t, false);
         saveDefaultSettingsToQSPI();
     }
@@ -854,7 +926,7 @@ int main(void) {
     menu->append(PAGE_EG2, "", "", onOrOff,     1,    cbEnvVca);
 
     //menu->setPageName(PAGE_EG1, "Envelope 1");
-    menu->append(PAGE_EG1, "", "", 0,     1000, 0,    cbEnvAttack);
+    menu->append(PAGE_EG1, "", "", MIN_ATK,     1000, 0,    cbEnvAttack);
     menu->append(PAGE_EG1, "", "", 0,     1000, 0,    cbEnvHold);
     menu->append(PAGE_EG1, "", "", 0,     1000, 0,    cbEnvRelease);
     menu->append(PAGE_EG1, "", "", 0,     1000, 1000, cbEnvFiltFreq);
@@ -887,6 +959,11 @@ int main(void) {
     menu->append(PAGE_S_PAN, "3", "        ", MIN_PAN, MAX_PAN, 0, cbPan3);
     menu->append(PAGE_S_PAN, "4", "        ", MIN_PAN, MAX_PAN, 0, cbPan4);
 
+    for(uint8_t i = 0; i < 4; i++){
+        menu->getItem(i, PAGE_S_LVL)->setNotch(0, 50);
+        menu->getItem(i, PAGE_S_PAN)->setNotch(0, 4);
+    }
+
     menu->setPageName(PAGE_S_MSC, "Misc");
     menu->append(PAGE_S_MSC, "Gate In",  " ", gateInOpts, 0, cbGateType);
     menu->append(PAGE_S_MSC, "LPF Type", " ", lpfOpts, 0, cbFiltType);
@@ -912,16 +989,18 @@ int main(void) {
     menu->append(PAGE_S_DST, "", "",          blankOpts, 0, cbEmpty);
 
     menu->setPageName(PAGE_S_SYS, "System");
-    menu->append(PAGE_S_SYS, "Output", "  ",  outputOpts, 0, cbOutput);
-    menu->append(PAGE_S_SYS, "", " ",         blankOpts, 0, cbEmpty); 
-    menu->append(PAGE_S_SYS, "", " ",         blankOpts, 0, cbEmpty);
-    menu->append(PAGE_S_SYS, "Reset", "   ",  yesOrNo, 1, cbSysReset);
+    menu->append(PAGE_S_SYS, "", "",          blankOpts,  0, cbEmpty); // Output options, TBD
+    menu->append(PAGE_S_SYS, "CvCatch", " ",  yesOrNo,    0, cbSysCatch); 
+    menu->append(PAGE_S_SYS, "Env On", "  ",  yesOrNo,    0, cbSysEnvOn);
+    menu->append(PAGE_S_SYS, "Reset", "   ",  yesOrNo,    1, cbSysReset);
 
     loadQSPISettingsToState();
 
     patch->StartAdc();
     patch->StartAudio(AudioCallback);
 
+    // Wait out any initial fluctuations to CV in that might interfere with catch behavior
+    // This happens during the boot screen anyways so nobody will notice
     patch->DelayMs(100);
     patch->ProcessAnalogControls();
     gui->setInitialPage(PAGE_EG1);

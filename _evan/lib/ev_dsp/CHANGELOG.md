@@ -9,3 +9,6 @@
 ### Changed
 * Improvements to reverb
 * Improvements to delay
+## [1.2.0] - 8/31/2023
+### Added
+* Meter

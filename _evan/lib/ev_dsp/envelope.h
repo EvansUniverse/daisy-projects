@@ -159,12 +159,15 @@ namespace ev_dsp {
             if (state != off && cascade) {
                 prevLvl = level;
                 retriggering = true;
-                setState(rising);
+                setState(rising); // TODO consider going to tapering_on instead just for consistent note latency 
 
             } else if (state != off && !cascade){
+                prevLvl = level;
                 retriggering = true;
-                setState(tapering_off);
+                setState(tapering_on);
+                
             } else { // state == off
+                retriggering = false;
                 setState(tapering_on);
             }
         }
@@ -182,7 +185,6 @@ namespace ev_dsp {
                 index++;
                 if (index > taperOn){
                     taperLevel = 1.0f;
-                    retriggering = false;
                     setState(rising);
                     break;
                 }
@@ -192,7 +194,15 @@ namespace ev_dsp {
                     level = 0;
                 }
 
-                taperLevel = ((float) index)/((float) taperOn);
+                if(retriggering){
+                    // Level will not ever reach a full 0 when retriggering; this prevents clicks
+                    taperLevel = 1.f;
+                    level = max(.1f, (1.f - ((float) index)/((float) taperOn)) * prevLvl);
+                } else {
+                    taperLevel = ((float) index)/((float) taperOn);
+                    level = taperLevel * 0.05f;
+                }
+
                 break;
 
             case rising:
@@ -214,14 +224,13 @@ namespace ev_dsp {
                 }
 
                 if (cascade){
-                    if (prevLvl > 0 && prevLvl <= l) {
-                        // When current level exceeds previous level, stop holding
-                        prevLvl = 0;
-                    }
-                    if (prevLvl <= 0) {
-                        // Only alter level when old envelope has caught up
-                        level = l;
-                    }
+                    level = max(l, prevLvl);
+                } else if (retriggering){
+                    // Level will not ever reach a full 0 when retriggering; this prevents clicks
+                    level = max(l, .1f);
+                } else if (taperOn > 0) {
+                    // If tapering is enabled, we will already be at 0.05f
+                    level = max(l, 0.05f);
                 } else {
                     level = l;
                 }
@@ -265,17 +274,16 @@ namespace ev_dsp {
             case tapering_off:
                 index++;
                 if (index > taperOff){
-                    if(retriggering){
-                        setState(tapering_on);
-                    } else {
+                    // if(retriggering){
+                    //     setState(tapering_on);
+                    // } else {
                         setState(off);
-                    }
+                    //}
                     break;
                 }
                 taperLevel = 1.f - ((float) index)/((float) taperOff); 
                 break;
             case off:
-                level = 0.f;
                 break;
             }
         }
@@ -561,7 +569,10 @@ namespace ev_dsp {
             index = 0;
             state = s;
 
-            if( s == rising || s == off){
+            if(s == rising){
+                fullIndex = 0;
+            } else if (s == off){
+                level = 0.f;
                 fullIndex = 0;
             }
         }

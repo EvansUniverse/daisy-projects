@@ -1,4 +1,4 @@
-# :rice_ball: Musubi :rice_ball:
+# :sushi: Musubi :sushi:
 A one-stop-shop for all of your oscillator processing needs.
 - Envelope generator
 - VCA
@@ -41,7 +41,7 @@ Head over to [BUILD_INSTRUCTIONS.md](../BUILD_INSTRUCTIONS.md) for detailed buil
     1. Attack
     2. Hold
     3. Release
-    4. Cutoff frequency (having access to it here allows this to be the default "performance page")
+    4. Cutoff frequency (Same as LPF #4; having access to it here allows this to be the default "performance page")
 3. LPF
     1. Drive
     2. Filter envelope amount
@@ -53,10 +53,12 @@ Head over to [BUILD_INSTRUCTIONS.md](../BUILD_INSTRUCTIONS.md) for detailed buil
     3. Delay amount (feedback + mix)
     4. Delay time
 4. Env
-    1. Attack shape
+    1. Attack shape (concave/convex)
     2. Release shape
-    3. Toggle cascade
-    4. Toggle VCA
+    3. Cascade: Determines the behavior when a new envelope is triggered while the old one is still running.
+        * Reset: New envelope will start from zero
+        * Cascade: Old envelope's level will be held until new envelope exceeds it
+    4. Toggle VCA (Output will still be muted after envelope cycle has completed)
 
 **Settings menu pages**
 1. Volume
@@ -106,30 +108,31 @@ Head over to [BUILD_INSTRUCTIONS.md](../BUILD_INSTRUCTIONS.md) for detailed buil
         4. mx 1-2
         5. mx 1-3
         6. mx 1-4 -->
-    2. 
-    3. 
+    2. CV catch: If true, turning a knob won't adjust the corresponding parameter until you "catch" it by moving the knob to that parameter's previous value. This prevents jumps in parameter values when adjusting after changing the page.
+    3. Envelope on: "No" will disable the envelope, bypassing the VCA and VCF. This allows Musubi to be used as a mixer/fx unit in a pinch.
     4. Factory reset: Set this to "Yes", save the settings by briefly holding `ENC`, then reboot. This will reset all settings to their factory defaults.
 
 
 ## TODO
 ### Need
-* bitcrush needs work
+* side loading (currently blocking everything else)
+* patch outputs are very noisy, see if any of that can be fixed with a noise gate or if i just gotta deal with it
 * add a downsammpling distortion option, maybe merge it with bitcrush
+* each distortion algo should lower output volume as drive increases to prevent earbleed and make it safe to perform with
+* bitcrush needs work
+* Chorus & phaser, for them dubtastic stabs (either will add a 2nd fx page or just hide them away in the "more settings" menu)
+* Consider converting MFX page gui to mini-knobs and displaying the mixer there
 
 ### Want
-* each distortion algo should lower output volume as drive increases to prevent earbleed
 * output 1s2m by default
 * reset pop up is too short
 * consider end-of-chain limiter to prevent earbleed, particularly when drive is high
 * pick a consistent name for shape/curve/contour/whatever and rename all vars to match it
-
-### If I can get side loading to work (currently not enough binary space for these)
+* consider stereo metering in pan menu
 * if no external oscs are supplied, musubi should act as a monosynth. Could also add 1 osc per channel (up to 4)
-* Chorus & phaser, for them dubtastic stabs (either will add a 2nd fx page or just hide them away in the "more settings" menu)
 * Add more filter types
 * import clouds reverb
 * clockable delay
-* audio meters page in settings, shows 1 bar for each input/output channel. Maybe display average of the past 1ms of audio or something like that
 * add this disto: https://dsp.stackexchange.com/questions/13142/digital-distortion-effect-algorithm
 
 ## Known Bugs

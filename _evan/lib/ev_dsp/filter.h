@@ -144,7 +144,7 @@ namespace ev_dsp {
         };
 
         // @param a value between 0 and 1000
-        int16_t getFreq(){
+        int16_t getLevel(){
             return level;
         };
 
